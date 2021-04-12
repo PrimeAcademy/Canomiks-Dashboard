@@ -1,14 +1,18 @@
 function DisplayCompany({ company }) {
+  const viewDetails = () => {
+    console.log('view details button');
+    // shows pop up, component?
+  };
+
   return (
     <>
-      <div>This is Display Company List</div>
-      {/* <tr>
+      <tr>
         <td>Company Name</td>
-        <td>{company.name} </td>
+        {/* <td>{company.name} </td> */}
         <td>
-          <button>View Details</button>
+          <button onClick={viewDetails}>View Details</button>
         </td>
-      </tr> */}
+      </tr>
     </>
   );
 }

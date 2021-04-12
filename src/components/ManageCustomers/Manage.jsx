@@ -1,7 +1,10 @@
 import Nav from '../Nav/Nav';
 import DisplayCompany from '../DisplayCompany/DisplayCompany';
+import { useSelector } from 'react-redux';
 
 function Manage() {
+  // const companyList = useSelector((store) => store.);
+
   return (
     <>
       <header className="header">
@@ -19,7 +22,7 @@ function Manage() {
             {/* grabbing from store */}
 
             {/* {companyList.map((company) => {
-              return <DisplayCompanies key={company.id} company={company} />;
+              return <DisplayCompany key={company.id} company={company} />;
             })} */}
           </tbody>
         </table>
