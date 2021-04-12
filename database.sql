@@ -50,3 +50,10 @@ CREATE TABLE "orders" (
 	"pdfUrl" VARCHAR(255)
 );
 
+--Create base accounts
+INSERT INTO "companies" ("id", "active", "companyName", "address", "city", "state", "zip", "phoneNumber")
+VALUES ('1', true, 'Canomiks', '123 Main St', 'Minneapolis', 'MN', '55105', '6125555678');
+
+INSERT INTO "users" ("id", "email", "password", "name", "companyID", "authLevel")
+VALUES ('1', 'admin@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Admin', '1', 'admin'),
+		('2', 'lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab');
