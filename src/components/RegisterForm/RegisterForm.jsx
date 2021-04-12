@@ -2,21 +2,32 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 function RegisterForm() {
-  const [username, setUsername] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [companyAddress, setCompanyAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [teamLeadName, setTeamLeadName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
   const registerUser = (event) => {
     event.preventDefault();
-
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        username: username,
-        password: password,
-      },
-    });
+    // check to make sure the password is confirmed. They must match
+    if (password === passwordConfirm) {
+      dispatch({
+        type: 'REGISTER',
+        payload: {
+          teamLeadName: teamLeadName,
+          password: password,
+        },
+      });
+    } else {
+      console.log('Make sure passwords match');
+      alert('Make sure passwords match');
+    }
   }; // end registerUser
 
   return (
@@ -28,14 +39,62 @@ function RegisterForm() {
         </h3>
       )}
       <div>
-        <label htmlFor="username">
-          Username:
+        <label htmlFor="companyName">
+          Company Name:
           <input
             type="text"
-            name="username"
-            value={username}
+            name="companyName"
+            value={companyName}
             required
-            onChange={(event) => setUsername(event.target.value)}
+            onChange={(event) => setCompanyName(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="companyAddress">
+          Company Address:
+          <input
+            type="text"
+            name="companyAddress"
+            value={companyAddress}
+            required
+            onChange={(event) => setCompanyAddress(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="phoneNumber">
+          Phone Number:
+          <input
+            type="text"
+            name="phoneNumber"
+            value={phoneNumber}
+            required
+            onChange={(event) => setPhoneNumber(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="teamLeadName">
+          Team Lead Name:
+          <input
+            type="text"
+            name="teamLeadName"
+            value={teamLeadName}
+            required
+            onChange={(event) => setTeamLeadName(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="userEmail">
+          User Email:
+          <input
+            type="text"
+            name="userEmail"
+            value={userEmail}
+            required
+            onChange={(event) => setUserEmail(event.target.value)}
           />
         </label>
       </div>
@@ -48,6 +107,18 @@ function RegisterForm() {
             value={password}
             required
             onChange={(event) => setPassword(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="passwordConfirm">
+          Confirm Password:
+          <input
+            type="text"
+            name="passwordConfirm"
+            value={passwordConfirm}
+            required
+            onChange={(event) => setPasswordConfirm(event.target.value)}
           />
         </label>
       </div>
