@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function RegisterForm() {
   const [companyName, setCompanyName] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zip, setZip] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [teamLeadName, setTeamLeadName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -20,10 +23,25 @@ function RegisterForm() {
       dispatch({
         type: 'REGISTER',
         payload: {
-          teamLeadName: teamLeadName,
-          password: password,
+          companyName,
+          companyAddress,
+          city,
+          state,
+          zip,
+          phoneNumber,
+          teamLeadName,
+          userEmail,
+          password,
         },
       });
+      console.log(
+        companyName,
+        companyAddress,
+        phoneNumber,
+        teamLeadName,
+        userEmail,
+        password
+      );
     } else {
       console.log('Make sure passwords match');
       alert('Make sure passwords match');
@@ -50,15 +68,52 @@ function RegisterForm() {
           />
         </label>
       </div>
+      Company Address:
       <div>
         <label htmlFor="companyAddress">
-          Company Address:
+          Street:
           <input
             type="text"
             name="companyAddress"
             value={companyAddress}
             required
             onChange={(event) => setCompanyAddress(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="companyAddress">
+          City:
+          <input
+            type="text"
+            name="city"
+            value={city}
+            required
+            onChange={(event) => setCity(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="state">
+          State:
+          <input
+            type="text"
+            name="state"
+            value={state}
+            required
+            onChange={(event) => setState(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="companyAddress">
+          Zip Code:
+          <input
+            type="text"
+            name="zip"
+            value={zip}
+            required
+            onChange={(event) => setZip(event.target.value)}
           />
         </label>
       </div>
@@ -114,7 +169,7 @@ function RegisterForm() {
         <label htmlFor="passwordConfirm">
           Confirm Password:
           <input
-            type="text"
+            type="password"
             name="passwordConfirm"
             value={passwordConfirm}
             required

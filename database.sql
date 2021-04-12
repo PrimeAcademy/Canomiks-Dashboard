@@ -1,5 +1,4 @@
--- Database Name is canomiks_db
-
+-- CREATE DATABASE canomiks_db
 CREATE TABLE "companies" (
 	"id" SERIAL PRIMARY KEY,
 	"active" BOOLEAN NOT NULL DEFAULT false,
@@ -8,6 +7,7 @@ CREATE TABLE "companies" (
 	"city" VARCHAR(50) NOT NULL,
 	"state" VARCHAR(50) NOT NULL,
 	"zip" INT NOT NULL,
+	"phoneNumber" VARCHAR(10) NOT NULL,
 	"alertStatusChange" BOOLEAN NOT NULL DEFAULT false,
 	"alertResultsReady" BOOLEAN NOT NULL DEFAULT false,
 	"alertDelay" BOOLEAN NOT NULL DEFAULT false
@@ -20,7 +20,6 @@ CREATE TABLE "users" (
 	"email" VARCHAR(255) NOT NULL,
 	"password" VARCHAR(255) NOT NULL,
 	"name" VARCHAR(50) NOT NULL,
-	"phoneNumber" VARCHAR(10) NOT NULL,
 	"companyID" INT NOT NULL REFERENCES "companies",
 	"authLevel" auth DEFAULT 'team'
 );
@@ -50,3 +49,4 @@ CREATE TABLE "orders" (
 	"delayed" BOOLEAN DEFAULT false,
 	"pdfUrl" VARCHAR(255)
 );
+

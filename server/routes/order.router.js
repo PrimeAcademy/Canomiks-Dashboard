@@ -8,8 +8,17 @@ const router = express.Router();
 router.get('/', (req, res) => {
   // GET route code here
   console.log('req.user.id:', req.user.id);
-  console.log('in get')
-  const queryText = 
+  console.log('in get');
+  const queryText = `SELECT FROM "orders" WHERE id = $1`;
+  pool
+    .query(queryText, [req.user.id])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log('error on get ', err);
+      res.sendStatus(500);
+    });
 });
 
 /**

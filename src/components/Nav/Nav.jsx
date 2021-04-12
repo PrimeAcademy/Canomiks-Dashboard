@@ -17,16 +17,6 @@ function Nav() {
     loginLinkData.text = 'Home';
   }
 
-  if ((user.authLevel = 'lab')) {
-    loginLinkData.path = '/lab';
-    loginLinkData.text = 'Home';
-  }
-
-  if ((user.authLevel = 'admin')) {
-    loginLinkData.path = '/admin';
-    loginLinkData.text = 'Home';
-  }
-
   return (
     <div className="nav">
       <Link to="/home">
@@ -39,52 +29,23 @@ function Nav() {
 
         {user.id && (
           <>
-            <Link className="navLink" to="/info">
-              Info Page
-            </Link>
             <Link className="navLink" to="/samples">
               Samples
             </Link>
-
-            <LogOutButton className="navLink" />
-          </>
-        )}
-
-        {user.authLevel === 'lab' && (
-          <>
-            <Link className="navLink" to="/info">
-              Info Page
-            </Link>
-            <Link className="navLink" to="/samples">
-              Samples
-            </Link>
-            {/* <Link className="navLink" to="/manage">
-              Manage Customers
-            </Link> */}
-            <LogOutButton className="navLink" />
           </>
         )}
 
         {user.authLevel === 'admin' && (
-          <>
-            <Link className="navLink" to="/info">
-              Info Page
-            </Link>
-            <Link className="navLink" to="/samples">
-              Samples
-            </Link>
-            <Link className="navLink" to="/manage">
-              Manage Customers
-            </Link>
-            <LogOutButton className="navLink" />
-          </>
+          <Link className="navLink" to="/manage">
+            Manage Customers
+          </Link>
         )}
 
         <Link className="navLink" to="/about">
           About
         </Link>
-        {/* if auth level = admin render this option
-        views/links will depend on what's auth level */}
+
+        {user.id && <LogOutButton className="navLink" />}
       </div>
     </div>
   );

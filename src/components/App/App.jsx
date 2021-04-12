@@ -17,7 +17,9 @@ import UserPage from '../UserPage/UserPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
+import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
+import LabDashboard from '../LabDashboard/LabDashboard';
+import Manage from '../Manage_Customers/Manage';
 import './App.css';
 
 function App() {
@@ -46,6 +48,14 @@ function App() {
           >
             <UserPage />
           </ProtectedRoute>
+
+          <Route exact path="/dashboard">
+            <CustomerDashboard />
+          </Route>
+
+          <Route exact path="/dashboard/lab">
+            <LabDashboard />
+          </Route>
 
           {/* When a value is supplied for the authRedirect prop the user will
             be redirected to the path supplied when logged in, otherwise they will
@@ -81,6 +91,17 @@ function App() {
             authRedirect="/user"
           >
             <LandingPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in, redirects to "/user"
+            // - else shows LandingPage at "/home"
+            exact
+            path="/manage"
+            authRedirect="/admin"
+          >
+            <Manage />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
