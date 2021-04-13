@@ -20,7 +20,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
 import Manage from '../ManageCustomers/Manage';
-
+import ShippingInfo from '../ShippingInfo/ShippingInfo'
 import './App.css';
 
 function App() {
@@ -62,7 +62,9 @@ function App() {
           <ProtectedRoute exact path="/manage" authRedirect="/admin">
             <Manage />
           </ProtectedRoute>
-
+          <ProtectedRoute exact path="/shipping">
+            <ShippingInfo />
+          </ProtectedRoute>
           <Route>
             <h1>404</h1>
           </Route>
