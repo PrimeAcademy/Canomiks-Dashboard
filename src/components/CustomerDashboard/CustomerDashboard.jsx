@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { Divider, Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
   table: {
@@ -19,8 +20,8 @@ const useStyles = makeStyles({
 
 export default function CustomerDashboard() {
   const classes = useStyles();
-
   const dispatch = useDispatch();
+  const history = useHistory();
   const orders = useSelector(state => state.orders);
 
   console.log('orders', orders);
@@ -34,6 +35,7 @@ export default function CustomerDashboard() {
   return (
     <>
       <Typography variant="h4">Customer Dashboard</Typography>
+      <Button variant="contained" color="primary" onClick={() => history.push('/addSample')}>+ SAMPLE</Button>
       <Divider />
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -56,7 +58,7 @@ export default function CustomerDashboard() {
                 <TableCell align="right">{order.dateReceived}</TableCell>
                 <TableCell align="right">{order.testPhase}</TableCell>
                 <TableCell align="right">
-                  <Button variant="contained">View Details</Button>
+                  <Button variant="outlined" color="primary">View Details</Button>
                 </TableCell>
               </TableRow>
             ))}
