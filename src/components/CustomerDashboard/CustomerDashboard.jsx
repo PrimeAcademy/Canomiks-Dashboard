@@ -1,16 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import { Divider, Button } from '@material-ui/core';
+import { Divider, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   table: {
@@ -22,9 +15,11 @@ export default function CustomerDashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const orders = useSelector(state => state.orders);
 
-  console.log('orders', orders);
+  const orders = useSelector(state => state.orders);
+  const user = useSelector(state => state.user);
+
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     dispatch({
@@ -34,7 +29,10 @@ export default function CustomerDashboard() {
 
   return (
     <>
-      <Typography variant="h4">Customer Dashboard</Typography>
+      <Typography variant="h4">{user.companyID}</Typography>
+      <div>
+        <TextField onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
+      </div>
       <Button variant="contained" color="primary" onClick={() => history.push('/addSample')}>+ SAMPLE</Button>
       <Divider />
       <TableContainer component={Paper}>
@@ -49,19 +47,26 @@ export default function CustomerDashboard() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell component="th" scope="row">
-                  Lot #{order.lotNumber}
-                </TableCell>
-                <TableCell align="right">{order.ingredientName}</TableCell>
-                <TableCell align="right">{order.dateReceived}</TableCell>
-                <TableCell align="right">{order.testPhase}</TableCell>
-                <TableCell align="right">
-                  <Button variant="outlined" color="primary">View Details</Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {orders.map((order) => {
+              if (order.lotNumber.toLowerCase().includes(filter.toLowerCase())) {
+                return (
+                  <TableRow style={{ backgroundColor: order.testingStatus === 'Pre-shipment' && 'orange' }} key={order.id}>
+                    <TableCell component="th" scope="row">
+                      Lot #{order.lotNumber}
+                    </TableCell>
+                    <TableCell align="right">{order.ingredientName}</TableCell>
+                    {order.receivedDate ?
+                      <TableCell align="right">{moment(order.receivedDate).format('MMMM DD YYYY')}</TableCell> :
+                      <TableCell align="right">Not Shipped</TableCell>
+                    }
+                    <TableCell align="right">{order.testingStatus}</TableCell>
+                    <TableCell align="right">
+                      {order.testingStatus === 'Pre-shipment' ? <Button variant="outlined" color="secondary">Add Shipping Info</Button> : <Button variant="outlined" color="primary">View Details</Button>}
+                    </TableCell>
+                  </TableRow>
+                )
+              }
+            })}
           </TableBody>
         </Table>
       </TableContainer>

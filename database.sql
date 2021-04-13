@@ -44,7 +44,7 @@ CREATE TABLE "orders" (
 	"shippedDate" DATE ,
 	"carrierName" VARCHAR(255),
 	"trackingNumber" VARCHAR(255),
-	"recievedDate" DATE,
+	"receivedDate" DATE,
 	"testingStatus" VARCHAR(255),
 	"delayed" BOOLEAN DEFAULT false,
 	"pdfUrl" VARCHAR(255)
