@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { Divider, Button } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles({
   table: {
@@ -26,6 +27,17 @@ const rows = [
   createData('000112', 'CBD', '4/10/21', 'RNA'),
   createData('JMG212', 'CBD', '4/10/21', 'RNA'),
 ];
+
+const dispatch = useDispatch();
+const orders = useSelector(state => state.orders);
+
+console.log('orders', orders);
+
+useEffect(() => {
+  dispatch({
+    type: 'GET_CUSTOMER_ORDERS'
+  })
+}, [])
 
 export default function CustomerDashboard() {
   const classes = useStyles();
