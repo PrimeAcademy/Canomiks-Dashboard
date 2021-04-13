@@ -7,12 +7,16 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
-  console.log('in get');
-  const queryText = `SELECT FROM "orders" WHERE id = $1`;
+  const queryText = `
+  SELECT * FROM "orders" 
+  WHERE orders."companyID" = $1;
+  `;
+  console.log('🤙 ', req.user);
+
   pool
-    .query(queryText, [req.user.id])
+    .query(queryText, [req.user.companyID])
     .then((result) => {
       res.send(result.rows);
     })
@@ -25,7 +29,7 @@ router.get('/', (req, res) => {
 /**
  * POST route template
  */
-router.post('/newOrder', (req, res) => {
+router.post('/newOrder', rejectUnauthenticated, (req, res) => {
   // POST route code here
   const order = req.body;
   const orderArray = [
