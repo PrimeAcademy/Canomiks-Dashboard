@@ -31,7 +31,7 @@ export default function CustomerDashboard() {
     <>
       <center>
         <Typography variant="h4" gutterBottom>COMPANY ID: {user.companyID}</Typography>
-        <Button variant="contained" color="primary" onClick={() => history.push('/addSample')}>+ SAMPLE</Button>
+        <Button variant="contained" style={{ backgroundColor: "#1e565c", color: "white" }} onClick={() => history.push('/addSample')}>+ SAMPLE</Button>
         <div>
           <TextField style={{ margin: 75 }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
         </div>
@@ -52,7 +52,7 @@ export default function CustomerDashboard() {
             {orders.map((order) => {
               if (order.lotNumber.toLowerCase().includes(filter.toLowerCase())) {
                 return (
-                  <TableRow style={{ backgroundColor: order.testingStatus === 'Pre-shipment' && 'orange' }} key={order.id}>
+                  <TableRow style={{ backgroundColor: order.testingStatus === 'Pre-shipment' && '#F3A653' }} key={order.id}>
                     <TableCell component="th" scope="row">
                       Lot #{order.lotNumber}
                     </TableCell>
@@ -63,7 +63,7 @@ export default function CustomerDashboard() {
                     }
                     <TableCell align="right">{order.testingStatus}</TableCell>
                     <TableCell align="right">
-                      {order.testingStatus === 'Pre-shipment' ? <Button variant="outlined" color="secondary">Add Shipping Info</Button> : <Button variant="outlined" color="primary">View Details</Button>}
+                      {order.testingStatus === 'Pre-shipment' ? <Button variant="contained" style={{ backgroundColor: 'white', color: '#1e565c' }}>Add Shipping Info</Button> : <Button variant="contained" style={{ backgroundColor: '#1e565c', color: 'white' }}>View Details</Button>}
                     </TableCell>
                   </TableRow>
                 )
