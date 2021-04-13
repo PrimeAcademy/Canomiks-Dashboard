@@ -7,7 +7,7 @@ CREATE TABLE "companies" (
 	"city" VARCHAR(50) NOT NULL,
 	"state" VARCHAR(50) NOT NULL,
 	"zip" INT NOT NULL,
-	"phoneNumber" VARCHAR(10) NOT NULL,
+	"phoneNumber" VARCHAR(50) NOT NULL,
 	"alertStatusChange" BOOLEAN NOT NULL DEFAULT false,
 	"alertResultsReady" BOOLEAN NOT NULL DEFAULT false,
 	"alertDelay" BOOLEAN NOT NULL DEFAULT false
@@ -51,9 +51,9 @@ CREATE TABLE "orders" (
 );
 
 --Create base accounts
-INSERT INTO "companies" ("id", "active", "companyName", "address", "city", "state", "zip", "phoneNumber")
-VALUES ('1', true, 'Canomiks', '123 Main St', 'Minneapolis', 'MN', '55105', '6125555678');
+INSERT INTO "companies" ("active", "companyName", "address", "city", "state", "zip", "phoneNumber")
+VALUES (true, 'Canomiks', '123 Main St', 'Minneapolis', 'MN', '55105', '6125555678');
 
-INSERT INTO "users" ("id", "email", "password", "name", "companyID", "authLevel")
-VALUES ('1', 'admin@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Admin', '1', 'admin'),
-		('2', 'lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab');
+INSERT INTO "users" ("email", "password", "name", "companyID", "authLevel")
+VALUES ('admin@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Admin', '1', 'admin'),
+		('lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab');

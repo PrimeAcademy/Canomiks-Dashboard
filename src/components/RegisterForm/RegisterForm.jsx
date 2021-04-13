@@ -42,11 +42,25 @@ function RegisterForm() {
         userEmail,
         password
       );
+      clearForm();
     } else {
       console.log('Make sure passwords match');
       alert('Make sure passwords match');
     }
   }; // end registerUser
+
+  const clearForm = () => {
+    setCompanyName('')
+    setCompanyAddress('')
+    setCity('')
+    setState('')
+    setZip('')
+    setPhoneNumber('')
+    setTeamLeadName('')
+    setUserEmail('')
+    setPassword('')
+    setPasswordConfirm('')
+  }
 
   return (
     <form className="formPanel" onSubmit={registerUser}>
