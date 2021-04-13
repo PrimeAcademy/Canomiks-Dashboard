@@ -29,11 +29,13 @@ export default function CustomerDashboard() {
 
   return (
     <>
-      <Typography variant="h4">{user.companyID}</Typography>
-      <div>
-        <TextField onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
-      </div>
-      <Button variant="contained" color="primary" onClick={() => history.push('/addSample')}>+ SAMPLE</Button>
+      <center>
+        <Typography variant="h4" gutterBottom>COMPANY ID: {user.companyID}</Typography>
+        <Button variant="contained" color="primary" onClick={() => history.push('/addSample')}>+ SAMPLE</Button>
+        <div>
+          <TextField style={{ margin: 75 }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
+        </div>
+      </center>
       <Divider />
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -54,7 +56,7 @@ export default function CustomerDashboard() {
                     <TableCell component="th" scope="row">
                       Lot #{order.lotNumber}
                     </TableCell>
-                    <TableCell align="right">{order.ingredientName}</TableCell>
+                    <TableCell align="right">{order.ingredientName} - {order.cropStrain}</TableCell>
                     {order.receivedDate ?
                       <TableCell align="right">{moment(order.receivedDate).format('MMMM DD YYYY')}</TableCell> :
                       <TableCell align="right">Not Shipped</TableCell>
