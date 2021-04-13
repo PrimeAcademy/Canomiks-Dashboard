@@ -5,20 +5,19 @@ const router = express.Router();
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // GET route code here
-  console.log('req.user.id:', req.user.id);
+  console.log('req.user.companyID:', req.user.companyID);
   console.log('in get');
-  const queryText = `SELECT * FROM "orders" WHERE id = $1`;
-  pool
-    .query(queryText, [req.user.id])
-    .then((result) => {
-      res.send(result.rows);
-    })
-    .catch((error) => {
-      console.log('error on get ', err);
-      res.sendStatus(500);
-    });
+  try {
+    const queryText = `SELECT * FROM "orders" WHERE "companyID" = $1`;
+    const dbRes = await pool.query(queryText, [req.user.companyID]);
+    res.send(dbRes.rows);
+  }
+  catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
 });
 
 /**

@@ -17,18 +17,6 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(lotNumber, name, dateReceived, testPhase) {
-  return { lotNumber, name, dateReceived, dateReceived, testPhase };
-}
-
-const rows = [
-  createData('0013R3', 'CBD', '4/10/21', 'Pre-shipment'),
-  createData('L0800J', 'CBD', '4/10/21', 'Complete'),
-  createData('401ZD', 'CBD', '4/10/21', 'In Vitro'),
-  createData('000112', 'CBD', '4/10/21', 'RNA'),
-  createData('JMG212', 'CBD', '4/10/21', 'RNA'),
-];
-
 export default function CustomerDashboard() {
   const classes = useStyles();
 
@@ -59,14 +47,14 @@ export default function CustomerDashboard() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.lotNumber}>
+            {orders.map((order) => (
+              <TableRow key={order.id}>
                 <TableCell component="th" scope="row">
-                  Lot #{row.lotNumber}
+                  Lot #{order.lotNumber}
                 </TableCell>
-                <TableCell align="right">{row.name}</TableCell>
-                <TableCell align="right">{row.dateReceived}</TableCell>
-                <TableCell align="right">{row.testPhase}</TableCell>
+                <TableCell align="right">{order.ingredientName}</TableCell>
+                <TableCell align="right">{order.dateReceived}</TableCell>
+                <TableCell align="right">{order.testPhase}</TableCell>
                 <TableCell align="right">
                   <Button variant="contained">View Details</Button>
                 </TableCell>
