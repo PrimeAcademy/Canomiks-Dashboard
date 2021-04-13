@@ -7,7 +7,7 @@ CREATE TABLE "companies" (
 	"city" VARCHAR(50) NOT NULL,
 	"state" VARCHAR(50) NOT NULL,
 	"zip" INT NOT NULL,
-	"phoneNumber" VARCHAR(50) NOT NULL,
+	"phoneNumber" VARCHAR(10) NOT NULL,
 	"alertStatusChange" BOOLEAN NOT NULL DEFAULT false,
 	"alertResultsReady" BOOLEAN NOT NULL DEFAULT false,
 	"alertDelay" BOOLEAN NOT NULL DEFAULT false
@@ -27,7 +27,7 @@ CREATE TABLE "users" (
 CREATE TABLE "orders" (
 	"id" SERIAL PRIMARY KEY,
 	"companyID" INT NOT NULL REFERENCES "companies",
-	"ingredientName" VARCHAR(255) NOT NULL,
+	"ingredientName" VARCHAR(255),
 	"ingredientAmount" NUMERIC(4,3),
 	"ingredientUnit" VARCHAR(12),
 	"format" VARCHAR(50),
@@ -44,7 +44,7 @@ CREATE TABLE "orders" (
 	"shippedDate" DATE ,
 	"carrierName" VARCHAR(255),
 	"trackingNumber" VARCHAR(255),
-	"resultsDate" DATE,
+	"recievedDate" DATE,
 	"testingStatus" VARCHAR(255),
 	"delayed" BOOLEAN DEFAULT false,
 	"pdfUrl" VARCHAR(255)
