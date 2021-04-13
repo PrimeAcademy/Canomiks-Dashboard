@@ -20,8 +20,15 @@ function ShippingInfo(){
         alert("All inputs are required")
       }
       else{
-
-        
+        dispatch({
+          type: 'ADD_ORDER',
+          payload: {
+            shipDate,
+            carrier,
+            tracking
+          },
+        });
+        alert("Shipping Successful!")
         history.push("/dashboard")
       }
 
@@ -32,7 +39,14 @@ function ShippingInfo(){
       console.log("continue later")
       alert("Order cannot be processed until shipping info entered")
     }
+
+    const backBtn = () => {
+      console.log("back button")
+      history.push("/dashboard")
+    }
     
+
+
     return(
         <>
         <form>
@@ -70,9 +84,11 @@ function ShippingInfo(){
            </div>
 
         </form>
-        <span> <button > Back </button>
-        <button onClick={continueLater}> Continue Later </button>
-        <button onClick={handleSubmit}> Finalize</button></span>
+        <span> 
+          <button onClick={backBtn}> Back </button>
+          <button onClick={continueLater}> Continue Later </button>
+          <button onClick={handleSubmit}> Finalize</button>
+        </span>
         </>
 
     )

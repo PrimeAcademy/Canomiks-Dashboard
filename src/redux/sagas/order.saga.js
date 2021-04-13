@@ -13,8 +13,18 @@ function* fetchCustomerOrders() {
   }
 }
 
+function* addOrder() {
+  console.log("add order saga")
+  try{
+    const response = yield axios.post('/api/orders/');
+  } catch(err) {
+    console.error(err.message);
+  }
+}
+
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
+  yield takeLatest('ADD_ORDER', addOrder);
 }
 
 export default orderSaga;
