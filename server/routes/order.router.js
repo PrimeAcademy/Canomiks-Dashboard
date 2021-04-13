@@ -32,7 +32,10 @@ router.post('/newOrder', rejectUnauthenticated, async (req, res) => {
     ];
     const sqlText = `
     INSERT INTO "orders"
-    ("companyID", "ingredientName", "ingredientAmount", "ingredientUnit", "format", "purity", "dateManufactured", "lotNumber", "extractionMethod", "city", "state", "country", "harvestDate", "cropStrain", "sustainabilityInfo", "shippedDate", "carrierName", "trackingNumber")
+    ("companyID", "ingredientName", "ingredientAmount", 
+      "ingredientUnit", "format", "purity", "dateManufactured", 
+      "lotNumber", "extractionMethod", "city", "state", "country", 
+      "harvestDate", "cropStrain", "sustainabilityInfo", "shippedDate", "carrierName", "trackingNumber")
     VALUES 
     ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18);
     `;
@@ -44,5 +47,23 @@ router.post('/newOrder', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+router.post('/shipping', rejectUnauthenticated, async (req, res) => {
+  console.log("post shipping")
+  console.log(req.body, "req.body")
+  try{
+    const shipping = req.body;
+    const shippingArray = [shipping.ship]
+    const sqlText =  `
+    INSERT INTO "orders"
+      ("shippedDate", "carrierName", "trackingNumber")
+    VALUES
+      ($1, $2, $3);`;
+    
+    await pool.query(sqlText, )
+  }catch(error){
+    console.log("error")
+  }
+})
 
 module.exports = router;

@@ -9,13 +9,13 @@ function ShippingInfo(){
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [shipDate, setDate] = useState('');
-  const [carrier, setCarrier] = useState('');
-  const [tracking, setTracking] = useState('');
+  const [shippedDate, setDate] = useState('');
+  const [carrierName, setCarrier] = useState('');
+  const [trackingNumber, setTracking] = useState('');
 
     function handleSubmit(event){
       event.preventDefault()
-      if(!shipDate || !carrier || !tracking){
+      if(!shippedDate || !carrierName || !trackingNumber){
         console.log("no inputs")
         alert("All inputs are required")
       }
@@ -23,9 +23,9 @@ function ShippingInfo(){
         dispatch({
           type: 'ADD_ORDER',
           payload: {
-            shipDate,
-            carrier,
-            tracking
+            shippedDate,
+            carrierName,
+            trackingNumber
           },
         });
         alert("Shipping Successful!")
@@ -42,7 +42,7 @@ function ShippingInfo(){
 
     const backBtn = () => {
       console.log("back button")
-      history.push("/dashboard")
+      history.push("/samples")
     }
     
 
@@ -57,7 +57,7 @@ function ShippingInfo(){
            <div>
               Date to be shipped: 
               <input 
-                value={shipDate} 
+                value={shippedDate} 
                 type="text" 
                 placeholder="MM/DD/YY"
                 onChange={(event) => setDate(event.target.value)}
@@ -67,7 +67,7 @@ function ShippingInfo(){
            <div>
               Carrier: 
               <input 
-                value={carrier} 
+                value={carrierName} 
                 type="text" 
                 placeholder="Not Specified" 
                 onChange={(event) => setCarrier(event.target.value)}
@@ -77,7 +77,7 @@ function ShippingInfo(){
            <div> 
              Tracking Number: 
              <input 
-              value={tracking} 
+              value={trackingNumber} 
               type="text"
               onChange={(event) => setTracking(event.target.value)}
               /> 
