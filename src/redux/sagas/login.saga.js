@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // worker Saga: will be fired on "LOGIN" actions
 function* loginUser(action) {
-  console.log(action.payload);
+  console.log('registered, now in log in', action.payload);
   try {
     // clear any existing error on the login page
     yield put({ type: 'CLEAR_LOGIN_ERROR' });
@@ -16,6 +16,7 @@ function* loginUser(action) {
     // send the action.payload as the body
     // the config includes credentials which
     // allow the server session to recognize the user
+    console.log('payload is here 🎉', action.payload);
     yield axios.post('/api/user/login', action.payload, config);
 
     // after the user has logged in

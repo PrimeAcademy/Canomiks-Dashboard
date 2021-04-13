@@ -18,6 +18,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
+  console.log('🪳 made it to the post register', req.body)
   // capture all the data from req.body
   const companyName = req.body.companyName;
   const companyAddress = req.body.companyAddress;
@@ -26,7 +27,7 @@ router.post('/register', (req, res, next) => {
   const companyZip = req.body.zip;
   const phoneNumber = req.body.phoneNumber;
   const teamLeadName = req.body.teamLeadName;
-  const userEmail = req.body.userEmail;
+  const email = req.body.email;
   const password = encryptLib.encryptPassword(req.body.password);
 
   // send the first query, inserts the company
@@ -44,15 +45,16 @@ router.post('/register', (req, res, next) => {
     .then((dbRes) => {
       // the second insert, for the individual user
       const companyID = dbRes.rows[0].id;
-      // console.log('🪳 💥', companyID);
+      console.log('🪳 💥', companyID);
       const queryTextTwo = `
       INSERT INTO "users" ("email", "password", "name", "companyID")
       VALUES ($1, $2, $3, $4)
       `;
 
       pool
-        .query(queryTextTwo, [userEmail, password, teamLeadName, companyID])
+        .query(queryTextTwo, [email, password, teamLeadName, companyID])
         .then(() => {
+          console.log('🪳 made it to the register post user')
           res.sendStatus(201);
         })
         .catch((err) => {

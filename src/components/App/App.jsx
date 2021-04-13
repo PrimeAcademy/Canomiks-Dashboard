@@ -39,17 +39,17 @@ function App() {
         <Switch>
           <Redirect exact from="/" to="/home" />
 
-          <ProtectedRoute exact path="/home" authRedirect="/dashboard">
+          <ProtectedRoute exact path="/home" authRedirect="/samples">
             <LandingPage />
           </ProtectedRoute>
 
-          <Route exact path="/dashboard">
+          <ProtectedRoute exact path="/samples">
             {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
               <LabDashboard />
             ) : (
               <CustomerDashboard />
             )}
-          </Route>
+          </ProtectedRoute>
 
           <ProtectedRoute exact path="/login" authRedirect="/user">
             <LoginPage />

@@ -39,9 +39,9 @@ export default function CustomerDashboard() {
 
   useEffect(() => {
     dispatch({
-      type: 'GET_CUSTOMER_ORDERS'
+      type: 'FETCH_CUSTOMER_ORDERS'
     })
-  }, [])
+  }, []);
 
   return (
     <>
