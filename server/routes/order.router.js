@@ -84,13 +84,13 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
       "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
       "extractionMethod" = $9, "city" = $10, "state" = $11, "country" = $12,
       "harvestDate" = $13, "cropStrain" = $14, "sustainabilityInfo" = $15
-      WHERE "companyID = $1 AND id = $16;
+      WHERE "companyID" = $1 AND "id" = $16;
     `;
     await pool.query(sqlText, orderArray);
     res.sendStatus(200);
   }
   catch (err) {
-    console.error(err.message);
+    console.error(err);
     res.sendStatus(500);
   }
 });
@@ -109,8 +109,8 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     ];
     const sqlText = `
       UPDATE "orders"
-      SET "shippedDate" = $1, "carrierName" = $2, trackingNumber = $3
-      WHERE "companyID = $4 AND id = $5;
+      SET "shippedDate" = $1, "carrierName" = $2, "trackingNumber" = $3
+      WHERE "companyID" = $4 AND "id" = $5;
     `;
     await pool.query(sqlText, orderArray);
     res.sendStatus(200);
