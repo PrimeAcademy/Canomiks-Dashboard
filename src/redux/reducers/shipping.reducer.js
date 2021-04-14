@@ -1,6 +1,6 @@
 const shippingReducer = (state = [], action) => {
     switch (action.type) {
-      case 'ADD_SHIPPING':
+      case 'EDIT_SHIPPING':
         return action.payload;
       case 'UNSET_SHIPPING':
         return [];
