@@ -69,15 +69,6 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
       order.sustainabilityInfo, //15
       order.orderId //16
     ];
-    // saved the code below incase we decide to change it...
-    /*
-    const sqlText = `
-    INSERT INTO "orders"
-    ("companyID", "ingredientName", "ingredientAmount", "ingredientUnit", "format", "purity", "dateManufactured", "lotNumber", "extractionMethod", "city", "state", "country", "harvestDate", "cropStrain", "sustainabilityInfo")
-    VALUES 
-    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);
-    `;
-    */
     const sqlText= `
       UPDATE "orders"
       SET "ingredientName" = $2, "ingredientAmount" = $3, "ingredientUnit" = $4,
