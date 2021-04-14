@@ -17,6 +17,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import AddSample from '../AddSample/AddSample';
+import Summary from '../Summary/Summary';
 
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
@@ -72,9 +73,11 @@ function App() {
           <ProtectedRoute exact path="/shipping">
             <ShippingInfo />
           </ProtectedRoute>
-          <Route>
-            <h1>404</h1>
+
+          <Route path='/summary'>
+           <Summary />
           </Route>
+          
         </Switch>
         <Footer />
       </div>
