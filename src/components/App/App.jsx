@@ -20,7 +20,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
 import Manage from '../ManageCustomers/Manage';
-import ShippingInfo from '../ShippingInfo/ShippingInfo'
+import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import './App.css';
 
 function App() {
@@ -39,23 +39,23 @@ function App() {
         <Switch>
           <Redirect exact from="/" to="/home" />
 
-          <ProtectedRoute exact path="/home" authRedirect="/dashboard">
+          <ProtectedRoute exact path="/home" authRedirect="/samples">
             <LandingPage />
           </ProtectedRoute>
 
-          <Route exact path="/dashboard">
+          <ProtectedRoute exact path="/samples">
             {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
               <LabDashboard />
             ) : (
               <CustomerDashboard />
             )}
-          </Route>
+          </ProtectedRoute>
 
-          <ProtectedRoute exact path="/login" authRedirect="/user">
+          <ProtectedRoute exact path="/login" authRedirect="/samples">
             <LoginPage />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/registration" authRedirect="/user">
+          <ProtectedRoute exact path="/registration" authRedirect="/samples">
             <RegisterPage />
           </ProtectedRoute>
 

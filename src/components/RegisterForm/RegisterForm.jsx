@@ -9,7 +9,7 @@ function RegisterForm() {
   const [zip, setZip] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [teamLeadName, setTeamLeadName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
@@ -30,7 +30,7 @@ function RegisterForm() {
           zip,
           phoneNumber,
           teamLeadName,
-          userEmail,
+          email,
           password,
         },
       });
@@ -39,14 +39,28 @@ function RegisterForm() {
         companyAddress,
         phoneNumber,
         teamLeadName,
-        userEmail,
+        email,
         password
       );
+      clearForm();
     } else {
       console.log('Make sure passwords match');
       alert('Make sure passwords match');
     }
   }; // end registerUser
+
+  const clearForm = () => {
+    setCompanyName('')
+    setCompanyAddress('')
+    setCity('')
+    setState('')
+    setZip('')
+    setPhoneNumber('')
+    setTeamLeadName('')
+    setEmail('')
+    setPassword('')
+    setPasswordConfirm('')
+  }
 
   return (
     <form className="formPanel" onSubmit={registerUser}>
@@ -142,14 +156,14 @@ function RegisterForm() {
         </label>
       </div>
       <div>
-        <label htmlFor="userEmail">
+        <label htmlFor="email">
           User Email:
           <input
             type="text"
-            name="userEmail"
-            value={userEmail}
+            name="email"
+            value={email}
             required
-            onChange={(event) => setUserEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </label>
       </div>
