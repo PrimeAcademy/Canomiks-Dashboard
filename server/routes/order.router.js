@@ -46,7 +46,7 @@ router.post('/initialOrder', rejectUnauthenticated, async (req, res) => {
 });
 
 // for add sample page to save the sample information; after initial insert
-router.post('/newOrder', rejectUnauthenticated, async (req, res) => {
+router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
   // is the order id sent over in the req.body or as a param? 
   //  right now its set up as a req.body
   try {
@@ -96,7 +96,7 @@ router.post('/newOrder', rejectUnauthenticated, async (req, res) => {
 });
 
 // for shipping page to save the shipping information; after initial insert
-router.post('/shipping', rejectUnauthenticated, async (req, res) => {
+router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   // POST route code here
   try {
     const order = req.body;
