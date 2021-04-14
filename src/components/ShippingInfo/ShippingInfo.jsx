@@ -1,9 +1,9 @@
 import { useHistory } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-function ShippingInfo(){
+function ShippingInfo() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [carrierName, setCarrierName] = useState('');
@@ -32,7 +32,7 @@ function ShippingInfo(){
 
   const backBtn = () => {
     console.log("back button")
-    history.push("/addSamples")
+    history.push("/addSample")
   }
 
   function handleContinue(event) {
