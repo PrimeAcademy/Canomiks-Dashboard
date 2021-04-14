@@ -17,55 +17,50 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post('/register', (req, res, next) => {
-  console.log('🪳 made it to the post register', req.body)
-  // capture all the data from req.body
-  const companyName = req.body.companyName;
-  const companyAddress = req.body.companyAddress;
-  const companyCity = req.body.city;
-  const companyState = req.body.state;
-  const companyZip = req.body.zip;
-  const phoneNumber = req.body.phoneNumber;
-  const teamLeadName = req.body.teamLeadName;
-  const email = req.body.email;
-  const password = encryptLib.encryptPassword(req.body.password);
+router.post('/register', async (req, res, next) => {
 
-  // send the first query, inserts the company
-  const queryText = `INSERT INTO "companies" ("companyName", "address", "city", "state", "zip", "phoneNumber")
-    VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`;
-  pool
-    .query(queryText, [
-      companyName,
-      companyAddress,
-      companyCity,
-      companyState,
-      companyZip,
-      phoneNumber,
-    ])
-    .then((dbRes) => {
+  try {
+      // capture all the data from req.body
+    const companyName = req.body.companyName;
+    const companyAddress = req.body.companyAddress;
+    const companyCity = req.body.city;
+    const companyState = req.body.state;
+    const companyZip = req.body.zip;
+    const phoneNumber = req.body.phoneNumber;
+    const teamLeadName = req.body.teamLeadName;
+    const email = req.body.email;
+    const password = encryptLib.encryptPassword(req.body.password);
+
+    // send the first query, inserts the company
+    const queryText = `INSERT INTO "companies" ("companyName", "address", "city", "state", "zip", "phoneNumber")
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`;
+    const dbRes = await pool.query(queryText, [
+        companyName,
+        companyAddress,
+        companyCity,
+        companyState,
+        companyZip,
+        phoneNumber,
+      ]);
+
       // the second insert, for the individual user
       const companyID = dbRes.rows[0].id;
-      console.log('🪳 💥', companyID);
       const queryTextTwo = `
-      INSERT INTO "users" ("email", "password", "name", "companyID")
-      VALUES ($1, $2, $3, $4)
-      `;
+        INSERT INTO "users" ("email", "password", "name", "companyID")
+        VALUES ($1, $2, $3, $4)
+        `;
 
-      pool
-        .query(queryTextTwo, [email, password, teamLeadName, companyID])
-        .then(() => {
-          console.log('🪳 made it to the register post user')
-          res.sendStatus(201);
-        })
-        .catch((err) => {
-          console.log('Error in the user insert', err);
-          res.sendStatus(500);
-        });
-    })
-    .catch((err) => {
-      console.log('User registration failed: ', err);
-      res.sendStatus(500);
-    });
+      const dbResTwo = await pool.query(queryTextTwo, [email, password, teamLeadName, companyID]);
+
+      res.sendStatus(201);
+
+  }
+  catch (err) {
+    console.log('💥 something went wrong in the register route');
+    console.log(err);
+    res.sendStatus(500);
+  }
+  
 });
 
 // Handles login form authenticate/login POST
