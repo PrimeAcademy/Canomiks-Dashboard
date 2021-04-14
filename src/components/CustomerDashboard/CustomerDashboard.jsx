@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import moment from 'moment';
+import AddSample from '../AddSample/AddSample';
+
 
 const useStyles = makeStyles({
   table: {
