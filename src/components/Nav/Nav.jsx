@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
+import AddSample from '../AddSample/AddSample';
+
 import './Nav.css';
 import { useSelector } from 'react-redux';
 
@@ -13,7 +15,7 @@ function Nav() {
   };
 
   if (user.id != null) {
-    loginLinkData.path = '/user';
+    loginLinkData.path = '/samples';
     loginLinkData.text = 'Home';
   }
 
@@ -32,6 +34,7 @@ function Nav() {
             <Link className="navLink" to="/samples">
               Samples
             </Link>
+            
           </>
         )}
 

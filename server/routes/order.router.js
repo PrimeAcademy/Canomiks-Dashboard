@@ -18,7 +18,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-router.put('/:id',  (req, res) => {
+router.put('/newOrder/:id', (req, res) => {
   const userId = req.user.id;
   const shipping = req.body;
 
@@ -32,80 +32,100 @@ router.put('/:id',  (req, res) => {
     shipping.shippedDate,
     shipping.carrierName,
     shipping.trackingNumber,
-    
   ];
 
   pool
     .query(sqlQuery, sqlParams)
     .then((dbRes) => {
-      
       const shippingID = dbRes.rows[0].id;
-      console.log('shippingID is', shippingID)
-    }).catch((err)=>{
-      console.log('err on put', err)
+      console.log('shippingID is', shippingID);
     })
-  })
+    .catch((err) => {
+      console.log('err on put', err);
+    });
+});
 /**
  * POST route template
  */
-router.post('/newOrder', rejectUnauthenticated, async (req, res) => {
+
+// the initial sample order, for when they start the process.
+router.post('/initialOrder', rejectUnauthenticated, async (req, res) => {
   try {
-    const order = req.body;
-    const orderArray = [
-      order.companyID,
-      order.ingredientName,
-      order.ingredientAmount,
-      order.ingredientUnit,
-      order.format,
-      order.purity,
-      order.dateManufactured,
-      order.lotNumber,
-      order.extractionMethod,
-      order.city,
-      order.state,
-      order.country,
-      order.harvestDate,
-      order.cropStrain,
-      order.sustainabilityInfo,
-      order.shippedDate,
-      order.carrierName,
-      order.trackingNumber,
-    ];
+    const order = req.body.companyID;
+
     const sqlText = `
     INSERT INTO "orders"
-    ("companyID", "ingredientName", "ingredientAmount", 
-      "ingredientUnit", "format", "purity", "dateManufactured", 
-      "lotNumber", "extractionMethod", "city", "state", "country", 
-      "harvestDate", "cropStrain", "sustainabilityInfo", "shippedDate", "carrierName", "trackingNumber")
-    VALUES 
-    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18);
+    ("companyID")
+    VALUES
+    ($1);
     `;
-    await pool.query(sqlText, orderArray);
+
+    await pool.query(sqlText, [order]);
     res.sendStatus(200);
   } catch (err) {
-    console.error(err.message);
+    console.log('error in the initial order post', err);
     res.sendStatus(500);
   }
 });
 
-router.post('/shipping', rejectUnauthenticated, async (req, res) => {
+// for add sample page to save the sample information; after initial insert
+router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
+  // is the order id sent over in the req.body or as a param?
+  //  right now its set up as a req.body
   try {
-    const shipping = req.body;
-    // console.log(shipping, "req.body")
-
-    const shippingArray = [
-      shipping.shippedDate,
-      shipping.carrierName,
-      shipping.trackingNumber,
+    const order = req.body;
+    const orderArray = [
+      order.companyID, //1
+      order.ingredientName, //2
+      order.ingredientAmount, //3
+      order.ingredientUnit, //4
+      order.format, //5
+      order.purity, //6
+      order.dateManufactured, //7
+      order.lotNumber, //8
+      order.extractionMethod, //9
+      order.city, //10
+      order.state, //11
+      order.country, //12
+      order.harvestDate, //13
+      order.cropStrain, //14
+      order.sustainabilityInfo, //15
+      order.orderId, //16
     ];
-    console.log(shippingArray, 'array');
     const sqlText = `
-    INSERT INTO "orders"
-      ("shippedDate", "carrierName", "trackingNumber")
-    VALUES
-      ($1, $2, $3);`;
+      UPDATE "orders"
+      SET "ingredientName" = $2, "ingredientAmount" = $3, "ingredientUnit" = $4,
+      "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
+      "extractionMethod" = $9, "city" = $10, "state" = $11, "country" = $12,
+      "harvestDate" = $13, "cropStrain" = $14, "sustainabilityInfo" = $15
+      WHERE "companyID" = $1 AND "id" = $16;
+    `;
+    await pool.query(sqlText, orderArray);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
 
-    await pool.query(sqlText, shippingArray);
+// for shipping page to save the shipping information; after initial insert
+router.put('/shipping', rejectUnauthenticated, async (req, res) => {
+  // POST route code here
+  try {
+    const order = req.body;
+    const orderArray = [
+      order.shippedDate,
+      order.carrierName,
+      order.trackingNumber,
+      order.companyID,
+      order.orderId,
+    ];
+    const sqlText = `
+      UPDATE "orders"
+      SET "shippedDate" = $1, "carrierName" = $2, "trackingNumber" = $3
+      WHERE "companyID" = $4 AND "id" = $5;
+    `;
+    await pool.query(sqlText, orderArray);
     res.sendStatus(200);
   } catch (err) {
     console.error(err.message);
