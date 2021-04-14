@@ -51,25 +51,5 @@ router.post('/newOrder', rejectUnauthenticated, async (req, res) => {
   }
 });
 
-router.post('/shipping', rejectUnauthenticated, async (req, res) => {
-  try{
-    const shipping = req.body;
-    // console.log(shipping, "req.body")
-    
-    const shippingArray = [shipping.shippedDate, shipping.carrierName, shipping.trackingNumber];
-    console.log(shippingArray, "array")
-    const sqlText =  `
-    INSERT INTO "orders"
-      ("shippedDate", "carrierName", "trackingNumber")
-    VALUES
-      ($1, $2, $3);`;
-    
-    await pool.query(sqlText, shippingArray);
-    res.sendStatus(200);
-  }catch(err){
-    console.error(err.message);
-    res.sendStatus(500);
-  }
-})
 
 module.exports = router;

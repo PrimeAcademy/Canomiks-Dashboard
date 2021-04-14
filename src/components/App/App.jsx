@@ -16,6 +16,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AddSample from '../AddSample/AddSample';
 
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
@@ -54,6 +55,12 @@ function App() {
           <ProtectedRoute exact path="/login" authRedirect="/samples">
             <LoginPage />
           </ProtectedRoute>
+
+          <ProtectedRoute exact path="/addSample" authRedirect="/addSample">
+            <AddSample />
+          </ProtectedRoute>
+
+
 
           <ProtectedRoute exact path="/registration" authRedirect="/samples">
             <RegisterPage />
