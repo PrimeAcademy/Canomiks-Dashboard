@@ -44,7 +44,7 @@ CREATE TABLE "orders" (
 	"shippedDate" DATE ,
 	"carrierName" VARCHAR(255),
 	"trackingNumber" VARCHAR(255),
-	"recievedDate" DATE,
+	"receivedDate" DATE,
 	"testingStatus" VARCHAR(255),
 	"delayed" BOOLEAN DEFAULT false,
 	"pdfUrl" VARCHAR(255)
@@ -56,4 +56,5 @@ VALUES (true, 'Canomiks', '123 Main St', 'Minneapolis', 'MN', '55105', '61255556
 
 INSERT INTO "users" ("email", "password", "name", "companyID", "authLevel")
 VALUES ('admin@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Admin', '1', 'admin'),
-		  ('lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab');
+		('lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab');
+
