@@ -1,7 +1,13 @@
-
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 
 function AddSample() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+
   const [ingredientName, setName] = useState('');
   const [lotNumber, setLotNumber] = useState(0);
   const [productFormat, setFormat] = useState('');
@@ -18,6 +24,7 @@ function AddSample() {
 
 
 
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("form submit")
@@ -27,6 +34,19 @@ function AddSample() {
   const shipping = (event) => {
     event.preventDefault();
     console.log('shipping info')
+    if(
+      !ingredientName ||
+      !lotNumber ||
+      !productFormat ||
+      !ingredientAmount ||
+      !dateManufactured ||
+      !extractionMethod 
+    ){
+      alert("Please complete required inputs")
+    }else{ 
+      alert("Sample Added")
+      history.push("/shipping")
+    }
   }
 
 
