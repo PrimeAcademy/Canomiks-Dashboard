@@ -111,8 +111,6 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
 // for shipping page to save the shipping information; after initial insert
 router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   // POST route code here
@@ -139,6 +137,5 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   }
 });
 
->>>>>>> 71d9108ff0fb95e271499ccf1a84b217415c3ee4
 
 module.exports = router;

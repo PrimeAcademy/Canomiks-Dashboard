@@ -57,7 +57,7 @@ function App() {
             <LoginPage />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/addSample" authRedirect="/addSample">
+          <ProtectedRoute exact path="/addSample" >
             <AddSample />
           </ProtectedRoute>
 
