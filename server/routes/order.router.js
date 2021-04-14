@@ -18,7 +18,33 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
+router.put('/:id',  (req, res) => {
+  const userId = req.user.id;
+  const shipping = req.body;
 
+  const sqlQuery = `UPDATE "orders" 
+  SET "shippedDate" = $3, "carrierName" = $4, "trackingNumber" = $5
+  WHERE "id" = $1 
+  RETURNING "id";`;
+  const sqlParams = [
+    shipping.id,
+    userId,
+    shipping.shippedDate,
+    shipping.carrierName,
+    shipping.trackingNumber,
+    
+  ];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      
+      const shippingID = dbRes.rows[0].id;
+      console.log('shippingID is', shippingID)
+    }).catch((err)=>{
+      console.log('err on put', err)
+    })
+  })
 /**
  * POST route template
  */
