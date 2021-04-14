@@ -18,7 +18,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-router.put('/:id',  (req, res) => {
+router.put('/newOrder/:id',  (req, res) => {
   const userId = req.user.id;
   const shipping = req.body;
 
