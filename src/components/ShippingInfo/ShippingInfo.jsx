@@ -66,7 +66,7 @@ function ShippingInfo() {
       <form>
         <p> These are the available shipping dates. Samples cannot be processed until shipping info is filled out</p>
         <div> Date to be shipped: <input type="text" placeholder="MM/DD/YY" onChange={(evt) => { setDate(evt.target.value) }} /> </div>
-        <div> Carrier: <input type="text" placeholder="Not Specified" onChange={(evt) => { setCarrier(evt.target.value) }} /></div>
+        <div> Carrier: <input type="text" placeholder="Not Specified" onChange={(evt) => { setCarrierName(evt.target.value) }} /></div>
         <div> Tracking Number: <input type="text" onChange={(evt) => { setTracking(evt.target.value) }} /> </div>
 
         <span> <button onClick={handleBack}> Back to add sample </button><button onClick={handleContinue}> Continue Later </button><button onClick={handleSubmit}> Finalize</button></span>
@@ -90,7 +90,7 @@ function ShippingInfo() {
             value={carrierName}
             type="text"
             placeholder="Not Specified"
-            onChange={(event) => setCarrier(event.target.value)}
+            onChange={(event) => setCarrierName(event.target.value)}
           />
         </div>
 
@@ -99,7 +99,7 @@ function ShippingInfo() {
              <input
             value={trackingNumber}
             type="text"
-            onChange={(event) => setTracking(event.target.value)}
+            onChange={(event) => setTrackingNumber(event.target.value)}
           />
         </div>
       </form>
