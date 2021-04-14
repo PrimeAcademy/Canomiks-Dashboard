@@ -10,8 +10,8 @@ function AddSample() {
   const [dateManufactured, setDate] = useState('');
   const [extractionMethod, setMethod] = useState('');
   const [city, setCity] = useState('');
-  const {sustainability, setSustainability} = useState('');
-
+  const [sustainability, setSustainability] = useState('');
+  const [strain, setStrain] = useState('');
 
 
 
@@ -20,18 +20,24 @@ function AddSample() {
     console.log("form submit")
   }
 
+
+  const shipping = (event) => {
+    event.preventDefault();
+    console.log('shipping info')
+  }
+
   return(<>
   <div>
     <form onSubmit={handleSubmit}>
       <input 
-        type="text">
-        value={ingredientName}
+        type="text"
+        value={ingredientName}>
         Ingredient Name*:
       </input>
       <input 
-        type="text">
-        value={lotNumber}
-          Lot# *:
+        type="text"
+        value={lotNumber}>
+        Lot# *:
       </input>
 
       <select 
@@ -79,8 +85,8 @@ function AddSample() {
           type="text"
           value={city}
           onChange={(event) => setCity(event.target.value)}>
-            City:
-          </input>
+          City:
+        </input>
 
       </div>
 
@@ -88,8 +94,8 @@ function AddSample() {
         type="text"
         value={strain}
         onChange={(event) => setStrain(event.target.value)}>
-          Strain Of Crop:
-        </input>
+        Strain Of Crop:
+      </input>
 
         <select>Harvest Date</select>
       
@@ -100,6 +106,9 @@ function AddSample() {
         onChange={(event) => setSustainability(event.target.value)}>
           Sustainability Info:
         </input>
+
+        <button>Cancel Request</button>
+        <button onClick={shipping}>Shipping Info</button>
         
     </form>
   </div>  
