@@ -13,20 +13,7 @@ function AddSample() {
   }
 
   return(<>
-  <div>
-    <form>
-      <input 
-        value={ingredientName}
-        type="text">
-        Ingredient Name*
-      </input>
-      <input 
-        value={lotNumber}
-        type="text">
-          Lot# *
-      </input>
-    </form>
-  </div>  
+  
   
   </>)
 }
