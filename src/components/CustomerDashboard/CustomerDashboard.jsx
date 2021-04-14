@@ -31,7 +31,7 @@ export default function CustomerDashboard() {
     <>
       <center>
         <Typography variant="h4" gutterBottom>COMPANY ID: {user.companyID}</Typography>
-        <Button variant="contained" style={{ backgroundColor: "#1e565c", color: "white" }} onClick={() => history.push('/addSample')}>+ SAMPLE</Button>
+        <Button variant="contained" style={{ backgroundColor: "#1e565c", color: "white" }} onClick={() => history.push('/summary')}>+ SAMPLE</Button>
         <div>
           <TextField style={{ margin: 25 }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
         </div>

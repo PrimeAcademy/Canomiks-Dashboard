@@ -1,8 +1,9 @@
 import { useHistory } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 
-function ShippingInfo() {
+
+function ShippingInfo(){
   const history = useHistory();
   const dispatch = useDispatch();
   const [carrierName, setCarrierName] = useState('');
