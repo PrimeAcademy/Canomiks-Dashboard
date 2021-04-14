@@ -1,12 +1,23 @@
 import moment from 'moment';
 
+import SampleProgress from '../SampleProgress/SampleProgress';
+
 import { DialogContent, DialogContentText } from '@material-ui/core';
 
+import './CustomerDetail.css';
+
 function CustomerDetail({ sample }) {
-  // moment(order.receivedDate).format('MMMM DD YYYY')
   return (
     <DialogContent>
       <DialogContentText>
+        <SampleProgress step={sample.testingStatus} />
+
+        {sample.delayed && (
+          <div className="delay-alert">
+            Test Delayed - more information will be provided via email
+          </div>
+        )}
+
         <h2>Lot # {sample.lotNumber}</h2>
         <h3>{sample.ingredientName}</h3>
 

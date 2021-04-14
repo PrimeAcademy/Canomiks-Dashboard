@@ -46,7 +46,6 @@ export default function CustomerDashboard() {
   }, []);
 
   const handleOpen = (sample) => {
-    console.log(sample);
     setClickedSample(sample);
     setOpenDetail(true);
   }; // end handleOpen
