@@ -1,15 +1,12 @@
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import './AddSample.css';
 
 // material ui imports 
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, MenuItem, FormHelperText, FormControl, 
   Select, Typography } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
@@ -63,7 +60,7 @@ function AddSample() {
   const shipping = (event) => {
     event.preventDefault();
     console.log('shipping info');
-
+// if no value alert user
     if (
       !ingredientName ||
       !lotNumber ||
@@ -149,7 +146,7 @@ const sustainabilityText = `Sustainability Text`;
                 type="text" 
                 onChange={(event) => setName(event.target.value)}/> 
                 {/* https://material-ui.com/components/tooltips/
-                link to tooltips */}
+                reference to tooltips */}
             <Tooltip title={nameText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
@@ -167,8 +164,6 @@ const sustainabilityText = `Sustainability Text`;
             placeholder="Name"
             onChange={(event) => setName(event.target.value)}/> */}
         <div>
-          
-
           <TextField
             className={classes.inputs}
             required
@@ -181,9 +176,9 @@ const sustainabilityText = `Sustainability Text`;
             TransitionComponent={Zoom}
             TransitionProps={{ timeout: 600 }}
             placement="right-start">
-            <Button className={classes.button}>
-              <InfoIcon />
-            </Button>
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
         </Tooltip>
           {/* <input
             value={lotNumber}
@@ -191,7 +186,6 @@ const sustainabilityText = `Sustainability Text`;
             placeholder="Lot Number"
             onChange={(event) => setLotNumber(event.target.value)}
           /> */}
-          
         </div>
         <div>
           <FormControl variant="filled" className={classes.formControl}>
@@ -200,7 +194,6 @@ const sustainabilityText = `Sustainability Text`;
               onChange={(e) => setFormat(e.target.value)}
               displayEmpty
               inputProps={{ 'aria-label': 'Without label' }}>
-
               <MenuItem value="" disabled>
                 Pick a Genre
               </MenuItem>
@@ -210,14 +203,14 @@ const sustainabilityText = `Sustainability Text`;
               <MenuItem value={'Other'}>Other</MenuItem>
             </Select>
             <FormHelperText>Product Format</FormHelperText>
-            </FormControl>
+          </FormControl>
             <Tooltip title={formatText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
             </Tooltip>
           {/* <select
             value={format}
@@ -238,12 +231,10 @@ const sustainabilityText = `Sustainability Text`;
             value={ingredientAmount} 
             type="text" 
             onChange={(event) => setAmount(event.target.value)}/>
-
             {/* <input
             value={ingredientAmount}
             onChange={(e) => setAmount(e.target.value)}
             type="number" /> */}
-
           <FormControl variant="filled" className={classes.formControl}>
             <Select
               value={ingredientUnit}
@@ -259,14 +250,14 @@ const sustainabilityText = `Sustainability Text`;
               <MenuItem value={'Ounces'}>Ounces</MenuItem>
             </Select>
             <FormHelperText>Ingredient Unit</FormHelperText>
-            </FormControl>
+          </FormControl>
           <Tooltip title={formatText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
             </Tooltip>
           {/* <select
           value = {ingredientUnit}
@@ -288,17 +279,15 @@ const sustainabilityText = `Sustainability Text`;
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
             </Tooltip>
-
             {/* <input
             type="text"
             value={purity}
             onChange={(event) => setPurity(event.target.value)} /> */}
         </div>
-
         <div>
           <TextField
             id="date"
@@ -313,11 +302,10 @@ const sustainabilityText = `Sustainability Text`;
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
             </Tooltip>
-          
             {/* <input
             type="date"
             value={dateManufactured}
@@ -337,11 +325,10 @@ const sustainabilityText = `Sustainability Text`;
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
             </Tooltip>
-
             {/* <input
             type="text"
             value={extractionMethod}
@@ -354,9 +341,9 @@ const sustainabilityText = `Sustainability Text`;
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
             </Tooltip>
           </Typography>
 
@@ -368,7 +355,6 @@ const sustainabilityText = `Sustainability Text`;
             value={city} 
             type="text" 
             onChange={(event) => setCity(event.target.value)}/>
-          
             {/* <input
               type="text"
               value={city}
@@ -381,12 +367,10 @@ const sustainabilityText = `Sustainability Text`;
             value={state} 
             type="text" 
             onChange={(event) => setState(event.target.value)}/>
-              
               {/* <input
               type="text"
               value={state}
               onChange={(event) => setState(event.target.value)} /> */}
-
           <TextField
             className={classes.inputs}
             required
@@ -394,15 +378,13 @@ const sustainabilityText = `Sustainability Text`;
             variant='filled'
             value={country} 
             type="text" 
-            onChange={(event) => setCountry(event.target.value)}/>
-              
+            onChange={(event) => setCountry(event.target.value)}/>      
               {/* <input
               type="text"
               value={country}
               onChange={(event) => setCountry(event.target.value)} /> */}
         </div>
         <div>
-
           <TextField
             className={classes.inputs}
             required
@@ -415,17 +397,15 @@ const sustainabilityText = `Sustainability Text`;
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
-            </Tooltip>
-          
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>        
           {/* <input
             type="text"
             value={cropStrain}
             onChange={(event) => setCropStrain(event.target.value)} /> */}
         </div>
-
         <div>
           <TextField
             id="date"
@@ -440,9 +420,9 @@ const sustainabilityText = `Sustainability Text`;
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
             </Tooltip>
         </div>
         {/* <div
@@ -452,7 +432,6 @@ const sustainabilityText = `Sustainability Text`;
           <input
             type="month" />
         </div> */}
-
         <div>
           <TextField
             className={classes.inputs}
@@ -465,18 +444,15 @@ const sustainabilityText = `Sustainability Text`;
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
               placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
-            </Tooltip>
-          
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>      
         {/* <input
             value={sustainability}
             type="text"
             onChange={(event) => setSustainability(event.target.value)} /> */}
-
         </div>
-
         <Button 
         className={classes.inputs}
         style={{ backgroundColor: "#1e565c", color: "white" }}
@@ -484,9 +460,7 @@ const sustainabilityText = `Sustainability Text`;
         onClick={shipping}>
           Shipping Info
         </Button>
-
       </form>
-
       <Button 
       className={classes.inputs}
       style={{ backgroundColor: "#1e565c", color: "white" }}
@@ -494,7 +468,6 @@ const sustainabilityText = `Sustainability Text`;
       onClick={cancel}>
         Cancel Request
       </Button>
-
     </div>
   </>)
 }
