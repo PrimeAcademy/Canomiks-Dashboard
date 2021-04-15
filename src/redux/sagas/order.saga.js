@@ -15,9 +15,9 @@ function* fetchCustomerOrders() {
 
 function* addOrder(action) {
   console.log("action payload,", action.payload)
-  try{
-    const response = yield axios.post('/api/orders/shipping', action.payload);
-  } catch(err) {
+  try {
+    const response = yield axios.post('/api/orders/newOrder', action.payload);
+  } catch (err) {
     console.error(err.message);
   }
 }
