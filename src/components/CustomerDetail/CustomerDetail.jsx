@@ -10,7 +10,7 @@ function CustomerDetail({ sample }) {
   return (
     <DialogContent>
       <DialogContentText>
-        <SampleProgress step={sample.testingStatus} />
+        <SampleProgress step={sample.testingStatus} delay={sample.delayed} />
 
         {sample.delayed && (
           <div className="delay-alert">

@@ -118,7 +118,7 @@ export default function CustomerDashboard() {
                       key={order.id}
                     >
                       <TableCell component="th" scope="row">
-                        {order.lotNumber}
+                        #{order.lotNumber}
                       </TableCell>
                       <TableCell align="right">
                         {order.ingredientName} - {order.cropStrain}
