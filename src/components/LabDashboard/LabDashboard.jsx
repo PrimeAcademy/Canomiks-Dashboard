@@ -13,6 +13,9 @@ const useStyles = makeStyles({
     maxHeight: 600,
     maxWidth: '80%'
   },
+  table: {
+    minWidth: 650,
+  },
 });
 
 function LabDashboard() {
@@ -40,14 +43,15 @@ function LabDashboard() {
   };
 
   return (
-    <center>
+
+    <>
+      <Typography variant="h3" component="h1" gutterBottom style={{ marginLeft: '10%' }}>Current Orders</Typography>
       <div>
-        <Typography variant="h3" component="h1" gutterBottom>Current Orders</Typography>
-        <div>
-          <TextField style={{ margin: 25 }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
-        </div>
+        <TextField style={{ margin: 25, marginLeft: '10%' }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
+      </div>
+      <center>
         <TableContainer className={classes.container}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table className={classes.table} stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell label="Lot Number" style={{ fontWeight: 900 }}>Lot Number</TableCell>
@@ -93,8 +97,8 @@ function LabDashboard() {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </div >
-    </center >
+      </center>
+    </>
   );
 }
 
