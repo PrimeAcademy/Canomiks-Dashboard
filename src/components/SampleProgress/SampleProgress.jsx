@@ -9,6 +9,7 @@ import './SampleProgress.css';
 
 function SampleProgress({ sequence, state, delay }) {
   const activeStep = sequence - 1;
+  const stepColor = delay ? '#fdcb43' : '#1e565c';
 
   // Sets up the icons for the stepper
   function StepIcon(props) {
@@ -38,7 +39,7 @@ function SampleProgress({ sequence, state, delay }) {
       alignItems: 'center',
     },
     active: {
-      color: '#1e565c',
+      color: stepColor,
     },
     circle: {
       width: 8,
@@ -47,7 +48,7 @@ function SampleProgress({ sequence, state, delay }) {
       backgroundColor: 'currentColor',
     },
     completed: {
-      color: '#1e565c',
+      color: stepColor,
       zIndex: 1,
       fontSize: 18,
     },
