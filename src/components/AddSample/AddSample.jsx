@@ -93,7 +93,6 @@ function AddSample() {
             <option value="Other">Other</option>
           </select>
         </div>
-
         <div
           value={ingredientAmount}
           onChange={(event) => setAmount(event.target.value)}>
@@ -106,7 +105,6 @@ function AddSample() {
             <option>Ounces</option>
           </select>
         </div>
-
         <div>
           Purity(If Available)
             <input
@@ -128,7 +126,6 @@ function AddSample() {
             value={extractionMethod}
             onChange={(event) => setMethod(event.target.value)} />
         </div>
-
         <div>
           Growth Region
         <div>
