@@ -171,7 +171,6 @@ function AddSample() {
             <option value="Other">Other</option>
           </select> */}
         </div>
-
         <div>
          <TextField
             className={classes.inputs}
@@ -211,7 +210,6 @@ function AddSample() {
             <option value="Ounces">Ounces</option>
           </select> */}
         </div>
-
         <div>
           <TextField
             className={classes.inputs}
@@ -259,7 +257,6 @@ function AddSample() {
             value={extractionMethod}
             onChange={(event) => setMethod(event.target.value)} /> */}
         </div>
-
         <div>
           <Typography variant='body1'> Growth Region: </Typography>
           <TextField
