@@ -57,7 +57,8 @@ function App() {
             <LoginPage />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/addSample" authRedirect="/addSample">
+
+          <ProtectedRoute exact path="/addSample" >
             <AddSample />
           </ProtectedRoute>
 
@@ -66,18 +67,18 @@ function App() {
           <ProtectedRoute exact path="/registration" authRedirect="/samples">
             <RegisterPage />
           </ProtectedRoute>
-
-          <ProtectedRoute exact path="/manage" authRedirect="/admin">
-            <Manage />
-          </ProtectedRoute>
+          {user.authLevel === 'admin' &&
+            <ProtectedRoute exact path="/manage">
+              <Manage />
+            </ProtectedRoute>}
           <ProtectedRoute exact path="/shipping">
             <ShippingInfo />
           </ProtectedRoute>
 
           <Route path='/summary'>
-           <Summary />
+            <Summary />
           </Route>
-          
+
         </Switch>
         <Footer />
       </div>

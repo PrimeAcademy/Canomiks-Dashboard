@@ -1,12 +1,7 @@
 import { useHistory } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-
-
-
-
-function ShippingInfo(){
   const history = useHistory();
   const dispatch = useDispatch();
   const [carrierName, setCarrierName] = useState('');
@@ -21,7 +16,7 @@ function ShippingInfo(){
     }
     else {
       dispatch({
-        type: 'ADD_ORDER',
+        type: 'SET_SHIPPING',
         payload: {
           shippedDate,
           carrierName,
@@ -35,7 +30,7 @@ function ShippingInfo(){
 
   const backBtn = () => {
     console.log("back button")
-    history.push("/addSamples")
+    history.push("/addSample")
   }
 
   function handleContinue(event) {
@@ -44,57 +39,6 @@ function ShippingInfo(){
     history.push("/")
   }
 
-
-    return(
-        <>
-            <form>
-
-                <p> These are the available shipping dates. Samples cannot be processed until shipping info is filled out</p>
-              <div> Date to be shipped: <input type="text" placeholder="MM/DD/YY" onChange={(evt)=>{setDate(evt.target.value)}}/> </div>
-              <div> Carrier: <input type="text" placeholder="Not Specified" onChange={(evt)=>{setCarrier(evt.target.value)}}/></div>
-              <div> Tracking Number: <input type="text" onChange={(evt)=>{setTracking(evt.target.value)}}/> </div>
-            <span> <button onClick={handleBack}> Back to add sample </button><button onClick={handleContinue}> Continue Later </button><button onClick={handleSubmit}> Finalize</button></span>
-
-                <p> 
-                  These are the available shipping dates. 
-                  Samples cannot be processed until shipping info is filled out
-                </p>
-              <div>
-                  Date to be shipped: 
-                  <input 
-                    value={shippedDate} 
-                    type="text" 
-                    placeholder="MM/DD/YY"
-                    onChange={(event) => setDate(event.target.value)}
-                  /> 
-              </div>
-              <div>
-                  Carrier: 
-                  <input 
-                    value={carrierName} 
-                    type="text" 
-                    placeholder="Not Specified" 
-                    onChange={(event) => setCarrier(event.target.value)}
-                  />
-                </div>
-
-              <div> 
-                Tracking Number: 
-                <input 
-                  value={trackingNumber} 
-                  type="text"
-                  onChange={(event) => setTracking(event.target.value)}
-                  /> 
-              </div>
-            </form>
-            <span> 
-              <button onClick={backBtn}> Back </button>
-              <button onClick={continueLater}> Continue Later </button>
-              <button onClick={handleSubmit}> Finalize</button>
-            </span>
-
-        </>
-    )
   return (
     <>
       <center>
@@ -121,7 +65,6 @@ function ShippingInfo(){
               onChange={(event) => setCarrierName(event.target.value)}
             />
           </div>
-
           <div>
             Tracking Number:
              <input
@@ -141,4 +84,4 @@ function ShippingInfo(){
   )
 }
 
-export default ShippingInfo
+export default ShippingInfo;

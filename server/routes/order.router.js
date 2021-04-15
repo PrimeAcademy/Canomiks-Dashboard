@@ -9,7 +9,10 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 router.get('/', rejectUnauthenticated, async (req, res) => {
   // GET route code here
   try {
-    const queryText = `SELECT * FROM "orders" WHERE orders."companyID" = $1;`;
+    const queryText = `
+    SELECT * FROM "orders" 
+    WHERE orders."companyID" = $1 
+    ORDER BY ("testingStatus" = 'Pre-shipment') DESC;`;
     const dbRes = await pool.query(queryText, [req.user.companyID]);
     res.send(dbRes.rows);
   }
@@ -18,53 +21,48 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-router.put('/:id',  (req, res) => {
-  const userId = req.user.id;
-  const shipping = req.body;
 
-  const sqlQuery = `UPDATE "orders" 
-  SET "shippedDate" = $3, "carrierName" = $4, "trackingNumber" = $5
-  WHERE "id" = $1 
-  RETURNING "id";`;
-  const sqlParams = [
-    shipping.id,
-    userId,
-    shipping.shippedDate,
-    shipping.carrierName,
-    shipping.trackingNumber,
-    
-  ];
-
-  pool
-    .query(sqlQuery, sqlParams)
-    .then((dbRes) => {
-      
-      const shippingID = dbRes.rows[0].id;
-      console.log('shippingID is', shippingID)
-    }).catch((err)=>{
-      console.log('err on put', err)
-    })
-  })
+router.put('/newOrder/:id', async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const shipping = req.body;
+    const sqlParams = [
+      shipping.id,
+      userId,
+      shipping.shippedDate,
+      shipping.carrierName,
+      shipping.trackingNumber,
+    ];
+    const sqlQuery = `UPDATE "orders" 
+    SET "shippedDate" = $3, "carrierName" = $4, "trackingNumber" = $5
+    WHERE "id" = $1 
+    RETURNING "id";`;
+    const dbRes = await pool.query(sqlQuery, sqlParams)
+    res.send(dbRes.rows[0])
+  }
+  catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
+})
 /**
  * POST route template
  */
 
 // the initial sample order, for when they start the process.
 router.post('/initialOrder', rejectUnauthenticated, async (req, res) => {
-  try{
+  try {
     const order = req.body.companyID;
-
     const sqlText = `
     INSERT INTO "orders"
     ("companyID")
     VALUES
     ($1);
     `;
-
     await pool.query(sqlText, [order]);
     res.sendStatus(200);
   }
-  catch(err) {
+  catch (err) {
     console.log('error in the initial order post', err);
     res.sendStatus(500);
   }
@@ -94,7 +92,7 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
       order.sustainabilityInfo, //15
       order.orderId //16
     ];
-    const sqlText= `
+    const sqlText = `
       UPDATE "orders"
       SET "ingredientName" = $2, "ingredientAmount" = $3, "ingredientUnit" = $4,
       "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
@@ -117,8 +115,8 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   try {
     const order = req.body;
     const orderArray = [
-      order.shippedDate, 
-      order.carrierName, 
+      order.shippedDate,
+      order.carrierName,
       order.trackingNumber,
       order.companyID,
       order.orderId
@@ -136,6 +134,5 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-
 
 module.exports = router;

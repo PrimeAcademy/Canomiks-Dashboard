@@ -15,7 +15,7 @@ function Nav() {
   };
 
   if (user.id != null) {
-    loginLinkData.path = '/user';
+    loginLinkData.path = '/samples';
     loginLinkData.text = 'Home';
   }
 
