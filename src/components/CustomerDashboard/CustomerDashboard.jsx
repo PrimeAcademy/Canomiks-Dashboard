@@ -6,7 +6,6 @@ import { useHistory } from 'react-router';
 import moment from 'moment';
 import AddSample from '../AddSample/AddSample';
 
-
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
