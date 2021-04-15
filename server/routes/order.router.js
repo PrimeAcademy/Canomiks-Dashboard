@@ -5,9 +5,7 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
-/**
- * GET route template
- */
+
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
@@ -17,6 +15,18 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     const dbRes = await pool.query(queryText, [req.user.companyID]);
     res.send(dbRes.rows);
   } catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
+});
+
+router.get('/all', rejectUnauthenticated, async (req, res) => {
+  try {
+    const query = `SELECT * FROM orders ORDER BY ("companyID")`;
+    const dbRes = await pool.query(query);
+    res.send(dbRes.rows);
+  }
+  catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }

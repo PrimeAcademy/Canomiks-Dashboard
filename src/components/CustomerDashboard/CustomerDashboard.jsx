@@ -2,12 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import moment from 'moment';
-import AddSample from '../AddSample/AddSample';
 
 import CustomerDetail from '../CustomerDetail/CustomerDetail';
 
 import {
-  Divider,
   Button,
   Table,
   TableBody,
@@ -57,27 +55,27 @@ export default function CustomerDashboard() {
 
   return (
     <>
-      <center>
-        <Typography variant="h4" gutterBottom>
-          COMPANY ID: {user.companyID}
-        </Typography>
-        <Button
-          variant="contained"
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          onClick={() => history.push('/addSample')}
-        >
-          + SAMPLE
+      <Typography variant="h3" gutterBottom component="h1" style={{ marginLeft: '10%', fontWeight: 900 }}>
+        COMPANY ID: {user.companyID}
+      </Typography>
+      <Button
+        variant="contained"
+        style={{ backgroundColor: '#1e565c', color: 'white', marginLeft: '10%' }}
+        onClick={() => history.push('/addSample')}
+      >
+        + SAMPLE
         </Button>
-        <div>
-          <TextField
-            style={{ margin: 25 }}
-            onChange={(event) => {
-              setFilter(event.target.value);
-            }}
-            label="Search..."
-            variant="standard"
-          />
-        </div>
+      <div>
+        <TextField
+          style={{ margin: 25, marginLeft: '10%' }}
+          onChange={(event) => {
+            setFilter(event.target.value);
+          }}
+          label="Search..."
+          variant="standard"
+        />
+      </div>
+      <center>
         <TableContainer
           style={{ maxWidth: '80%', maxHeight: 450 }}
           component={Paper}
