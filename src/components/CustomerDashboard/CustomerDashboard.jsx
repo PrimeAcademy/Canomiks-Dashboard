@@ -32,7 +32,7 @@ export default function CustomerDashboard() {
   return (
     <>
       <center>
-        <Typography variant="h4" gutterBottom>COMPANY ID: {user.companyID}</Typography>
+        <Typography variant="h4" gutterBottom>{user.companyName}</Typography>
         <Button variant="contained" style={{ backgroundColor: "#1e565c", color: "white" }} onClick={() => history.push('/summary')}>+ SAMPLE</Button>
         <div>
           <TextField style={{ margin: 25 }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
