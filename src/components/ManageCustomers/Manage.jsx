@@ -1,10 +1,21 @@
 import Nav from '../Nav/Nav';
 import DisplayCompany from '../DisplayCompany/DisplayCompany';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 function Manage() {
   // const companyList = useSelector((store) => store.);
-
+  const dispatch = useDispatch();
+  const customerList = useSelector(state => state.customer);
+  console.log(customerList, 'customerList')
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_CUSTOMERS'
+    })
+  }, []);
+  
+  //console.log('customer name', customerList[0].companyName)
+  
+//console.log('cutsomer', customerList.companyName[0])
   return (
     <>
       <header className="header">
@@ -14,16 +25,18 @@ function Manage() {
         <table>
           <thead>
             <tr>
-              <th>Company Name </th>
+              <th>Company Name  </th>
             </tr>
           </thead>
           <tbody>
-            <DisplayCompany />
-            {/* grabbing from store */}
-
-            {/* {companyList.map((company) => {
-              return <DisplayCompany key={company.id} company={company} />;
-            })} */}
+         
+            
+          
+        {customerList.map(customer => {
+          return <DisplayCompany key={customer.id} customer={customer} />
+         })}
+   
+            
           </tbody>
         </table>
       </div>

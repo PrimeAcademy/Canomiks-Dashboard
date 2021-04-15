@@ -1,14 +1,16 @@
-function DisplayCompany({ company }) {
+import { useSelector, useDispatch } from 'react-redux';
+function DisplayCompany(props) {
   const viewDetails = () => {
     console.log('view details button');
-    // shows pop up, component?
+    
   };
+  console.log('companyyy', props.customer)
 
   return (
     <>
       <tr>
-        <td>Company Name</td>
-        {/* <td>{company.name} </td> */}
+        
+        { <td>{props.customer.companyName} </td> }
         <td>
           <button onClick={viewDetails}>View Details</button>
         </td>
