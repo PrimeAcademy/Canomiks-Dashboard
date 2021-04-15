@@ -29,12 +29,6 @@ function SampleProgress({ sequence, state, delay }) {
         ) : (
           <div className={classes.circle} />
         )}
-
-        {/* {completed ? (
-          <Check className={classes.completed} />
-        ) : (
-          <div className={classes.circle} />
-        )} */}
       </div>
     );
   }

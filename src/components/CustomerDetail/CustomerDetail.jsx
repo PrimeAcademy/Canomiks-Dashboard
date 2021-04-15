@@ -3,6 +3,8 @@ import moment from 'moment';
 import SampleProgress from '../SampleProgress/SampleProgress';
 
 import { DialogContent, DialogContentText } from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { ErrorOutline } from '@material-ui/icons';
 
 import './CustomerDetail.css';
 
@@ -18,9 +20,10 @@ function CustomerDetail({ sample }) {
 
         {/* Check if delayed and have warning */}
         {sample.delayed && (
-          <div className="delay-alert">
-            Test Delayed - more information will be provided via email
-          </div>
+          <Alert icon={<ErrorOutline />} severity="warning">
+            <AlertTitle>Test Delayed</AlertTitle>
+            More information will be available via email
+          </Alert>
         )}
 
         <h2>Lot # {sample.lotNumber}</h2>
