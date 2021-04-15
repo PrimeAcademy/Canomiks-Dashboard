@@ -8,6 +8,7 @@ import './AddSample.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, MenuItem, FormHelperText, FormControl, 
   Select, Typography } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
@@ -123,6 +124,17 @@ Praesent non nunc mollis, fermentum neque at, semper arcu.
 Nullam eget est sed sem iaculis gravida eget vitae justo.
 `;
 
+const lotText =`Lot number`;
+const formatText =`Format Text`;
+const purityText = `Purity Text`;
+const dateText = `Date Text`;
+const extractionText = `Extraction Text`;
+const regionText = `Region Text`;
+const strainText =`Strain Text`;
+const harvestDateText = `Harvest Text`;
+const sustainabilityText = `Sustainability Text`;
+
+
 
   return (<>
     <div>
@@ -136,12 +148,19 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
                 value={ingredientName} 
                 type="text" 
                 onChange={(event) => setName(event.target.value)}/> 
-        <Tooltip title={nameText}
-          TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-          <Button className={classes.button}>?</Button>
-        </Tooltip>
-          
+                {/* https://material-ui.com/components/tooltips/
+                link to tooltips */}
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                {/* placement= popup display */}
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
+            </Tooltip>
         </div>
+          
           {/* <input
             value={ingredientName}
             type="text"
@@ -158,9 +177,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
             value={lotNumber} 
             type="text" 
             onChange={(event) => setLotNumber(event.target.value)}/>
-          <Tooltip title={nameText}
-            TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-            <Button className={classes.button}>?</Button>
+          <Tooltip title={lotText}
+            TransitionComponent={Zoom}
+            TransitionProps={{ timeout: 600 }}
+            placement="right-start">
+            <Button className={classes.button}>
+              <InfoIcon />
+            </Button>
         </Tooltip>
           {/* <input
             value={lotNumber}
@@ -187,11 +210,15 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
               <MenuItem value={'Other'}>Other</MenuItem>
             </Select>
             <FormHelperText>Product Format</FormHelperText>
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            </FormControl>
+            <Tooltip title={formatText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
-          </FormControl>
           {/* <select
             value={format}
             onChange={(event) => setFormat(event.target.value)}
@@ -232,7 +259,15 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
               <MenuItem value={'Ounces'}>Ounces</MenuItem>
             </Select>
             <FormHelperText>Ingredient Unit</FormHelperText>
-          </FormControl>
+            </FormControl>
+          <Tooltip title={formatText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
+            </Tooltip>
           {/* <select
           value = {ingredientUnit}
           onChange={(event) => setIngredientUnit(e.target.value)}>
@@ -249,9 +284,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
             value={purity} 
             type="text" 
             onChange={(event) => setPurity(event.target.value)}/>
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            <Tooltip title={purityText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
 
             {/* <input
@@ -270,9 +309,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
             InputLabelProps={{
               shrink: true,
             }}/>
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            <Tooltip title={dateText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
           
             {/* <input
@@ -290,9 +333,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
             value={extractionMethod} 
             type="text" 
             onChange={(event) => setMethod(event.target.value)}/>
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            <Tooltip title={extractionText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
 
             {/* <input
@@ -303,9 +350,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
         <div>
           <Typography variant='body1'> 
             Growth Region: 
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            <Tooltip title={regionText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
           </Typography>
 
@@ -360,9 +411,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
             value={cropStrain} 
             type="text" 
             onChange={(event) => setCropStrain(event.target.value)}/>
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            <Tooltip title={strainText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
           
           {/* <input
@@ -381,9 +436,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
             InputLabelProps={{
               shrink: true,
             }}/>
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            <Tooltip title={harvestDateText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
         </div>
         {/* <div
@@ -402,9 +461,13 @@ Nullam eget est sed sem iaculis gravida eget vitae justo.
             value={sustainability} 
             type="text" 
             onChange={(event) => setSustainability(event.target.value)}/>
-            <Tooltip title={nameText}
-              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
-              <Button className={classes.button}>?</Button>
+            <Tooltip title={sustainabilityText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
             </Tooltip>
           
         {/* <input
