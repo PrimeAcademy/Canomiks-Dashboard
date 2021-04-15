@@ -1,13 +1,16 @@
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // material ui imports 
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, 
-  Button, MenuItem,
-  FormHelperText, FormControl, Select, Typography } from '@material-ui/core';
+import { TextField, Button, MenuItem, FormHelperText, FormControl, 
+  Select, Typography } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+
+
 
 const useStyles = makeStyles((theme) => ({
   inputs: {
@@ -57,7 +60,7 @@ function AddSample() {
   const shipping = (event) => {
     event.preventDefault();
     console.log('shipping info');
-
+// if no value alert user
     if (
       !ingredientName ||
       !lotNumber ||
@@ -110,24 +113,56 @@ function AddSample() {
     setSustainability('');
   }; // end cancel
 
+
+// text plugged into tooltips
+  const nameText = `
+Aliquam eget finibus ante, non facilisis lectus. Sed vitae dignissim est, vel aliquam tellus.
+Praesent non nunc mollis, fermentum neque at, semper arcu.
+Nullam eget est sed sem iaculis gravida eget vitae justo.
+`;
+
+const lotText =`Lot number`;
+const formatText =`Format Text`;
+const purityText = `Purity Text`;
+const dateText = `Date Text`;
+const extractionText = `Extraction Text`;
+const regionText = `Region Text`;
+const strainText =`Strain Text`;
+const harvestDateText = `Harvest Text`;
+const sustainabilityText = `Sustainability Text`;
+
+
+
   return (<>
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-        <TextField
-            className={classes.inputs}
-            required
-            label='Ingredient Name'
-            variant='filled'
-            value={ingredientName} 
-            type="text" 
-            onChange={(event) => setName(event.target.value)}/>
+            <TextField
+                className={classes.inputs}
+                required
+                label='Ingredient Name'
+                variant='filled'
+                value={ingredientName} 
+                type="text" 
+                onChange={(event) => setName(event.target.value)}/> 
+                {/* https://material-ui.com/components/tooltips/
+                reference to tooltips */}
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                {/* placement= popup display */}
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
+            </Tooltip>
+        </div>
+          
           {/* <input
             value={ingredientName}
             type="text"
             placeholder="Name"
             onChange={(event) => setName(event.target.value)}/> */}
-        </div>
         <div>
           <TextField
             className={classes.inputs}
@@ -137,6 +172,14 @@ function AddSample() {
             value={lotNumber} 
             type="text" 
             onChange={(event) => setLotNumber(event.target.value)}/>
+          <Tooltip title={lotText}
+            TransitionComponent={Zoom}
+            TransitionProps={{ timeout: 600 }}
+            placement="right-start">
+              <Button className={classes.button}>
+                <InfoIcon />
+              </Button>
+        </Tooltip>
           {/* <input
             value={lotNumber}
             type="text"
@@ -151,7 +194,6 @@ function AddSample() {
               onChange={(e) => setFormat(e.target.value)}
               displayEmpty
               inputProps={{ 'aria-label': 'Without label' }}>
-
               <MenuItem value="" disabled>
                 Pick a Genre
               </MenuItem>
@@ -162,6 +204,14 @@ function AddSample() {
             </Select>
             <FormHelperText>Product Format</FormHelperText>
           </FormControl>
+            <Tooltip title={formatText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>
           {/* <select
             value={format}
             onChange={(event) => setFormat(event.target.value)}
@@ -181,12 +231,10 @@ function AddSample() {
             value={ingredientAmount} 
             type="text" 
             onChange={(event) => setAmount(event.target.value)}/>
-
             {/* <input
             value={ingredientAmount}
             onChange={(e) => setAmount(e.target.value)}
             type="number" /> */}
-
           <FormControl variant="filled" className={classes.formControl}>
             <Select
               value={ingredientUnit}
@@ -203,6 +251,14 @@ function AddSample() {
             </Select>
             <FormHelperText>Ingredient Unit</FormHelperText>
           </FormControl>
+          <Tooltip title={formatText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>
           {/* <select
           value = {ingredientUnit}
           onChange={(event) => setIngredientUnit(e.target.value)}>
@@ -219,13 +275,19 @@ function AddSample() {
             value={purity} 
             type="text" 
             onChange={(event) => setPurity(event.target.value)}/>
-
+            <Tooltip title={purityText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>
             {/* <input
             type="text"
             value={purity}
             onChange={(event) => setPurity(event.target.value)} /> */}
         </div>
-
         <div>
           <TextField
             id="date"
@@ -236,7 +298,14 @@ function AddSample() {
             InputLabelProps={{
               shrink: true,
             }}/>
-          
+            <Tooltip title={dateText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>
             {/* <input
             type="date"
             value={dateManufactured}
@@ -252,14 +321,32 @@ function AddSample() {
             value={extractionMethod} 
             type="text" 
             onChange={(event) => setMethod(event.target.value)}/>
-
+            <Tooltip title={extractionText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>
             {/* <input
             type="text"
             value={extractionMethod}
             onChange={(event) => setMethod(event.target.value)} /> */}
         </div>
         <div>
-          <Typography variant='body1'> Growth Region: </Typography>
+          <Typography variant='body1'> 
+            Growth Region: 
+            <Tooltip title={regionText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>
+          </Typography>
+
           <TextField
             className={classes.inputs}
             required
@@ -268,7 +355,6 @@ function AddSample() {
             value={city} 
             type="text" 
             onChange={(event) => setCity(event.target.value)}/>
-          
             {/* <input
               type="text"
               value={city}
@@ -281,12 +367,10 @@ function AddSample() {
             value={state} 
             type="text" 
             onChange={(event) => setState(event.target.value)}/>
-              
               {/* <input
               type="text"
               value={state}
               onChange={(event) => setState(event.target.value)} /> */}
-
           <TextField
             className={classes.inputs}
             required
@@ -294,15 +378,13 @@ function AddSample() {
             variant='filled'
             value={country} 
             type="text" 
-            onChange={(event) => setCountry(event.target.value)}/>
-              
+            onChange={(event) => setCountry(event.target.value)}/>      
               {/* <input
               type="text"
               value={country}
               onChange={(event) => setCountry(event.target.value)} /> */}
         </div>
         <div>
-
           <TextField
             className={classes.inputs}
             required
@@ -311,13 +393,19 @@ function AddSample() {
             value={cropStrain} 
             type="text" 
             onChange={(event) => setCropStrain(event.target.value)}/>
-          
+            <Tooltip title={strainText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>        
           {/* <input
             type="text"
             value={cropStrain}
             onChange={(event) => setCropStrain(event.target.value)} /> */}
         </div>
-
         <div>
           <TextField
             id="date"
@@ -328,6 +416,14 @@ function AddSample() {
             InputLabelProps={{
               shrink: true,
             }}/>
+            <Tooltip title={harvestDateText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>
         </div>
         {/* <div
           value={harvestDate}
@@ -336,7 +432,6 @@ function AddSample() {
           <input
             type="month" />
         </div> */}
-
         <div>
           <TextField
             className={classes.inputs}
@@ -345,14 +440,19 @@ function AddSample() {
             value={sustainability} 
             type="text" 
             onChange={(event) => setSustainability(event.target.value)}/>
-          
+            <Tooltip title={sustainabilityText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="right-start">
+                <Button className={classes.button}>
+                  <InfoIcon />
+                </Button>
+            </Tooltip>      
         {/* <input
             value={sustainability}
             type="text"
             onChange={(event) => setSustainability(event.target.value)} /> */}
-
         </div>
-
         <Button 
         className={classes.inputs}
         style={{ backgroundColor: "#1e565c", color: "white" }}
@@ -360,9 +460,7 @@ function AddSample() {
         onClick={shipping}>
           Shipping Info
         </Button>
-
       </form>
-
       <Button 
       className={classes.inputs}
       style={{ backgroundColor: "#1e565c", color: "white" }}
@@ -370,7 +468,6 @@ function AddSample() {
       onClick={cancel}>
         Cancel Request
       </Button>
-
     </div>
   </>)
 }

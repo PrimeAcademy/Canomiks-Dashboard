@@ -20,7 +20,7 @@ function ShippingInfo () {
     }
     else {
       dispatch({
-        type: 'SET_SHIPPING',
+        type: 'ADD_ORDER',
         payload: {
           shippedDate,
           carrierName,
