@@ -1,13 +1,14 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-const { rejectUnauthenticated } = require('../modules/authentication-middleware');
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
 /**
  * GET route template
  */
 router.get('/', rejectUnauthenticated, async (req, res) => {
-  // GET route code here
   try {
     const queryText = `
     SELECT * FROM "orders" 
@@ -15,8 +16,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     ORDER BY ("testingStatus" = 'Pre-shipment') DESC;`;
     const dbRes = await pool.query(queryText, [req.user.companyID]);
     res.send(dbRes.rows);
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }
@@ -70,12 +70,12 @@ router.post('/initialOrder', rejectUnauthenticated, async (req, res) => {
 
 // for add sample page to save the sample information; after initial insert
 router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
-  // is the order id sent over in the req.body or as a param? 
+  // is the order id sent over in the req.body or as a param?
   //  right now its set up as a req.body
   try {
     const order = req.body;
     const orderArray = [
-      order.companyID,  //1
+      order.companyID, //1
       order.ingredientName, //2
       order.ingredientAmount, //3
       order.ingredientUnit, //4
@@ -90,7 +90,7 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
       order.harvestDate, //13
       order.cropStrain, //14
       order.sustainabilityInfo, //15
-      order.orderId //16
+      order.orderId, //16
     ];
     const sqlText = `
       UPDATE "orders"
@@ -102,8 +102,7 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
     `;
     await pool.query(sqlText, orderArray);
     res.sendStatus(200);
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
     res.sendStatus(500);
   }
@@ -119,7 +118,7 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       order.carrierName,
       order.trackingNumber,
       order.companyID,
-      order.orderId
+      order.orderId,
     ];
     const sqlText = `
       UPDATE "orders"
@@ -128,8 +127,7 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     `;
     await pool.query(sqlText, orderArray);
     res.sendStatus(200);
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }
