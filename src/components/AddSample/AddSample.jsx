@@ -2,19 +2,37 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+// material ui imports 
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField, 
+  Button, MenuItem,
+  FormHelperText, FormControl, Select, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  inputs: {
+   margin: theme.spacing(2),
+  },
+  formControl: {
+    margin: theme.spacing(2),
+    minWidth: 180,
+  },
+}));
+
 
 function AddSample() {
+  // material ui
+  const classes = useStyles();
+
   // set stuff so we can use them
   const dispatch = useDispatch();
   const history = useHistory();
+
   // get state from redux store
   const user = useSelector(store => store.user);
-  console.log(user);
-
 
   // local states for input fields
   const [ingredientName, setName] = useState('');
-  const [lotNumber, setLotNumber] = useState(0);
+  const [lotNumber, setLotNumber] = useState('');
   const [format, setFormat] = useState('');
   const [ingredientAmount, setAmount] = useState('');
   const [ingredientUnit, setIngredientUnit] = useState('');
@@ -95,26 +113,55 @@ function AddSample() {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          Ingredient Name*:
-          <input
+        <TextField
+            className={classes.inputs}
+            required
+            label='Ingredient Name'
+            variant='filled'
+            value={ingredientName} 
+            type="text" 
+            onChange={(event) => setName(event.target.value)}/>
+          {/* <input
             value={ingredientName}
             type="text"
             placeholder="Name"
-            onChange={(event) => setName(event.target.value)}
-          />
+            onChange={(event) => setName(event.target.value)}/> */}
         </div>
         <div>
-          Lot# *:
-          <input
+          <TextField
+            className={classes.inputs}
+            required
+            label='Lot Number'
+            variant='filled'
+            value={lotNumber} 
+            type="text" 
+            onChange={(event) => setLotNumber(event.target.value)}/>
+          {/* <input
             value={lotNumber}
             type="text"
             placeholder="Lot Number"
             onChange={(event) => setLotNumber(event.target.value)}
-          />
+          /> */}
         </div>
         <div>
-          Product Format*:
-          <select
+          <FormControl variant="filled" className={classes.formControl}>
+            <Select
+              value={format}
+              onChange={(e) => setFormat(e.target.value)}
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}>
+
+              <MenuItem value="" disabled>
+                Pick a Genre
+              </MenuItem>
+              <MenuItem value={'Powder'}>Powder</MenuItem>
+              <MenuItem value={'Tincture'}>Tincture</MenuItem>
+              <MenuItem value={'Oil'}>Oil</MenuItem>
+              <MenuItem value={'Other'}>Other</MenuItem>
+            </Select>
+            <FormHelperText>Product Format</FormHelperText>
+          </FormControl>
+          {/* <select
             value={format}
             onChange={(event) => setFormat(event.target.value)}
           >
@@ -122,91 +169,210 @@ function AddSample() {
             <option value="Tincture">Tincture</option>
             <option value="Oil">Oil</option>
             <option value="Other">Other</option>
-          </select>
+          </select> */}
         </div>
 
         <div>
-          Ingredient Amount*:
-            <input
+         <TextField
+            className={classes.inputs}
+            required
+            label='Ingredient Amount'
+            variant='filled'
+            value={ingredientAmount} 
+            type="text" 
+            onChange={(event) => setAmount(event.target.value)}/>
+
+            {/* <input
             value={ingredientAmount}
             onChange={(e) => setAmount(e.target.value)}
-            type="number" />
+            type="number" /> */}
 
-          <select
+          <FormControl variant="filled" className={classes.formControl}>
+            <Select
+              value={ingredientUnit}
+              onChange={(e) => setIngredientUnit(e.target.value)}
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}>
+
+              <MenuItem value="" disabled>
+                Pick a Genre
+              </MenuItem>
+              <MenuItem value={'Milligrams'}>Milligrams</MenuItem>
+              <MenuItem value={'Grams'}>Grams</MenuItem>
+              <MenuItem value={'Ounces'}>Ounces</MenuItem>
+            </Select>
+            <FormHelperText>Ingredient Unit</FormHelperText>
+          </FormControl>
+          {/* <select
           value = {ingredientUnit}
           onChange={(event) => setIngredientUnit(e.target.value)}>
             <option value='Milligrams'>Milligrams</option>
             <option value="Grams">Grams</option>
             <option value="Ounces">Ounces</option>
-          </select>
+          </select> */}
         </div>
 
         <div>
-          Purity(If Available)
-            <input
+          <TextField
+            className={classes.inputs}
+            label='Purity (if available)'
+            variant='filled'
+            value={purity} 
+            type="text" 
+            onChange={(event) => setPurity(event.target.value)}/>
+
+            {/* <input
             type="text"
             value={purity}
-            onChange={(event) => setPurity(event.target.value)} />
-        </div>
-        <div>
-          Date Manufactured*
-            <input
-            type="date"
-            value={dateManufactured}
-            onChange={(event) => setDate(event.target.value)} />
-        </div>
-        <div>
-          Extraction Method*:
-            <input
-            type="text"
-            value={extractionMethod}
-            onChange={(event) => setMethod(event.target.value)} />
+            onChange={(event) => setPurity(event.target.value)} /> */}
         </div>
 
         <div>
-          Growth Region
-          <div>
-            City:
-            <input
+          <TextField
+            id="date"
+            label="Date Manufactured"
+            type="date"
+            defaultValue="2021-01-01"
+            className={classes.inputs}
+            InputLabelProps={{
+              shrink: true,
+            }}/>
+          
+            {/* <input
+            type="date"
+            value={dateManufactured}
+            onChange={(event) => setDate(event.target.value)} /> */}
+        </div>
+
+        <div>
+          <TextField
+            className={classes.inputs}
+            required
+            label='Extraction Method'
+            variant='filled'
+            value={extractionMethod} 
+            type="text" 
+            onChange={(event) => setMethod(event.target.value)}/>
+
+            {/* <input
+            type="text"
+            value={extractionMethod}
+            onChange={(event) => setMethod(event.target.value)} /> */}
+        </div>
+
+        <div>
+          <Typography variant='body1'> Growth Region: </Typography>
+          <TextField
+            className={classes.inputs}
+            required
+            label='City'
+            variant='filled'
+            value={city} 
+            type="text" 
+            onChange={(event) => setCity(event.target.value)}/>
+          
+            {/* <input
               type="text"
               value={city}
-              onChange={(event) => setCity(event.target.value)} />
-              State:
-              <input
+              onChange={(event) => setCity(event.target.value)} /> */}
+          <TextField
+            className={classes.inputs}
+            required
+            label='State'
+            variant='filled'
+            value={state} 
+            type="text" 
+            onChange={(event) => setState(event.target.value)}/>
+              
+              {/* <input
               type="text"
               value={state}
-              onChange={(event) => setState(event.target.value)} />
-              Country:
-              <input
+              onChange={(event) => setState(event.target.value)} /> */}
+
+          <TextField
+            className={classes.inputs}
+            required
+            label='Country'
+            variant='filled'
+            value={country} 
+            type="text" 
+            onChange={(event) => setCountry(event.target.value)}/>
+              
+              {/* <input
               type="text"
               value={country}
-              onChange={(event) => setCountry(event.target.value)} />
-          </div>
+              onChange={(event) => setCountry(event.target.value)} /> */}
         </div>
         <div>
-          Strain Of Crop:
-          <input
+
+          <TextField
+            className={classes.inputs}
+            required
+            label='Strain Of Crop'
+            variant='filled'
+            value={cropStrain} 
+            type="text" 
+            onChange={(event) => setCropStrain(event.target.value)}/>
+          
+          {/* <input
             type="text"
             value={cropStrain}
-            onChange={(event) => setCropStrain(event.target.value)} />
+            onChange={(event) => setCropStrain(event.target.value)} /> */}
         </div>
-        <div
+
+        <div>
+          <TextField
+            id="date"
+            label="Harvest Date"
+            type="date"
+            defaultValue="2021-01-01"
+            className={classes.inputs}
+            InputLabelProps={{
+              shrink: true,
+            }}/>
+        </div>
+        {/* <div
           value={harvestDate}
           onChange={(event) => setHarvestDate(event.target.value)}>
           Harvest Date
-        <input
+          <input
             type="month" />
-        </div>
+        </div> */}
+
         <div>
-          Sustainability Info:
-        <input
+          <TextField
+            className={classes.inputs}
+            label='Sustainability Info:'
+            variant='filled'
+            value={sustainability} 
+            type="text" 
+            onChange={(event) => setSustainability(event.target.value)}/>
+          
+        {/* <input
             value={sustainability}
             type="text"
-            onChange={(event) => setSustainability(event.target.value)} />
+            onChange={(event) => setSustainability(event.target.value)} /> */}
+
         </div>
-        <button onClick={shipping}>Shipping Info</button>
+
+        <Button 
+        className={classes.inputs}
+        style={{ backgroundColor: "#1e565c", color: "white" }}
+        variant='contained'
+        onClick={shipping}>
+          Shipping Info
+        </Button>
+
       </form>
-      <button onClick={cancel}>Cancel Request</button>
+
+      <Button 
+      className={classes.inputs}
+      style={{ backgroundColor: "#1e565c", color: "white" }}
+      variant='contained'
+      onClick={cancel}>
+        Cancel Request
+      </Button>
+
     </div>
   </>)
 }

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 // import material ui components
-import { Button, Typography } from '@material-ui/core';
+import { Button, Typography, Grid } from '@material-ui/core';
 
 
 const Summary = function () {
@@ -31,13 +31,16 @@ const Summary = function () {
   }; // end goToAddSample
 
   return (
-    <div>
-      <Typography variant='h1' align='center'>
-        {/* right now its username, but should be company name */}
-        {user.name}
-      </Typography>
+    <Grid container justify='center'>
 
-      <div style={{justifyContent: 'center'}}>
+      <Grid item xs={12}>
+        <Typography variant='h1' align='center'>
+          {/* right now its username, but should be company name */}
+          {user.name}
+        </Typography>
+      </Grid>
+
+      <Grid  item xs={12}>
         <Typography variant='h6' align='center'>
           Reminder:
         </Typography>
@@ -46,17 +49,18 @@ const Summary = function () {
           {/* maybe add how many samples the company has already sent */}
           You only have 2 samples left on your contract
         </Typography>
+      </Grid>
 
         <Button 
+        style={{ backgroundColor: "#1e565c", color: "white" }}
         onClick={goToAddSample}
         variant='contained' 
         color='primary'>
           Add Sample Info
         </Button>
-      </div>
 
       
-    </div>
+    </Grid>
   )
 };
 
