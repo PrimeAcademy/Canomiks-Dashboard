@@ -2,13 +2,15 @@ import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+  
+
+function ShippingInfo () {
+
   const history = useHistory();
   const dispatch = useDispatch();
   const [carrierName, setCarrierName] = useState('');
   const [trackingNumber, setTrackingNumber] = useState('')
   const [shippedDate, setDate] = useState('');
-
-function ShippingInfo () {
 
   function handleSubmit(event) {
     event.preventDefault()
