@@ -7,34 +7,8 @@ import clsx from 'clsx';
 
 import './SampleProgress.css';
 
-function SampleProgress({ step, delay }) {
-  const [activeStep, setActiveStep] = useState('');
-
-  useEffect(() => {
-    switch (step) {
-      case 'Queued':
-        setActiveStep(0);
-        break;
-      case 'In Vitro':
-        setActiveStep(1);
-        break;
-      case 'RNA':
-        setActiveStep(2);
-        break;
-      case 'Library Prep':
-        setActiveStep(3);
-        break;
-      case 'Sequencing':
-        setActiveStep(4);
-        break;
-      case 'Analyzing':
-        setActiveStep(5);
-        break;
-      case 'Complete':
-        setActiveStep(6);
-        break;
-    }
-  }, []);
+function SampleProgress({ sequence, state, delay }) {
+  const activeStep = sequence - 1;
 
   // Sets up the icons for the stepper
   function StepIcon(props) {
@@ -80,29 +54,45 @@ function SampleProgress({ step, delay }) {
   });
 
   return (
-    <Stepper activeStep={activeStep} alternativeLabel>
-      <Step>
-        <StepLabel StepIconComponent={StepIcon}>Queued</StepLabel>
-      </Step>
-      <Step>
-        <StepLabel StepIconComponent={StepIcon}>In Vitro</StepLabel>
-      </Step>
-      <Step>
-        <StepLabel StepIconComponent={StepIcon}>RNA</StepLabel>
-      </Step>
-      <Step>
-        <StepLabel StepIconComponent={StepIcon}>Library Prep</StepLabel>
-      </Step>
-      <Step>
-        <StepLabel StepIconComponent={StepIcon}>Sequencing</StepLabel>
-      </Step>
-      <Step>
-        <StepLabel StepIconComponent={StepIcon}>Analyzing</StepLabel>
-      </Step>
-      <Step>
-        <StepLabel StepIconComponent={StepIcon}>Complete</StepLabel>
-      </Step>
-    </Stepper>
+    <>
+      {state === 'SHIP' ? (
+        <Stepper activeStep={activeStep} alternativeLabel>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>Pre-Shipment</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>In Transit</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>Received</StepLabel>
+          </Step>
+        </Stepper>
+      ) : (
+        <Stepper activeStep={activeStep} alternativeLabel>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>Queued</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>In Vitro</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>RNA</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>Library Prep</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>Sequencing</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>Analyzing</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel StepIconComponent={StepIcon}>Complete</StepLabel>
+          </Step>
+        </Stepper>
+      )}
+    </>
   );
 }
 

@@ -113,7 +113,7 @@ export default function CustomerDashboard() {
                     <TableRow
                       style={{
                         backgroundColor:
-                          order.testingStatus === 'Pre-shipment' && '#F3A653',
+                          order.statusName === 'Pre-shipment' && '#F3A653',
                       }}
                       key={order.id}
                     >
@@ -130,9 +130,9 @@ export default function CustomerDashboard() {
                       ) : (
                         <TableCell align="right">Not Shipped</TableCell>
                       )}
-                      <TableCell align="right">{order.testingStatus}</TableCell>
+                      <TableCell align="right">{order.statusName}</TableCell>
                       <TableCell align="right">
-                        {order.testingStatus === 'Pre-shipment' ? (
+                        {order.statusName === 'Pre-shipment' ? (
                           <Button
                             variant="contained"
                             style={{

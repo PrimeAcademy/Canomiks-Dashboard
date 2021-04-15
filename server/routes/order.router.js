@@ -12,8 +12,10 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
     SELECT * FROM "orders" 
+	  JOIN "status"
+	  ON "status".id = "orders"."testingStatus"
     WHERE orders."companyID" = $1 
-    ORDER BY ("testingStatus" = 'Pre-shipment') DESC;`;
+    ORDER BY ("statusName" = 'Pre-shipment') DESC;`;
     const dbRes = await pool.query(queryText, [req.user.companyID]);
     res.send(dbRes.rows);
   } catch (err) {
@@ -37,19 +39,18 @@ router.put('/newOrder/:id', async (req, res) => {
     SET "shippedDate" = $3, "carrierName" = $4, "trackingNumber" = $5
     WHERE "id" = $1 
     RETURNING "id";`;
-    const dbRes = await pool.query(sqlQuery, sqlParams)
+    const dbRes = await pool.query(sqlQuery, sqlParams);
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
     } else {
-      res.send(dbRes.rows[0])
+      res.send(dbRes.rows[0]);
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }
-})
+});
 /**
  * POST route template
  */
@@ -72,8 +73,7 @@ router.post('/addSample', rejectUnauthenticated, async (req, res) => {
     } else {
       res.send(dbRes.rows[0]);
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log('error in the initial order post', err);
     res.sendStatus(500);
   }
