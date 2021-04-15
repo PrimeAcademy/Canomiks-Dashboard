@@ -33,8 +33,9 @@ export default function CustomerDashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const orders = useSelector((state) => state.orders);
-  const user = useSelector((state) => state.user);
+  const orders = useSelector((store) => store.orders.orderReducer);
+  console.log('🤡 the orders is: ', orders)
+  const user = useSelector((store) => store.user);
 
   const [filter, setFilter] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
@@ -55,6 +56,18 @@ export default function CustomerDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
+  const addSampleButton = function () {
+    // send the initial order
+    dispatch({
+      type: 'INITIAL_SAMPLE_ORDER',
+      payload: {
+        companyID: user.companyID
+      }
+    });
+
+    // move to the add sample page
+    history.push('/addSample')
+  }
   return (
     <>
       <center>
@@ -64,7 +77,7 @@ export default function CustomerDashboard() {
         <Button
           variant="contained"
           style={{ backgroundColor: '#1e565c', color: 'white' }}
-          onClick={() => history.push('/addSample')}
+          onClick={addSampleButton}
         >
           + SAMPLE
         </Button>
