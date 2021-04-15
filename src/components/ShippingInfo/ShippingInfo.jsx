@@ -2,6 +2,10 @@ import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+  
+
+function ShippingInfo () {
+
   const history = useHistory();
   const dispatch = useDispatch();
   const [carrierName, setCarrierName] = useState('');
@@ -26,18 +30,18 @@ import { useDispatch } from 'react-redux';
       alert("Shipping Successful!")
       history.push("/dashboard")
     }
-  }
+  }; // end handSubmit 
 
   const backBtn = () => {
     console.log("back button")
     history.push("/addSample")
-  }
+  }; // end backBtn
 
   function handleContinue(event) {
     event.preventDefault();
     alert("Sample cannot be processed until shipping information is entered")
     history.push("/")
-  }
+  }; // end handleContinue
 
   return (
     <>
@@ -82,6 +86,7 @@ import { useDispatch } from 'react-redux';
       </center>
     </>
   )
-}
+}; // end shippingInfo
+
 
 export default ShippingInfo;
