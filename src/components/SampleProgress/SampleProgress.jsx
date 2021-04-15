@@ -22,11 +22,19 @@ function SampleProgress({ sequence, state, delay }) {
           [classes.active]: active,
         })}
       >
-        {completed ? (
+        {active && delay ? (
+          <ErrorOutline className={classes.completed} />
+        ) : completed ? (
           <Check className={classes.completed} />
         ) : (
           <div className={classes.circle} />
         )}
+
+        {/* {completed ? (
+          <Check className={classes.completed} />
+        ) : (
+          <div className={classes.circle} />
+        )} */}
       </div>
     );
   }
