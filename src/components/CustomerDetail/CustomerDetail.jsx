@@ -12,7 +12,7 @@ function CustomerDetail({ sample }) {
       <DialogContentText>
         <SampleProgress
           sequence={sample.sequence}
-          state={sample.state}
+          state={sample.testState}
           delay={sample.delayed}
         />
 

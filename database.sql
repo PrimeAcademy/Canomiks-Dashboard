@@ -45,15 +45,15 @@ CREATE TABLE "orders" (
 	"carrierName" VARCHAR(255),
 	"trackingNumber" VARCHAR(255),
 	"receivedDate" DATE,
-	"status" INT REFERENCES "steps" DEFAULT 1,
+	"testingStatus" INT REFERENCES "status" DEFAULT 1,
 	"delayed" BOOLEAN DEFAULT false,
 	"pdfUrl" VARCHAR(255)
 );
 
-CREATE TABLE "steps" (
+CREATE TABLE "status" (
 	"id" SERIAL PRIMARY KEY,
 	"statusName" VARCHAR(20),
-	"state" VARCHAR(20),
+	"testState" VARCHAR(20),
 	"sequence" INT
 );
 
@@ -65,10 +65,10 @@ INSERT INTO "users" ("email", "password", "name", "companyID", "authLevel")
 VALUES ('admin@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Admin', '1', 'admin'),
 		('lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab');
 
-INSERT INTO "steps" ("statusName", "state", "sequence")
+INSERT INTO "status" ("statusName", "testState", "sequence")
 VALUES ('Pre-Shipment', 'SHIP', 1),
 		('In Transit', 'SHIP', 2),
-		('Recieved', 'SHIP', 3),
+		('Received', 'SHIP', 3),
 		('Queued', 'CBDTEST', 1),
 		('In Vitro', 'CBDTEST', 2),
 		('RNA', 'CBDTEST', 3),

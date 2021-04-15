@@ -55,16 +55,25 @@ export default function CustomerDashboard() {
 
   return (
     <>
-      <Typography variant="h3" gutterBottom component="h1" style={{ marginLeft: '10%', fontWeight: 900 }}>
+      <Typography
+        variant="h3"
+        gutterBottom
+        component="h1"
+        style={{ marginLeft: '10%', fontWeight: 900 }}
+      >
         COMPANY ID: {user.companyID}
       </Typography>
       <Button
         variant="contained"
-        style={{ backgroundColor: '#1e565c', color: 'white', marginLeft: '10%' }}
+        style={{
+          backgroundColor: '#1e565c',
+          color: 'white',
+          marginLeft: '10%',
+        }}
         onClick={() => history.push('/addSample')}
       >
         + SAMPLE
-        </Button>
+      </Button>
       <div>
         <TextField
           style={{ margin: 25, marginLeft: '10%' }}
@@ -111,7 +120,7 @@ export default function CustomerDashboard() {
                     <TableRow
                       style={{
                         backgroundColor:
-                          order.statusName === 'Pre-shipment' && '#F3A653',
+                          order.statusName === 'Pre-Shipment' && '#F3A653',
                       }}
                       key={order.id}
                     >

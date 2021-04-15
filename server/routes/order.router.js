@@ -5,7 +5,6 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
-
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
@@ -13,7 +12,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
 	  JOIN "status"
 	  ON "status".id = "orders"."testingStatus"
     WHERE orders."companyID" = $1 
-    ORDER BY ("statusName" = 'Pre-shipment') DESC;`;
+    ORDER BY ("status".id = 1) DESC;`;
     const dbRes = await pool.query(queryText, [req.user.companyID]);
     res.send(dbRes.rows);
   } catch (err) {
@@ -27,8 +26,7 @@ router.get('/all', rejectUnauthenticated, async (req, res) => {
     const query = `SELECT * FROM orders ORDER BY ("companyID")`;
     const dbRes = await pool.query(query);
     res.send(dbRes.rows);
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }
