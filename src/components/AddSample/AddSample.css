@@ -1,0 +1,8 @@
+.w3-text{
+  display: none;
+}
+
+.w3-tooltip:hover .w3-text{
+  display: inline-block;
+  background-color: green;
+}

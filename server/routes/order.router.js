@@ -133,8 +133,4 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 06551263ca92574117cd34087287f13cdaf70117

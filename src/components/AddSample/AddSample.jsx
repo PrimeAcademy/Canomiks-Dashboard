@@ -2,12 +2,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import './AddSample.css';
 
 // material ui imports 
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, 
-  Button, MenuItem,
-  FormHelperText, FormControl, Select, Typography } from '@material-ui/core';
+import { TextField, Button, MenuItem, FormHelperText, FormControl, 
+  Select, Typography } from '@material-ui/core';
+
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+
+
 
 const useStyles = makeStyles((theme) => ({
   inputs: {
@@ -110,25 +115,41 @@ function AddSample() {
     setSustainability('');
   }; // end cancel
 
+
+// text plugged into tooltips
+  const nameText = `
+Aliquam eget finibus ante, non facilisis lectus. Sed vitae dignissim est, vel aliquam tellus.
+Praesent non nunc mollis, fermentum neque at, semper arcu.
+Nullam eget est sed sem iaculis gravida eget vitae justo.
+`;
+
+
   return (<>
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-        <TextField
-            className={classes.inputs}
-            required
-            label='Ingredient Name'
-            variant='filled'
-            value={ingredientName} 
-            type="text" 
-            onChange={(event) => setName(event.target.value)}/>
+            <TextField
+                className={classes.inputs}
+                required
+                label='Ingredient Name'
+                variant='filled'
+                value={ingredientName} 
+                type="text" 
+                onChange={(event) => setName(event.target.value)}/> 
+        <Tooltip title={nameText}
+          TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+          <Button className={classes.button}>?</Button>
+        </Tooltip>
+          
+        </div>
           {/* <input
             value={ingredientName}
             type="text"
             placeholder="Name"
             onChange={(event) => setName(event.target.value)}/> */}
-        </div>
         <div>
+          
+
           <TextField
             className={classes.inputs}
             required
@@ -137,12 +158,17 @@ function AddSample() {
             value={lotNumber} 
             type="text" 
             onChange={(event) => setLotNumber(event.target.value)}/>
+          <Tooltip title={nameText}
+            TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+            <Button className={classes.button}>?</Button>
+        </Tooltip>
           {/* <input
             value={lotNumber}
             type="text"
             placeholder="Lot Number"
             onChange={(event) => setLotNumber(event.target.value)}
           /> */}
+          
         </div>
         <div>
           <FormControl variant="filled" className={classes.formControl}>
@@ -161,6 +187,10 @@ function AddSample() {
               <MenuItem value={'Other'}>Other</MenuItem>
             </Select>
             <FormHelperText>Product Format</FormHelperText>
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
           </FormControl>
           {/* <select
             value={format}
@@ -219,6 +249,10 @@ function AddSample() {
             value={purity} 
             type="text" 
             onChange={(event) => setPurity(event.target.value)}/>
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
 
             {/* <input
             type="text"
@@ -236,6 +270,10 @@ function AddSample() {
             InputLabelProps={{
               shrink: true,
             }}/>
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
           
             {/* <input
             type="date"
@@ -252,6 +290,10 @@ function AddSample() {
             value={extractionMethod} 
             type="text" 
             onChange={(event) => setMethod(event.target.value)}/>
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
 
             {/* <input
             type="text"
@@ -259,7 +301,14 @@ function AddSample() {
             onChange={(event) => setMethod(event.target.value)} /> */}
         </div>
         <div>
-          <Typography variant='body1'> Growth Region: </Typography>
+          <Typography variant='body1'> 
+            Growth Region: 
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
+          </Typography>
+
           <TextField
             className={classes.inputs}
             required
@@ -311,6 +360,10 @@ function AddSample() {
             value={cropStrain} 
             type="text" 
             onChange={(event) => setCropStrain(event.target.value)}/>
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
           
           {/* <input
             type="text"
@@ -328,6 +381,10 @@ function AddSample() {
             InputLabelProps={{
               shrink: true,
             }}/>
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
         </div>
         {/* <div
           value={harvestDate}
@@ -345,6 +402,10 @@ function AddSample() {
             value={sustainability} 
             type="text" 
             onChange={(event) => setSustainability(event.target.value)}/>
+            <Tooltip title={nameText}
+              TransitionComponent={Zoom} TransitionProps={{ timeout: 600 }}>
+              <Button className={classes.button}>?</Button>
+            </Tooltip>
           
         {/* <input
             value={sustainability}

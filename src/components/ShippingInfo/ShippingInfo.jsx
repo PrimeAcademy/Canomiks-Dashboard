@@ -2,14 +2,10 @@ import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-<<<<<<< HEAD
-function ShippingInfo(){
-=======
   
 
 function ShippingInfo () {
 
->>>>>>> 06551263ca92574117cd34087287f13cdaf70117
   const history = useHistory();
   const dispatch = useDispatch();
   const [carrierName, setCarrierName] = useState('');
@@ -45,11 +41,7 @@ function ShippingInfo () {
     event.preventDefault();
     alert("Sample cannot be processed until shipping information is entered")
     history.push("/")
-<<<<<<< HEAD
-  }
-=======
   }; // end handleContinue
->>>>>>> 06551263ca92574117cd34087287f13cdaf70117
 
   return (
     <>
