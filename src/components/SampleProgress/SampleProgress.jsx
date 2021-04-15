@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { Stepper, Step, StepLabel } from '@material-ui/core';
 import { Check, ErrorOutline } from '@material-ui/icons';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
 import './SampleProgress.css';
@@ -36,6 +36,7 @@ function SampleProgress({ step, delay }) {
     }
   }, []);
 
+  // Sets up the icons for the stepper
   function StepIcon(props) {
     const classes = StepIconStyles();
     const { active, completed } = props;

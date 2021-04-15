@@ -1,9 +1,7 @@
 import { useHistory } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-
-function ShippingInfo() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [carrierName, setCarrierName] = useState('');
@@ -41,7 +39,6 @@ function ShippingInfo() {
     history.push("/")
   }
 
-
   return (
     <>
       <center>
@@ -68,7 +65,6 @@ function ShippingInfo() {
               onChange={(event) => setCarrierName(event.target.value)}
             />
           </div>
-
           <div>
             Tracking Number:
              <input
@@ -88,4 +84,4 @@ function ShippingInfo() {
   )
 }
 
-export default ShippingInfo
+export default ShippingInfo;

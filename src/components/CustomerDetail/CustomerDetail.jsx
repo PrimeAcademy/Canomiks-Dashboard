@@ -12,6 +12,7 @@ function CustomerDetail({ sample }) {
       <DialogContentText>
         <SampleProgress step={sample.testingStatus} delay={sample.delayed} />
 
+        {/* Check if delayed and have warning */}
         {sample.delayed && (
           <div className="delay-alert">
             Test Delayed - more information will be provided via email
