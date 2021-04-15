@@ -45,6 +45,14 @@ function Nav() {
         )}
 
         {user.id && <LogOutButton className="navLink" />}
+        {/* https://www.canomiks.com/contactus */}
+        <Link className="navLink" to="/contactus">
+          Help
+        </Link>
+        {/* https://www.canomiks.com/about-us */}
+        <Link className="navLink" to="/about-us">
+          About Us
+        </Link>
       </div>
     </div>
   );
