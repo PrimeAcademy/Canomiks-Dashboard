@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, Typography, TableSortLabel, TextField } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, Typography, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import moment from 'moment';
@@ -43,7 +43,6 @@ function LabDashboard() {
   };
 
   return (
-
     <>
       <Typography variant="h3" component="h1" gutterBottom style={{ marginLeft: '10%', fontWeight: 900 }}>Current Orders</Typography>
       <div>
