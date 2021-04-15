@@ -23,14 +23,16 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
 router.post('/register', async (req, res, next) => {
   try {
     // capture all the data from req.body
-    const companyName = req.body.companyName;
-    const companyAddress = req.body.companyAddress;
-    const companyCity = req.body.city;
-    const companyState = req.body.state;
-    const companyZip = req.body.zip;
-    const phoneNumber = req.body.phoneNumber;
-    const teamLeadName = req.body.teamLeadName;
-    const email = req.body.email;
+    const {
+      companyName,
+      companyAddress,
+      companyCity,
+      companyState,
+      companyZip,
+      phoneNumber,
+      teamLeadName,
+      email
+    } = req.body;
     const password = encryptLib.encryptPassword(req.body.password);
 
     // send the first query, inserts the company

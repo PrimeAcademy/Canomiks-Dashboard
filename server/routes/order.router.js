@@ -21,22 +21,6 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-//GET ROUTE FOR MANAGE CUSTOMERS
-router.get('/companies', async (req, res) => {
-  
-  try {
-    const queryText = `
-    SELECT * FROM "companies" 
-    `;
-    const dbRes = await pool.query(queryText);
-    console.log('res', dbRes)
-    res.send(dbRes.rows);
-  }
-  catch (err) {
-    console.error(err.message);
-    res.sendStatus(500);
-  }
-});
 
 router.put('/newOrder/:id', async (req, res) => {
   try {
@@ -54,7 +38,12 @@ router.put('/newOrder/:id', async (req, res) => {
     WHERE "id" = $1 
     RETURNING "id";`;
     const dbRes = await pool.query(sqlQuery, sqlParams)
-    res.send(dbRes.rows[0])
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0])
+    }
   }
   catch (err) {
     console.error(err.message);
@@ -66,17 +55,23 @@ router.put('/newOrder/:id', async (req, res) => {
  */
 
 // the initial sample order, for when they start the process.
-router.post('/initialOrder', rejectUnauthenticated, async (req, res) => {
+router.post('/addSample', rejectUnauthenticated, async (req, res) => {
   try {
     const order = req.body.companyID;
     const sqlText = `
     INSERT INTO "orders"
-    ("companyID")
-    VALUES
-    ($1);
+    ("companyID") 
+    VALUES 
+    ($1) 
+    RETURNING id;
     `;
-    await pool.query(sqlText, [order]);
-    res.sendStatus(200);
+    const dbRes = await pool.query(sqlText, [order]);
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    }
   }
   catch (err) {
     console.log('error in the initial order post', err);
