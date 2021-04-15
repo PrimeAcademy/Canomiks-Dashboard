@@ -4,13 +4,20 @@ import { useHistory } from 'react-router-dom';
 
 
 function AddSample() {
+  // set stuff so we can use them
   const dispatch = useDispatch();
   const history = useHistory();
+  // get state from redux store
+  const user = useSelector(store => store.user);
+  console.log(user);
 
+
+  // local states for input fields
   const [ingredientName, setName] = useState('');
   const [lotNumber, setLotNumber] = useState(0);
-  const [productFormat, setFormat] = useState('');
+  const [format, setFormat] = useState('');
   const [ingredientAmount, setAmount] = useState('');
+  const [ingredientUnit, setIngredientUnit] = useState('');
   const [purity, setPurity] = useState('');
   const [dateManufactured, setDate] = useState('');
   const [extractionMethod, setMethod] = useState('');
@@ -19,30 +26,54 @@ function AddSample() {
   const [country, setCountry] = useState('');
   const [harvestDate, setHarvestDate] = useState('');
   const [sustainability, setSustainability] = useState('');
-  const [strain, setStrain] = useState('');
+  const [cropStrain, setCropStrain] = useState('');
 
+  // functions
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("form submit")
-  }
+  };
 
+  // on shipping button click
   const shipping = (event) => {
     event.preventDefault();
-    console.log('shipping info')
+    console.log('shipping info');
+
     if (
       !ingredientName ||
       !lotNumber ||
-      !productFormat ||
+      !format ||
       !ingredientAmount ||
       !dateManufactured ||
       !extractionMethod
     ) {
-      alert("Please complete required inputs")
+      alert("Please complete required inputs");
     } else {
-      alert("Sample Added")
-      history.push("/shipping")
+      const companyID = user.companyID;
+  
+      dispatch({
+        type: 'SEND_ORDER_INFO',
+        payload: {
+          companyID,
+          ingredientName,
+          ingredientAmount,
+          ingredientUnit,
+          format,
+          purity,
+          dateManufacture,
+          lotNumber,
+          extractionMethod,
+          city,
+          state,
+          country,
+          harvestDate,
+          cropStrain,
+          Sustainability,
+          // orderId
+        }
+      })
     }
-  }
+  }; // end shipping
 
   const cancel = (event) => {
     console.log("cancel")
@@ -55,10 +86,10 @@ function AddSample() {
     setCity('');
     setState('');
     setCountry('');
-    setStrain('');
+    setCropStrain('');
     setHarvestDate('');
     setSustainability('');
-  }
+  }; // end cancel
 
   return (<>
     <div>
@@ -84,7 +115,7 @@ function AddSample() {
         <div>
           Product Format*:
           <select
-            value={productFormat}
+            value={format}
             onChange={(event) => setFormat(event.target.value)}
           >
             <option value="Powder">Powder</option>
@@ -94,16 +125,19 @@ function AddSample() {
           </select>
         </div>
 
-        <div
-          value={ingredientAmount}
-          onChange={(event) => setAmount(event.target.value)}>
+        <div>
           Ingredient Amount*:
             <input
+            value={ingredientAmount}
+            onChange={(e) => setAmount(e.target.value)}
             type="number" />
-          <select>
-            <option>Milligrams</option>
-            <option>Grams</option>
-            <option>Ounces</option>
+
+          <select
+          value = {ingredientUnit}
+          onChange={(event) => setIngredientUnit(e.target.value)}>
+            <option value='Milligrams'>Milligrams</option>
+            <option value="Grams">Grams</option>
+            <option value="Ounces">Ounces</option>
           </select>
         </div>
 
@@ -131,7 +165,7 @@ function AddSample() {
 
         <div>
           Growth Region
-        <div>
+          <div>
             City:
             <input
               type="text"
@@ -153,8 +187,8 @@ function AddSample() {
           Strain Of Crop:
           <input
             type="text"
-            value={strain}
-            onChange={(event) => setStrain(event.target.value)} />
+            value={cropStrain}
+            onChange={(event) => setCropStrain(event.target.value)} />
         </div>
         <div
           value={harvestDate}
