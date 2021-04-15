@@ -3,17 +3,26 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
-/**
- * GET route template
- */
+
 router.get('/', rejectUnauthenticated, async (req, res) => {
-  // GET route code here
   try {
     const queryText = `
     SELECT * FROM "orders" 
     WHERE orders."companyID" = $1 
     ORDER BY ("testingStatus" = 'Pre-shipment') DESC;`;
     const dbRes = await pool.query(queryText, [req.user.companyID]);
+    res.send(dbRes.rows);
+  }
+  catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
+});
+
+router.get('/all', rejectUnauthenticated, async (req, res) => {
+  try {
+    const query = `SELECT * FROM orders ORDER BY ("companyID")`;
+    const dbRes = await pool.query(query);
     res.send(dbRes.rows);
   }
   catch (err) {

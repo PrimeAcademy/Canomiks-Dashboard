@@ -1,10 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Divider, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField } from '@material-ui/core';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import moment from 'moment';
-import AddSample from '../AddSample/AddSample';
 
 const useStyles = makeStyles({
   table: {
@@ -62,7 +61,9 @@ export default function CustomerDashboard() {
                       }
                       <TableCell align="right">{order.testingStatus}</TableCell>
                       <TableCell align="right">
-                        {order.testingStatus === 'Pre-shipment' ? <Button variant="contained" style={{ backgroundColor: 'white', color: '#1e565c' }}>Add Shipping Info</Button> : <Button variant="contained" style={{ backgroundColor: '#1e565c', color: 'white' }}>View Details</Button>}
+                        {order.testingStatus === 'Pre-shipment' ?
+                          <Button variant="contained" style={{ backgroundColor: 'white', color: '#1e565c' }}>Add Shipping Info</Button> :
+                          <Button variant="contained" style={{ backgroundColor: '#1e565c', color: 'white' }}>View Details</Button>}
                       </TableCell>
                     </TableRow>
                   )
