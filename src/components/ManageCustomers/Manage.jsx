@@ -3,7 +3,7 @@ import DisplayCompany from '../DisplayCompany/DisplayCompany';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 function Manage() {
-  // const companyList = useSelector((store) => store.);
+  
   const dispatch = useDispatch();
   const customerList = useSelector(state => state.customer);
   console.log(customerList, 'customerList')
@@ -13,9 +13,8 @@ function Manage() {
     })
   }, []);
   
-  //console.log('customer name', customerList[0].companyName)
   
-//console.log('cutsomer', customerList.companyName[0])
+
   return (
     <>
       <header className="header">
