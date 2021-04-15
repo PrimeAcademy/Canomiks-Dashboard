@@ -55,7 +55,7 @@ export default function CustomerDashboard() {
 
   return (
     <>
-      <Typography variant="h4" gutterBottom component="h1" style={{ marginLeft: '10%' }}>
+      <Typography variant="h3" gutterBottom component="h1" style={{ marginLeft: '10%', fontWeight: 900 }}>
         COMPANY ID: {user.companyID}
       </Typography>
       <Button

@@ -45,7 +45,7 @@ function LabDashboard() {
   return (
 
     <>
-      <Typography variant="h3" component="h1" gutterBottom style={{ marginLeft: '10%' }}>Current Orders</Typography>
+      <Typography variant="h3" component="h1" gutterBottom style={{ marginLeft: '10%', fontWeight: 900 }}>Current Orders</Typography>
       <div>
         <TextField style={{ margin: 25, marginLeft: '10%' }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
       </div>
