@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
   const [trackingNumber, setTrackingNumber] = useState('')
   const [shippedDate, setDate] = useState('');
 
+function ShippingInfo () {
+
   function handleSubmit(event) {
     event.preventDefault()
     if (!shippedDate || !carrierName || !trackingNumber) {
@@ -26,18 +28,18 @@ import { useDispatch } from 'react-redux';
       alert("Shipping Successful!")
       history.push("/dashboard")
     }
-  }
+  }; // end handSubmit 
 
   const backBtn = () => {
     console.log("back button")
     history.push("/addSample")
-  }
+  }; // end backBtn
 
   function handleContinue(event) {
     event.preventDefault();
     alert("Sample cannot be processed until shipping information is entered")
     history.push("/")
-  }
+  }; // end handleContinue
 
   return (
     <>
@@ -82,6 +84,7 @@ import { useDispatch } from 'react-redux';
       </center>
     </>
   )
-}
+}; // end shippingInfo
+
 
 export default ShippingInfo;
