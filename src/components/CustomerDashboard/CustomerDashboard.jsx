@@ -55,16 +55,27 @@ export default function CustomerDashboard() {
 
   return (
     <>
-      <Typography variant="h3" gutterBottom component="h1" style={{ marginLeft: '10%', fontWeight: 900 }}>
+      <Typography
+        variant="h3"
+        gutterBottom
+        component="h1"
+        style={{ marginLeft: '10%', fontWeight: 900 }}
+      >
         COMPANY ID: {user.companyID}
       </Typography>
+
       <Button
         variant="contained"
-        style={{ backgroundColor: '#1e565c', color: 'white', marginLeft: '10%' }}
+        style={{
+          backgroundColor: '#1e565c',
+          color: 'white',
+          marginLeft: '10%',
+        }}
         onClick={() => history.push('/addSample')}
       >
         + SAMPLE
-        </Button>
+      </Button>
+
       <div>
         <TextField
           style={{ margin: 25, marginLeft: '10%' }}
@@ -75,6 +86,7 @@ export default function CustomerDashboard() {
           variant="standard"
         />
       </div>
+
       <center>
         <TableContainer
           style={{ maxWidth: '80%', maxHeight: 450 }}
@@ -92,7 +104,7 @@ export default function CustomerDashboard() {
                   Ingredient Name
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: 900 }}>
-                  Date Received
+                  Date Shipped
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: 900 }}>
                   Test Phase
@@ -102,6 +114,7 @@ export default function CustomerDashboard() {
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {orders.map((order) => {
                 if (
@@ -111,24 +124,28 @@ export default function CustomerDashboard() {
                     <TableRow
                       style={{
                         backgroundColor:
-                          order.statusName === 'Pre-shipment' && '#F3A653',
+                          order.statusName === 'Pre-Shipment' && '#F3A653',
                       }}
                       key={order.id}
                     >
                       <TableCell component="th" scope="row">
                         #{order.lotNumber}
                       </TableCell>
+
                       <TableCell align="right">
                         {order.ingredientName} - {order.cropStrain}
                       </TableCell>
-                      {order.receivedDate ? (
+
+                      {order.shippedDate ? (
                         <TableCell align="right">
-                          {moment(order.receivedDate).format('MMMM DD YYYY')}
+                          {moment(order.shippedDate).format('MMMM DD YYYY')}
                         </TableCell>
                       ) : (
                         <TableCell align="right">Not Shipped</TableCell>
                       )}
+
                       <TableCell align="right">{order.statusName}</TableCell>
+
                       <TableCell align="right">
                         {order.statusName === 'Pre-shipment' ? (
                           <Button
@@ -163,12 +180,7 @@ export default function CustomerDashboard() {
         </TableContainer>
       </center>
 
-      <Dialog
-        open={openDetail}
-        onClose={handleClose}
-        scroll="paper"
-        id="detail-container"
-      >
+      <Dialog open={openDetail} onClose={handleClose} scroll="paper">
         <CustomerDetail sample={clickedSample} />
       </Dialog>
     </>

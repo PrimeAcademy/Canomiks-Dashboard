@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import { Stepper, Step, StepLabel } from '@material-ui/core';
 import { Check, ErrorOutline } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,7 +20,9 @@ function SampleProgress({ sequence, state, delay }) {
           [classes.active]: active,
         })}
       >
-        {completed ? (
+        {active && delay ? (
+          <ErrorOutline className={classes.completed} />
+        ) : completed ? (
           <Check className={classes.completed} />
         ) : (
           <div className={classes.circle} />
