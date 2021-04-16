@@ -26,7 +26,12 @@ function* initialSampleOrder (action) {
   console.log('initial sample order, payload: ', action.payload);
   try{
     const response = yield axios.post('/api/orders/initialSample', action.payload);
-    console.log(response);
+    console.log(response.data);
+
+    yield put ({
+      type:'SET_CURRENT_SAMPLE',
+      payload: response.data
+    });
     
   }
   catch(err) {

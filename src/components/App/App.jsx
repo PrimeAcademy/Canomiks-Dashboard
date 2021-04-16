@@ -5,24 +5,21 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
-
+// local components
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import AddSample from '../AddSample/AddSample';
 import Summary from '../Summary/Summary';
-
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
 import Manage from '../ManageCustomers/Manage';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
+// styling files
 import './App.css';
 
 function App() {

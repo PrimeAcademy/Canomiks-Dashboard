@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // material ui imports 
@@ -10,8 +10,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-
-
+// material ui styling
 const useStyles = makeStyles((theme) => ({
   inputs: {
    margin: theme.spacing(2),
@@ -34,7 +33,8 @@ function AddSample() {
   // get state from redux store
   const user = useSelector(store => store.user);
   const companyID = user.companyID;
-
+  const currentSample = useSelector(store => store.orders.currentSample);
+  const orderId = currentSample.id;
 
   // local states for input fields
   const [ingredientName, setName] = useState('');
@@ -61,8 +61,7 @@ function AddSample() {
   // on shipping button click
   const shipping = (event) => {
     event.preventDefault();
-    console.log('shipping info');
-// if no value alert user
+    // if no value alert user
     if (
       !ingredientName ||
       !lotNumber ||
@@ -72,9 +71,7 @@ function AddSample() {
       !extractionMethod
     ) {
       alert("Please complete required inputs");
-      
     } else {
-      console.log('🤙 yo ')
       dispatch({
         type: 'ADD_SAMPLE_INFO',
         payload: {
@@ -93,10 +90,11 @@ function AddSample() {
           harvestDate,
           cropStrain,
           sustainability,
-          // orderId
+          orderId
         }
-      })
-    }
+      }); // end dispatch
+      history.push('/shipping');
+    }; 
   }; // end shipping
 
   const cancel = (event) => {
@@ -283,10 +281,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>
-            {/* <input
-            type="date"
-            value={dateManufactured}
-            onChange={(event) => setDate(event.target.value)} /> */}
+            
         </div>
 
         <div>
@@ -306,10 +301,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>
-            {/* <input
-            type="text"
-            value={extractionMethod}
-            onChange={(event) => setMethod(event.target.value)} /> */}
+            
         </div>
         <div>
           <Typography variant='body1'> 
@@ -332,10 +324,7 @@ const sustainabilityText = `Sustainability Text`;
             value={city} 
             type="text" 
             onChange={(event) => setCity(event.target.value)}/>
-            {/* <input
-              type="text"
-              value={city}
-              onChange={(event) => setCity(event.target.value)} /> */}
+            
           <TextField
             className={classes.inputs}
             required
@@ -344,10 +333,7 @@ const sustainabilityText = `Sustainability Text`;
             value={state} 
             type="text" 
             onChange={(event) => setState(event.target.value)}/>
-              {/* <input
-              type="text"
-              value={state}
-              onChange={(event) => setState(event.target.value)} /> */}
+              
           <TextField
             className={classes.inputs}
             required
@@ -398,13 +384,7 @@ const sustainabilityText = `Sustainability Text`;
                 </Button>
             </Tooltip>
         </div>
-        {/* <div
-          value={harvestDate}
-          onChange={(event) => setHarvestDate(event.target.value)}>
-          Harvest Date
-          <input
-            type="month" />
-        </div> */}
+        
         <div>
           <TextField
             className={classes.inputs}
@@ -421,10 +401,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>      
-        {/* <input
-            value={sustainability}
-            type="text"
-            onChange={(event) => setSustainability(event.target.value)} /> */}
+        
         </div>
         <Button 
         className={classes.inputs}

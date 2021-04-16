@@ -56,17 +56,16 @@ router.put('/newOrder/:id', async (req, res) => {
 
 // the initial sample order, for when they start the process.
 router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
-  console.log(' 🏄‍♂️ in the order router', req.body);
   try {
-    const order = req.body.companyID;
+    const { companyID, lotNumber } = req.body;
     const sqlText = `
     INSERT INTO "orders"
-    ("companyID") 
+    ("companyID", "lotNumber") 
     VALUES 
-    ($1) 
+    ($1, $2) 
     RETURNING id;
     `;
-    const dbRes = await pool.query(sqlText, [order]);
+    const dbRes = await pool.query(sqlText, [companyID, lotNumber]);
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -85,7 +84,6 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
   // is the order id sent over in the req.body or as a param?
   //  right now its set up as a req.body
   try {
-    console.log('im here 🎉')
     const order = req.body;
     const orderArray = [
       order.companyID, //1

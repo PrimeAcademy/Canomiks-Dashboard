@@ -34,7 +34,6 @@ export default function CustomerDashboard() {
   const history = useHistory();
 
   const orders = useSelector((store) => store.orders.orderReducer);
-  console.log('🤡 the orders is: ', orders)
   const user = useSelector((store) => store.user);
 
   const [filter, setFilter] = useState('');
@@ -61,7 +60,8 @@ export default function CustomerDashboard() {
     dispatch({
       type: 'INITIAL_SAMPLE_ORDER',
       payload: {
-        companyID: user.companyID
+        companyID: user.companyID,
+        lotNumber: '0000'
       }
     });
 
