@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import AddSample from '../AddSample/AddSample';
-
+// import Logo from '../Logo/Logo';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 
@@ -21,9 +21,20 @@ function Nav() {
 
   return (
     <div className="nav">
-      <Link to="/home">
-        <h2 className="nav-title">Canomiks</h2>
-      </Link>
+       {/* <Logo /> 
+       In case we decide to use as a component*/}
+       <Link to="/home">
+          <div className="header-brand-logo">
+            <img  src="../favicon.ico" alt="logo"></img>
+            <p className="nav-title">
+              Canomiks
+              </p>
+              <p className="header-foods">
+                Genomics for functional foods 
+            </p>
+          </div>
+        </Link>
+
       <div>
         <Link className="navLink" to={loginLinkData.path}>
           {loginLinkData.text}
@@ -44,7 +55,6 @@ function Nav() {
           </Link>
         )}
 
-        {user.id && <LogOutButton className="navLink" />}
         {/* https://www.canomiks.com/contactus */}
         <Link className="navLink" to="/contactus">
           Help
@@ -53,6 +63,7 @@ function Nav() {
         <Link className="navLink" to="/about-us">
           About Us
         </Link>
+        {user.id && <LogOutButton className="navLink" />}
       </div>
     </div>
   );
