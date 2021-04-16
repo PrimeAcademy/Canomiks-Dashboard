@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import { Stepper, Step, StepLabel } from '@material-ui/core';
 import { Check, ErrorOutline } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';

@@ -1,14 +1,17 @@
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 import SampleProgress from '../SampleProgress/SampleProgress';
 
-import { DialogContent, DialogContentText } from '@material-ui/core';
+import { DialogContent, DialogContentText, Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
 
 import './CustomerDetail.css';
 
 function CustomerDetail({ sample }) {
+  const history = useHistory();
+
   return (
     <DialogContent>
       <DialogContentText>
@@ -55,6 +58,16 @@ function CustomerDetail({ sample }) {
             <p>Sustainability: {sample.sustainabilityInfo}</p>
           )}
         </div>
+
+        {/* Only render Review button if the sample is in pre-shipment */}
+        {sample.statusName === 'Pre-Shipment' && (
+          <Button
+            variant="contained"
+            onClick={() => history.push(`/sample/${sample.id}`)}
+          >
+            Review Sample
+          </Button>
+        )}
       </DialogContentText>
     </DialogContent>
   );

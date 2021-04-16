@@ -101,7 +101,7 @@ export default function CustomerDashboard() {
                   Ingredient Name
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: 900 }}>
-                  Date Received
+                  Date Shipped
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: 900 }}>
                   Test Phase
@@ -130,9 +130,9 @@ export default function CustomerDashboard() {
                       <TableCell align="right">
                         {order.ingredientName} - {order.cropStrain}
                       </TableCell>
-                      {order.receivedDate ? (
+                      {order.shippedDate ? (
                         <TableCell align="right">
-                          {moment(order.receivedDate).format('MMMM DD YYYY')}
+                          {moment(order.shippedDate).format('MMMM DD YYYY')}
                         </TableCell>
                       ) : (
                         <TableCell align="right">Not Shipped</TableCell>
