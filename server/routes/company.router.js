@@ -6,7 +6,7 @@ const {
 } = require('../modules/authentication-middleware');
 
 //GET ROUTE FOR MANAGE CUSTOMERS
-router.get('/companies', rejectUnauthenticated, async (req, res) => {
+router.get('/', rejectUnauthenticated, async (req, res) => {
 
   try {
     const queryText = `
