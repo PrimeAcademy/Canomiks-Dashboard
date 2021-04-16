@@ -2,12 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import moment from 'moment';
-import AddSample from '../AddSample/AddSample';
 
 import CustomerDetail from '../CustomerDetail/CustomerDetail';
 
 import {
-  Divider,
   Button,
   Table,
   TableBody,
@@ -70,6 +68,38 @@ export default function CustomerDashboard() {
   }
   return (
     <>
+      <Typography
+        variant="h3"
+        gutterBottom
+        component="h1"
+        style={{ marginLeft: '10%', fontWeight: 900 }}
+      >
+        COMPANY ID: {user.companyID}
+      </Typography>
+
+      <Button
+        variant="contained"
+        style={{
+          backgroundColor: '#1e565c',
+          color: 'white',
+          marginLeft: '10%',
+        }}
+        onClick={() => history.push('/addSample')}
+      >
+        + SAMPLE
+      </Button>
+
+      <div>
+        <TextField
+          style={{ margin: 25, marginLeft: '10%' }}
+          onChange={(event) => {
+            setFilter(event.target.value);
+          }}
+          label="Search..."
+          variant="standard"
+        />
+      </div>
+
       <center>
         <Typography variant="h4" gutterBottom>
           COMPANY ID: {user.companyID}
@@ -107,7 +137,7 @@ export default function CustomerDashboard() {
                   Ingredient Name
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: 900 }}>
-                  Date Received
+                  Date Shipped
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: 900 }}>
                   Test Phase
@@ -117,6 +147,7 @@ export default function CustomerDashboard() {
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {orders.map((order) => {
                 if (
@@ -126,26 +157,30 @@ export default function CustomerDashboard() {
                     <TableRow
                       style={{
                         backgroundColor:
-                          order.testingStatus === 'Pre-shipment' && '#F3A653',
+                          order.statusName === 'Pre-Shipment' && '#F3A653',
                       }}
                       key={order.id}
                     >
                       <TableCell component="th" scope="row">
                         #{order.lotNumber}
                       </TableCell>
+
                       <TableCell align="right">
                         {order.ingredientName} - {order.cropStrain}
                       </TableCell>
-                      {order.receivedDate ? (
+
+                      {order.shippedDate ? (
                         <TableCell align="right">
-                          {moment(order.receivedDate).format('MMMM DD YYYY')}
+                          {moment(order.shippedDate).format('MMMM DD YYYY')}
                         </TableCell>
                       ) : (
                         <TableCell align="right">Not Shipped</TableCell>
                       )}
-                      <TableCell align="right">{order.testingStatus}</TableCell>
+
+                      <TableCell align="right">{order.statusName}</TableCell>
+
                       <TableCell align="right">
-                        {order.testingStatus === 'Pre-shipment' ? (
+                        {order.statusName === 'Pre-shipment' ? (
                           <Button
                             variant="contained"
                             style={{
@@ -178,12 +213,7 @@ export default function CustomerDashboard() {
         </TableContainer>
       </center>
 
-      <Dialog
-        open={openDetail}
-        onClose={handleClose}
-        scroll="paper"
-        id="detail-container"
-      >
+      <Dialog open={openDetail} onClose={handleClose} scroll="paper">
         <CustomerDetail sample={clickedSample} />
       </Dialog>
     </>

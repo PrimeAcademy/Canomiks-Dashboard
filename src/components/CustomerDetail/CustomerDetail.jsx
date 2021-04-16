@@ -1,22 +1,58 @@
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 import SampleProgress from '../SampleProgress/SampleProgress';
 
-import { DialogContent, DialogContentText } from '@material-ui/core';
+import {
+  DialogContent,
+  DialogContentText,
+  Button,
+  IconButton,
+} from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { ErrorOutline, ArrowForwardIos } from '@material-ui/icons';
 
 import './CustomerDetail.css';
 
 function CustomerDetail({ sample }) {
+  const history = useHistory();
+
   return (
     <DialogContent>
       <DialogContentText>
-        <SampleProgress step={sample.testingStatus} delay={sample.delayed} />
+        <SampleProgress
+          sequence={sample.sequence}
+          state={sample.testState}
+          delay={sample.delayed}
+        />
 
-        {/* Check if delayed and have warning */}
+        {/* Render warning if sample is delayed*/}
         {sample.delayed && (
-          <div className="delay-alert">
-            Test Delayed - more information will be provided via email
-          </div>
+          <Alert icon={<ErrorOutline />} severity="warning">
+            <AlertTitle>Test Delayed</AlertTitle>
+            More information will be available via email
+          </Alert>
+        )}
+
+        {/* Render warning if there is no shipping information */}
+        {!sample.shippedDate && (
+          <Alert
+            icon={<ErrorOutline />}
+            severity="warning"
+            action={
+              <IconButton
+                color="inherit"
+                size="small"
+                disableRipple
+                onClick={() => history.push(`/sample/${sample.id}`)}
+              >
+                <ArrowForwardIos />
+              </IconButton>
+            }
+          >
+            <AlertTitle>Missing Shipping information</AlertTitle>
+            We cannot process this sample until shipping information is added.
+          </Alert>
         )}
 
         <h2>Lot # {sample.lotNumber}</h2>
@@ -48,6 +84,26 @@ function CustomerDetail({ sample }) {
             <p>Sustainability: {sample.sustainabilityInfo}</p>
           )}
         </div>
+
+        {/* Render Review button if the sample is in pre-shipment */}
+        {sample.statusName === 'Pre-Shipment' && (
+          <Button
+            variant="contained"
+            onClick={() => history.push(`/sample/${sample.id}`)}
+          >
+            Review Sample
+          </Button>
+        )}
+
+        {/* Render download button if sample is complete and results are uploaded */}
+        {sample.pdfUrl && (
+          <Button
+            variant="contained"
+            onClick={() => window.open(sample.pdfUrl)}
+          >
+            Download Results
+          </Button>
+        )}
       </DialogContentText>
     </DialogContent>
   );

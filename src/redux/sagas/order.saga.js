@@ -16,8 +16,19 @@ function* fetchCustomerOrders() {
 function* addShipping(action) {
   console.log("🎉 action payload,", action.payload);
   try {
-    const response = yield axios.put('/api/orders/shipping', action.payload);
+    const response = yield axios.post('/api/orders/shipping', action.payload);
+  } catch (err) {
+    console.error(err.message);
+  }
+}
 
+function* fetchAllOrders() {
+  try {
+    const response = yield axios.get('/api/orders/all');
+    yield put({
+      type: 'SET_ALL_ORDERS',
+      payload: response.data
+    })
   } catch (err) {
     console.error(err.message);
   }
@@ -61,6 +72,9 @@ function* orderSaga() {
   yield takeLatest('ADD_SHIPPING_INFO', addShipping);
   yield takeLatest('ADD_SAMPLE_INFO', addSampleInfo);
   yield takeLatest('INITIAL_SAMPLE_ORDER', initialSampleOrder )
-}; 
+  yield takeLatest('ADD_ORDER', addOrder);
+  yield takeLatest('FETCH_ALL_ORDERS', fetchAllOrders);
+};
+
 
 export default orderSaga;
