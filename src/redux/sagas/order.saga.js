@@ -14,19 +14,19 @@ function* fetchCustomerOrders() {
 }
 
 function* addShipping(action) {
-  console.log("action payload,", action.payload)
+  console.log("🎉 action payload,", action.payload);
   try {
     const response = yield axios.put('/api/orders/shipping', action.payload);
+
   } catch (err) {
     console.error(err.message);
   }
 }; // end addShipping
 
 function* initialSampleOrder (action) {
-  console.log('initial sample order, payload: ', action.payload);
   try{
     const response = yield axios.post('/api/orders/initialSample', action.payload);
-    console.log(response.data);
+    console.log("🧑‍💻", response.data);
 
     yield put ({
       type:'SET_CURRENT_SAMPLE',
@@ -40,9 +40,15 @@ function* initialSampleOrder (action) {
 }; // end initialSampleOrder
 
 function* addSampleInfo (action) {
-  console.log('add sample info, payload:', action.payload);
   try {
-    yield axios.put('/api/orders/newOrder', action.payload);
+    const response = yield axios.put('/api/orders/updateOrder', action.payload);
+    console.log('🪳 response in the add shipping:', response.data);
+
+    // now set current sample with all the info 
+    yield put ({
+      type:'SET_CURRENT_SAMPLE',
+      payload: response.data
+    });
 
   }
   catch (err) {
