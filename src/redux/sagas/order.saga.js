@@ -34,30 +34,30 @@ function* fetchAllOrders() {
   }
 }; // end addShipping
 
-function* initialSampleOrder (action) {
-  try{
+function* initialSampleOrder(action) {
+  try {
     const response = yield axios.post('/api/orders/initialSample', action.payload);
     console.log("🧑‍💻", response.data);
 
-    yield put ({
-      type:'SET_CURRENT_SAMPLE',
+    yield put({
+      type: 'SET_CURRENT_SAMPLE',
       payload: response.data
     });
-    
+
   }
-  catch(err) {
+  catch (err) {
     console.log('💥 error in initial sample order', err);
   }
 }; // end initialSampleOrder
 
-function* addSampleInfo (action) {
+function* addSampleInfo(action) {
   try {
     const response = yield axios.put('/api/orders/updateOrder', action.payload);
     console.log('🪳 response in the add shipping:', response.data);
 
     // now set current sample with all the info 
-    yield put ({
-      type:'SET_CURRENT_SAMPLE',
+    yield put({
+      type: 'SET_CURRENT_SAMPLE',
       payload: response.data
     });
 
@@ -71,8 +71,7 @@ function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
   yield takeLatest('ADD_SHIPPING_INFO', addShipping);
   yield takeLatest('ADD_SAMPLE_INFO', addSampleInfo);
-  yield takeLatest('INITIAL_SAMPLE_ORDER', initialSampleOrder )
-  yield takeLatest('ADD_ORDER', addOrder);
+  yield takeLatest('INITIAL_SAMPLE_ORDER', initialSampleOrder)
   yield takeLatest('FETCH_ALL_ORDERS', fetchAllOrders);
 };
 
