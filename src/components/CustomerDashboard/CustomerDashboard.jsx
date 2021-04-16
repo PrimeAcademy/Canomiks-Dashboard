@@ -31,8 +31,8 @@ export default function CustomerDashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const orders = useSelector((state) => state.orders);
-  const user = useSelector((state) => state.user);
+  const orders = useSelector((store) => store.orders.orderReducer);
+  const user = useSelector((store) => store.user);
 
   const [filter, setFilter] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
@@ -53,6 +53,19 @@ export default function CustomerDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
+  const addSampleButton = function () {
+    // send the initial order
+    dispatch({
+      type: 'INITIAL_SAMPLE_ORDER',
+      payload: {
+        companyID: user.companyID,
+        lotNumber: '0000'
+      }
+    });
+
+    // move to the add sample page
+    history.push('/addSample')
+  }
   return (
     <>
       <Typography
@@ -88,6 +101,26 @@ export default function CustomerDashboard() {
       </div>
 
       <center>
+        <Typography variant="h4" gutterBottom>
+          COMPANY ID: {user.companyID}
+        </Typography>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: '#1e565c', color: 'white' }}
+          onClick={addSampleButton}
+        >
+          + SAMPLE
+        </Button>
+        <div>
+          <TextField
+            style={{ margin: 25 }}
+            onChange={(event) => {
+              setFilter(event.target.value);
+            }}
+            label="Search..."
+            variant="standard"
+          />
+        </div>
         <TableContainer
           style={{ maxWidth: '80%', maxHeight: 450 }}
           component={Paper}

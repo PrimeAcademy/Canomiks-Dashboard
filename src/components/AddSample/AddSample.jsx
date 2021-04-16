@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // material ui imports 
@@ -10,8 +10,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-
-
+// material ui styling
 const useStyles = makeStyles((theme) => ({
   inputs: {
    margin: theme.spacing(2),
@@ -33,6 +32,9 @@ function AddSample() {
 
   // get state from redux store
   const user = useSelector(store => store.user);
+  const companyID = user.companyID;
+  const currentSample = useSelector(store => store.orders.currentSample);
+  const orderId = currentSample.id;
 
   // local states for input fields
   const [ingredientName, setName] = useState('');
@@ -41,7 +43,7 @@ function AddSample() {
   const [ingredientAmount, setAmount] = useState('');
   const [ingredientUnit, setIngredientUnit] = useState('');
   const [purity, setPurity] = useState('');
-  const [dateManufactured, setDate] = useState('');
+  const [dateManufactured, setDateManufactured] = useState('');
   const [extractionMethod, setMethod] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
@@ -59,8 +61,7 @@ function AddSample() {
   // on shipping button click
   const shipping = (event) => {
     event.preventDefault();
-    console.log('shipping info');
-// if no value alert user
+    // if no value alert user
     if (
       !ingredientName ||
       !lotNumber ||
@@ -71,10 +72,8 @@ function AddSample() {
     ) {
       alert("Please complete required inputs");
     } else {
-      const companyID = user.companyID;
-  
       dispatch({
-        type: 'SEND_ORDER_INFO',
+        type: 'ADD_SAMPLE_INFO',
         payload: {
           companyID,
           ingredientName,
@@ -82,7 +81,7 @@ function AddSample() {
           ingredientUnit,
           format,
           purity,
-          dateManufacture,
+          dateManufactured,
           lotNumber,
           extractionMethod,
           city,
@@ -90,11 +89,12 @@ function AddSample() {
           country,
           harvestDate,
           cropStrain,
-          Sustainability,
-          // orderId
+          sustainability,
+          orderId
         }
-      })
-    }
+      }); // end dispatch
+      history.push('/shipping');
+    }; 
   }; // end shipping
 
   const cancel = (event) => {
@@ -158,11 +158,7 @@ const sustainabilityText = `Sustainability Text`;
             </Tooltip>
         </div>
           
-          {/* <input
-            value={ingredientName}
-            type="text"
-            placeholder="Name"
-            onChange={(event) => setName(event.target.value)}/> */}
+          
         <div>
           <TextField
             className={classes.inputs}
@@ -180,12 +176,7 @@ const sustainabilityText = `Sustainability Text`;
                 <InfoIcon />
               </Button>
         </Tooltip>
-          {/* <input
-            value={lotNumber}
-            type="text"
-            placeholder="Lot Number"
-            onChange={(event) => setLotNumber(event.target.value)}
-          /> */}
+          
         </div>
         <div>
           <FormControl variant="filled" className={classes.formControl}>
@@ -204,6 +195,7 @@ const sustainabilityText = `Sustainability Text`;
             </Select>
             <FormHelperText>Product Format</FormHelperText>
           </FormControl>
+
             <Tooltip title={formatText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
@@ -212,15 +204,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>
-          {/* <select
-            value={format}
-            onChange={(event) => setFormat(event.target.value)}
-          >
-            <option value="Powder">Powder</option>
-            <option value="Tincture">Tincture</option>
-            <option value="Oil">Oil</option>
-            <option value="Other">Other</option>
-          </select> */}
+          
         </div>
         <div>
          <TextField
@@ -231,10 +215,7 @@ const sustainabilityText = `Sustainability Text`;
             value={ingredientAmount} 
             type="text" 
             onChange={(event) => setAmount(event.target.value)}/>
-            {/* <input
-            value={ingredientAmount}
-            onChange={(e) => setAmount(e.target.value)}
-            type="number" /> */}
+
           <FormControl variant="filled" className={classes.formControl}>
             <Select
               value={ingredientUnit}
@@ -259,13 +240,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>
-          {/* <select
-          value = {ingredientUnit}
-          onChange={(event) => setIngredientUnit(e.target.value)}>
-            <option value='Milligrams'>Milligrams</option>
-            <option value="Grams">Grams</option>
-            <option value="Ounces">Ounces</option>
-          </select> */}
+          
         </div>
         <div>
           <TextField
@@ -283,21 +258,21 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>
-            {/* <input
-            type="text"
-            value={purity}
-            onChange={(event) => setPurity(event.target.value)} /> */}
+            
         </div>
         <div>
           <TextField
             id="date"
             label="Date Manufactured"
             type="date"
+            value={dateManufactured}
             defaultValue="2021-01-01"
+            onChange={(e) => setDateManufactured(e.target.value)}
             className={classes.inputs}
             InputLabelProps={{
               shrink: true,
             }}/>
+
             <Tooltip title={dateText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
@@ -306,10 +281,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>
-            {/* <input
-            type="date"
-            value={dateManufactured}
-            onChange={(event) => setDate(event.target.value)} /> */}
+            
         </div>
 
         <div>
@@ -329,10 +301,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>
-            {/* <input
-            type="text"
-            value={extractionMethod}
-            onChange={(event) => setMethod(event.target.value)} /> */}
+            
         </div>
         <div>
           <Typography variant='body1'> 
@@ -355,10 +324,7 @@ const sustainabilityText = `Sustainability Text`;
             value={city} 
             type="text" 
             onChange={(event) => setCity(event.target.value)}/>
-            {/* <input
-              type="text"
-              value={city}
-              onChange={(event) => setCity(event.target.value)} /> */}
+            
           <TextField
             className={classes.inputs}
             required
@@ -367,10 +333,7 @@ const sustainabilityText = `Sustainability Text`;
             value={state} 
             type="text" 
             onChange={(event) => setState(event.target.value)}/>
-              {/* <input
-              type="text"
-              value={state}
-              onChange={(event) => setState(event.target.value)} /> */}
+              
           <TextField
             className={classes.inputs}
             required
@@ -379,10 +342,7 @@ const sustainabilityText = `Sustainability Text`;
             value={country} 
             type="text" 
             onChange={(event) => setCountry(event.target.value)}/>      
-              {/* <input
-              type="text"
-              value={country}
-              onChange={(event) => setCountry(event.target.value)} /> */}
+              
         </div>
         <div>
           <TextField
@@ -401,17 +361,16 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>        
-          {/* <input
-            type="text"
-            value={cropStrain}
-            onChange={(event) => setCropStrain(event.target.value)} /> */}
+          
         </div>
         <div>
           <TextField
             id="date"
             label="Harvest Date"
+            value={harvestDate}
             type="date"
             defaultValue="2021-01-01"
+            onChange={(e)=> setHarvestDate(e.target.value)}
             className={classes.inputs}
             InputLabelProps={{
               shrink: true,
@@ -425,13 +384,7 @@ const sustainabilityText = `Sustainability Text`;
                 </Button>
             </Tooltip>
         </div>
-        {/* <div
-          value={harvestDate}
-          onChange={(event) => setHarvestDate(event.target.value)}>
-          Harvest Date
-          <input
-            type="month" />
-        </div> */}
+        
         <div>
           <TextField
             className={classes.inputs}
@@ -448,10 +401,7 @@ const sustainabilityText = `Sustainability Text`;
                   <InfoIcon />
                 </Button>
             </Tooltip>      
-        {/* <input
-            value={sustainability}
-            type="text"
-            onChange={(event) => setSustainability(event.target.value)} /> */}
+        
         </div>
         <Button 
         className={classes.inputs}

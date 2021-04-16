@@ -64,17 +64,17 @@ router.put('/newOrder/:id', async (req, res) => {
  */
 
 // the initial sample order, for when they start the process.
-router.post('/addSample', rejectUnauthenticated, async (req, res) => {
+router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
   try {
-    const order = req.body.companyID;
+    const { companyID, lotNumber } = req.body;
     const sqlText = `
     INSERT INTO "orders"
-    ("companyID") 
+    ("companyID", "lotNumber") 
     VALUES 
-    ($1) 
+    ($1, $2) 
     RETURNING id;
     `;
-    const dbRes = await pool.query(sqlText, [order]);
+    const dbRes = await pool.query(sqlText, [companyID, lotNumber]);
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -88,7 +88,7 @@ router.post('/addSample', rejectUnauthenticated, async (req, res) => {
 });
 
 // for add sample page to save the sample information; after initial insert
-router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
+router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
   // is the order id sent over in the req.body or as a param?
   //  right now its set up as a req.body
   try {
@@ -108,7 +108,7 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
       order.country, //12
       order.harvestDate, //13
       order.cropStrain, //14
-      order.sustainabilityInfo, //15
+      order.sustainability, //15
       order.orderId, //16
     ];
     const sqlText = `
@@ -117,10 +117,18 @@ router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
       "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
       "extractionMethod" = $9, "city" = $10, "state" = $11, "country" = $12,
       "harvestDate" = $13, "cropStrain" = $14, "sustainabilityInfo" = $15
-      WHERE "companyID" = $1 AND "id" = $16;
+      WHERE "companyID" = $1 AND "id" = $16
+      RETURNING *;
     `;
-    await pool.query(sqlText, orderArray);
-    res.sendStatus(200);
+    const dbRes = await pool.query(sqlText, orderArray);
+
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    };
+
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
@@ -142,10 +150,18 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     const sqlText = `
       UPDATE "orders"
       SET "shippedDate" = $1, "carrierName" = $2, "trackingNumber" = $3
-      WHERE "companyID" = $4 AND "id" = $5;
+      WHERE "companyID" = $4 AND "id" = $5
+      RETURNING *;
     `;
-    await pool.query(sqlText, orderArray);
-    res.sendStatus(200);
+    const dbRes = await pool.query(sqlText, orderArray);
+    
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    };
+
   } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
