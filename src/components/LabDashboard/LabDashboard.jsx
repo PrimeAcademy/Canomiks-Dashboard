@@ -31,7 +31,7 @@ function LabDashboard() {
     })
   }, [])
 
-  const orders = useSelector(store => store.orders);
+  const orders = useSelector(store => store.orders.orderReducer);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
