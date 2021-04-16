@@ -28,8 +28,8 @@ function LabDashboard() {
   useEffect(() => {
     dispatch({
       type: 'FETCH_ALL_ORDERS'
-    })
-  }, [])
+    });
+  }, []);
 
   const orders = useSelector(store => store.orders.orderReducer);
 

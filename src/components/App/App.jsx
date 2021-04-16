@@ -21,6 +21,7 @@ import Manage from '../ManageCustomers/Manage';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 
 import './App.css';
+import { CssBaseline } from '@material-ui/core';
 
 function App() {
   const dispatch = useDispatch();
@@ -32,8 +33,9 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
-      <div>
+    <>
+      <CssBaseline />
+      <Router>
         <Nav />
         <Switch>
           <Redirect exact from="/" to="/home" />
@@ -76,8 +78,8 @@ function App() {
           </Route>
         </Switch>
         <Footer />
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 }
 
