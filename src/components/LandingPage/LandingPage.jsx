@@ -6,7 +6,7 @@ import './LandingPage.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     marginTop: 40,
     marginBottom: 40,
@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 function LandingPage() {
   const classes = useStyles();
-  const [heading, setHeading] = useState('Welcome To Canomiks');
   const history = useHistory();
 
   const onLogin = (event) => {
