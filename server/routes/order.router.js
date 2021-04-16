@@ -90,35 +90,6 @@ router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
 // for add sample page to save the sample information; after initial insert
 router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
   try {
-    // const order = req.body;
-    // const orderArray = [
-    //   order.companyID, //1
-    //   order.ingredientName, //2
-    //   order.ingredientAmount, //3
-    //   order.ingredientUnit, //4
-    //   order.format, //5
-    //   order.purity, //6
-    //   order.dateManufactured, //7
-    //   order.lotNumber, //8
-    //   order.extractionMethod, //9
-    //   order.city, //10
-    //   order.state, //11
-    //   order.country, //12
-    //   order.harvestDate, //13
-    //   order.cropStrain, //14
-    //   order.sustainability, //15
-    //   order.orderId, //16
-    // ];
-    // const sqlText = `
-    //   UPDATE "orders"
-    //   SET "ingredientName" = $2, "ingredientAmount" = $3, "ingredientUnit" = $4,
-    //   "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
-    //   "extractionMethod" = $9, "city" = $10, "state" = $11, "country" = $12,
-    //   "harvestDate" = $13, "cropStrain" = $14, "sustainabilityInfo" = $15
-    //   WHERE "companyID" = $1 AND "id" = $16
-    //   RETURNING *;
-    // `;
-
     const orderArray = [
       req.body.value,
       req.body.companyID,
