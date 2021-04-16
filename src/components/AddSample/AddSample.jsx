@@ -49,8 +49,9 @@ function AddSample() {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
   const [harvestDate, setHarvestDate] = useState('');
-  const [sustainability, setSustainability] = useState('');
+  const [sustainabilityInfo, setSustainability] = useState('');
   const [cropStrain, setCropStrain] = useState('');
+  const [currentInput, setCurrentInput] = useState('');
 
   // functions
   const handleSubmit = (event) => {
@@ -89,7 +90,7 @@ function AddSample() {
           country,
           harvestDate,
           cropStrain,
-          sustainability,
+          sustainabilityInfo,
           orderId
         }
       }); // end dispatch
@@ -113,24 +114,34 @@ function AddSample() {
     setSustainability('');
   }; // end cancel
 
+  function focusChange (val) {
+    console.log('focus change', currentInput, val);
+    dispatch({
+      type: 'ADD_SAMPLE_INFO',
+      payload: {
+        name: currentInput,
+        value: val,
+        companyID,
+        orderId
+      }
+    }); // end dispatch
+  }; // end focusChange
 
-// text plugged into tooltips
+  // text plugged into tooltips
   const nameText = `
-Aliquam eget finibus ante, non facilisis lectus. Sed vitae dignissim est, vel aliquam tellus.
-Praesent non nunc mollis, fermentum neque at, semper arcu.
-Nullam eget est sed sem iaculis gravida eget vitae justo.
-`;
-
-const lotText =`Lot number`;
-const formatText =`Format Text`;
-const purityText = `Purity Text`;
-const dateText = `Date Text`;
-const extractionText = `Extraction Text`;
-const regionText = `Region Text`;
-const strainText =`Strain Text`;
-const harvestDateText = `Harvest Text`;
-const sustainabilityText = `Sustainability Text`;
-
+  Aliquam eget finibus ante, non facilisis lectus. Sed vitae dignissim est, vel aliquam tellus.
+  Praesent non nunc mollis, fermentum neque at, semper arcu.
+  Nullam eget est sed sem iaculis gravida eget vitae justo.
+  `;
+  const lotText =`Lot number`;
+  const formatText =`Format Text`;
+  const purityText = `Purity Text`;
+  const dateText = `Date Text`;
+  const extractionText = `Extraction Text`;
+  const regionText = `Region Text`;
+  const strainText =`Strain Text`;
+  const harvestDateText = `Harvest Text`;
+  const sustainabilityText = `Sustainability Text`;
 
 
   return (<>
@@ -138,15 +149,17 @@ const sustainabilityText = `Sustainability Text`;
       <form onSubmit={handleSubmit}>
         <div>
             <TextField
-                className={classes.inputs}
-                required
-                label='Ingredient Name'
-                variant='filled'
-                value={ingredientName} 
-                type="text" 
-                onChange={(event) => setName(event.target.value)}/> 
-                {/* https://material-ui.com/components/tooltips/
-                reference to tooltips */}
+              onFocus={() => setCurrentInput('ingredientName')}
+              onBlur={() => focusChange(ingredientName)}
+              className={classes.inputs}
+              required
+              label='Ingredient Name'
+              variant='filled'
+              value={ingredientName} 
+              type="text" 
+              onChange={(event) => setName(event.target.value)}/> 
+              {/* https://material-ui.com/components/tooltips/
+              reference to tooltips */}
             <Tooltip title={nameText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
@@ -161,6 +174,8 @@ const sustainabilityText = `Sustainability Text`;
           
         <div>
           <TextField
+          onFocus={() => setCurrentInput('lotNumber')}
+          onBlur={() => focusChange(lotNumber)}
             className={classes.inputs}
             required
             label='Lot Number'
@@ -181,6 +196,8 @@ const sustainabilityText = `Sustainability Text`;
         <div>
           <FormControl variant="filled" className={classes.formControl}>
             <Select
+              onFocus={() => setCurrentInput('format')}
+              onBlur={() => focusChange(format)}
               value={format}
               onChange={(e) => setFormat(e.target.value)}
               displayEmpty
@@ -208,16 +225,20 @@ const sustainabilityText = `Sustainability Text`;
         </div>
         <div>
          <TextField
-            className={classes.inputs}
-            required
-            label='Ingredient Amount'
-            variant='filled'
-            value={ingredientAmount} 
-            type="text" 
-            onChange={(event) => setAmount(event.target.value)}/>
+          onFocus={() => setCurrentInput('ingredientAmount')}
+          onBlur={() => focusChange(ingredientAmount)}
+          className={classes.inputs}
+          required
+          label='Ingredient Amount'
+          variant='filled'
+          value={ingredientAmount} 
+          type="text" 
+          onChange={(event) => setAmount(event.target.value)}/>
 
           <FormControl variant="filled" className={classes.formControl}>
             <Select
+              onFocus={() => setCurrentInput('ingredientUnit')}
+              onBlur={() => focusChange(ingredientUnit)}
               value={ingredientUnit}
               onChange={(e) => setIngredientUnit(e.target.value)}
               displayEmpty
@@ -244,6 +265,8 @@ const sustainabilityText = `Sustainability Text`;
         </div>
         <div>
           <TextField
+            onFocus={() => setCurrentInput('purity')}
+            onBlur={() => focusChange(purity)}
             className={classes.inputs}
             label='Purity (if available)'
             variant='filled'
@@ -262,6 +285,8 @@ const sustainabilityText = `Sustainability Text`;
         </div>
         <div>
           <TextField
+            onFocus={() => setCurrentInput('dateManufactured')}
+            onBlur={() => focusChange(dateManufactured)}
             id="date"
             label="Date Manufactured"
             type="date"
@@ -286,6 +311,8 @@ const sustainabilityText = `Sustainability Text`;
 
         <div>
           <TextField
+            onFocus={() => setCurrentInput('extractionMethod')}
+            onBlur={() => focusChange(extractionMethod)}
             className={classes.inputs}
             required
             label='Extraction Method'
@@ -317,6 +344,8 @@ const sustainabilityText = `Sustainability Text`;
           </Typography>
 
           <TextField
+            onFocus={() => setCurrentInput('city')}
+            onBlur={() => focusChange(city)}
             className={classes.inputs}
             required
             label='City'
@@ -326,6 +355,8 @@ const sustainabilityText = `Sustainability Text`;
             onChange={(event) => setCity(event.target.value)}/>
             
           <TextField
+            onFocus={() => setCurrentInput('state')}
+            onBlur={() => focusChange(state)}
             className={classes.inputs}
             required
             label='State'
@@ -335,6 +366,8 @@ const sustainabilityText = `Sustainability Text`;
             onChange={(event) => setState(event.target.value)}/>
               
           <TextField
+            onFocus={() => setCurrentInput('country')}
+            onBlur={() => focusChange(country)}
             className={classes.inputs}
             required
             label='Country'
@@ -346,6 +379,8 @@ const sustainabilityText = `Sustainability Text`;
         </div>
         <div>
           <TextField
+            onFocus={() => setCurrentInput('cropStrain')}
+            onBlur={() => focusChange(cropStrain)}
             className={classes.inputs}
             required
             label='Strain Of Crop'
@@ -365,6 +400,8 @@ const sustainabilityText = `Sustainability Text`;
         </div>
         <div>
           <TextField
+            onFocus={() => setCurrentInput('harvestDate')}
+            onBlur={() => focusChange(harvestDate)}
             id="date"
             label="Harvest Date"
             value={harvestDate}
@@ -387,10 +424,12 @@ const sustainabilityText = `Sustainability Text`;
         
         <div>
           <TextField
+            onFocus={() => setCurrentInput('sustainabilityInfo')}
+            onBlur={() => focusChange(sustainabilityInfo)}
             className={classes.inputs}
             label='Sustainability Info:'
             variant='filled'
-            value={sustainability} 
+            value={sustainabilityInfo} 
             type="text" 
             onChange={(event) => setSustainability(event.target.value)}/>
             <Tooltip title={sustainabilityText}

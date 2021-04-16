@@ -14,7 +14,6 @@ function* fetchCustomerOrders() {
 }
 
 function* addShipping(action) {
-  console.log("🎉 action payload,", action.payload);
   try {
     const response = yield axios.post('/api/orders/shipping', action.payload);
   } catch (err) {
@@ -37,7 +36,6 @@ function* fetchAllOrders() {
 function* initialSampleOrder(action) {
   try {
     const response = yield axios.post('/api/orders/initialSample', action.payload);
-    console.log("🧑‍💻", response.data);
 
     yield put({
       type: 'SET_CURRENT_SAMPLE',
@@ -51,6 +49,7 @@ function* initialSampleOrder(action) {
 }; // end initialSampleOrder
 
 function* addSampleInfo(action) {
+  console.log('👾 add sample info hit', action.payload)
   try {
     const response = yield axios.put('/api/orders/updateOrder', action.payload);
     console.log('🪳 response in the add shipping:', response.data);

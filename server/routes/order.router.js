@@ -89,36 +89,50 @@ router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
 
 // for add sample page to save the sample information; after initial insert
 router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
-  // is the order id sent over in the req.body or as a param?
-  //  right now its set up as a req.body
+  console.log('👾 req.body:', req.body);
   try {
-    const order = req.body;
+    // const order = req.body;
+    // const orderArray = [
+    //   order.companyID, //1
+    //   order.ingredientName, //2
+    //   order.ingredientAmount, //3
+    //   order.ingredientUnit, //4
+    //   order.format, //5
+    //   order.purity, //6
+    //   order.dateManufactured, //7
+    //   order.lotNumber, //8
+    //   order.extractionMethod, //9
+    //   order.city, //10
+    //   order.state, //11
+    //   order.country, //12
+    //   order.harvestDate, //13
+    //   order.cropStrain, //14
+    //   order.sustainability, //15
+    //   order.orderId, //16
+    // ];
+    // const sqlText = `
+    //   UPDATE "orders"
+    //   SET "ingredientName" = $2, "ingredientAmount" = $3, "ingredientUnit" = $4,
+    //   "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
+    //   "extractionMethod" = $9, "city" = $10, "state" = $11, "country" = $12,
+    //   "harvestDate" = $13, "cropStrain" = $14, "sustainabilityInfo" = $15
+    //   WHERE "companyID" = $1 AND "id" = $16
+    //   RETURNING *;
+    // `;
+
     const orderArray = [
-      order.companyID, //1
-      order.ingredientName, //2
-      order.ingredientAmount, //3
-      order.ingredientUnit, //4
-      order.format, //5
-      order.purity, //6
-      order.dateManufactured, //7
-      order.lotNumber, //8
-      order.extractionMethod, //9
-      order.city, //10
-      order.state, //11
-      order.country, //12
-      order.harvestDate, //13
-      order.cropStrain, //14
-      order.sustainability, //15
-      order.orderId, //16
+      req.body.value,
+      req.body.companyID,
+      req.body.orderId
     ];
-    const sqlText = `
-      UPDATE "orders"
-      SET "ingredientName" = $2, "ingredientAmount" = $3, "ingredientUnit" = $4,
-      "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
-      "extractionMethod" = $9, "city" = $10, "state" = $11, "country" = $12,
-      "harvestDate" = $13, "cropStrain" = $14, "sustainabilityInfo" = $15
-      WHERE "companyID" = $1 AND "id" = $16
-      RETURNING *;
+    const tableName = req.body.name;
+    console.log('table name:', tableName);
+
+    const sqlText= `
+    UPDATE "orders"
+    SET "${tableName}" = $1
+    WHERE "companyID" = $2 AND "id" = $3
+    RETURNING *;
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 

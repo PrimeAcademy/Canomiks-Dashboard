@@ -54,6 +54,7 @@ export default function CustomerDashboard() {
   }; // end handleClose
 
   const addSampleButton = function () {
+    console.log('button clicked');
     // send the initial order
     dispatch({
       type: 'INITIAL_SAMPLE_ORDER',
@@ -62,10 +63,10 @@ export default function CustomerDashboard() {
         lotNumber: '0000'
       }
     });
-
     // move to the add sample page
     history.push('/addSample')
-  }
+  }; // end addSampleButton
+
   return (
     <>
       <Typography
@@ -84,7 +85,7 @@ export default function CustomerDashboard() {
           color: 'white',
           marginLeft: '10%',
         }}
-        onClick={() => history.push('/addSample')}
+        onClick={() => addSampleButton()}
       >
         + SAMPLE
       </Button>
