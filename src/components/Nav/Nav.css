@@ -14,11 +14,15 @@
 }
 
 .nav-title {
-  font-size: 24px;
+  font-size: 14px;
   font-weight: 700;
   color: #f2f2f2;
   padding-left: 10px;
   margin: 0;
+}
+
+.nav-title .image{
+  size:10px;
 }
 
 .navLink {
@@ -39,4 +43,20 @@
 
 .navLink:hover {
   background-color: #008183;
+}
+
+img {
+  height: 30px;
+  border: 0px;
+  margin-left: 20px;;
+}
+
+.header-brand-logo{
+  margin-left: 20px;
+}
+
+.header-foods{
+  color: #f2f2f2;
+  font-size: 8px;
+
 }
