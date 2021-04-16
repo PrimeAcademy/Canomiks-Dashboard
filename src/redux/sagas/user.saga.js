@@ -15,10 +15,6 @@ function* fetchUser() {
     // from the server session (req.user)
     const response = yield axios.get('/api/user', config);
 
-    if (!response.data.companyActive) {
-      yield put({ type: 'INACTIVE_CODE' })
-      return;
-    }
     // now that the session has given us a user object
     // with an id and username set the client-side user object to let
     // the client-side code know the user is logged in

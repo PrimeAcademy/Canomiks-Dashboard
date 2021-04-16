@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField, Typography, InputBase } from '@material-ui/core';
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -76,7 +76,7 @@ function RegisterForm() {
   return (
     <>
       <Typography variant="h4" align="center" style={{ fontWeight: 550 }} gutterBottom>Register</Typography>
-      <form className={classes.root} onSubmit={registerUser}>
+      <form className={classes.root}>
         {errors.registrationMessage && (
           <h3 className="alert" role="alert">
             {errors.registrationMessage}
@@ -105,7 +105,6 @@ function RegisterForm() {
           variant="outlined"
           size="small"
           label="City"
-          name="city"
           value={city}
           required
           onChange={(event) => setCity(event.target.value)}
@@ -114,7 +113,6 @@ function RegisterForm() {
           variant="outlined"
           size="small"
           label="State"
-          name="state"
           value={state}
           required
           onChange={(event) => setState(event.target.value)}
@@ -122,7 +120,6 @@ function RegisterForm() {
         <TextField
           variant="outlined"
           size="small"
-          name="zip"
           label="Zip Code"
           value={zip}
           required
@@ -144,7 +141,6 @@ function RegisterForm() {
           required
           onChange={(event) => setTeamLeadName(event.target.value)}
         />
-
         <TextField
           variant="outlined"
           size="small"
@@ -162,7 +158,6 @@ function RegisterForm() {
           required
           onChange={(event) => setPassword(event.target.value)}
         />
-
         <TextField
           variant="outlined"
           size="small"
@@ -173,7 +168,7 @@ function RegisterForm() {
           onChange={(event) => setPasswordConfirm(event.target.value)}
         />
         <div>
-          <Button style={{ backgroundColor: '#1e565c', color: 'white' }} name="submit" value="Register">
+          <Button onClick={registerUser} style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }} value="Register">
             Register
         </Button>
         </div>

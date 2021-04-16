@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import moment from 'moment';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import CustomerDetail from '../CustomerDetail/CustomerDetail';
 
@@ -42,6 +43,9 @@ export default function CustomerDashboard() {
     dispatch({
       type: 'FETCH_CUSTOMER_ORDERS',
     });
+    if (!user.active) [
+
+    ]
   }, []);
 
   const handleOpen = (sample) => {
@@ -74,20 +78,28 @@ export default function CustomerDashboard() {
         component="h1"
         style={{ marginLeft: '10%', fontWeight: 900 }}
       >
-        COMPANY ID: {user.companyID}
+        {user.companyName}
       </Typography>
-
-      <Button
-        variant="contained"
-        style={{
-          backgroundColor: '#1e565c',
-          color: 'white',
-          marginLeft: '10%',
-        }}
-        onClick={() => history.push('/addSample')}
-      >
-        + SAMPLE
+      {!user.active ?
+        <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
+          <Alert severity="warning">
+            <AlertTitle>Warning</AlertTitle>
+            <strong>Your account is still waiting on approval.  Please check your email for additional information.</strong>
+          </Alert>
+        </div>
+        :
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: '#1e565c',
+            color: 'white',
+            marginLeft: '10%',
+          }}
+          onClick={() => history.push('/addSample')}
+        >
+          + SAMPLE
       </Button>
+      }
 
       <div>
         <TextField

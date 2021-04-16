@@ -48,6 +48,7 @@ function LoginForm() {
           <TextField
             variant="outlined"
             label="Email"
+            size="small"
             name="email"
             required
             value={email}
@@ -58,6 +59,7 @@ function LoginForm() {
           <TextField
             variant="outlined"
             label="Password"
+            size="small"
             type="password"
             name="password"
             required
@@ -67,7 +69,7 @@ function LoginForm() {
         </div>
         <div>
           <Button
-            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
             name="login"
             value="Log In"
             onClick={login}
