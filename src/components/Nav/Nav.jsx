@@ -1,12 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
-import AddSample from '../AddSample/AddSample';
 // import Logo from '../Logo/Logo';
 import './Nav.css';
 import { useSelector } from 'react-redux';
+import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+  right: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  offset: theme.mixins.toolbar,
+}));
 
 function Nav() {
+  const classes = useStyles();
   const user = useSelector((store) => store.user);
 
   let loginLinkData = {
@@ -20,51 +41,53 @@ function Nav() {
   }
 
   return (
-    <div className="nav">
-       {/* <Logo /> 
+    <div>
+      {/* <Logo /> 
        In case we decide to use as a component*/}
-       <Link to="/home">
-          <div className="header-brand-logo">
-            <img  src="../favicon.ico" alt="logo"></img>
-            <p className="nav-title">
-              Canomiks
-              </p>
-              <p className="header-foods">
-                Genomics for functional foods 
-            </p>
-          </div>
-        </Link>
+      <AppBar position="static" style={{ marginBottom: 50 }}>
+        <Toolbar style={{ display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: '#1e565c' }}>
+          <Link style={{ textDecoration: 'none', color: 'white' }} to="/samples">
+            <div className="header-brand-logo">
+              <img src="../favicon.ico" alt="logo"></img>
+              <Typography className={classes.title}>
+                Canomiks
+              </Typography>
 
-      <div>
-        <Link className="navLink" to={loginLinkData.path}>
-          {loginLinkData.text}
-        </Link>
-
-        {user.id && (
-          <>
-            <Link className="navLink" to="/samples">
-              Samples
-            </Link>
-            
-          </>
-        )}
-
-        {user.authLevel === 'admin' && (
-          <Link className="navLink" to="/manage">
-            Manage Customers
+            </div>
           </Link>
-        )}
 
-        {/* https://www.canomiks.com/contactus */}
-        <Link className="navLink" to="/contactus">
-          Help
+          <div>
+            <Link className="navLink" to={loginLinkData.path}>
+              {loginLinkData.text}
+            </Link>
+
+            {user.id && (
+              <>
+                <Link className="navLink" to="/samples">
+                  Samples
+            </Link>
+
+              </>
+            )}
+
+            {user.authLevel === 'admin' && (
+              <Link className="navLink" to="/manage">
+                Manage Customers
+              </Link>
+            )}
+
+            {/* https://www.canomiks.com/contactus */}
+            <Link className="navLink" to="/contactus">
+              Help
         </Link>
-        {/* https://www.canomiks.com/about-us */}
-        <Link className="navLink" to="/about-us">
-          About Us
+            {/* https://www.canomiks.com/about-us */}
+            <Link className="navLink" to="/about-us">
+              About Us
         </Link>
-        {user.id && <LogOutButton className="navLink" />}
-      </div>
+            {user.id && <LogOutButton className="navLink" />}
+          </div>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }

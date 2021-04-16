@@ -11,9 +11,7 @@ const router = express.Router();
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, async (req, res) => {
   // Send back user object from the session (previously queried from the database)
-  const companyInfo = await pool.query(`SELECT users.id, users.name, users.email, users."companyID", users."authLevel", companies."companyName" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE users.id = $1;`, [req.user.id]);
-  req.user.companyName = companyInfo.rows[0].companyName;
-  console.log(req.user)
+  await pool.query(`SELECT users.id, users.name, users.email, users."companyID", users."authLevel", companies."companyName", companies."active" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE users.id = $1;`, [req.user.id]);
   res.send(req.user);
 });
 
@@ -26,9 +24,9 @@ router.post('/register', async (req, res, next) => {
     const {
       companyName,
       companyAddress,
-      companyCity,
-      companyState,
-      companyZip,
+      city,
+      state,
+      zip,
       phoneNumber,
       teamLeadName,
       email
@@ -41,9 +39,9 @@ router.post('/register', async (req, res, next) => {
     const dbRes = await pool.query(queryText, [
       companyName,
       companyAddress,
-      companyCity,
-      companyState,
-      companyZip,
+      city,
+      state,
+      zip,
       phoneNumber,
     ]);
 

@@ -24,6 +24,13 @@ CREATE TABLE "users" (
 	"authLevel" auth DEFAULT 'team'
 );
 
+CREATE TABLE "status" (
+	"id" SERIAL PRIMARY KEY,
+	"statusName" VARCHAR(20),
+	"testState" VARCHAR(20),
+	"sequence" INT
+);
+
 CREATE TABLE "orders" (
 	"id" SERIAL PRIMARY KEY,
 	"companyID" INT NOT NULL REFERENCES "companies",
@@ -48,13 +55,6 @@ CREATE TABLE "orders" (
 	"testingStatus" INT REFERENCES "status" DEFAULT 1,
 	"delayed" BOOLEAN DEFAULT false,
 	"pdfUrl" VARCHAR(255)
-);
-
-CREATE TABLE "status" (
-	"id" SERIAL PRIMARY KEY,
-	"statusName" VARCHAR(20),
-	"testState" VARCHAR(20),
-	"sequence" INT
 );
 
 --Create base accounts
