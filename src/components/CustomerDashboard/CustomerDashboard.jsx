@@ -63,6 +63,7 @@ export default function CustomerDashboard() {
       >
         COMPANY ID: {user.companyID}
       </Typography>
+
       <Button
         variant="contained"
         style={{
@@ -74,6 +75,7 @@ export default function CustomerDashboard() {
       >
         + SAMPLE
       </Button>
+
       <div>
         <TextField
           style={{ margin: 25, marginLeft: '10%' }}
@@ -84,6 +86,7 @@ export default function CustomerDashboard() {
           variant="standard"
         />
       </div>
+
       <center>
         <TableContainer
           style={{ maxWidth: '80%', maxHeight: 450 }}
@@ -111,6 +114,7 @@ export default function CustomerDashboard() {
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {orders.map((order) => {
                 if (
@@ -127,9 +131,11 @@ export default function CustomerDashboard() {
                       <TableCell component="th" scope="row">
                         #{order.lotNumber}
                       </TableCell>
+
                       <TableCell align="right">
                         {order.ingredientName} - {order.cropStrain}
                       </TableCell>
+
                       {order.shippedDate ? (
                         <TableCell align="right">
                           {moment(order.shippedDate).format('MMMM DD YYYY')}
@@ -137,7 +143,9 @@ export default function CustomerDashboard() {
                       ) : (
                         <TableCell align="right">Not Shipped</TableCell>
                       )}
+
                       <TableCell align="right">{order.statusName}</TableCell>
+
                       <TableCell align="right">
                         {order.statusName === 'Pre-shipment' ? (
                           <Button
@@ -172,12 +180,7 @@ export default function CustomerDashboard() {
         </TableContainer>
       </center>
 
-      <Dialog
-        open={openDetail}
-        onClose={handleClose}
-        scroll="paper"
-        id="detail-container"
-      >
+      <Dialog open={openDetail} onClose={handleClose} scroll="paper">
         <CustomerDetail sample={clickedSample} />
       </Dialog>
     </>

@@ -26,7 +26,7 @@ function CustomerDetail({ sample }) {
           delay={sample.delayed}
         />
 
-        {/* Check if delayed and have warning */}
+        {/* Render warning if sample is delayed*/}
         {sample.delayed && (
           <Alert icon={<ErrorOutline />} severity="warning">
             <AlertTitle>Test Delayed</AlertTitle>
@@ -34,7 +34,7 @@ function CustomerDetail({ sample }) {
           </Alert>
         )}
 
-        {/* Give warning if there is no shipping information */}
+        {/* Render warning if there is no shipping information */}
         {!sample.shippedDate && (
           <Alert
             icon={<ErrorOutline />}
@@ -85,13 +85,23 @@ function CustomerDetail({ sample }) {
           )}
         </div>
 
-        {/* Only render Review button if the sample is in pre-shipment */}
+        {/* Render Review button if the sample is in pre-shipment */}
         {sample.statusName === 'Pre-Shipment' && (
           <Button
             variant="contained"
             onClick={() => history.push(`/sample/${sample.id}`)}
           >
             Review Sample
+          </Button>
+        )}
+
+        {/* Render download button if sample is complete and results are uploaded */}
+        {sample.pdfUrl && (
+          <Button
+            variant="contained"
+            onClick={() => window.open(sample.pdfUrl)}
+          >
+            Download Results
           </Button>
         )}
       </DialogContentText>
