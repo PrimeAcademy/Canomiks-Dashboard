@@ -33,50 +33,48 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Redirect exact from="/" to="/home" />
+      <Nav />
+      <Switch>
+        <Redirect exact from="/" to="/home" />
 
-          <ProtectedRoute exact path="/home" authRedirect="/samples">
-            <LandingPage />
-          </ProtectedRoute>
+        <ProtectedRoute exact path="/home" authRedirect="/samples">
+          <LandingPage />
+        </ProtectedRoute>
 
-          <ProtectedRoute exact path="/samples">
-            {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
-              <LabDashboard />
-            ) : (
-              <CustomerDashboard />
-            )}
-          </ProtectedRoute>
-
-          <ProtectedRoute exact path="/login" authRedirect="/samples">
-            <LoginPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute exact path="/addSample">
-            <AddSample />
-          </ProtectedRoute>
-
-          <ProtectedRoute exact path="/registration" authRedirect="/samples">
-            <RegisterPage />
-          </ProtectedRoute>
-
-          {user.authLevel === 'admin' && (
-            <ProtectedRoute exact path="/manage">
-              <Manage />
-            </ProtectedRoute>
+        <ProtectedRoute exact path="/samples">
+          {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
+            <LabDashboard />
+          ) : (
+            <CustomerDashboard />
           )}
-          <ProtectedRoute exact path="/shipping">
-            <ShippingInfo />
-          </ProtectedRoute>
+        </ProtectedRoute>
 
-          <Route path="/summary">
-            <Summary />
-          </Route>
-        </Switch>
-        <Footer />
-      </div>
+        <ProtectedRoute exact path="/login" authRedirect="/samples">
+          <LoginPage />
+        </ProtectedRoute>
+
+        <ProtectedRoute exact path="/addSample">
+          <AddSample />
+        </ProtectedRoute>
+
+        <ProtectedRoute exact path="/registration" authRedirect="/samples">
+          <RegisterPage />
+        </ProtectedRoute>
+
+        {user.authLevel === 'admin' && (
+          <ProtectedRoute exact path="/manage">
+            <Manage />
+          </ProtectedRoute>
+        )}
+        <ProtectedRoute exact path="/shipping">
+          <ShippingInfo />
+        </ProtectedRoute>
+
+        <Route path="/summary">
+          <Summary />
+        </Route>
+      </Switch>
+      <Footer />
     </Router>
   );
 }

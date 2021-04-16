@@ -1,5 +1,15 @@
+import { Button, makeStyles, TextField, Typography, InputBase } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+  }
+}));
 
 function RegisterForm() {
   const [companyName, setCompanyName] = useState('');
@@ -15,6 +25,7 @@ function RegisterForm() {
 
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   const registerUser = (event) => {
     event.preventDefault();
@@ -63,138 +74,111 @@ function RegisterForm() {
   }
 
   return (
-    <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
-      {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
-          {errors.registrationMessage}
-        </h3>
-      )}
-      <div>
-        <label htmlFor="companyName">
-          Company Name:
-          <input
-            type="text"
-            name="companyName"
-            value={companyName}
-            required
-            onChange={(event) => setCompanyName(event.target.value)}
-          />
-        </label>
-      </div>
-      Company Address:
-      <div>
-        <label htmlFor="companyAddress">
-          Street:
-          <input
-            type="text"
-            name="companyAddress"
-            value={companyAddress}
-            required
-            onChange={(event) => setCompanyAddress(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="companyAddress">
-          City:
-          <input
-            type="text"
-            name="city"
-            value={city}
-            required
-            onChange={(event) => setCity(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="state">
-          State:
-          <input
-            type="text"
-            name="state"
-            value={state}
-            required
-            onChange={(event) => setState(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="companyAddress">
-          Zip Code:
-          <input
-            type="text"
-            name="zip"
-            value={zip}
-            required
-            onChange={(event) => setZip(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="phoneNumber">
-          Phone Number:
-          <input
-            type="text"
-            name="phoneNumber"
-            value={phoneNumber}
-            required
-            onChange={(event) => setPhoneNumber(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="teamLeadName">
-          Team Lead Name:
-          <input
-            type="text"
-            name="teamLeadName"
-            value={teamLeadName}
-            required
-            onChange={(event) => setTeamLeadName(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="email">
-          User Email:
-          <input
-            type="text"
-            name="email"
-            value={email}
-            required
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="passwordConfirm">
-          Confirm Password:
-          <input
-            type="password"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            required
-            onChange={(event) => setPasswordConfirm(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
-      </div>
-    </form>
+    <>
+      <Typography variant="h4" align="center" style={{ fontWeight: 550 }} gutterBottom>Register</Typography>
+      <form className={classes.root} onSubmit={registerUser}>
+        {errors.registrationMessage && (
+          <h3 className="alert" role="alert">
+            {errors.registrationMessage}
+          </h3>
+        )}
+        <TextField
+          className={classes.textField}
+          variant="outlined"
+          size="small"
+          id="companyName"
+          label="Company Name"
+          value={companyName}
+          required
+          onChange={(event) => setCompanyName(event.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          size="small"
+          id="address"
+          label="Street Address"
+          value={companyAddress}
+          required
+          onChange={(event) => setCompanyAddress(event.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          size="small"
+          label="City"
+          name="city"
+          value={city}
+          required
+          onChange={(event) => setCity(event.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          size="small"
+          label="State"
+          name="state"
+          value={state}
+          required
+          onChange={(event) => setState(event.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          size="small"
+          name="zip"
+          label="Zip Code"
+          value={zip}
+          required
+          onChange={(event) => setZip(event.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          size="small"
+          label="Phone Number"
+          value={phoneNumber}
+          required
+          onChange={(event) => setPhoneNumber(event.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          size="small"
+          label="Team Lead Name"
+          value={teamLeadName}
+          required
+          onChange={(event) => setTeamLeadName(event.target.value)}
+        />
+
+        <TextField
+          variant="outlined"
+          size="small"
+          label="Email"
+          value={email}
+          required
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          size="small"
+          type="password"
+          label="Password"
+          value={password}
+          required
+          onChange={(event) => setPassword(event.target.value)}
+        />
+
+        <TextField
+          variant="outlined"
+          size="small"
+          type="password"
+          label="Confirm Password"
+          value={passwordConfirm}
+          required
+          onChange={(event) => setPasswordConfirm(event.target.value)}
+        />
+        <div>
+          <Button style={{ backgroundColor: '#1e565c', color: 'white' }} name="submit" value="Register">
+            Register
+        </Button>
+        </div>
+      </form>
+    </>
   );
 }
 

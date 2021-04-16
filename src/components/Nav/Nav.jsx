@@ -21,7 +21,7 @@ function Nav() {
 
   return (
     <div className="nav">
-      <Link to="/home">
+      <Link to="/samples">
         <h2 className="nav-title">Canomiks</h2>
       </Link>
       <div>
@@ -34,7 +34,7 @@ function Nav() {
             <Link className="navLink" to="/samples">
               Samples
             </Link>
-            
+
           </>
         )}
 

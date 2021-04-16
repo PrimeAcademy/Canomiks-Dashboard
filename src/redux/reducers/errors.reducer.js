@@ -12,6 +12,8 @@ const loginMessage = (state = '', action) => {
       return "Oops! The username and password didn't match. Try again!";
     case 'LOGIN_FAILED_NO_CODE':
       return 'Oops! Something went wrong! Is the server running?';
+    case 'INACTIVE_CODE':
+      return 'We are still processing your account request.'
     default:
       return state;
   }

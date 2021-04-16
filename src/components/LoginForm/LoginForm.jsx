@@ -1,8 +1,19 @@
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+  },
+}));
+
 function LoginForm() {
+  const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const errors = useSelector((store) => store.errors);
@@ -25,40 +36,46 @@ function LoginForm() {
   }; // end login
 
   return (
-    <form className="formPanel" onSubmit={login}>
-      <h2>Login</h2>
+    <form className={classes.root}>
+      <Typography variant="h4" align="center" style={{ fontWeight: 550 }} gutterBottom>Login</Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
         </h3>
       )}
-      <div>
-        <label htmlFor="email">
-          Email:
-          <input
-            type="text"
+      <center>
+        <div>
+          <TextField
+            variant="outlined"
+            label="Email"
             name="email"
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
+        </div>
+        <div>
+          <TextField
+            variant="outlined"
+            label="Password"
             type="password"
             name="password"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
-      </div>
+        </div>
+        <div>
+          <Button
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            name="login"
+            value="Log In"
+            onClick={login}
+          >
+            Login
+          </Button>
+        </div>
+      </center>
     </form>
   );
 }
