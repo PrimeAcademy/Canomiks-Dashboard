@@ -3,9 +3,14 @@ import { useHistory } from 'react-router-dom';
 
 import SampleProgress from '../SampleProgress/SampleProgress';
 
-import { DialogContent, DialogContentText, Button } from '@material-ui/core';
+import {
+  DialogContent,
+  DialogContentText,
+  Button,
+  IconButton,
+} from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { ErrorOutline } from '@material-ui/icons';
+import { ErrorOutline, ArrowForwardIos } from '@material-ui/icons';
 
 import './CustomerDetail.css';
 
@@ -26,6 +31,27 @@ function CustomerDetail({ sample }) {
           <Alert icon={<ErrorOutline />} severity="warning">
             <AlertTitle>Test Delayed</AlertTitle>
             More information will be available via email
+          </Alert>
+        )}
+
+        {/* Give warning if there is no shipping information */}
+        {!sample.shippedDate && (
+          <Alert
+            icon={<ErrorOutline />}
+            severity="warning"
+            action={
+              <IconButton
+                color="inherit"
+                size="small"
+                disableRipple
+                onClick={() => history.push(`/sample/${sample.id}`)}
+              >
+                <ArrowForwardIos />
+              </IconButton>
+            }
+          >
+            <AlertTitle>Missing Shipping information</AlertTitle>
+            We cannot process this sample until shipping information is added.
           </Alert>
         )}
 
