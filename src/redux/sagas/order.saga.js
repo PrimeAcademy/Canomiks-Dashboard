@@ -14,7 +14,6 @@ function* fetchCustomerOrders() {
 }
 
 function* addShipping(action) {
-  console.log("🎉 action payload,", action.payload);
   try {
     const response = yield axios.post('/api/orders/shipping', action.payload);
   } catch (err) {
@@ -37,7 +36,6 @@ function* fetchAllOrders() {
 function* initialSampleOrder(action) {
   try {
     const response = yield axios.post('/api/orders/initialSample', action.payload);
-    console.log("🧑‍💻", response.data);
 
     yield put({
       type: 'SET_CURRENT_SAMPLE',
@@ -53,19 +51,26 @@ function* initialSampleOrder(action) {
 function* addSampleInfo(action) {
   try {
     const response = yield axios.put('/api/orders/updateOrder', action.payload);
-    console.log('🪳 response in the add shipping:', response.data);
 
     // now set current sample with all the info 
     yield put({
       type: 'SET_CURRENT_SAMPLE',
       payload: response.data
     });
-
   }
   catch (err) {
     console.log('💥 error in the addSampleInfo', err);
   }
 }; // end addSampleInfo
+
+function* deleteCurrentSample (action) {
+  try {
+    const response = yield axios.delete(`/api/orders/deleteSample/${action.payload.companyID}/${action.payload.orderId}`);
+  }
+  catch (err) {
+    console.log('💥 error in the addSampleInfo', err);
+  }
+}; // end deleteCurrentSample
 
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
@@ -73,6 +78,7 @@ function* orderSaga() {
   yield takeLatest('ADD_SAMPLE_INFO', addSampleInfo);
   yield takeLatest('INITIAL_SAMPLE_ORDER', initialSampleOrder)
   yield takeLatest('FETCH_ALL_ORDERS', fetchAllOrders);
+  yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
 };
 
 

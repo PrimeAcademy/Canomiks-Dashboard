@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 // material ui imports 
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, MenuItem, FormHelperText, FormControl, 
-  Select, Typography } from '@material-ui/core';
+  Select, Typography, Grid } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
@@ -49,8 +49,9 @@ function AddSample() {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
   const [harvestDate, setHarvestDate] = useState('');
-  const [sustainability, setSustainability] = useState('');
+  const [sustainabilityInfo, setSustainability] = useState('');
   const [cropStrain, setCropStrain] = useState('');
+  const [currentInput, setCurrentInput] = useState('');
 
   // functions
   const handleSubmit = (event) => {
@@ -59,51 +60,30 @@ function AddSample() {
   };
 
   // on shipping button click
-  const shipping = (event) => {
-    event.preventDefault();
+  const shipping = () => {
     // if no value alert user
     if (
       !ingredientName ||
-      !lotNumber ||
-      !format ||
       !ingredientAmount ||
+      !format ||
       !dateManufactured ||
+      !lotNumber ||
       !extractionMethod
     ) {
       alert("Please complete required inputs");
-    } else {
-      dispatch({
-        type: 'ADD_SAMPLE_INFO',
-        payload: {
-          companyID,
-          ingredientName,
-          ingredientAmount,
-          ingredientUnit,
-          format,
-          purity,
-          dateManufactured,
-          lotNumber,
-          extractionMethod,
-          city,
-          state,
-          country,
-          harvestDate,
-          cropStrain,
-          sustainability,
-          orderId
-        }
-      }); // end dispatch
-      history.push('/shipping');
-    }; 
+      return;
+    }; // end required field check
+    history.push('/shipping');
+  
   }; // end shipping
 
   const cancel = (event) => {
-    console.log("cancel")
+    // clear the inputs
     setName('');
     setLotNumber('');
     setFormat('');
     setPurity('');
-    setDate('');
+    setDateManufactured('');
     setMethod('');
     setCity('');
     setState('');
@@ -111,56 +91,81 @@ function AddSample() {
     setCropStrain('');
     setHarvestDate('');
     setSustainability('');
+
+    // delete the current sample
+    dispatch({
+      type: 'DELETE_CURRENT_SAMPLE',
+      payload: {
+        companyID,
+        orderId
+      }
+    });
+
   }; // end cancel
 
+  function focusChange (val) {
+    // make sure it has a value
+  
+    // send dispatch with the value
+    dispatch({
+      type: 'ADD_SAMPLE_INFO',
+      payload: {
+        name: currentInput,
+        value: val,
+        companyID,
+        orderId
+      }
+    }); // end dispatch
+  }; // end focusChange
 
-// text plugged into tooltips
+  // text plugged into tooltips
   const nameText = `
-Aliquam eget finibus ante, non facilisis lectus. Sed vitae dignissim est, vel aliquam tellus.
-Praesent non nunc mollis, fermentum neque at, semper arcu.
-Nullam eget est sed sem iaculis gravida eget vitae justo.
-`;
-
-const lotText =`Lot number`;
-const formatText =`Format Text`;
-const purityText = `Purity Text`;
-const dateText = `Date Text`;
-const extractionText = `Extraction Text`;
-const regionText = `Region Text`;
-const strainText =`Strain Text`;
-const harvestDateText = `Harvest Text`;
-const sustainabilityText = `Sustainability Text`;
-
+  Pick an ingredient from this menu. If your ingredient is not listed, please use the 'other' option. For more detailed instructions, refer to the instruction manual.
+  `;
+  const lotText =`Please use the lot number you have created for this batch. For more detailed instructions, refer to the instruction manual.`;
+  const formatText =`Select the proper ingredient format. For more detailed instructions, please refer to the instruction manual.`;
+  const purityText = `Add percent purity of the active ingredient if known. For more detailed instructions, please refer to the instruction manual.`;
+  const dateText = `Add the date that the ingredient was extracted or manufactured. For more detailed instructions, please refer to the instruction manual.`;
+  const extractionText = `Add the extraction method such as ethanol, water etc. for the extraction of the ingredient. If no extraction method was used, please write the concentrator method for the ingredient. For more detailed instructions, please refer to the instruction manual.`;
+  const regionText = `If known please add the region where the plant was grown. If ingredient was extracted from plants grown in more than one region, please write that in the blank space.`;
+  const strainText =`If known please add the exact strain of the crop.`;
+  const harvestDateText = `When was the plant harvested?`;
+  const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
 
 
   return (<>
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-            <TextField
-                className={classes.inputs}
-                required
-                label='Ingredient Name'
-                variant='filled'
-                value={ingredientName} 
-                type="text" 
-                onChange={(event) => setName(event.target.value)}/> 
-                {/* https://material-ui.com/components/tooltips/
-                reference to tooltips */}
+      <Grid container justify='center' alignItems='flex-start'>
+        <FormControl variant="filled" className={classes.formControl}>
+          <Select
+            onFocus={() => setCurrentInput('ingredientName')}
+            onBlur={() => focusChange(ingredientName)}
+            value={ingredientName}
+            required
+            onChange={(e) => setName(e.target.value)}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}>
+            <MenuItem value="" disabled>
+              Pick Ingredient
+            </MenuItem>
+            <MenuItem value={'CBD'}>CBD</MenuItem>
+            <MenuItem value={'Other'}>Other</MenuItem>
+          </Select>
+          <FormHelperText>Ingredient Name</FormHelperText>
+        </FormControl>
+              {/* https://material-ui.com/components/tooltips/
+              reference to tooltips */}
             <Tooltip title={nameText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
-              placement="right-start">
+              placement="top-end">
                 {/* placement= popup display */}
-              <Button className={classes.button}>
                 <InfoIcon />
-              </Button>
             </Tooltip>
-        </div>
-          
-          
-        <div>
+  
           <TextField
+            onFocus={() => setCurrentInput('lotNumber')}
+            onBlur={() => focusChange(lotNumber)}
             className={classes.inputs}
             required
             label='Lot Number'
@@ -171,22 +176,20 @@ const sustainabilityText = `Sustainability Text`;
           <Tooltip title={lotText}
             TransitionComponent={Zoom}
             TransitionProps={{ timeout: 600 }}
-            placement="right-start">
-              <Button className={classes.button}>
-                <InfoIcon />
-              </Button>
-        </Tooltip>
+            placement="top-end">
+            <InfoIcon />
+          </Tooltip>
           
-        </div>
-        <div>
           <FormControl variant="filled" className={classes.formControl}>
             <Select
+              onFocus={() => setCurrentInput('format')}
+              onBlur={() => focusChange(format)}
               value={format}
               onChange={(e) => setFormat(e.target.value)}
               displayEmpty
               inputProps={{ 'aria-label': 'Without label' }}>
               <MenuItem value="" disabled>
-                Pick a Genre
+                Pick a Format
               </MenuItem>
               <MenuItem value={'Powder'}>Powder</MenuItem>
               <MenuItem value={'Tincture'}>Tincture</MenuItem>
@@ -196,35 +199,37 @@ const sustainabilityText = `Sustainability Text`;
             <FormHelperText>Product Format</FormHelperText>
           </FormControl>
 
-            <Tooltip title={formatText}
-              TransitionComponent={Zoom} 
-              TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
-            </Tooltip>
-          
-        </div>
-        <div>
+          <Tooltip title={formatText}
+            TransitionComponent={Zoom} 
+            TransitionProps={{ timeout: 600 }}
+            placement="top-end">
+            <InfoIcon />
+          </Tooltip>     
+      </Grid>
+
+      <Grid container justify='center' alignItems='flex-start'>
          <TextField
-            className={classes.inputs}
-            required
-            label='Ingredient Amount'
-            variant='filled'
-            value={ingredientAmount} 
-            type="text" 
-            onChange={(event) => setAmount(event.target.value)}/>
+          onFocus={() => setCurrentInput('ingredientAmount')}
+          onBlur={() => focusChange(ingredientAmount)}
+          className={classes.inputs}
+          required
+          label='Ingredient Amount'
+          variant='filled'
+          value={ingredientAmount} 
+          type="text" 
+          onChange={(event) => setAmount(event.target.value)}/>
 
           <FormControl variant="filled" className={classes.formControl}>
             <Select
+              onFocus={() => setCurrentInput('ingredientUnit')}
+              onBlur={() => focusChange(ingredientUnit)}
               value={ingredientUnit}
               onChange={(e) => setIngredientUnit(e.target.value)}
               displayEmpty
               inputProps={{ 'aria-label': 'Without label' }}>
 
               <MenuItem value="" disabled>
-                Pick a Genre
+                Pick a Unit
               </MenuItem>
               <MenuItem value={'Milligrams'}>Milligrams</MenuItem>
               <MenuItem value={'Grams'}>Grams</MenuItem>
@@ -233,17 +238,15 @@ const sustainabilityText = `Sustainability Text`;
             <FormHelperText>Ingredient Unit</FormHelperText>
           </FormControl>
           <Tooltip title={formatText}
-              TransitionComponent={Zoom} 
-              TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
-            </Tooltip>
-          
-        </div>
-        <div>
+            TransitionComponent={Zoom} 
+            TransitionProps={{ timeout: 600 }}
+            placement="top-end">
+            <InfoIcon />
+          </Tooltip>
+
           <TextField
+            onFocus={() => setCurrentInput('purity')}
+            onBlur={() => focusChange(purity)}
             className={classes.inputs}
             label='Purity (if available)'
             variant='filled'
@@ -253,15 +256,15 @@ const sustainabilityText = `Sustainability Text`;
             <Tooltip title={purityText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
+              placement="top-end">
+                <InfoIcon />
             </Tooltip>
-            
-        </div>
-        <div>
+      </Grid>
+
+      <Grid container justify='center' alignItems='flex-start'>
           <TextField
+            onFocus={() => setCurrentInput('dateManufactured')}
+            onBlur={() => focusChange(dateManufactured)}
             id="date"
             label="Date Manufactured"
             type="date"
@@ -276,16 +279,13 @@ const sustainabilityText = `Sustainability Text`;
             <Tooltip title={dateText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
+              placement="top-end">
+                <InfoIcon />
             </Tooltip>
-            
-        </div>
-
-        <div>
+          
           <TextField
+            onFocus={() => setCurrentInput('extractionMethod')}
+            onBlur={() => focusChange(extractionMethod)}
             className={classes.inputs}
             required
             label='Extraction Method'
@@ -296,56 +296,13 @@ const sustainabilityText = `Sustainability Text`;
             <Tooltip title={extractionText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
+              placement="top-end" >
+              <InfoIcon />
             </Tooltip>
             
-        </div>
-        <div>
-          <Typography variant='body1'> 
-            Growth Region: 
-            <Tooltip title={regionText}
-              TransitionComponent={Zoom} 
-              TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
-            </Tooltip>
-          </Typography>
-
-          <TextField
-            className={classes.inputs}
-            required
-            label='City'
-            variant='filled'
-            value={city} 
-            type="text" 
-            onChange={(event) => setCity(event.target.value)}/>
-            
-          <TextField
-            className={classes.inputs}
-            required
-            label='State'
-            variant='filled'
-            value={state} 
-            type="text" 
-            onChange={(event) => setState(event.target.value)}/>
-              
-          <TextField
-            className={classes.inputs}
-            required
-            label='Country'
-            variant='filled'
-            value={country} 
-            type="text" 
-            onChange={(event) => setCountry(event.target.value)}/>      
-              
-        </div>
-        <div>
-          <TextField
+            <TextField
+            onFocus={() => setCurrentInput('cropStrain')}
+            onBlur={() => focusChange(cropStrain)}
             className={classes.inputs}
             required
             label='Strain Of Crop'
@@ -356,15 +313,60 @@ const sustainabilityText = `Sustainability Text`;
             <Tooltip title={strainText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
+              placement="top-end">
+              <InfoIcon />
             </Tooltip>        
-          
-        </div>
-        <div>
+      </Grid>
+
+      <Grid container justify='center' alignItems='flex-start'>
+          <Typography variant='body1'> 
+            Growth Region: 
+            <Tooltip title={regionText}
+              TransitionComponent={Zoom} 
+              TransitionProps={{ timeout: 600 }}
+              placement="top-end">
+                <InfoIcon />
+            </Tooltip>
+          </Typography>
+
           <TextField
+            onFocus={() => setCurrentInput('city')}
+            onBlur={() => focusChange(city)}
+            className={classes.inputs}
+            required
+            label='City'
+            variant='filled'
+            value={city} 
+            type="text" 
+            onChange={(event) => setCity(event.target.value)}/>
+            
+          <TextField
+            onFocus={() => setCurrentInput('state')}
+            onBlur={() => focusChange(state)}
+            className={classes.inputs}
+            required
+            label='State'
+            variant='filled'
+            value={state} 
+            type="text" 
+            onChange={(event) => setState(event.target.value)}/>
+              
+          <TextField
+            onFocus={() => setCurrentInput('country')}
+            onBlur={() => focusChange(country)}
+            className={classes.inputs}
+            required
+            label='Country'
+            variant='filled'
+            value={country} 
+            type="text" 
+            onChange={(event) => setCountry(event.target.value)}/>       
+      </Grid>
+        
+      <Grid container justify='center' alignItems='flex-start'>
+          <TextField
+            onFocus={() => setCurrentInput('harvestDate')}
+            onBlur={() => focusChange(harvestDate)}
             id="date"
             label="Harvest Date"
             value={harvestDate}
@@ -378,31 +380,28 @@ const sustainabilityText = `Sustainability Text`;
             <Tooltip title={harvestDateText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
+              placement="top-end">
+              <InfoIcon />
             </Tooltip>
-        </div>
-        
-        <div>
+       
           <TextField
+            onFocus={() => setCurrentInput('sustainabilityInfo')}
+            onBlur={() => focusChange(sustainabilityInfo)}
             className={classes.inputs}
             label='Sustainability Info:'
             variant='filled'
-            value={sustainability} 
+            value={sustainabilityInfo} 
             type="text" 
             onChange={(event) => setSustainability(event.target.value)}/>
             <Tooltip title={sustainabilityText}
               TransitionComponent={Zoom} 
               TransitionProps={{ timeout: 600 }}
-              placement="right-start">
-                <Button className={classes.button}>
-                  <InfoIcon />
-                </Button>
-            </Tooltip>      
-        
-        </div>
+              placement="top-end">
+              <InfoIcon />
+            </Tooltip>          
+      </Grid>
+
+      <Grid container justify='center' alignItems='flex-start'>
         <Button 
         className={classes.inputs}
         style={{ backgroundColor: "#1e565c", color: "white" }}
@@ -410,14 +409,15 @@ const sustainabilityText = `Sustainability Text`;
         onClick={shipping}>
           Shipping Info
         </Button>
-      </form>
-      <Button 
-      className={classes.inputs}
-      style={{ backgroundColor: "#1e565c", color: "white" }}
-      variant='contained'
-      onClick={cancel}>
-        Cancel Request
-      </Button>
+        <Button 
+        className={classes.inputs}
+        style={{ backgroundColor: "#1e565c", color: "white" }}
+        variant='contained'
+        onClick={cancel}>
+          Cancel Request
+        </Button>
+      </Grid>
+      
     </div>
   </>)
 }

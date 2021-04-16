@@ -36,9 +36,9 @@ function RegisterForm() {
         payload: {
           companyName,
           companyAddress,
-          city,
-          state,
-          zip,
+          companyCity: city,
+          companyState: state,
+          companyZip: zip,
           phoneNumber,
           teamLeadName,
           email,
