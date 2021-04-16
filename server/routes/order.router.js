@@ -89,7 +89,6 @@ router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
 
 // for add sample page to save the sample information; after initial insert
 router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
-  console.log('👾 req.body:', req.body);
   try {
     // const order = req.body;
     // const orderArray = [
@@ -181,5 +180,23 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+router.delete('/deleteSample/:company/:order', rejectUnauthenticated, async (req, res) => {
+  try {
+    const sqlText = `
+      DELETE FROM "orders" 
+      WHERE "companyID" = $1 AND "id" = $2;
+    `;
+
+    const dbRes = await pool.query(sqlText, [req.params.company, req.params.order]);
+
+    res.sendStatus(200);
+  }
+  catch (err) {
+    console.log('💥 something went wrong in the delete', err);
+    res.sendStatus(500);
+  }
+  
+})
 
 module.exports = router;
