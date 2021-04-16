@@ -101,26 +101,6 @@ export default function CustomerDashboard() {
       </div>
 
       <center>
-        <Typography variant="h4" gutterBottom>
-          COMPANY ID: {user.companyID}
-        </Typography>
-        <Button
-          variant="contained"
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          onClick={addSampleButton}
-        >
-          + SAMPLE
-        </Button>
-        <div>
-          <TextField
-            style={{ margin: 25 }}
-            onChange={(event) => {
-              setFilter(event.target.value);
-            }}
-            label="Search..."
-            variant="standard"
-          />
-        </div>
         <TableContainer
           style={{ maxWidth: '80%', maxHeight: 450 }}
           component={Paper}
