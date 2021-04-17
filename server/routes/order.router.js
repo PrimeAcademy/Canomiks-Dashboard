@@ -23,7 +23,11 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
 
 router.get('/all', rejectUnauthenticated, async (req, res) => {
   try {
-    const query = `SELECT * FROM orders ORDER BY ("companyID")`;
+    const query = `
+    SELECT * FROM orders
+    JOIN "status"
+	  ON "status".id = "orders"."testingStatus"
+    ORDER BY ("companyID");`;
     const dbRes = await pool.query(query);
     res.send(dbRes.rows);
   } catch (err) {
@@ -90,15 +94,11 @@ router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
 // for add sample page to save the sample information; after initial insert
 router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
   try {
-    const orderArray = [
-      req.body.value,
-      req.body.companyID,
-      req.body.orderId
-    ];
+    const orderArray = [req.body.value, req.body.companyID, req.body.orderId];
     const tableName = req.body.name;
     console.log('table name:', tableName);
 
-    const sqlText= `
+    const sqlText = `
     UPDATE "orders"
     SET "${tableName}" = $1
     WHERE "companyID" = $2 AND "id" = $3
@@ -111,8 +111,7 @@ router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
       return;
     } else {
       res.send(dbRes.rows[0]);
-    };
-
+    }
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
@@ -138,36 +137,40 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       RETURNING *;
     `;
     const dbRes = await pool.query(sqlText, orderArray);
-    
+
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
     } else {
       res.send(dbRes.rows[0]);
-    };
-
+    }
   } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }
 });
 
-router.delete('/deleteSample/:company/:order', rejectUnauthenticated, async (req, res) => {
-  try {
-    const sqlText = `
+router.delete(
+  '/deleteSample/:company/:order',
+  rejectUnauthenticated,
+  async (req, res) => {
+    try {
+      const sqlText = `
       DELETE FROM "orders" 
       WHERE "companyID" = $1 AND "id" = $2;
     `;
 
-    const dbRes = await pool.query(sqlText, [req.params.company, req.params.order]);
+      const dbRes = await pool.query(sqlText, [
+        req.params.company,
+        req.params.order,
+      ]);
 
-    res.sendStatus(200);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log('💥 something went wrong in the delete', err);
+      res.sendStatus(500);
+    }
   }
-  catch (err) {
-    console.log('💥 something went wrong in the delete', err);
-    res.sendStatus(500);
-  }
-  
-})
+);
 
 module.exports = router;
