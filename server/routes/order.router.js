@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
+
 
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
@@ -96,8 +98,6 @@ router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
       req.body.orderId
     ];
     const tableName = req.body.name;
-    console.log('table name:', tableName);
-
     const sqlText= `
     UPDATE "orders"
     SET "${tableName}" = $1
