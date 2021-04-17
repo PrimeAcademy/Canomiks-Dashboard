@@ -3,7 +3,7 @@ import { takeLatest } from 'redux-saga/effects';
 
 function* sendEmail (action) {
  try {
-  const response = yield axios.post('/api/orders/email', action.payload);  
+  const response = yield axios.post('/api/email', action.payload);  
  }
  catch (err) {
    console.log('💥 error in the sendEmail', err);
