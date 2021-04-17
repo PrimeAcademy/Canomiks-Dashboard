@@ -27,6 +27,8 @@ router.get('/all', rejectUnauthenticated, async (req, res) => {
     SELECT * FROM orders
     JOIN "status"
 	  ON "status".id = "orders"."testingStatus"
+    JOIN "companies"
+	  ON "companies".id = "orders"."companyID"
     ORDER BY ("companyID");`;
     const dbRes = await pool.query(query);
     res.send(dbRes.rows);

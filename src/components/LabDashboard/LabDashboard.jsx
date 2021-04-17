@@ -149,7 +149,7 @@ function LabDashboard() {
                         <TableCell component="th" scope="row">
                           #{order.lotNumber}
                         </TableCell>
-                        <TableCell align="right">{order.companyID}</TableCell>
+                        <TableCell align="right">{order.companyName}</TableCell>
                         {order.receivedDate ? (
                           <TableCell align="right">
                             {moment(order.receivedDate).format('MMMM DD YYYY')}

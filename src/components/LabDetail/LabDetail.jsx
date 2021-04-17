@@ -10,10 +10,23 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { ErrorOutline, ArrowForwardIos } from '@material-ui/icons';
+import { ErrorOutline } from '@material-ui/icons';
 
 function LabDetail({ sample }) {
   const history = useHistory();
+
+  const markDelay = () => {
+    console.log('in delayed');
+    //dispatch that toggled delay status
+  }; // end markDelay
+
+  const handleSave = () => {
+    console.log('in Save');
+  }; // end handleSave
+
+  const handleCancel = () => {
+    console.log('in cancel');
+  }; // end handleCancel
 
   return (
     <DialogContent>
@@ -27,15 +40,15 @@ function LabDetail({ sample }) {
         {/* Render warning if sample is delayed*/}
         {sample.delayed && (
           <Alert icon={<ErrorOutline />} severity="warning">
-            <AlertTitle>Test Delayed</AlertTitle>
-            Customer has been notified.
+            <AlertTitle>Test Currently Delayed</AlertTitle>
           </Alert>
         )}
 
         <h2>Lot # {sample.lotNumber}</h2>
-        <h3>{sample.ingredientName}</h3>
+        <h3>{sample.companyName}</h3>
 
         <div>
+          <p>Product: {sample.ingredientName}</p>
           <p>
             Amount: {sample.ingredientAmount} {sample.ingredientUnit}
           </p>
@@ -63,24 +76,36 @@ function LabDetail({ sample }) {
         </div>
 
         {/* Render Review button if the sample is in pre-shipment */}
-        {sample.statusName === 'Pre-Shipment' && (
+        {sample.statusName === 'Complete' && !sample.pdfUrl && (
           <Button
             variant="contained"
             onClick={() => history.push(`/sample/${sample.id}`)}
           >
-            Review Sample
+            Upload Results
           </Button>
         )}
 
         {/* Render download button if sample is complete and results are uploaded */}
         {sample.pdfUrl && (
-          <Button
-            variant="contained"
-            onClick={() => window.open(sample.pdfUrl)}
-          >
-            Download Results
-          </Button>
+          <div>
+            <Button
+              variant="contained"
+              onClick={() => window.open(sample.pdfUrl)}
+            >
+              Download Results
+            </Button>
+          </div>
         )}
+
+        <Button variant="contained" onClick={handleCancel}>
+          Cancel Changes
+        </Button>
+        <Button variant="contained" onClick={handleSave}>
+          Save Changes
+        </Button>
+        <Button variant="contained" onClick={markDelay}>
+          Mark Delayed
+        </Button>
       </DialogContentText>
     </DialogContent>
   );
