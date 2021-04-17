@@ -72,7 +72,7 @@ function ShippingInfo () {
           <Typography variant='body1'>
             These are the available shipping dates.
             Samples cannot be processed until shipping info is filled out
-            </Typography>
+          </Typography>
           <div>
             <TextField
               id="date"

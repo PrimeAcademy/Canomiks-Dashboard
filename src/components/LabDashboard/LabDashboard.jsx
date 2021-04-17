@@ -19,6 +19,22 @@ import {
   Dialog,
 } from '@material-ui/core';
 
+// material ui imports
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Button,
+  Typography,
+  TextField,
+} from '@material-ui/core';
+
+// materiaul ui style
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -30,12 +46,14 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
-});
+}); // end style
 
+// main component function
 function LabDashboard() {
-  const dispatch = useDispatch();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
+  // local states
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
@@ -50,8 +68,7 @@ function LabDashboard() {
     });
   }, []);
 
-  console.log(orders);
-
+  // functions
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   }; // end handleChangePage
@@ -149,6 +166,7 @@ function LabDashboard() {
                         <TableCell component="th" scope="row">
                           #{order.lotNumber}
                         </TableCell>
+
                         <TableCell align="right">{order.companyName}</TableCell>
                         {order.receivedDate ? (
                           <TableCell align="right">

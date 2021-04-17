@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
@@ -98,8 +99,6 @@ router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
   try {
     const orderArray = [req.body.value, req.body.companyID, req.body.orderId];
     const tableName = req.body.name;
-    console.log('table name:', tableName);
-
     const sqlText = `
     UPDATE "orders"
     SET "${tableName}" = $1
