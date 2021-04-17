@@ -136,8 +136,6 @@ router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
       req.body.orderId
     ];
     const tableName = req.body.name;
-    console.log('table name:', tableName);
-
     const sqlText= `
     UPDATE "orders"
     SET "${tableName}" = $1
@@ -161,6 +159,7 @@ router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
 
 // for shipping page to save the shipping information; after initial insert
 router.put('/shipping', rejectUnauthenticated, async (req, res) => {
+  console.log('🎺 made it to the put:', req.body)
   // POST route code here
   try {
     const order = req.body;
