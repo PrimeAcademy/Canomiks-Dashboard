@@ -14,7 +14,7 @@ function Summary() {
   /*
   // TO DO - on page load get the company info if its not is the store
   useEffect(() => {
-    dispatchEvent({
+    dispatch({
       type: 'FETCH_COMPANY_INFO'
     })
   }, []);
@@ -59,7 +59,7 @@ function Summary() {
         color="primary"
         onClick={goToAddSample}
       >
-        Add Sample Info
+        Start Sample
       </Button>
     </Grid>
   );
