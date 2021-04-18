@@ -81,12 +81,22 @@ function AddSample() {
   const harvestDateText = `When was the plant harvested?`;
   const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('form submit');
-  };
+  const focusChange = (val) => {
+    // TO DO - Make sure it has a value
 
-  const toShipping = () => {
+    // Dispatch value and field name to update DB
+    dispatch({
+      type: 'ADD_SAMPLE_INFO',
+      payload: {
+        name: currentInput,
+        value: val,
+        companyID,
+        orderId,
+      },
+    });
+  }; // end focusChange
+
+  const handleSubmit = () => {
     // Verify all required inputs are filled out
     //  If they aren't, alert the user and don't continue
     if (
@@ -103,7 +113,7 @@ function AddSample() {
     }
 
     history.push('/sample/ship');
-  }; // end toShipping
+  }; // end handleSubmit
 
   const cancelRequest = (event) => {
     // TO DO - Add confirmation pop up
@@ -132,21 +142,6 @@ function AddSample() {
       },
     });
   }; // end cancelRequest
-
-  const focusChange = (val) => {
-    // TO DO - Make sure it has a value
-
-    // Dispatch value and field name to update DB
-    dispatch({
-      type: 'ADD_SAMPLE_INFO',
-      payload: {
-        name: currentInput,
-        value: val,
-        companyID,
-        orderId,
-      },
-    });
-  }; // end focusChange
 
   return (
     <>
@@ -462,10 +457,11 @@ function AddSample() {
           className={classes.inputs}
           style={{ backgroundColor: '#1e565c', color: 'white' }}
           variant="contained"
-          onClick={toShipping}
+          onClick={handleSubmit}
         >
           Shipping Info
         </Button>
+
         <Button
           className={classes.inputs}
           style={{ backgroundColor: '#1e565c', color: 'white' }}

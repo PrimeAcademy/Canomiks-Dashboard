@@ -3,15 +3,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  TextField,
-  Button,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
-  Typography,
-} from '@material-ui/core';
+import { TextField, Button, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   inputs: {
@@ -150,6 +142,6 @@ function ShippingInfo() {
       </center>
     </>
   );
-} // end shippingInfo
+}
 
 export default ShippingInfo;
