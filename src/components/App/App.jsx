@@ -18,7 +18,7 @@ import AddSample from '../AddSample/AddSample';
 import Summary from '../Summary/Summary';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
-import ManageCustomers from '../ManageCustomers/Manage';
+import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 
 import './App.css';

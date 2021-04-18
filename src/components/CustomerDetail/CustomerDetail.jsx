@@ -54,8 +54,8 @@ function CustomerDetail({ sample }) {
               <IconButton
                 color="inherit"
                 size="small"
-                disableRipple
                 onClick={() => reviewSample(sample)}
+                disableRipple
               >
                 <ArrowForwardIos />
               </IconButton>
