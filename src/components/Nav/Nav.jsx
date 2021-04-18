@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LogOutButton from '../LogOutButton/LogOutButton';
-// import Logo from '../Logo/Logo';
-import './Nav.css';
 import { useSelector } from 'react-redux';
+
+import LogOutButton from '../LogOutButton/LogOutButton';
+
 import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
+
+import './Nav.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav() {
   const classes = useStyles();
+
+  /* Store Import */
   const user = useSelector((store) => store.user);
 
   let loginLinkData = {

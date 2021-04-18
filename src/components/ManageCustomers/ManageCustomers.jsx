@@ -2,10 +2,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import ManageCustomersDetail from '../ManageCustomersDetail/ManageCustomersDetail';
+
 function Manage() {
   const dispatch = useDispatch();
+
+  /* Store Import */
   const customerList = useSelector((state) => state.customer);
-  console.log(customerList, 'customerList');
+
   useEffect(() => {
     dispatch({
       type: 'FETCH_CUSTOMERS',
@@ -25,6 +28,7 @@ function Manage() {
               <th>Company Name </th>
             </tr>
           </thead>
+
           <tbody>
             {customerList.map((customer) => {
               return (
