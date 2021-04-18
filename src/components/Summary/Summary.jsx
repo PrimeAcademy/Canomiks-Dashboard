@@ -6,6 +6,7 @@ import { Button, Typography, Grid } from '@material-ui/core';
 
 function Summary() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   /* Store Imports */
   const user = useSelector((store) => store.user);

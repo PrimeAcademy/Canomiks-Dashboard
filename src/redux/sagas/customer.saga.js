@@ -9,7 +9,7 @@ function* fetchCustomers() {
       payload: response.data,
     });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in fetchCustomers', err.message);
   }
 } // end fetchCustomers
 

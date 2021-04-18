@@ -9,7 +9,7 @@ function* fetchCustomerOrders() {
       payload: response.data,
     });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in fetchCustomerOrders', err.message);
   }
 } // end fetchCustomerOrders
 
@@ -21,7 +21,7 @@ function* fetchAllOrders() {
       payload: response.data,
     });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in fetchAllOrders', err.message);
   }
 } // end fetchAllOrders
 
@@ -34,7 +34,7 @@ function* addSampleOrder(action) {
       payload: response.data,
     });
   } catch (err) {
-    console.log('💥 error in initial sample order', err);
+    console.error('Error in addSampleOrder', err.message);
   }
 } // end addSampleOrder
 
@@ -48,15 +48,15 @@ function* updateSampleInfo(action) {
       payload: response.data,
     });
   } catch (err) {
-    console.log('💥 error in the addSampleInfo', err);
+    console.error('Error in updateSampleInfo', err.message);
   }
 } // end updateSampleInfo
 
 function* updateShipping(action) {
   try {
-    const response = yield axios.post('/api/orders/shipping', action.payload);
+    const response = yield axios.put('/api/orders/shipping', action.payload);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in updateShipping', err.message);
   }
 } // end updateShipping
 
@@ -66,7 +66,7 @@ function* deleteCurrentSample(action) {
       `/api/orders/delete/${action.payload.companyID}/${action.payload.orderId}`
     );
   } catch (err) {
-    console.log('💥 error in the addSampleInfo', err);
+    console.error('Error in deleteCurrentSample', err.message);
   }
 } // end deleteCurrentSample
 

@@ -163,9 +163,7 @@ function LabDashboard() {
                         )}
 
                         {/* Test Phase */}
-                        <TableCell align="right">
-                          {order.testingStatus}
-                        </TableCell>
+                        <TableCell align="right">{order.statusName}</TableCell>
 
                         {/* Action */}
                         <TableCell align="right">

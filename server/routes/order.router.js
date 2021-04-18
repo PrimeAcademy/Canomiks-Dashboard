@@ -10,10 +10,34 @@ const {
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
-    SELECT * FROM "orders" 
-	  JOIN "status"
-	  ON "status".id = "orders"."testingStatus"
-    WHERE orders."companyID" = $1 
+    SELECT 
+      "orders"."id",
+      "orders"."ingredientName",
+      "orders"."ingredientAmount",
+      "orders"."ingredientUnit",
+      "orders"."format",
+      "orders"."purity",
+      "orders"."dateManufactured",
+      "orders"."lotNumber",
+      "orders"."extractionMethod",
+      "orders"."city",
+      "orders"."state",
+      "orders"."country",
+      "orders"."harvestDate",
+      "orders"."cropStrain",
+      "orders"."sustainabilityInfo",
+      "orders"."shippedDate",
+      "orders"."carrierName",
+      "orders"."trackingNumber",
+      "orders"."receivedDate",
+      "orders"."testingStatus",
+      "status"."statusName",
+      "status"."testState",
+      "status"."sequence"
+    FROM "orders" 
+    JOIN "status"
+    ON "status".id = "orders"."testingStatus"
+    WHERE orders."companyID" = $1
     ORDER BY ("status".id = 1) DESC;`;
 
     const dbRes = await pool.query(queryText, [req.user.companyID]);
@@ -99,6 +123,7 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       order.companyID,
       order.orderId,
     ];
+
     const sqlText = `
       UPDATE "orders"
       SET "shippedDate" = $1, "carrierName" = $2, "trackingNumber" = $3
@@ -106,6 +131,8 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       RETURNING *;
     `;
     const dbRes = await pool.query(sqlText, orderArray);
+
+    console.log(dbRes.rows);
 
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
