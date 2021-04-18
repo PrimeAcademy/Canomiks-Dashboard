@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import SampleProgress from '../SampleProgress/SampleProgress';
 
@@ -16,6 +17,16 @@ import './CustomerDetail.css';
 
 function CustomerDetail({ sample }) {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const reviewSample = (sample) => {
+    dispatch({
+      type: 'SET_CURRENT_SAMPLE',
+      payload: sample,
+    });
+
+    history.push('/sample/add');
+  }; // end reviewSample
 
   return (
     <DialogContent>
@@ -44,7 +55,7 @@ function CustomerDetail({ sample }) {
                 color="inherit"
                 size="small"
                 disableRipple
-                onClick={() => history.push(`/sample/${sample.id}`)}
+                onClick={() => reviewSample(sample)}
               >
                 <ArrowForwardIos />
               </IconButton>
@@ -87,10 +98,7 @@ function CustomerDetail({ sample }) {
 
         {/* Render Review button if the sample is in pre-shipment */}
         {sample.statusName === 'Pre-Shipment' && (
-          <Button
-            variant="contained"
-            onClick={() => history.push(`/sample/${sample.id}`)}
-          >
+          <Button variant="contained" onClick={() => reviewSample(sample)}>
             Review Sample
           </Button>
         )}

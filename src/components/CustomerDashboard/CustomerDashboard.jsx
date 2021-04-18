@@ -43,9 +43,7 @@ export default function CustomerDashboard() {
     dispatch({
       type: 'FETCH_CUSTOMER_ORDERS',
     });
-    if (!user.active) [
-
-    ]
+    if (!user.active) [];
   }, []);
 
   const handleOpen = (sample) => {
@@ -64,11 +62,11 @@ export default function CustomerDashboard() {
       type: 'INITIAL_SAMPLE_ORDER',
       payload: {
         companyID: user.companyID,
-        lotNumber: '0000'
-      }
+        lotNumber: '0000',
+      },
     });
     // move to the add sample page
-    history.push('/addSample')
+    history.push('/sample/add');
   }; // end addSampleButton
 
   return (
@@ -81,14 +79,17 @@ export default function CustomerDashboard() {
       >
         {user.companyName}
       </Typography>
-      {!user.active ?
+      {!user.active ? (
         <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
           <Alert severity="warning">
             <AlertTitle>Warning</AlertTitle>
-            <strong>Your account is still waiting on approval.  Please check your email for additional information.</strong>
+            <strong>
+              Your account is still waiting on approval. Please check your email
+              for additional information.
+            </strong>
           </Alert>
         </div>
-        :
+      ) : (
         <Button
           variant="contained"
           style={{
@@ -99,8 +100,8 @@ export default function CustomerDashboard() {
           onClick={() => addSampleButton()}
         >
           + SAMPLE
-      </Button>
-      }
+        </Button>
+      )}
 
       <div>
         <TextField

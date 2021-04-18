@@ -56,7 +56,7 @@ function App() {
             <LoginPage />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/addSample">
+          <ProtectedRoute exact path="/sample/add">
             <AddSample />
           </ProtectedRoute>
 
@@ -69,7 +69,7 @@ function App() {
               <Manage />
             </ProtectedRoute>
           )}
-          <ProtectedRoute exact path="/shipping">
+          <ProtectedRoute exact path="/sample/ship">
             <ShippingInfo />
           </ProtectedRoute>
 
