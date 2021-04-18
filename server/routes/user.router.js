@@ -11,7 +11,10 @@ const router = express.Router();
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, async (req, res) => {
   // Send back user object from the session (previously queried from the database)
-  await pool.query(`SELECT users.id, users.name, users.email, users."companyID", users."authLevel", companies."companyName", companies."active" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE users.id = $1;`, [req.user.id]);
+  await pool.query(
+    `SELECT users.id, users.name, users.email, users."companyID", users."authLevel", companies."companyName", companies."active" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE users.id = $1;`,
+    [req.user.id]
+  );
   res.send(req.user);
 });
 
@@ -29,7 +32,7 @@ router.post('/register', async (req, res, next) => {
       zip,
       phoneNumber,
       teamLeadName,
-      email
+      email,
     } = req.body;
     const password = encryptLib.encryptPassword(req.body.password);
 
@@ -48,15 +51,18 @@ router.post('/register', async (req, res, next) => {
     // the second insert, for the individual user
     const companyID = dbRes.rows[0].id;
     const queryTextTwo = `INSERT INTO "users" ("email", "password", "name", "companyID") VALUES ($1, $2, $3, $4)`;
-    const dbResTwo = await pool.query(queryTextTwo, [email, password, teamLeadName, companyID]);
+    const dbResTwo = await pool.query(queryTextTwo, [
+      email,
+      password,
+      teamLeadName,
+      companyID,
+    ]);
     res.sendStatus(201);
-  }
-  catch (err) {
+  } catch (err) {
     console.log('💥 something went wrong in the register route');
     console.log(err);
     res.sendStatus(500);
   }
-
 });
 
 // Handles login form authenticate/login POST
