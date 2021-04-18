@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-/* Local Components */
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -28,6 +27,7 @@ import { CssBaseline } from '@material-ui/core';
 function App() {
   const dispatch = useDispatch();
 
+  /* Store Imports */
   const user = useSelector((store) => store.user);
 
   useEffect(() => {

@@ -26,6 +26,15 @@ const Summary = function () {
 
   const goToAddSample = function () {
     console.log('button clicked');
+
+    dispatch({
+      type: 'INITIAL_SAMPLE_ORDER',
+      payload: {
+        companyID: user.companyID,
+        lotNumber: '0000',
+      },
+    });
+
     history.push('/sample/add');
   }; // end goToAddSample
 
