@@ -11,15 +11,7 @@ function* fetchCustomerOrders() {
   } catch (err) {
     console.error(err.message);
   }
-}
-
-function* addShipping(action) {
-  try {
-    const response = yield axios.post('/api/orders/shipping', action.payload);
-  } catch (err) {
-    console.error(err.message);
-  }
-}
+} // end fetchCustomerOrders
 
 function* fetchAllOrders() {
   try {
@@ -31,9 +23,9 @@ function* fetchAllOrders() {
   } catch (err) {
     console.error(err.message);
   }
-} // end addShipping
+} // end fetchAllOrders
 
-function* initialSampleOrder(action) {
+function* addSampleOrder(action) {
   try {
     const response = yield axios.post('/api/orders/start', action.payload);
 
@@ -44,9 +36,9 @@ function* initialSampleOrder(action) {
   } catch (err) {
     console.log('💥 error in initial sample order', err);
   }
-} // end initialSampleOrder
+} // end addSampleOrder
 
-function* addSampleInfo(action) {
+function* updateSampleInfo(action) {
   try {
     const response = yield axios.put('/api/orders/update', action.payload);
 
@@ -58,7 +50,15 @@ function* addSampleInfo(action) {
   } catch (err) {
     console.log('💥 error in the addSampleInfo', err);
   }
-} // end addSampleInfo
+} // end updateSampleInfo
+
+function* updateShipping(action) {
+  try {
+    const response = yield axios.post('/api/orders/shipping', action.payload);
+  } catch (err) {
+    console.error(err.message);
+  }
+} // end updateShipping
 
 function* deleteCurrentSample(action) {
   try {
@@ -72,10 +72,10 @@ function* deleteCurrentSample(action) {
 
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
-  yield takeLatest('ADD_SHIPPING_INFO', addShipping);
-  yield takeLatest('ADD_SAMPLE_INFO', addSampleInfo);
-  yield takeLatest('INITIAL_SAMPLE_ORDER', initialSampleOrder);
   yield takeLatest('FETCH_ALL_ORDERS', fetchAllOrders);
+  yield takeLatest('ADD_SAMPLE', addSampleOrder);
+  yield takeLatest('UPDATE_SAMPLE_INFO', updateSampleInfo);
+  yield takeLatest('UPDATE_SHIPPING_INFO', updateShipping);
   yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
 }
 

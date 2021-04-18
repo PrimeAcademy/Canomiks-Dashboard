@@ -23,7 +23,7 @@ function Summary() {
   const goToAddSample = function () {
     // Initializes sample
     dispatch({
-      type: 'INITIAL_SAMPLE_ORDER',
+      type: 'ADD_SAMPLE',
       payload: {
         companyID: user.companyID,
         lotNumber: '0000',

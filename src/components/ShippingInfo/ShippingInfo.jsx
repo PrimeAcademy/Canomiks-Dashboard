@@ -37,7 +37,7 @@ function ShippingInfo() {
       return;
     } else {
       dispatch({
-        type: 'ADD_SHIPPING_INFO',
+        type: 'UPDATE_SHIPPING_INFO',
         payload: {
           shippedDate,
           carrierName,

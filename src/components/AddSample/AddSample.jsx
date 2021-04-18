@@ -86,7 +86,7 @@ function AddSample() {
 
     // Dispatch value and field name to update DB
     dispatch({
-      type: 'ADD_SAMPLE_INFO',
+      type: 'UPDATE_SAMPLE_INFO',
       payload: {
         name: currentInput,
         value: val,
