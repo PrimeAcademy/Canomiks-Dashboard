@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -26,6 +27,7 @@ function ForgotPassword() {
   const classes = useStyles();
   // set up functions so we can use them
   const dispatch = useDispatch();
+  const history = useHistory();
 
   // local state
   const [email, setEmail] = useState('');
@@ -34,7 +36,7 @@ function ForgotPassword() {
   const errors = useSelector((store) => store.errors);
 
   // functions
-  const login = (event) => {
+  const changePassword = (event) => {
     event.preventDefault();
     if (email) {
       dispatch({
@@ -43,7 +45,8 @@ function ForgotPassword() {
           email
         }
       });
-
+      alert('Please check your email for instructions');
+      history.push('/login')
     } else {
       // dispatch({ type: 'LOGIN_INPUT_ERROR' });
     }
@@ -83,7 +86,7 @@ function ForgotPassword() {
                 style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
                 name="login"
                 value="Log In"
-                onClick={login}>
+                onClick={changePassword}>
                 Change Password
               </Button>
             </div>

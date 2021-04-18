@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const pool = require('../modules/pool');
 const router = express.Router();
 const {
   rejectUnauthenticated,
@@ -40,6 +41,31 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   });
   
   res.sendStatus(200);
+}); // end basic email
+
+
+router.post('/forgotPassword', async (req, res) => {
+  try{
+    // get user info from db that matched the entered email
+    const sqlText = `
+    SELECT * FROM "users"
+    WHERE "email" = $1;
+    `;
+    const dbRes = await pool.query(sqlText, [req.body.email]);
+
+    // if no user if found, return no email found
+    if (dbRes.rows.length === 0) {
+      console.log('💥 no email found');
+      res.send("No email found");
+    };
+
+    console.log('returned from db with', dbRes.rows);
+    
+  }
+  catch(err) {
+    console.log('🎹 something went wrong with the forgot password', err);
+  }
 })
+
 
 module.exports = router;

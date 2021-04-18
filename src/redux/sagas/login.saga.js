@@ -60,7 +60,7 @@ function* logoutUser(action) {
 
 function* forgotPassword (action) {
   try {
-    const response = yield axios.post('/api/user/forgotPassword', action.payload);
+    const response = yield axios.post('/api/email/forgotPassword', action.payload);
 
     console.log(response.data);
   }

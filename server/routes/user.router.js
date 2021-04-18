@@ -58,27 +58,6 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-router.post('/forgotPassword', async (req, res) => {
-  try{
-    // get user info from db that matched the entered email
-    const sqlText = `
-    SELECT * FROM "users"
-    WHERE "email" = $1;
-    `;
-    const dbRes = await pool.query(sqlText, [req.body.email]);
-
-    // if no user if found, return no email found
-    if (dbRes.rows.length === 0) {
-      console.log('💥 no email found');
-      res.send("No email found");
-    };
-    
-  }
-  catch(err) {
-    console.log('🎹 something went wrong with the forgot password');
-  }
-})
-
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
