@@ -1,53 +1,53 @@
-// functionality imports
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { useState } from 'react';
 
-// material ui imports
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, 
-  TableContainer, TableHead, TablePagination, 
-  TableRow, Button, Typography, TextField } from '@material-ui/core';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Button,
+  Typography,
+  TextField,
+} from '@material-ui/core';
 
-// materiaul ui style
+// Create Material UI Style
 const useStyles = makeStyles({
   root: {
     width: '100%',
   },
   container: {
     maxHeight: 600,
-    maxWidth: '80%'
+    maxWidth: '80%',
   },
   table: {
     minWidth: 650,
   },
-}); // end style
+});
 
-// main component function
 function LabDashboard() {
-  // material ui
   const classes = useStyles();
-
-  // set functions
   const dispatch = useDispatch();
 
-  // local states
+  /* Store Imports */
+  const orders = useSelector((store) => store.orders.orderReducer);
+
+  /* Local State */
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
 
-  // do this on page load
   useEffect(() => {
     dispatch({
-      type: 'FETCH_ALL_ORDERS'
+      type: 'FETCH_ALL_ORDERS',
     });
   }, []);
 
-  // get state from redux store
-  const orders = useSelector(store => store.orders.orderReducer);
-
-  // functions 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   }; // end handleChangePage
@@ -57,76 +57,127 @@ function LabDashboard() {
     setPage(0);
   }; // end handleChangeRowsPerPage
 
-  function detailButtonClick () {
+  const detailButtonClick = () => {
     console.log('detail button');
   }; // end detailButtonClick
 
   return (
     <>
-      <Typography variant="h3" component="h1" gutterBottom style={{ marginLeft: '10%', fontWeight: 900 }}>
+      <Typography
+        variant="h3"
+        component="h1"
+        style={{ marginLeft: '10%', fontWeight: 900 }}
+        gutterBottom
+      >
         Current Orders
       </Typography>
+
+      {/* Search field */}
       <div>
-        <TextField style={{ margin: 25, marginLeft: '10%' }} onChange={(event) => { setFilter(event.target.value) }} label="Search..." variant="standard" />
+        <TextField
+          label="Search..."
+          variant="standard"
+          style={{ margin: 25, marginLeft: '10%' }}
+          onChange={(event) => {
+            setFilter(event.target.value);
+          }}
+        />
       </div>
+
       <center>
         <TableContainer className={classes.container}>
-          <Table className={classes.table} stickyHeader aria-label="sticky table">
+          <Table
+            aria-label="sticky table"
+            className={classes.table}
+            stickyHeader
+          >
             <TableHead>
               <TableRow>
                 <TableCell label="Lot Number" style={{ fontWeight: 900 }}>
                   Lot Number
                 </TableCell>
 
-                <TableCell label="Company Name" align="right" style={{ fontWeight: 900 }}>
+                <TableCell
+                  label="Company Name"
+                  align="right"
+                  style={{ fontWeight: 900 }}
+                >
                   Company Name
                 </TableCell>
 
-                <TableCell label="Date Received" align="right" style={{ fontWeight: 900 }}>
+                <TableCell
+                  label="Date Received"
+                  align="right"
+                  style={{ fontWeight: 900 }}
+                >
                   Date Received
                 </TableCell>
 
-                <TableCell label="Test Phase" align="right" style={{ fontWeight: 900 }}>
+                <TableCell
+                  label="Test Phase"
+                  align="right"
+                  style={{ fontWeight: 900 }}
+                >
                   Test Phase
                 </TableCell>
 
-                <TableCell label="Action Button" align="right" style={{ fontWeight: 900 }}>
+                <TableCell
+                  label="Action Button"
+                  align="right"
+                  style={{ fontWeight: 900 }}
+                >
                   Action
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {orders
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
-                  if (order.lotNumber.toLowerCase().includes(filter.toLowerCase())) {
+                  if (
+                    order.lotNumber.toLowerCase().includes(filter.toLowerCase())
+                  ) {
                     return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={order.id}>
+                      <TableRow
+                        role="checkbox"
+                        key={order.id}
+                        tabIndex={-1}
+                        hover
+                      >
+                        {/* Lot Number */}
                         <TableCell component="th" scope="row">
                           {order.lotNumber}
                         </TableCell>
-                        <TableCell align="right">
-                          {order.companyID}
-                        </TableCell>
 
-                        {order.receivedDate ?
+                        {/* Company Name */}
+                        <TableCell align="right">{order.companyID}</TableCell>
+
+                        {/* Date Received */}
+                        {order.receivedDate ? (
                           <TableCell align="right">
                             {moment(order.receivedDate).format('MMMM DD YYYY')}
-                          </TableCell> :
-                          <TableCell align="right">
-                            Not Shipped
                           </TableCell>
-                        }
+                        ) : (
+                          <TableCell align="right">Not Shipped</TableCell>
+                        )}
 
+                        {/* Test Phase */}
                         <TableCell align="right">
                           {order.testingStatus}
                         </TableCell>
 
+                        {/* Action */}
                         <TableCell align="right">
-                          <Button onClick={detailButtonClick} 
-                            variant="contained" 
-                            style={{ backgroundColor: '#1e565c', color: 'white' }}>
-                              View Details
+                          <Button
+                            variant="contained"
+                            style={{
+                              backgroundColor: '#1e565c',
+                              color: 'white',
+                            }}
+                            onClick={detailButtonClick}
+                          >
+                            View Details
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -136,10 +187,11 @@ function LabDashboard() {
             </TableBody>
           </Table>
         </TableContainer>
+
         <TablePagination
           className={classes.container}
-          rowsPerPageOptions={[10, 25, 100]}
           component="div"
+          rowsPerPageOptions={[10, 25, 100]}
           count={orders.length}
           rowsPerPage={rowsPerPage}
           page={page}
