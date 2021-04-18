@@ -6,6 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 // local components
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -19,6 +20,7 @@ import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
 import Manage from '../ManageCustomers/Manage';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
+import ForgotPassword from '../ForgotPassword/ForgotPassword'
 
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
@@ -73,9 +75,18 @@ function App() {
             <ShippingInfo />
           </ProtectedRoute>
 
-          <Route path="/summary">
+          <ProtectedRoute exact path="/summary">
             <Summary />
-          </Route>
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/forgotPassword" authRedirect="/samples">
+            <ForgotPassword />
+          </ProtectedRoute>
+
+          {/* <Route exact path="/forgotPassword">
+            <ForgotPassword />
+          </Route> */}
+
         </Switch>
         <Footer />
       </Router>

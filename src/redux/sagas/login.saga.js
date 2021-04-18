@@ -56,11 +56,23 @@ function* logoutUser(action) {
   } catch (error) {
     console.log('Error with user logout:', error);
   }
+};
+
+function* forgotPassword (action) {
+  try {
+    const response = yield axios.post('/api/user/forgotPassword', action.payload);
+
+    console.log(response.data);
+  }
+  catch (err) {
+    console.log('💥 something went wrong in the forgot password', err)
+  }
 }
 
 function* loginSaga() {
   yield takeLatest('LOGIN', loginUser);
   yield takeLatest('LOGOUT', logoutUser);
+  yield takeLatest('FORGOT_PASSWORD', forgotPassword);
 }
 
 export default loginSaga;

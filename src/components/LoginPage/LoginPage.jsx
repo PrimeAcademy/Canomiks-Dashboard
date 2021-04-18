@@ -19,10 +19,16 @@ function LoginPage() {
 
   return (
     <center>
-      <Typography variant="h1" style={{ maxWidth: '80%', fontSize: 60, fontWeight: 800 }} component="h1">Canomiks</Typography>
+      <Typography variant="h1" 
+      style={{ maxWidth: '80%', fontSize: 60, fontWeight: 800 }} 
+      component="h1">
+        Canomiks
+      </Typography>
+
       <Paper className={classes.root}>
         <LoginForm />
       </Paper>
+
       <Button
         style={{
           backgroundColor: '#1e565c',
@@ -30,10 +36,9 @@ function LoginPage() {
         }}
         onClick={() => {
           history.push('/registration');
-        }}
-      >
+        }}>
         Register
-        </Button>
+      </Button>
 
     </center>
   );
