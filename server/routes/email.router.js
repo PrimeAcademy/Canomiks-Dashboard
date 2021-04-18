@@ -34,8 +34,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
     text: `${req.body.message}`,
   }, (err, info) => {
     if (err) {
-      console.log('💥 error sending', err);
-      return;
+      res.send('💥 error sending email', err);
     } ;
     console.log('🎉 it has been sent', info.response)
   });
@@ -59,7 +58,33 @@ router.post('/forgotPassword', async (req, res) => {
       res.send("No email found");
     };
 
-    console.log('returned from db with', dbRes.rows);
+    /*
+    {
+    id: 3,
+    email: 'josh@SNR.com',
+    password: '$2a$10$ztPSRgi94yCnY3cQxPci3us5gQ33xC5nUuN4U1noT2TThARvRwH.S',
+    name: 'Josh',
+    companyID: 3,
+    authLevel: 'team'
+    }
+    */
+
+    // if the email exists, get the info
+    const userInfo = dbRes.rows;
+    // send the email to the users email
+    const info =  await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: `${userInfo.email}`,
+      subject: "Password Change Request",
+      text: `
+      Regarding your password change request, please click the link provided and follow the instructions there. 
+      `,
+    }, (err, info) => {
+      if (err) {
+        res.send('💥 error sending email', err);
+      } ;
+      console.log('🎉 it has been sent', info.response)
+    });
     
   }
   catch(err) {
