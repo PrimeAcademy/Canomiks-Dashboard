@@ -1,7 +1,7 @@
-import Nav from '../Nav/Nav';
-import ManageCustomersDetail from '../ManageCustomersDetail/ManageCustomersDetail';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+
+import ManageCustomersDetail from '../ManageCustomersDetail/ManageCustomersDetail';
 function Manage() {
   const dispatch = useDispatch();
   const customerList = useSelector((state) => state.customer);
