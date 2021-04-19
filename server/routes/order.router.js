@@ -1,133 +1,119 @@
+require('dotenv').config();
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-const { rejectUnauthenticated } = require('../modules/authentication-middleware');
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
-/**
- * GET route template
- */
+/* GET ROUTES */
 router.get('/', rejectUnauthenticated, async (req, res) => {
-  // GET route code here
   try {
     const queryText = `
-    SELECT * FROM "orders" 
-    WHERE orders."companyID" = $1 
-    ORDER BY ("testingStatus" = 'Pre-shipment') DESC;`;
+    SELECT 
+      "orders"."id",
+      "orders"."ingredientName",
+      "orders"."ingredientAmount",
+      "orders"."ingredientUnit",
+      "orders"."format",
+      "orders"."purity",
+      "orders"."dateManufactured",
+      "orders"."lotNumber",
+      "orders"."extractionMethod",
+      "orders"."city",
+      "orders"."state",
+      "orders"."country",
+      "orders"."harvestDate",
+      "orders"."cropStrain",
+      "orders"."sustainabilityInfo",
+      "orders"."shippedDate",
+      "orders"."carrierName",
+      "orders"."trackingNumber",
+      "orders"."receivedDate",
+      "orders"."testingStatus",
+      "status"."statusName",
+      "status"."testState",
+      "status"."sequence"
+    FROM "orders" 
+    JOIN "status"
+    ON "status".id = "orders"."testingStatus"
+    WHERE orders."companyID" = $1
+    ORDER BY ("status".id = 1) DESC;`;
+
     const dbRes = await pool.query(queryText, [req.user.companyID]);
     res.send(dbRes.rows);
-  }
-  catch (err) {
-    console.error(err.message);
+  } catch (err) {
+    console.error('Error in GET /', err.message);
     res.sendStatus(500);
   }
 });
-//GET ROUTE FOR MANAGE CUSTOMERS
-router.get('/companies', async (req, res) => {
-  
+
+router.get('/all', rejectUnauthenticated, async (req, res) => {
   try {
-    const queryText = `
-    SELECT * FROM "companies" 
-    `;
-    const dbRes = await pool.query(queryText);
-    console.log('res', dbRes)
+    const query = `SELECT * FROM orders ORDER BY ("companyID");`;
+    const dbRes = await pool.query(query);
+
     res.send(dbRes.rows);
-  }
-  catch (err) {
-    console.error(err.message);
+  } catch (err) {
+    console.error('Error in GET /all', err.message);
     res.sendStatus(500);
   }
 });
 
-router.put('/newOrder/:id', async (req, res) => {
+/* POST ROUTE */
+// Initializes a new sample
+router.post('/start', rejectUnauthenticated, async (req, res) => {
   try {
-    const userId = req.user.id;
-    const shipping = req.body;
-    const sqlParams = [
-      shipping.id,
-      userId,
-      shipping.shippedDate,
-      shipping.carrierName,
-      shipping.trackingNumber,
-    ];
-    const sqlQuery = `UPDATE "orders" 
-    SET "shippedDate" = $3, "carrierName" = $4, "trackingNumber" = $5
-    WHERE "id" = $1 
-    RETURNING "id";`;
-    const dbRes = await pool.query(sqlQuery, sqlParams)
-    res.send(dbRes.rows[0])
-  }
-  catch (err) {
-    console.error(err.message);
-    res.sendStatus(500);
-  }
-})
-/**
- * POST route template
- */
-
-// the initial sample order, for when they start the process.
-router.post('/initialOrder', rejectUnauthenticated, async (req, res) => {
-  try {
-    const order = req.body.companyID;
+    const { companyID, lotNumber } = req.body;
     const sqlText = `
     INSERT INTO "orders"
-    ("companyID")
-    VALUES
-    ($1);
+    ("companyID", "lotNumber") 
+    VALUES 
+    ($1, $2) 
+    RETURNING id;
     `;
-    await pool.query(sqlText, [order]);
-    res.sendStatus(200);
-  }
-  catch (err) {
-    console.log('error in the initial order post', err);
+    const dbRes = await pool.query(sqlText, [companyID, lotNumber]);
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    }
+  } catch (err) {
+    console.error('Error in POST /start', err.message);
     res.sendStatus(500);
   }
 });
 
-// for add sample page to save the sample information; after initial insert
-router.put('/newOrder', rejectUnauthenticated, async (req, res) => {
-  // is the order id sent over in the req.body or as a param? 
-  //  right now its set up as a req.body
+/* PUT ROUTES */
+
+// Adds sample information after initial sample insert
+router.put('/update', rejectUnauthenticated, async (req, res) => {
   try {
-    const order = req.body;
-    const orderArray = [
-      order.companyID,  //1
-      order.ingredientName, //2
-      order.ingredientAmount, //3
-      order.ingredientUnit, //4
-      order.format, //5
-      order.purity, //6
-      order.dateManufactured, //7
-      order.lotNumber, //8
-      order.extractionMethod, //9
-      order.city, //10
-      order.state, //11
-      order.country, //12
-      order.harvestDate, //13
-      order.cropStrain, //14
-      order.sustainabilityInfo, //15
-      order.orderId //16
-    ];
+    const orderArray = [req.body.value, req.body.companyID, req.body.orderId];
+    const tableName = req.body.name;
     const sqlText = `
-      UPDATE "orders"
-      SET "ingredientName" = $2, "ingredientAmount" = $3, "ingredientUnit" = $4,
-      "format" = $5, "purity" = $6, "dateManufactured" = $7, "lotNumber" = $8,
-      "extractionMethod" = $9, "city" = $10, "state" = $11, "country" = $12,
-      "harvestDate" = $13, "cropStrain" = $14, "sustainabilityInfo" = $15
-      WHERE "companyID" = $1 AND "id" = $16;
+    UPDATE "orders"
+    SET "${tableName}" = $1
+    WHERE "companyID" = $2 AND "id" = $3
+    RETURNING *;
     `;
-    await pool.query(sqlText, orderArray);
-    res.sendStatus(200);
-  }
-  catch (err) {
-    console.error(err);
+    const dbRes = await pool.query(sqlText, orderArray);
+
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    }
+  } catch (err) {
+    console.error('Error in PUT /update', err.message);
     res.sendStatus(500);
   }
 });
 
-// for shipping page to save the shipping information; after initial insert
+// Saves shipping information when sample is finalized
 router.put('/shipping', rejectUnauthenticated, async (req, res) => {
-  // POST route code here
   try {
     const order = req.body;
     const orderArray = [
@@ -135,18 +121,27 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       order.carrierName,
       order.trackingNumber,
       order.companyID,
-      order.orderId
+      order.orderId,
     ];
+
     const sqlText = `
       UPDATE "orders"
       SET "shippedDate" = $1, "carrierName" = $2, "trackingNumber" = $3
-      WHERE "companyID" = $4 AND "id" = $5;
+      WHERE "companyID" = $4 AND "id" = $5
+      RETURNING *;
     `;
-    await pool.query(sqlText, orderArray);
-    res.sendStatus(200);
-  }
-  catch (err) {
-    console.error(err.message);
+    const dbRes = await pool.query(sqlText, orderArray);
+
+    console.log(dbRes.rows);
+
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    }
+  } catch (err) {
+    console.error('Error in PUT /shipping', err.message);
     res.sendStatus(500);
   }
 });
@@ -166,6 +161,7 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
 
     console.log(dbRes.rows);
 
+<<<<<<< HEAD
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -178,3 +174,30 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
   }
 });
 module.exports = router;
+=======
+/* DELETE ROUTES */
+router.delete(
+  '/delete/:company/:order',
+  rejectUnauthenticated,
+  async (req, res) => {
+    try {
+      const sqlText = `
+      DELETE FROM "orders" 
+      WHERE "companyID" = $1 AND "id" = $2;
+    `;
+
+      const dbRes = await pool.query(sqlText, [
+        req.params.company,
+        req.params.order,
+      ]);
+
+      res.sendStatus(200);
+    } catch (err) {
+      console.error('Error in DELETE /delete', err.message);
+      res.sendStatus(500);
+    }
+  }
+);
+
+module.exports = router;
+>>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c

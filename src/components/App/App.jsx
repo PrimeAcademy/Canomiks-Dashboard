@@ -5,29 +5,33 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+<<<<<<< HEAD
 import Upload from '../Upload/Upload'
+=======
+>>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+
 import AddSample from '../AddSample/AddSample';
 import Summary from '../Summary/Summary';
-
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
-import Manage from '../ManageCustomers/Manage';
+import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
+
 import './App.css';
+import { CssBaseline } from '@material-ui/core';
 
 function App() {
   const dispatch = useDispatch();
 
+  /* Store Imports */
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
@@ -35,14 +39,23 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
-      <div>
+    <>
+      <CssBaseline />
+      <Router>
         <Nav />
         <Switch>
           <Redirect exact from="/" to="/home" />
 
           <ProtectedRoute exact path="/home" authRedirect="/samples">
             <LandingPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/login" authRedirect="/samples">
+            <LoginPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/registration" authRedirect="/samples">
+            <RegisterPage />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/samples">
@@ -53,14 +66,15 @@ function App() {
             )}
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/login" authRedirect="/samples">
-            <LoginPage />
+          <ProtectedRoute path="/summary">
+            <Summary />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/addSample" >
+          <ProtectedRoute exact path="/sample/add">
             <AddSample />
           </ProtectedRoute>
 
+<<<<<<< HEAD
           <ProtectedRoute exact path="/upload" >
             <Upload />
           </ProtectedRoute>
@@ -73,17 +87,21 @@ function App() {
               <Manage />
             </ProtectedRoute>}
           <ProtectedRoute exact path="/shipping">
+=======
+          <ProtectedRoute exact path="/sample/ship">
+>>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
             <ShippingInfo />
           </ProtectedRoute>
 
-          <Route path='/summary'>
-            <Summary />
-          </Route>
-
+          {user.authLevel === 'admin' && (
+            <ProtectedRoute exact path="/manage/customers">
+              <ManageCustomers />
+            </ProtectedRoute>
+          )}
         </Switch>
         <Footer />
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 }
 

@@ -6,11 +6,12 @@ function* fetchCustomerOrders() {
     const response = yield axios.get('/api/orders');
     yield put({
       type: 'SET_CUSTOMER_ORDERS',
-      payload: response.data
-    })
+      payload: response.data,
+    });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in fetchCustomerOrders', err.message);
   }
+<<<<<<< HEAD
 }
 function* updateUrl(action) {
   try {
@@ -25,13 +26,79 @@ function* addOrder(action) {
     const response = yield axios.post('/api/orders/shipping', action.payload);
   } catch(err) {
     console.error(err.message);
+=======
+} // end fetchCustomerOrders
+
+function* fetchAllOrders() {
+  try {
+    const response = yield axios.get('/api/orders/all');
+    yield put({
+      type: 'SET_ALL_ORDERS',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.error('Error in fetchAllOrders', err.message);
+>>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
   }
-}
+} // end fetchAllOrders
+
+function* addSampleOrder(action) {
+  try {
+    const response = yield axios.post('/api/orders/start', action.payload);
+
+    yield put({
+      type: 'SET_CURRENT_SAMPLE',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.error('Error in addSampleOrder', err.message);
+  }
+} // end addSampleOrder
+
+function* updateSampleInfo(action) {
+  try {
+    const response = yield axios.put('/api/orders/update', action.payload);
+
+    // now set current sample with all the info
+    yield put({
+      type: 'SET_CURRENT_SAMPLE',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.error('Error in updateSampleInfo', err.message);
+  }
+} // end updateSampleInfo
+
+function* updateShipping(action) {
+  try {
+    const response = yield axios.put('/api/orders/shipping', action.payload);
+  } catch (err) {
+    console.error('Error in updateShipping', err.message);
+  }
+} // end updateShipping
+
+function* deleteCurrentSample(action) {
+  try {
+    const response = yield axios.delete(
+      `/api/orders/delete/${action.payload.companyID}/${action.payload.orderId}`
+    );
+  } catch (err) {
+    console.error('Error in deleteCurrentSample', err.message);
+  }
+} // end deleteCurrentSample
 
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
+<<<<<<< HEAD
   yield takeLatest('ADD_ORDER', addOrder);
   yield takeLatest('ADD_URL', updateUrl);
+=======
+  yield takeLatest('FETCH_ALL_ORDERS', fetchAllOrders);
+  yield takeLatest('ADD_SAMPLE', addSampleOrder);
+  yield takeLatest('UPDATE_SAMPLE_INFO', updateSampleInfo);
+  yield takeLatest('UPDATE_SHIPPING_INFO', updateShipping);
+  yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
+>>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
 }
 
 export default orderSaga;

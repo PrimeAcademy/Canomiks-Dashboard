@@ -9,7 +9,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   pool
-    .query('SELECT * FROM "users" WHERE id = $1', [id])
+    .query(`SELECT users.id, users.name, users.email, users."companyID", users."authLevel", companies."companyName", companies."active" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE users.id = $1;`, [id])
     .then((result) => {
       // Handle Errors
       const user = result && result.rows && result.rows[0];
@@ -43,7 +43,7 @@ passport.use(
     },
     (username, password, done) => {
       pool
-        .query('SELECT * FROM "users" WHERE email = $1', [username])
+        .query('SELECT users.*, companies."companyName", companies."active" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE email = $1', [username])
         .then((result) => {
           const user = result && result.rows && result.rows[0];
           if (user && encryptLib.comparePassword(password, user.password)) {
