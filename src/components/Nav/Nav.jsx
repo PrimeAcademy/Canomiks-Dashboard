@@ -45,7 +45,7 @@ function Nav() {
   }
 
   return (
-    <AppBar position="static" style={{ marginBottom: 50 }}>
+    <AppBar position="static" style={{ marginBottom: 30 }}>
       <Toolbar
         style={{
           display: 'flex',
