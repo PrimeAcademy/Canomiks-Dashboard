@@ -12,7 +12,13 @@ function* fetchCustomerOrders() {
     console.error(err.message);
   }
 }
-
+function* updateUrl(action) {
+  try {
+    const response = yield axios.put('/api/orders/url', action.payload);
+  } catch (err) {
+    console.error('Error in updateUrl', err.message);
+  }
+} // end updateShipping
 function* addOrder(action) {
   console.log("action payload,", action.payload)
   try{
@@ -25,6 +31,7 @@ function* addOrder(action) {
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
   yield takeLatest('ADD_ORDER', addOrder);
+  yield takeLatest('ADD_URL', updateUrl);
 }
 
 export default orderSaga;

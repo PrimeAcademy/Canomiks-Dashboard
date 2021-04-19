@@ -4,17 +4,27 @@ import DropzoneS3Uploader from 'react-dropzone-s3-uploader'
 import S3Upload from 'react-s3-uploader/s3upload'
 import Dropzone from 'react-dropzone'
 import UploadDisplay from './UploadDisplay'
+import { useDispatch } from 'react-redux';
 function Upload(){
+    const dispatch = useDispatch();
 const uploadOptions = {
     server: 'http://localhost:5000'
   }
   const s3Url = 'https://prime-canomiks.s3.amazonaws.com'
   
-function handleFinishedUpload (){
-    console.log('file', File)
-  }
-  
+function handleFinishedUpload (files){
+        console.log(files.fileUrl,'filesss')
+        dispatch({
+            type: 'ADD_URL',
+            payload: { pdfUrl: files.fileUrl,
+              
+            },
+          });
 
+      }
+  
+  
+  
   return (<>
       <h3>Click the box to upload a file</h3>
     <DropzoneS3Uploader

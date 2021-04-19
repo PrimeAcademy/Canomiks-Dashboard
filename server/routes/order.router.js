@@ -150,5 +150,31 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
+// Adding pdfurl
+router.put('/url', rejectUnauthenticated, async (req, res) => {
+  try {
+    const order = req.body;
+    
 
+    const sqlText = `
+      UPDATE "orders"
+      SET "pdfUrl" = $1 
+      WHERE "companyID" = $2 AND "id" = $3
+      RETURNING *;
+    `;
+    const dbRes = await pool.query(sqlText, [order.pdfUrl]);
+
+    console.log(dbRes.rows);
+
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    }
+  } catch (err) {
+    console.error('Error in PUT /url', err.message);
+    res.sendStatus(500);
+  }
+});
 module.exports = router;
