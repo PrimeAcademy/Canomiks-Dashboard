@@ -10,13 +10,10 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const orderRouter = require('./routes/order.router');
-<<<<<<< HEAD
-const uploadRouter = require('./routes/upload.router')
-=======
+
 const companyRouter = require('./routes/company.router');
 const emailRouter = require('./routes/email.router');
 
->>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,11 +28,8 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/orders', orderRouter);
-<<<<<<< HEAD
-=======
 app.use('/api/companies', companyRouter);
 app.use('/api/email', emailRouter);
->>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
 
 // Serve static files
 app.use(express.static('build'));

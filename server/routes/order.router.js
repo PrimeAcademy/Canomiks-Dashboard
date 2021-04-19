@@ -161,7 +161,6 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
 
     console.log(dbRes.rows);
 
-<<<<<<< HEAD
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -174,7 +173,6 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
   }
 });
 module.exports = router;
-=======
 /* DELETE ROUTES */
 router.delete(
   '/delete/:company/:order',
@@ -200,4 +198,3 @@ router.delete(
 );
 
 module.exports = router;
->>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
