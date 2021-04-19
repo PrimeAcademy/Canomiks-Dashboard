@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
@@ -43,6 +44,67 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
 }); // end basic email
 
 
+//       ------ playing around -----
+
+router.get('/test', (req, res) => {
+  res.json({
+    message: 'Welcome to the API'
+  })
+});
+
+router.post('/protected', verifyToken, (req, res) => {
+
+  jwt.verify(req.token, process.env.JWT_SECRET, (err, authData) => {
+
+    if(err) {
+      res.sendStatus(403);
+    };
+
+    res.json({
+      message: 'Protected with jwt',
+      authData
+    });
+  });
+
+});
+
+router.post('/test', (req, res) => {
+
+  const secret = process.env.JWT_SECRET 
+    const payload = {
+      email: 'ladeda@email.com',
+      id: '3'
+    };
+
+  jwt.sign(payload, secret, {expiresIn: '30s'}, (err, token) => {
+    res.json({
+      token
+    })
+  });
+});
+
+// formatted
+// Authorization: Bearer <access_token> 
+
+function verifyToken (req, res, next) {
+  // get auth header
+  const bearerHeader = req.headers['authorization'];
+
+  // check if undefined
+  if (bearerHeader === undefined) {
+    res.sendStatus(403);
+  };
+  // split at the space
+  const bearer = bearerHeader.split(' ')[1];
+  req.token = bearer;
+  // keep going
+  next();
+}
+
+
+//  ----------------
+
+
 router.post('/forgotPassword', async (req, res) => {
   try{
     // get user info from db that matched the entered email
@@ -71,13 +133,27 @@ router.post('/forgotPassword', async (req, res) => {
 
     // if the email exists, get the info
     const userInfo = dbRes.rows;
+
+    // create one time link to send the user
+    const secret = process.env.JWT_SECRET + userInfo.password;
+    const payload = {
+      email: userInfo.email,
+      id: userInfo.id
+    };
+    // const token = jwt.sign(payload, secret, {expiresIn: '15m'});
+
+
+    const link = `http://localhost:3000/#/resetPassword/${userInfo.id}/${token}`
+
+
     // send the email to the users email
     const info =  await transporter.sendMail({
       from: process.env.EMAIL,
-      to: `${userInfo.email}`,
+      to: `joshlobosgulledge@gmail.com`,
       subject: "Password Change Request",
       text: `
       Regarding your password change request, please click the link provided and follow the instructions there. 
+      ${link}
       `,
     }, (err, info) => {
       if (err) {
@@ -90,7 +166,8 @@ router.post('/forgotPassword', async (req, res) => {
   catch(err) {
     console.log('🎹 something went wrong with the forgot password', err);
   }
-})
+});
+
 
 
 module.exports = router;

@@ -20,7 +20,9 @@ import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
 import Manage from '../ManageCustomers/Manage';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
-import ForgotPassword from '../ForgotPassword/ForgotPassword'
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
+import ResetPassword from '../ResetPassword/ResetPassword';
+
 
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
@@ -82,6 +84,11 @@ function App() {
           <ProtectedRoute exact path="/forgotPassword" authRedirect="/samples">
             <ForgotPassword />
           </ProtectedRoute>
+
+          <ProtectedRoute exact path="/resetPassword" authRedirect="/samples">
+            <ResetPassword />
+          </ProtectedRoute>
+
 
           {/* <Route exact path="/forgotPassword">
             <ForgotPassword />
