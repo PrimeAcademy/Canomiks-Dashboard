@@ -72,7 +72,7 @@ function Nav() {
             </Link>
           )}
 
-          {user.authLevel !== 'admin' && (
+          {user.authLevel === 'team' && (
             <>
               <a className="navLink" href="https://www.canomiks.com/contactus">
                 Help
