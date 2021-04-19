@@ -21,8 +21,6 @@ if (process.env.DATABASE_URL) {
   };
 } else {
   config = {
-    user: 'postgres',
-    password: 'howdy',
     host: 'localhost', // Server hosting the postgres database
     port: 5432, // env var: PGPORT
     database: 'canomiks_db',
