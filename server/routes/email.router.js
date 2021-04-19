@@ -1,11 +1,15 @@
 require('dotenv').config();
-const express = require('express');
-const pool = require('../modules/pool');
-const router = express.Router();
+
 const jwt = require('jsonwebtoken');
+const pool = require('../modules/pool');
+const express = require('express');
+
+const router = express.Router();
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
+const encryptLib = require('../modules/encryption');
+
 
 // import nodemailer
 const nodemailer = require("nodemailer");
@@ -18,8 +22,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.PASSWORD
   },
 });
-
-let localToken;
 
 /*
 the email needs a req.body as follows:
@@ -52,22 +54,42 @@ router.post('/resetPassword', (req, res) => {
     res.sendStatus(403);
     return;
   };
+  // id of person changing password, set after verification
+  let personId;
 
   console.log('the token:', theToken);
   // verify that the token is good
   jwt.verify(theToken, process.env.JWT_SECRET, (err, authData) => {
-    console.log('💥', err)
-    console.log('🏵 ', authData)
+    console.log('💥', err);
+    console.log('🏵 ', authData);
+    // check for error and return is so
     if(err) {
       res.status(403);
       return;
     };
-    res.status(200).send("tis done")    
+    // set person changing password
+    personId = authData.id;
   }); // end token verification,
   
   // now that we know its the authorized user,
   // update db with new password
+  const sqlText = `
+  UPDATE "users"
+  SET "password" = $1
+  WHERE "id" = $2
+  `;
   
+  // hash the new password
+  const password = encryptLib.encryptPassword(req.body.newPassword);
+
+  pool.query(sqlText, [password, personId]).then((dbRes) => {
+    console.log("🎉");
+    res.sendStatus(200);
+  }).catch(err => {
+    console.log('💥 something happened in the db query', err);
+    res.sendStatus(500);
+  });
+
 });
 
 
@@ -112,7 +134,8 @@ router.post('/forgotPassword', async (req, res) => {
       `,
     }, (err, info) => {
       if (err) {
-        res.send('💥 error sending email', err);
+        console.log(err);
+        res.status(404).send("Email Failed")
         return;
       } ;
       res.send('email sent');

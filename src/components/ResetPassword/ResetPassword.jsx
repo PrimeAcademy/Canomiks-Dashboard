@@ -53,6 +53,7 @@ function ResetPassword() {
         newPassword,
       }
     }); // end dispatch
+    history.push('/login');
   }; // end login
 
   return (
