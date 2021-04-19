@@ -80,7 +80,7 @@ function CustomerDashboard() {
 
       {!user.active ? (
         <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
-          <Alert variant="filled" severity="warning">
+          <Alert severity="warning">
             <AlertTitle>Warning</AlertTitle>
             <strong>
               Your account is still waiting on approval. Please check your email
