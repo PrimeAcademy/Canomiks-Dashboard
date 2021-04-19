@@ -63,7 +63,12 @@ function LabDashboard() {
   }; // end handleChangeRowsPerPage
 
   const handleOpen = (sample) => {
-    setClickedSample(sample);
+    //setClickedSample(sample);
+    dispatch({
+      type: 'SET_CURRENT_SAMPLE',
+      payload: sample,
+    });
+
     setOpenDetail(true);
   }; // end handleOpen
 
@@ -171,7 +176,7 @@ function LabDashboard() {
                             {moment(order.receivedDate).format('MMMM DD YYYY')}
                           </TableCell>
                         ) : (
-                          <TableCell align="center">Not Shipped</TableCell>
+                          <TableCell align="center">Not Received</TableCell>
                         )}
 
                         {/* Test Phase */}
@@ -211,7 +216,7 @@ function LabDashboard() {
       </center>
 
       <Dialog open={openDetail} onClose={handleClose} scroll="paper">
-        <LabDetail sample={clickedSample} />
+        <LabDetail sample={clickedSample} setOpenDetail={setOpenDetail} />
       </Dialog>
     </>
   );

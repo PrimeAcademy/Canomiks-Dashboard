@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SampleProgress from '../SampleProgress/SampleProgress';
 
@@ -12,85 +13,102 @@ import {
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
 
-function LabDetail({ sample }) {
+function LabDetail({ setOpenDetail }) {
   const history = useHistory();
+
+  /* Store Imports */
+  const currentSample = useSelector((store) => store.orders.currentSample);
 
   const markDelay = () => {
     console.log('in delayed');
+
     //dispatch that toggled delay status
   }; // end markDelay
 
   const handleSave = () => {
     console.log('in Save');
+
+    dispatch({});
+    //dispatch changes to db
   }; // end handleSave
 
   const handleCancel = () => {
     console.log('in cancel');
+    setOpenDetail(false);
   }; // end handleCancel
 
   return (
     <DialogContent>
       <DialogContentText>
         <SampleProgress
-          sequence={sample.sequence}
-          state={sample.testState}
-          delay={sample.delayed}
+          sequence={currentSample.sequence}
+          state={currentSample.testState}
+          delay={currentSample.delayed}
         />
 
         {/* Render warning if sample is delayed*/}
-        {sample.delayed && (
+        {currentSample.delayed && (
           <Alert icon={<ErrorOutline />} severity="warning">
             <AlertTitle>Test Currently Delayed</AlertTitle>
           </Alert>
         )}
 
-        <h2>Lot # {sample.lotNumber}</h2>
-        <h3>{sample.companyName}</h3>
+        <h2>Lot # {currentSample.lotNumber}</h2>
+        <h3>{currentSample.companyName}</h3>
 
         <div>
-          <p>Product: {sample.ingredientName}</p>
+          <p>Product: {currentSample.ingredientName}</p>
           <p>
-            Amount: {sample.ingredientAmount} {sample.ingredientUnit}
+            Amount: {currentSample.ingredientAmount}{' '}
+            {currentSample.ingredientUnit}
           </p>
-          <p>Format: {sample.format}</p>
-          {sample.purity && <p>Purity: {sample.purity}</p>}
-          {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
+          <p>Format: {currentSample.format}</p>
+          {currentSample.purity && <p>Purity: {currentSample.purity}</p>}
+          {currentSample.cropStrain && (
+            <p>Strain: {currentSample.cropStrain}</p>
+          )}
         </div>
 
         <div>
           <p>
-            Manufacture Date: {moment(sample.dateManufactured).format('M/YYYY')}
+            Manufacture Date:{' '}
+            {moment(currentSample.dateManufactured).format('M/YYYY')}
           </p>
-          <p>Extraction Method: {sample.extractionMethod}</p>
-          {(sample.city || sample.state || sample.country) && (
+          <p>Extraction Method: {currentSample.extractionMethod}</p>
+          {(currentSample.city ||
+            currentSample.state ||
+            currentSample.country) && (
             <p>
-              Growth Region: {sample.city}, {sample.state}, {sample.country}
+              Growth Region: {currentSample.city}, {currentSample.state},{' '}
+              {currentSample.country}
             </p>
           )}
-          {sample.harvestDate && (
-            <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
+          {currentSample.harvestDate && (
+            <p>
+              Harvest Date: {moment(currentSample.harvestDate).format('M/YYYY')}
+            </p>
           )}
-          {sample.sustainabilityInfo && (
-            <p>Sustainability: {sample.sustainabilityInfo}</p>
+          {currentSample.sustainabilityInfo && (
+            <p>Sustainability: {currentSample.sustainabilityInfo}</p>
           )}
         </div>
 
         {/* Render Review button if the sample is in pre-shipment */}
-        {sample.statusName === 'Complete' && !sample.pdfUrl && (
+        {currentSample.statusName === 'Complete' && !currentSample.pdfUrl && (
           <Button
             variant="contained"
-            onClick={() => history.push(`/sample/${sample.id}`)}
+            onClick={() => history.push(`/sample/${currentSample.id}`)}
           >
             Upload Results
           </Button>
         )}
 
         {/* Render download button if sample is complete and results are uploaded */}
-        {sample.pdfUrl && (
+        {currentSample.pdfUrl && (
           <div>
             <Button
               variant="contained"
-              onClick={() => window.open(sample.pdfUrl)}
+              onClick={() => window.open(currentSample.pdfUrl)}
             >
               Download Results
             </Button>

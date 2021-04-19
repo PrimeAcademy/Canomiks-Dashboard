@@ -84,7 +84,7 @@ router.get('/all', rejectUnauthenticated, async (req, res) => {
       ON "status".id = "orders"."testingStatus"
     JOIN "companies"
       ON "companies".id = "orders"."companyID"
-    WHERE "statusName" != 'Pre-Shipment'
+    WHERE "shippedDate" IS NOT NULL
     ORDER BY "receivedDate" DESC, "companyID";`;
     const dbRes = await pool.query(query);
 

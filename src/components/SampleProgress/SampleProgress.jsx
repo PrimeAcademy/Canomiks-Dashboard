@@ -9,8 +9,12 @@ import clsx from 'clsx';
 import './SampleProgress.css';
 
 function SampleProgress({ sequence, state, delay }) {
+  const dispatch = useDispatch();
+
+  /* Local State */
   const [activeStep, setActiveStep] = useState(sequence - 1);
 
+  /* Store Imports */
   const user = useSelector((store) => store.user);
 
   const stepColor = delay ? '#fdcb43' : '#1e565c';
@@ -18,33 +22,12 @@ function SampleProgress({ sequence, state, delay }) {
   const testSteps = [
     'Queued',
     'In Vitro',
+    'RNA',
     'Library Prep',
     'Sequencing',
     'Analyzing',
     'Complete',
   ];
-
-  // Sets up the icons for the stepper
-  function StepIcon(props) {
-    const classes = StepIconStyles();
-    const { active, completed } = props;
-
-    return (
-      <div
-        className={clsx(classes.root, {
-          [classes.active]: active,
-        })}
-      >
-        {active && delay ? (
-          <ErrorOutline className={classes.completed} />
-        ) : completed ? (
-          <Check className={classes.completed} />
-        ) : (
-          <div className={classes.circle} />
-        )}
-      </div>
-    );
-  }
 
   const StepIconStyles = makeStyles({
     root: {
@@ -69,10 +52,40 @@ function SampleProgress({ sequence, state, delay }) {
     },
   });
 
+  // Sets up the icons for the stepper
+  const StepIcon = (props) => {
+    const classes = StepIconStyles();
+    const { active, completed } = props;
+
+    return (
+      <div
+        className={clsx(classes.root, {
+          [classes.active]: active,
+        })}
+      >
+        {active && delay ? (
+          <ErrorOutline className={classes.completed} />
+        ) : completed ? (
+          <Check className={classes.completed} />
+        ) : (
+          <div className={classes.circle} />
+        )}
+      </div>
+    );
+  }; // end StepIcon
+
   const handleClick = (step) => {
     // Click only functions for lab or admin
     if (user.authLevel === 'lab' || user.authLevel === 'admin') {
       console.log('in click', step);
+
+      dispatch({
+        type: 'EDIT_SAMPLE_STATUS',
+        payload: {
+          step,
+          state,
+        },
+      });
     }
   }; //end handleClick
 
