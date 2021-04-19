@@ -40,7 +40,7 @@ function LoginForm() {
   }; // end login
 
   return (
-    <form className={classes.root}>
+    <form className={classes.root} onSubmit={login}>
       <Typography
         variant="h4"
         align="center"
@@ -49,7 +49,6 @@ function LoginForm() {
       >
         Login
       </Typography>
-
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
@@ -84,10 +83,10 @@ function LoginForm() {
 
         <div>
           <Button
+            type="submit"
             style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
             name="login"
             value="Log In"
-            onClick={login}
           >
             Login
           </Button>
