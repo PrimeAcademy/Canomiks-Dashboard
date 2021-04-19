@@ -72,13 +72,17 @@ function Nav() {
             </Link>
           )}
 
-          <a className="navLink" href="https://www.canomiks.com/contactus">
-            Help
-          </a>
+          {user.authLevel !== 'admin' && (
+            <>
+              <a className="navLink" href="https://www.canomiks.com/contactus">
+                Help
+              </a>
 
-          <a className="navLink" href="https://www.canomiks.com/about-us">
-            About Us
-          </a>
+              <a className="navLink" href="https://www.canomiks.com/about-us">
+                About Us
+              </a>
+            </>
+          )}
 
           {user.id && <LogOutButton className="navLink" />}
         </div>
