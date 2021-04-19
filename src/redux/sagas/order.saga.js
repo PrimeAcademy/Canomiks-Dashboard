@@ -6,80 +6,77 @@ function* fetchCustomerOrders() {
     const response = yield axios.get('/api/orders');
     yield put({
       type: 'SET_CUSTOMER_ORDERS',
-      payload: response.data
-    })
+      payload: response.data,
+    });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in fetchCustomerOrders', err.message);
   }
-}
-
-function* addShipping(action) {
-  try {
-    const response = yield axios.post('/api/orders/shipping', action.payload);
-  } catch (err) {
-    console.error(err.message);
-  }
-}
+} // end fetchCustomerOrders
 
 function* fetchAllOrders() {
   try {
     const response = yield axios.get('/api/orders/all');
     yield put({
       type: 'SET_ALL_ORDERS',
-      payload: response.data
-    })
+      payload: response.data,
+    });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in fetchAllOrders', err.message);
   }
-}; // end addShipping
+} // end fetchAllOrders
 
-function* initialSampleOrder(action) {
+function* addSampleOrder(action) {
   try {
-    const response = yield axios.post('/api/orders/initialSample', action.payload);
+    const response = yield axios.post('/api/orders/start', action.payload);
 
     yield put({
       type: 'SET_CURRENT_SAMPLE',
-      payload: response.data
+      payload: response.data,
     });
-
+  } catch (err) {
+    console.error('Error in addSampleOrder', err.message);
   }
-  catch (err) {
-    console.log('💥 error in initial sample order', err);
-  }
-}; // end initialSampleOrder
+} // end addSampleOrder
 
-function* addSampleInfo(action) {
+function* updateSampleInfo(action) {
   try {
-    const response = yield axios.put('/api/orders/updateOrder', action.payload);
+    const response = yield axios.put('/api/orders/update', action.payload);
 
-    // now set current sample with all the info 
+    // now set current sample with all the info
     yield put({
       type: 'SET_CURRENT_SAMPLE',
-      payload: response.data
+      payload: response.data,
     });
+  } catch (err) {
+    console.error('Error in updateSampleInfo', err.message);
   }
-  catch (err) {
-    console.log('💥 error in the addSampleInfo', err);
-  }
-}; // end addSampleInfo
+} // end updateSampleInfo
 
-function* deleteCurrentSample (action) {
+function* updateShipping(action) {
   try {
-    const response = yield axios.delete(`/api/orders/deleteSample/${action.payload.companyID}/${action.payload.orderId}`);
+    const response = yield axios.put('/api/orders/shipping', action.payload);
+  } catch (err) {
+    console.error('Error in updateShipping', err.message);
   }
-  catch (err) {
-    console.log('💥 error in the addSampleInfo', err);
+} // end updateShipping
+
+function* deleteCurrentSample(action) {
+  try {
+    const response = yield axios.delete(
+      `/api/orders/delete/${action.payload.companyID}/${action.payload.orderId}`
+    );
+  } catch (err) {
+    console.error('Error in deleteCurrentSample', err.message);
   }
-}; // end deleteCurrentSample
+} // end deleteCurrentSample
 
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
-  yield takeLatest('ADD_SHIPPING_INFO', addShipping);
-  yield takeLatest('ADD_SAMPLE_INFO', addSampleInfo);
-  yield takeLatest('INITIAL_SAMPLE_ORDER', initialSampleOrder)
   yield takeLatest('FETCH_ALL_ORDERS', fetchAllOrders);
+  yield takeLatest('ADD_SAMPLE', addSampleOrder);
+  yield takeLatest('UPDATE_SAMPLE_INFO', updateSampleInfo);
+  yield takeLatest('UPDATE_SHIPPING_INFO', updateShipping);
   yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
-};
-
+}
 
 export default orderSaga;

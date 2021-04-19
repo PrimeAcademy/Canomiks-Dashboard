@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 
-
 const orderReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_CUSTOMER_ORDERS':
@@ -21,10 +20,9 @@ const currentSample = (state = [], action) => {
   }
 };
 
-
 export default combineReducers({
   orderReducer,
-  currentSample
+  currentSample,
 });
 
 // export default orderReducer;

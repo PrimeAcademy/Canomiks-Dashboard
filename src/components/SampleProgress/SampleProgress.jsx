@@ -56,14 +56,17 @@ function SampleProgress({ sequence, state, delay }) {
 
   return (
     <>
+      {/* Render different steps depending on the test state */}
       {state === 'SHIP' ? (
         <Stepper activeStep={activeStep} alternativeLabel>
           <Step>
             <StepLabel StepIconComponent={StepIcon}>Pre-Shipment</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>In Transit</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>Received</StepLabel>
           </Step>
@@ -73,21 +76,27 @@ function SampleProgress({ sequence, state, delay }) {
           <Step>
             <StepLabel StepIconComponent={StepIcon}>Queued</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>In Vitro</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>RNA</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>Library Prep</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>Sequencing</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>Analyzing</StepLabel>
           </Step>
+
           <Step>
             <StepLabel StepIconComponent={StepIcon}>Complete</StepLabel>
           </Step>

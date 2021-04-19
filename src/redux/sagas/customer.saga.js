@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
-function* fetchCustomer() {
+
+function* fetchCustomers() {
   try {
     const response = yield axios.get('/api/companies');
     yield put({
       type: 'SET_CUSTOMER',
-      payload: response.data
-
-    })
+      payload: response.data,
+    });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in fetchCustomers', err.message);
   }
-}
-function* customerSaga() {
-  yield takeLatest('FETCH_CUSTOMERS', fetchCustomer);
+} // end fetchCustomers
 
+function* customerSaga() {
+  yield takeLatest('FETCH_CUSTOMERS', fetchCustomers);
 }
 
 export default customerSaga;
