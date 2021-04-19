@@ -67,12 +67,24 @@ function* forgotPassword (action) {
   catch (err) {
     console.log('💥 something went wrong in the forgot password', err)
   }
+};
+
+function* checkPasswordToken (action) {
+ try {
+  console.log('👾 what was sent', action.payload);
+  
+ }
+ catch (err) {
+  console.log('💥 error in the checkPasswordToken', err)
+ };
+
 }
 
 function* loginSaga() {
   yield takeLatest('LOGIN', loginUser);
   yield takeLatest('LOGOUT', logoutUser);
   yield takeLatest('FORGOT_PASSWORD', forgotPassword);
+  yield takeLatest('CHECK_FORGOT_PASSWORD_TOKEN', checkPasswordToken);
 }
 
 export default loginSaga;

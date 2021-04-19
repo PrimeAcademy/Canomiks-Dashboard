@@ -85,7 +85,7 @@ function App() {
             <ForgotPassword />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/resetPassword" authRedirect="/samples">
+          <ProtectedRoute exact path="/resetPassword/:token/:id" authRedirect="/samples">
             <ResetPassword />
           </ProtectedRoute>
 

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+
 
 // material ui components
 import { Button, makeStyles, TextField, Typography, Paper, Grid } from '@material-ui/core';
@@ -28,14 +29,27 @@ function ResetPassword() {
   // set up functions so we can use them
   const dispatch = useDispatch();
   const history = useHistory();
+  const params = useParams();
 
   // local state
   const [newPassword, setNewPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-
   // get state from redux store
   const errors = useSelector((store) => store.errors);
+
+  // on page load
+  useEffect(() => {
+    // make sure the id and token match
+    dispatch({
+      type: 'CHECK_FORGOT_PASSWORD_TOKEN',
+      payload: {
+        id: params.id,
+        token: params.token
+      }
+    })
+  }, []);  
+  
 
   // functions
   const changePassword = (event) => {

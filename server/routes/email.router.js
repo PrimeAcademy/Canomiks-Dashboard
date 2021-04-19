@@ -46,11 +46,11 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
 
 //       ------ playing around -----
 
-router.get('/test', (req, res) => {
-  res.json({
-    message: 'Welcome to the API'
-  })
-});
+// router.get('/test', (req, res) => {
+//   res.json({
+//     message: 'Welcome to the API'
+//   })
+// });
 
 router.post('/protected', verifyToken, (req, res) => {
 
@@ -68,23 +68,23 @@ router.post('/protected', verifyToken, (req, res) => {
 
 });
 
-router.post('/test', (req, res) => {
+// router.post('/test', (req, res) => {
 
-  const secret = process.env.JWT_SECRET 
-    const payload = {
-      email: 'ladeda@email.com',
-      id: '3'
-    };
+//   const secret = process.env.JWT_SECRET 
+//     const payload = {
+//       email: 'ladeda@email.com',
+//       id: '3'
+//     };
 
-  jwt.sign(payload, secret, {expiresIn: '30s'}, (err, token) => {
-    res.json({
-      token
-    })
-  });
-});
+//   jwt.sign(payload, secret, {expiresIn: '30s'}, (err, token) => {
+//     res.json({
+//       token
+//     })
+//   });
+// });
 
-// formatted
-// Authorization: Bearer <access_token> 
+// // formatted
+// // Authorization: Bearer <access_token> 
 
 function verifyToken (req, res, next) {
   // get auth header
@@ -93,6 +93,7 @@ function verifyToken (req, res, next) {
   // check if undefined
   if (bearerHeader === undefined) {
     res.sendStatus(403);
+    return;
   };
   // split at the space
   const bearer = bearerHeader.split(' ')[1];
@@ -104,6 +105,7 @@ function verifyToken (req, res, next) {
 
 //  ----------------
 
+let token;
 
 router.post('/forgotPassword', async (req, res) => {
   try{
@@ -117,7 +119,8 @@ router.post('/forgotPassword', async (req, res) => {
     // if no user if found, return no email found
     if (dbRes.rows.length === 0) {
       console.log('💥 no email found');
-      res.send("No email found");
+      res.status(404).send("No email found")
+      return;
     };
 
     /*
@@ -132,7 +135,7 @@ router.post('/forgotPassword', async (req, res) => {
     */
 
     // if the email exists, get the info
-    const userInfo = dbRes.rows;
+    const userInfo = dbRes.rows[0];
 
     // create one time link to send the user
     const secret = process.env.JWT_SECRET + userInfo.password;
@@ -140,12 +143,15 @@ router.post('/forgotPassword', async (req, res) => {
       email: userInfo.email,
       id: userInfo.id
     };
-    // const token = jwt.sign(payload, secret, {expiresIn: '15m'});
+
+    token = jwt.sign(payload, secret);
 
 
-    const link = `http://localhost:3000/#/resetPassword/${userInfo.id}/${token}`
+    const link = `http://localhost:3000/?id=${userInfo.id}&token=${token}/#/resetPassword`;
 
+    const link2 = `http://localhost:3000/#/resetPassword/${token}/${userInfo.id}`
 
+    res.send('got it')
     // send the email to the users email
     const info =  await transporter.sendMail({
       from: process.env.EMAIL,
@@ -153,13 +159,14 @@ router.post('/forgotPassword', async (req, res) => {
       subject: "Password Change Request",
       text: `
       Regarding your password change request, please click the link provided and follow the instructions there. 
-      ${link}
+      ${link2}
       `,
     }, (err, info) => {
       if (err) {
         res.send('💥 error sending email', err);
       } ;
-      console.log('🎉 it has been sent', info.response)
+      console.log('🎉 it has been sent', info.response);
+      res.send('it worked')
     });
     
   }
