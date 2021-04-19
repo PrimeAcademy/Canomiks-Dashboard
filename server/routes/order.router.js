@@ -149,7 +149,8 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
 router.put('/url', rejectUnauthenticated, async (req, res) => {
   try {
     const order = req.body;
-    
+    const orderArray = [ order.pdfUrl, order.companyID,
+      order.orderId,]
 
     const sqlText = `
       UPDATE "orders"
@@ -157,7 +158,7 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
       WHERE "companyID" = $2 AND "id" = $3
       RETURNING *;
     `;
-    const dbRes = await pool.query(sqlText, [order.pdfUrl]);
+    const dbRes = await pool.query(sqlText, orderArray);
 
     console.log(dbRes.rows);
 
@@ -172,7 +173,7 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-module.exports = router;
+
 /* DELETE ROUTES */
 router.delete(
   '/delete/:company/:order',

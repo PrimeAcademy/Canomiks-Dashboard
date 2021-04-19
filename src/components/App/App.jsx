@@ -10,10 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-<<<<<<< HEAD
 import Upload from '../Upload/Upload'
-=======
->>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
@@ -74,25 +71,12 @@ function App() {
             <AddSample />
           </ProtectedRoute>
 
-<<<<<<< HEAD
+          <ProtectedRoute exact path="/sample/ship">
+            <ShippingInfo />
+          </ProtectedRoute>
           <ProtectedRoute exact path="/upload" >
             <Upload />
           </ProtectedRoute>
-
-          <ProtectedRoute exact path="/registration" authRedirect="/samples">
-            <RegisterPage />
-          </ProtectedRoute>
-          {user.authLevel === 'admin' &&
-            <ProtectedRoute exact path="/manage">
-              <Manage />
-            </ProtectedRoute>}
-          <ProtectedRoute exact path="/shipping">
-=======
-          <ProtectedRoute exact path="/sample/ship">
->>>>>>> 02852e7499fb3ede6a583d859dd1c3d1766ef68c
-            <ShippingInfo />
-          </ProtectedRoute>
-
           {user.authLevel === 'admin' && (
             <ProtectedRoute exact path="/manage/customers">
               <ManageCustomers />
