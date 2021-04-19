@@ -20,7 +20,8 @@ function* loginUser(action) {
     if (response.data) {
       yield put({ type: 'FETCH_USER' });
     } else {
-      yield put({ type: 'LOGIN_FAILED_INACTIVE' })
+      yield put({ type: 'LOGIN_FAILED_INACTIVE' });
+      yield put({ type: 'LOGOUT' });
     }
     // after the user has logged in
     // get the user information from the server

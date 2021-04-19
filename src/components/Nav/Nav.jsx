@@ -46,31 +46,42 @@ function Nav() {
 
   return (
     <AppBar position="static" style={{ marginBottom: 50 }}>
-      <Toolbar style={{ display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: '#1e565c' }}>
-
+      <Toolbar
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: '#1e565c',
+        }}
+      >
         <Link style={{ textDecoration: 'none', color: 'white' }} to="/samples">
           <div className="header-brand-logo">
-            <img src="../favicon.ico" alt="logo"></img>
+            <img src="../favicon.ico" alt="logo" />
             <Typography className={classes.title}>Canomiks</Typography>
           </div>
         </Link>
-        {user.authLevel === 'admin' && (
-          <Link className="navLink" to="/manage/customers">
-            Manage Customers
+
+        <div>
+          <Link className="navLink" to={loginLinkData.path}>
+            {loginLinkData.text}
           </Link>
-        )}
-        {user.id && (
-          <Link className="navLink" to="/samples">
-            Samples
-          </Link>
-        )}
-        <a className="navLink" target="_blank" href="https://www.canomiks.com/contactus">
-          Help
-        </a>
-        <a className="navLink" target="_blank" href="https://www.canomiks.com/about-us">
-          About Us
-        </a>
-        {user.id && <LogOutButton className="navLink" />}
+
+          {user.authLevel === 'admin' && (
+            <Link className="navLink" to="/manage/customers">
+              Manage Customers
+            </Link>
+          )}
+
+          <a className="navLink" href="https://www.canomiks.com/contactus">
+            Help
+          </a>
+
+          <a className="navLink" href="https://www.canomiks.com/about-us">
+            About Us
+          </a>
+
+          {user.id && <LogOutButton className="navLink" />}
+        </div>
       </Toolbar>
     </AppBar>
   );
