@@ -43,7 +43,7 @@ passport.use(
     },
     (username, password, done) => {
       pool
-        .query('SELECT * FROM "users" WHERE email = $1', [username])
+        .query('SELECT users.*, companies."companyName", companies."active" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE email = $1', [username])
         .then((result) => {
           const user = result && result.rows && result.rows[0];
           if (user && encryptLib.comparePassword(password, user.password)) {

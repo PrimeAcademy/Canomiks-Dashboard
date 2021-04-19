@@ -72,16 +72,13 @@ function Nav() {
             </Link>
           )}
 
-          {/* TO DO - Wire Links to Canomiks pages */}
-          {/* https://www.canomiks.com/contactus */}
-          <Link className="navLink" to="/contactus">
+          <a className="navLink" href="https://www.canomiks.com/contactus">
             Help
-          </Link>
+          </a>
 
-          {/* https://www.canomiks.com/about-us */}
-          <Link className="navLink" to="/about-us">
+          <a className="navLink" href="https://www.canomiks.com/about-us">
             About Us
-          </Link>
+          </a>
 
           {user.id && <LogOutButton className="navLink" />}
         </div>

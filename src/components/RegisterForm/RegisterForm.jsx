@@ -87,7 +87,6 @@ function RegisterForm() {
       >
         Register
       </Typography>
-
       <form className={classes.root}>
         {errors.registrationMessage && (
           <h3 className="alert" role="alert">

@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles({
   table: {
@@ -42,12 +43,19 @@ function CustomerDashboard() {
   const [clickedSample, setClickedSample] = useState({});
 
   useEffect(() => {
-    dispatch({
-      type: 'FETCH_CUSTOMER_ORDERS',
-    });
-
-    // TO DO - boot user out if they are not an active account
-    if (!user.active) [];
+    if (user.id && !user.active) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Account Inactive',
+        text: 'We are still processing your account request.',
+        footer: '<a target="_blank" href="https://www.canomiks.com/contactus">Contact Us</a>',
+        iconColor: '#F3A653',
+        confirmButtonColor: '#1e565c'
+      })
+      dispatch({ type: 'LOGOUT' });
+    } else {
+      dispatch({ type: 'FETCH_CUSTOMER_ORDERS' });
+    }
   }, []);
 
   const handleOpen = (sample) => {
