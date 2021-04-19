@@ -20,6 +20,7 @@ import {
   Dialog,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles({
   table: {
@@ -40,12 +41,19 @@ export default function CustomerDashboard() {
   const [clickedSample, setClickedSample] = useState({});
 
   useEffect(() => {
-    dispatch({
-      type: 'FETCH_CUSTOMER_ORDERS',
-    });
-    if (!user.active) [
-
-    ]
+    if (user.id && !user.active) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Account Inactive',
+        text: 'We are still processing your account request.',
+        footer: '<a target="_blank" href="https://www.canomiks.com/contactus">Contact Us</a>',
+        iconColor: '#F3A653',
+        confirmButtonColor: '#1e565c'
+      })
+      dispatch({ type: 'LOGOUT' });
+    } else {
+      dispatch({ type: 'FETCH_CUSTOMER_ORDERS' });
+    }
   }, []);
 
   const handleOpen = (sample) => {
@@ -83,7 +91,7 @@ export default function CustomerDashboard() {
       </Typography>
       {!user.active ?
         <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
-          <Alert severity="warning">
+          <Alert variant="filled" severity="warning">
             <AlertTitle>Warning</AlertTitle>
             <strong>Your account is still waiting on approval.  Please check your email for additional information.</strong>
           </Alert>

@@ -76,7 +76,7 @@ function RegisterForm() {
   return (
     <>
       <Typography variant="h4" align="center" style={{ fontWeight: 550 }} gutterBottom>Register</Typography>
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={registerUser}>
         {errors.registrationMessage && (
           <h3 className="alert" role="alert">
             {errors.registrationMessage}
@@ -168,7 +168,7 @@ function RegisterForm() {
           onChange={(event) => setPasswordConfirm(event.target.value)}
         />
         <div>
-          <Button onClick={registerUser} style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }} value="Register">
+          <Button type="submit" style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }} value="Register">
             Register
         </Button>
         </div>

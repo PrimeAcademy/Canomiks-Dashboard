@@ -52,7 +52,6 @@ function Nav() {
               <Typography className={classes.title}>
                 Canomiks
               </Typography>
-
             </div>
           </Link>
 
@@ -62,12 +61,9 @@ function Nav() {
             </Link>
 
             {user.id && (
-              <>
-                <Link className="navLink" to="/samples">
-                  Samples
-            </Link>
-
-              </>
+              <Link className="navLink" to="/samples">
+                Samples
+              </Link>
             )}
 
             {user.authLevel === 'admin' && (
@@ -77,13 +73,13 @@ function Nav() {
             )}
 
             {/* https://www.canomiks.com/contactus */}
-            <Link className="navLink" to="/contactus">
+            <a className="navLink" target="_blank" href="https://www.canomiks.com/contactus">
               Help
-        </Link>
+            </a>
             {/* https://www.canomiks.com/about-us */}
-            <Link className="navLink" to="/about-us">
+            <a className="navLink" target="_blank" href="https://www.canomiks.com/about-us">
               About Us
-        </Link>
+            </a>
             {user.id && <LogOutButton className="navLink" />}
           </div>
         </Toolbar>
