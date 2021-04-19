@@ -6,24 +6,54 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
+<<<<<<< HEAD
+=======
+/* GET ROUTES */
+>>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
-    SELECT * FROM "orders" 
-	  JOIN "status"
-	  ON "status".id = "orders"."testingStatus"
-    WHERE orders."companyID" = $1 
+    SELECT 
+      "orders"."id",
+      "orders"."ingredientName",
+      "orders"."ingredientAmount",
+      "orders"."ingredientUnit",
+      "orders"."format",
+      "orders"."purity",
+      "orders"."dateManufactured",
+      "orders"."lotNumber",
+      "orders"."extractionMethod",
+      "orders"."city",
+      "orders"."state",
+      "orders"."country",
+      "orders"."harvestDate",
+      "orders"."cropStrain",
+      "orders"."sustainabilityInfo",
+      "orders"."shippedDate",
+      "orders"."carrierName",
+      "orders"."trackingNumber",
+      "orders"."receivedDate",
+      "orders"."testingStatus",
+      "status"."statusName",
+      "status"."testState",
+      "status"."sequence"
+    FROM "orders" 
+    JOIN "status"
+    ON "status".id = "orders"."testingStatus"
+    WHERE orders."companyID" = $1
     ORDER BY ("status".id = 1) DESC;`;
+
     const dbRes = await pool.query(queryText, [req.user.companyID]);
     res.send(dbRes.rows);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in GET /', err.message);
     res.sendStatus(500);
   }
 });
 
 router.get('/all', rejectUnauthenticated, async (req, res) => {
   try {
+<<<<<<< HEAD
     const query = `
     SELECT * FROM orders
     JOIN "status"
@@ -31,47 +61,21 @@ router.get('/all', rejectUnauthenticated, async (req, res) => {
     JOIN "companies"
 	  ON "companies".id = "orders"."companyID"
     ORDER BY ("companyID");`;
+=======
+    const query = `SELECT * FROM orders ORDER BY ("companyID");`;
+>>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
     const dbRes = await pool.query(query);
+
     res.send(dbRes.rows);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in GET /all', err.message);
     res.sendStatus(500);
   }
 });
 
-router.put('/newOrder/:id', async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const shipping = req.body;
-    const sqlParams = [
-      shipping.id,
-      userId,
-      shipping.shippedDate,
-      shipping.carrierName,
-      shipping.trackingNumber,
-    ];
-    const sqlQuery = `UPDATE "orders" 
-    SET "shippedDate" = $3, "carrierName" = $4, "trackingNumber" = $5
-    WHERE "id" = $1 
-    RETURNING "id";`;
-    const dbRes = await pool.query(sqlQuery, sqlParams);
-    if (dbRes.rows.length === 0) {
-      res.sendStatus(404);
-      return;
-    } else {
-      res.send(dbRes.rows[0]);
-    }
-  } catch (err) {
-    console.error(err.message);
-    res.sendStatus(500);
-  }
-});
-/**
- * POST route template
- */
-
-// the initial sample order, for when they start the process.
-router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
+/* POST ROUTE */
+// Initializes a new sample
+router.post('/start', rejectUnauthenticated, async (req, res) => {
   try {
     const { companyID, lotNumber } = req.body;
     const sqlText = `
@@ -89,13 +93,15 @@ router.post('/initialSample', rejectUnauthenticated, async (req, res) => {
       res.send(dbRes.rows[0]);
     }
   } catch (err) {
-    console.log('error in the initial order post', err);
+    console.error('Error in POST /start', err.message);
     res.sendStatus(500);
   }
 });
 
-// for add sample page to save the sample information; after initial insert
-router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
+/* PUT ROUTES */
+
+// Adds sample information after initial sample insert
+router.put('/update', rejectUnauthenticated, async (req, res) => {
   try {
     const orderArray = [req.body.value, req.body.companyID, req.body.orderId];
     const tableName = req.body.name;
@@ -114,14 +120,13 @@ router.put('/updateOrder', rejectUnauthenticated, async (req, res) => {
       res.send(dbRes.rows[0]);
     }
   } catch (err) {
-    console.error(err);
+    console.error('Error in PUT /update', err.message);
     res.sendStatus(500);
   }
 });
 
-// for shipping page to save the shipping information; after initial insert
+// Saves shipping information when sample is finalized
 router.put('/shipping', rejectUnauthenticated, async (req, res) => {
-  // POST route code here
   try {
     const order = req.body;
     const orderArray = [
@@ -131,6 +136,7 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       order.companyID,
       order.orderId,
     ];
+
     const sqlText = `
       UPDATE "orders"
       SET "shippedDate" = $1, "carrierName" = $2, "trackingNumber" = $3
@@ -139,6 +145,11 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 
+<<<<<<< HEAD
+=======
+    console.log(dbRes.rows);
+
+>>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -146,13 +157,19 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       res.send(dbRes.rows[0]);
     }
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in PUT /shipping', err.message);
     res.sendStatus(500);
   }
 });
 
+<<<<<<< HEAD
 router.delete(
   '/deleteSample/:company/:order',
+=======
+/* DELETE ROUTES */
+router.delete(
+  '/delete/:company/:order',
+>>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
   rejectUnauthenticated,
   async (req, res) => {
     try {
@@ -168,7 +185,11 @@ router.delete(
 
       res.sendStatus(200);
     } catch (err) {
+<<<<<<< HEAD
       console.log('💥 something went wrong in the delete', err);
+=======
+      console.error('Error in DELETE /delete', err.message);
+>>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
       res.sendStatus(500);
     }
   }
