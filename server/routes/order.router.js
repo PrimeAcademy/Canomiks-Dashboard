@@ -12,6 +12,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     const queryText = `
     SELECT 
       "orders"."id",
+      "orders"."delayed",
       "orders"."ingredientName",
       "orders"."ingredientAmount",
       "orders"."ingredientUnit",
