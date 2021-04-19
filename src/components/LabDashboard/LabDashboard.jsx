@@ -47,8 +47,6 @@ function LabDashboard() {
   const [openDetail, setOpenDetail] = useState(false);
   const [clickedSample, setClickedSample] = useState({});
 
-  const orders = useSelector((store) => store.orders.orderReducer);
-
   useEffect(() => {
     dispatch({
       type: 'FETCH_ALL_ORDERS',
@@ -108,30 +106,34 @@ function LabDashboard() {
                 <TableCell label="Lot Number" style={{ fontWeight: 900 }}>
                   Lot Number
                 </TableCell>
+
                 <TableCell
                   label="Company Name"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Company Name
                 </TableCell>
+
                 <TableCell
                   label="Date Received"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Date Received
                 </TableCell>
+
                 <TableCell
                   label="Test Phase"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Test Phase
                 </TableCell>
+
                 <TableCell
                   label="Action Button"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Action
@@ -159,22 +161,24 @@ function LabDashboard() {
                         </TableCell>
 
                         {/* Company Name */}
-                        <TableCell align="right">{order.companyID}</TableCell>
+                        <TableCell align="center">
+                          {order.companyName}
+                        </TableCell>
 
                         {/* Date Received */}
                         {order.receivedDate ? (
-                          <TableCell align="right">
+                          <TableCell align="center">
                             {moment(order.receivedDate).format('MMMM DD YYYY')}
                           </TableCell>
                         ) : (
-                          <TableCell align="right">Not Shipped</TableCell>
+                          <TableCell align="center">Not Shipped</TableCell>
                         )}
 
                         {/* Test Phase */}
-                        <TableCell align="right">{order.statusName}</TableCell>
+                        <TableCell align="center">{order.statusName}</TableCell>
 
                         {/* Action */}
-                        <TableCell align="right">
+                        <TableCell align="center">
                           <Button
                             variant="contained"
                             style={{

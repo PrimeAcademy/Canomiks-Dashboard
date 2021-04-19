@@ -51,12 +51,41 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
 router.get('/all', rejectUnauthenticated, async (req, res) => {
   try {
     const query = `
-    SELECT * FROM orders
+    SELECT 
+      "orders"."id",
+      "orders"."ingredientName",
+      "orders"."ingredientAmount",
+      "orders"."ingredientUnit",
+      "orders"."format",
+      "orders"."purity",
+      "orders"."dateManufactured",
+      "orders"."lotNumber",
+      "orders"."extractionMethod",
+      "orders"."city",
+      "orders"."state",
+      "orders"."country",
+      "orders"."harvestDate",
+      "orders"."cropStrain",
+      "orders"."sustainabilityInfo",
+      "orders"."shippedDate",
+      "orders"."carrierName",
+      "orders"."trackingNumber",
+      "orders"."receivedDate",
+      "orders"."testingStatus",
+      "status"."statusName",
+      "status"."testState",
+      "status"."sequence",
+      "companies"."companyName", 
+      "companies"."alertStatusChange",
+      "companies"."alertResultsReady",
+      "companies". "alertDelay"
+    FROM "orders"
     JOIN "status"
-	  ON "status".id = "orders"."testingStatus"
+      ON "status".id = "orders"."testingStatus"
     JOIN "companies"
-	  ON "companies".id = "orders"."companyID"
-    ORDER BY ("companyID");`;
+      ON "companies".id = "orders"."companyID"
+    WHERE "statusName" != 'Pre-Shipment'
+    ORDER BY "receivedDate" DESC, "companyID";`;
     const dbRes = await pool.query(query);
 
     res.send(dbRes.rows);
