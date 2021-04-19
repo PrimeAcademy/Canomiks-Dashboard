@@ -457,18 +457,17 @@ function AddSample() {
           className={classes.inputs}
           style={{ backgroundColor: '#1e565c', color: 'white' }}
           variant="contained"
-          onClick={handleSubmit}
+          onClick={cancelRequest}
         >
-          Shipping Info
+          Cancel Request
         </Button>
-
         <Button
           className={classes.inputs}
           style={{ backgroundColor: '#1e565c', color: 'white' }}
           variant="contained"
-          onClick={cancelRequest}
+          onClick={handleSubmit}
         >
-          Cancel Request
+          Next: Shipping Info
         </Button>
       </Grid>
     </>

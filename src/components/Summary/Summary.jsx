@@ -39,7 +39,7 @@ function Summary() {
       <Grid item xs={12}>
         <Typography variant="h1" align="center">
           {/* TO DO - Should show company name instead of user name*/}
-          {user.name}
+          {user.companyName}
         </Typography>
       </Grid>
 
@@ -48,14 +48,14 @@ function Summary() {
           Reminder:
         </Typography>
 
-        <Typography variant="body1" align="center">
+        <Typography variant="body1" align="center" gutterBottom>
           {/* Displays information pulled from contract on number of samples remaining */}
           You only have 2 samples left on your contract
         </Typography>
       </Grid>
 
       <Button
-        style={{ backgroundColor: '#1e565c', color: 'white' }}
+        style={{ backgroundColor: '#1e565c', color: 'white', marginTop: 15 }}
         variant="contained"
         color="primary"
         onClick={goToAddSample}
