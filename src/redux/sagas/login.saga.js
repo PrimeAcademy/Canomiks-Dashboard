@@ -72,7 +72,8 @@ function* forgotPassword (action) {
 function* checkPasswordToken (action) {
  try {
   console.log('👾 what was sent', action.payload);
-  
+  const response = yield axios.post('/api/email/resetPassword', action.payload);
+  console.log('👽 the db says:', response.data);
  }
  catch (err) {
   console.log('💥 error in the checkPasswordToken', err)

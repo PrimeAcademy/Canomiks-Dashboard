@@ -19,6 +19,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+let localToken;
 
 /*
 the email needs a req.body as follows:
@@ -43,69 +44,32 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   res.sendStatus(200);
 }); // end basic email
 
-
-//       ------ playing around -----
-
-// router.get('/test', (req, res) => {
-//   res.json({
-//     message: 'Welcome to the API'
-//   })
-// });
-
-router.post('/protected', verifyToken, (req, res) => {
-
-  jwt.verify(req.token, process.env.JWT_SECRET, (err, authData) => {
-
-    if(err) {
-      res.sendStatus(403);
-    };
-
-    res.json({
-      message: 'Protected with jwt',
-      authData
-    });
-  });
-
-});
-
-// router.post('/test', (req, res) => {
-
-//   const secret = process.env.JWT_SECRET 
-//     const payload = {
-//       email: 'ladeda@email.com',
-//       id: '3'
-//     };
-
-//   jwt.sign(payload, secret, {expiresIn: '30s'}, (err, token) => {
-//     res.json({
-//       token
-//     })
-//   });
-// });
-
-// // formatted
-// // Authorization: Bearer <access_token> 
-
-function verifyToken (req, res, next) {
-  // get auth header
-  const bearerHeader = req.headers['authorization'];
-
+router.post('/resetPassword', (req, res) => {
+  // get token
+  const theToken = req.body.token;
   // check if undefined
-  if (bearerHeader === undefined) {
+  if (theToken === undefined) {
     res.sendStatus(403);
     return;
   };
-  // split at the space
-  const bearer = bearerHeader.split(' ')[1];
-  req.token = bearer;
-  // keep going
-  next();
-}
 
+  console.log('the token:', theToken);
+  // verify that the token is good
+  jwt.verify(theToken, process.env.JWT_SECRET, (err, authData) => {
+    console.log('💥', err)
+    console.log('🏵 ', authData)
+    if(err) {
+      res.status(403);
+      return;
+    };
+    res.status(200).send("tis done")    
+  }); // end token verification,
+  
+  // now that we know its the authorized user,
+  // update db with new password
+  
+});
 
-//  ----------------
-
-let token;
 
 router.post('/forgotPassword', async (req, res) => {
   try{
@@ -118,40 +82,25 @@ router.post('/forgotPassword', async (req, res) => {
 
     // if no user if found, return no email found
     if (dbRes.rows.length === 0) {
-      console.log('💥 no email found');
       res.status(404).send("No email found")
       return;
     };
-
-    /*
-    {
-    id: 3,
-    email: 'josh@SNR.com',
-    password: '$2a$10$ztPSRgi94yCnY3cQxPci3us5gQ33xC5nUuN4U1noT2TThARvRwH.S',
-    name: 'Josh',
-    companyID: 3,
-    authLevel: 'team'
-    }
-    */
 
     // if the email exists, get the info
     const userInfo = dbRes.rows[0];
 
     // create one time link to send the user
-    const secret = process.env.JWT_SECRET + userInfo.password;
+    const secret = process.env.JWT_SECRET;
+
     const payload = {
       email: userInfo.email,
       id: userInfo.id
     };
 
-    token = jwt.sign(payload, secret);
+    localToken = jwt.sign(payload, secret);
 
+    const link = `http://localhost:3000/#/resetPassword/${localToken}/${userInfo.id}`
 
-    const link = `http://localhost:3000/?id=${userInfo.id}&token=${token}/#/resetPassword`;
-
-    const link2 = `http://localhost:3000/#/resetPassword/${token}/${userInfo.id}`
-
-    res.send('got it')
     // send the email to the users email
     const info =  await transporter.sendMail({
       from: process.env.EMAIL,
@@ -159,21 +108,22 @@ router.post('/forgotPassword', async (req, res) => {
       subject: "Password Change Request",
       text: `
       Regarding your password change request, please click the link provided and follow the instructions there. 
-      ${link2}
+      ${link}
       `,
     }, (err, info) => {
       if (err) {
         res.send('💥 error sending email', err);
+        return;
       } ;
-      console.log('🎉 it has been sent', info.response);
-      res.send('it worked')
+      res.send('email sent');
     });
     
   }
   catch(err) {
-    console.log('🎹 something went wrong with the forgot password', err);
+    console.log('💥 something went wrong with the forgot password', err);
   }
 });
+
 
 
 

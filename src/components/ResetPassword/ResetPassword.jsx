@@ -38,29 +38,29 @@ function ResetPassword() {
   // get state from redux store
   const errors = useSelector((store) => store.errors);
 
-  // on page load
-  useEffect(() => {
-    // make sure the id and token match
+  // functions
+  const changePassword = (event) => {
+    event.preventDefault();
+    if (newPassword !== passwordConfirm) {
+      alert('make sure passwords match');
+      return;
+    }
     dispatch({
       type: 'CHECK_FORGOT_PASSWORD_TOKEN',
       payload: {
         id: params.id,
-        token: params.token
+        token: params.token,
+        newPassword,
       }
-    })
-  }, []);  
-  
-
-  // functions
-  const changePassword = (event) => {
-    event.preventDefault();
-    console.log('new password button clicked')
+    }); // end dispatch
   }; // end login
 
   return (
     <Grid container justify='center'>
       <Paper className={classes.paper}>
+
         <form className={classes.form}>
+
           <Typography variant="h4" 
           align="center" 
           style={{ fontWeight: 550 }} 
