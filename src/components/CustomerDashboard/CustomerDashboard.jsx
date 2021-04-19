@@ -45,11 +45,8 @@ function CustomerDashboard() {
     dispatch({
       type: 'FETCH_CUSTOMER_ORDERS',
     });
-<<<<<<< HEAD
-=======
 
     // TO DO - boot user out if they are not an active account
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
     if (!user.active) [];
   }, []);
 
@@ -62,23 +59,6 @@ function CustomerDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
-<<<<<<< HEAD
-  const addSampleButton = function () {
-    console.log('button clicked');
-    // send the initial order
-    dispatch({
-      type: 'INITIAL_SAMPLE_ORDER',
-      payload: {
-        companyID: user.companyID,
-        lotNumber: '0000',
-      },
-    });
-    // move to the add sample page
-    history.push('/addSample');
-  }; // end addSampleButton
-
-=======
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
   return (
     <>
       <Typography
@@ -89,10 +69,6 @@ function CustomerDashboard() {
       >
         {user.companyName}
       </Typography>
-<<<<<<< HEAD
-=======
-
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
       {!user.active ? (
         <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
           <Alert severity="warning">

@@ -6,10 +6,7 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
-<<<<<<< HEAD
-=======
 /* GET ROUTES */
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
@@ -53,7 +50,6 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
 
 router.get('/all', rejectUnauthenticated, async (req, res) => {
   try {
-<<<<<<< HEAD
     const query = `
     SELECT * FROM orders
     JOIN "status"
@@ -61,9 +57,6 @@ router.get('/all', rejectUnauthenticated, async (req, res) => {
     JOIN "companies"
 	  ON "companies".id = "orders"."companyID"
     ORDER BY ("companyID");`;
-=======
-    const query = `SELECT * FROM orders ORDER BY ("companyID");`;
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
     const dbRes = await pool.query(query);
 
     res.send(dbRes.rows);
@@ -145,11 +138,6 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 
-<<<<<<< HEAD
-=======
-    console.log(dbRes.rows);
-
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -162,14 +150,9 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-router.delete(
-  '/deleteSample/:company/:order',
-=======
 /* DELETE ROUTES */
 router.delete(
   '/delete/:company/:order',
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
   rejectUnauthenticated,
   async (req, res) => {
     try {
@@ -185,11 +168,7 @@ router.delete(
 
       res.sendStatus(200);
     } catch (err) {
-<<<<<<< HEAD
-      console.log('💥 something went wrong in the delete', err);
-=======
       console.error('Error in DELETE /delete', err.message);
->>>>>>> 356e35d2d96fe3e65fb8ecddc629f2ded9701877
       res.sendStatus(500);
     }
   }
