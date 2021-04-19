@@ -5,19 +5,17 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
-//GET ROUTE FOR MANAGE CUSTOMERS
+/* GET ROUTES */
 router.get('/', rejectUnauthenticated, async (req, res) => {
-
   try {
     const queryText = `
-    SELECT * FROM "companies" 
+    SELECT * FROM "companies";
     `;
     const dbRes = await pool.query(queryText);
-    console.log('res', dbRes)
+
     res.send(dbRes.rows);
-  }
-  catch (err) {
-    console.error(err.message);
+  } catch (err) {
+    console.log('Error in GET /api/company/', err);
     res.sendStatus(500);
   }
 });

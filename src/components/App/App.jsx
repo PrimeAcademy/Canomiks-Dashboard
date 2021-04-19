@@ -6,18 +6,19 @@ import {
   Switch,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// local components
+
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+
 import AddSample from '../AddSample/AddSample';
 import Summary from '../Summary/Summary';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
-import Manage from '../ManageCustomers/Manage';
+import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 
 import './App.css';
@@ -26,6 +27,7 @@ import { CssBaseline } from '@material-ui/core';
 function App() {
   const dispatch = useDispatch();
 
+  /* Store Imports */
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
@@ -44,6 +46,14 @@ function App() {
             <LandingPage />
           </ProtectedRoute>
 
+          <ProtectedRoute exact path="/login" authRedirect="/samples">
+            <LoginPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/registration" authRedirect="/samples">
+            <RegisterPage />
+          </ProtectedRoute>
+
           <ProtectedRoute exact path="/samples">
             {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
               <LabDashboard />
@@ -52,30 +62,23 @@ function App() {
             )}
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/login" authRedirect="/samples">
-            <LoginPage />
+          <ProtectedRoute path="/summary">
+            <Summary />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/addSample">
+          <ProtectedRoute exact path="/sample/add">
             <AddSample />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/registration" authRedirect="/samples">
-            <RegisterPage />
-          </ProtectedRoute>
-
-          {user.authLevel === 'admin' && (
-            <ProtectedRoute exact path="/manage">
-              <Manage />
-            </ProtectedRoute>
-          )}
-          <ProtectedRoute exact path="/shipping">
+          <ProtectedRoute exact path="/sample/ship">
             <ShippingInfo />
           </ProtectedRoute>
 
-          <Route path="/summary">
-            <Summary />
-          </Route>
+          {user.authLevel === 'admin' && (
+            <ProtectedRoute exact path="/manage/customers">
+              <ManageCustomers />
+            </ProtectedRoute>
+          )}
         </Switch>
         <Footer />
       </Router>

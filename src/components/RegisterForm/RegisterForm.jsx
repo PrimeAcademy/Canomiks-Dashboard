@@ -8,10 +8,17 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: 200,
     },
-  }
+  },
 }));
 
 function RegisterForm() {
+  const dispatch = useDispatch();
+  const classes = useStyles();
+
+  /* Store Imports */
+  const errors = useSelector((store) => store.errors);
+
+  /* Local State */
   const [companyName, setCompanyName] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
   const [city, setCity] = useState('');
@@ -23,13 +30,10 @@ function RegisterForm() {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const errors = useSelector((store) => store.errors);
-  const dispatch = useDispatch();
-  const classes = useStyles();
-
   const registerUser = (event) => {
     event.preventDefault();
-    // check to make sure the password is confirmed. They must match
+
+    // Check that both password fields match
     if (password === passwordConfirm) {
       dispatch({
         type: 'REGISTER',
@@ -55,122 +59,147 @@ function RegisterForm() {
       );
       clearForm();
     } else {
-      console.log('Make sure passwords match');
+      // TO DO - convert to styled alert
       alert('Make sure passwords match');
     }
   }; // end registerUser
 
   const clearForm = () => {
-    setCompanyName('')
-    setCompanyAddress('')
-    setCity('')
-    setState('')
-    setZip('')
-    setPhoneNumber('')
-    setTeamLeadName('')
-    setEmail('')
-    setPassword('')
-    setPasswordConfirm('')
-  }
+    setCompanyName('');
+    setCompanyAddress('');
+    setCity('');
+    setState('');
+    setZip('');
+    setPhoneNumber('');
+    setTeamLeadName('');
+    setEmail('');
+    setPassword('');
+    setPasswordConfirm('');
+  }; // end clearForm
 
   return (
     <>
-      <Typography variant="h4" align="center" style={{ fontWeight: 550 }} gutterBottom>Register</Typography>
-      <form className={classes.root} onSubmit={registerUser}>
+      <Typography
+        variant="h4"
+        align="center"
+        style={{ fontWeight: 550 }}
+        gutterBottom
+      >
+        Register
+      </Typography>
+      <form className={classes.root}>
         {errors.registrationMessage && (
           <h3 className="alert" role="alert">
             {errors.registrationMessage}
           </h3>
         )}
-        <TextField
-          className={classes.textField}
-          variant="outlined"
-          size="small"
-          id="companyName"
-          label="Company Name"
-          value={companyName}
-          required
-          onChange={(event) => setCompanyName(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          id="address"
-          label="Street Address"
-          value={companyAddress}
-          required
-          onChange={(event) => setCompanyAddress(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          label="City"
-          value={city}
-          required
-          onChange={(event) => setCity(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          label="State"
-          value={state}
-          required
-          onChange={(event) => setState(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          label="Zip Code"
-          value={zip}
-          required
-          onChange={(event) => setZip(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          label="Phone Number"
-          value={phoneNumber}
-          required
-          onChange={(event) => setPhoneNumber(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          label="Team Lead Name"
-          value={teamLeadName}
-          required
-          onChange={(event) => setTeamLeadName(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          label="Email"
-          value={email}
-          required
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          type="password"
-          label="Password"
-          value={password}
-          required
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          size="small"
-          type="password"
-          label="Confirm Password"
-          value={passwordConfirm}
-          required
-          onChange={(event) => setPasswordConfirm(event.target.value)}
-        />
         <div>
-          <Button type="submit" style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }} value="Register">
+          <TextField
+            label="Company Name"
+            id="companyName"
+            className={classes.textField}
+            variant="standard"
+            size="small"
+            value={companyName}
+            onChange={(event) => setCompanyName(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="Street Address"
+            id="address"
+            variant="standard"
+            size="small"
+            value={companyAddress}
+            onChange={(event) => setCompanyAddress(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="City"
+            variant="standard"
+            size="small"
+            value={city}
+            onChange={(event) => setCity(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="State"
+            variant="standard"
+            size="small"
+            value={state}
+            onChange={(event) => setState(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="Zip Code"
+            variant="standard"
+            size="small"
+            value={zip}
+            onChange={(event) => setZip(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="Phone Number"
+            variant="standard"
+            size="small"
+            value={phoneNumber}
+            onChange={(event) => setPhoneNumber(event.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <TextField
+            label="Team Lead Name"
+            variant="standard"
+            size="small"
+            value={teamLeadName}
+            onChange={(event) => setTeamLeadName(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="Email"
+            variant="standard"
+            size="small"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="Password"
+            type="password"
+            variant="standard"
+            size="small"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+
+          <TextField
+            label="Confirm Password"
+            type="password"
+            variant="standard"
+            size="small"
+            value={passwordConfirm}
+            onChange={(event) => setPasswordConfirm(event.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <Button
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+            value="Register"
+            onClick={registerUser}
+          >
             Register
-        </Button>
+          </Button>
         </div>
       </form>
     </>

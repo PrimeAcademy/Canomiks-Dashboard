@@ -2,141 +2,146 @@ import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-  // material ui imports 
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, MenuItem, FormHelperText, FormControl, 
-  Select, Typography } from '@material-ui/core';
+import { TextField, Button, Typography } from '@material-ui/core';
 
-// material ui styling
 const useStyles = makeStyles((theme) => ({
   inputs: {
-   margin: theme.spacing(2),
+    margin: theme.spacing(2),
   },
 }));
 
-function ShippingInfo () {
-  // material ui
+function ShippingInfo() {
   const classes = useStyles();
-
-  // set functions for use
   const history = useHistory();
   const dispatch = useDispatch();
 
-  // get state from store
-  const currentSample = useSelector(store => store.orders.currentSample);
+  /* Store Imports */
+  const currentSample = useSelector((store) => store.orders.currentSample);
   const orderId = currentSample.id;
-  const companyID = currentSample.companyID
+  const companyID = currentSample.companyID;
 
-  // local state
-  const [carrierName, setCarrierName] = useState('');
-  const [trackingNumber, setTrackingNumber] = useState('')
-  const [shippedDate, setDate] = useState('');
+  /* Local State */
+  const [carrierName, setCarrierName] = useState(currentSample.carrierName);
+  const [trackingNumber, setTrackingNumber] = useState(
+    currentSample.trackingNumber
+  );
+  const [shippedDate, setDate] = useState(currentSample.shippedDate);
 
-  function finalizeButton(event) {
-    event.preventDefault()
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
     if (!shippedDate || !carrierName || !trackingNumber) {
-      alert("All inputs are required");
+      // TO DO - Change to styled alert
+      alert('All inputs are required');
       return;
-    }
-    else {
+    } else {
       dispatch({
-        type: 'ADD_SHIPPING_INFO',
+        type: 'UPDATE_SHIPPING_INFO',
         payload: {
           shippedDate,
           carrierName,
           trackingNumber,
           companyID,
-          orderId
+          orderId,
         },
       });
-      alert("Shipping Successful!");
-      history.push("/samples")
+
+      // TO DO - Change to styled alert
+      alert('Shipping Successful!');
+
+      history.push('/samples');
     }
-  }; // end handleSubmit 
+  }; // end handleSubmit
 
-  const backBtn = () => {
-    console.log("back button");
-    history.push("/addSample");
-  }; // end backBtn
-
-  function continueLaterButton(event) {
+  const continueLaterButton = (event) => {
     event.preventDefault();
-    alert("Sample cannot be processed until shipping information is entered");
-    history.push("/");
-  }; // end handleContinue
+
+    // TO DO - Change to styled alert
+    alert('Sample cannot be processed until shipping information is entered');
+
+    history.push('/samples');
+  }; // end continueLaterButton
 
   return (
     <>
       <center>
         <form>
-          <Typography variant='body1'>
-            These are the available shipping dates.
-            Samples cannot be processed until shipping info is filled out
+          <Typography variant="body1">
+            These are the available shipping dates. Samples cannot be processed
+            until shipping info is filled out
           </Typography>
+
           <div>
             <TextField
-              id="date"
-              label="Date to be shipped:"
+              label="Date to be shipped"
               type="date"
-              value={shippedDate}
+              id="date"
               className={classes.inputs}
-              defaultValue="2021-01-01"
-              onChange={(e) => setDate(e.target.value)}
               InputLabelProps={{
                 shrink: true,
-              }}/>
+              }}
+              value={shippedDate}
+              onChange={(e) => setDate(e.target.value)}
+            />
           </div>
+
           <div>
             <TextField
+              label="Carrier"
+              type="text"
               className={classes.inputs}
+              variant="standard"
+              value={carrierName}
+              onChange={(event) => setCarrierName(event.target.value)}
               required
-              label='Carrier:'
-              variant='filled'
-              value={carrierName} 
-              type="text" 
-              onChange={(event) => setCarrierName(event.target.value)}/>
+            />
           </div>
+
           <div>
             <TextField
+              label="Tracking Number"
+              type="text"
               className={classes.inputs}
+              variant="standard"
+              value={trackingNumber}
+              onChange={(event) => setTrackingNumber(event.target.value)}
               required
-              label='Tracking Number:'
-              variant='filled'
-              value={trackingNumber} 
-              type="text" 
-              onChange={(event) => setTrackingNumber(event.target.value)}/>
+            />
           </div>
         </form>
-        <span>
-          <Button 
-          className={classes.inputs}
-          style={{ backgroundColor: "#1e565c", color: "white" }}
-          variant='contained'
-          onClick={backBtn}> 
-            Back 
+
+        <div>
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            onClick={() => history.push('/sample/add')}
+          >
+            Back
           </Button>
 
-          <Button 
-          className={classes.inputs}
-          style={{ backgroundColor: "#1e565c", color: "white" }}
-          variant='contained'
-          onClick={continueLaterButton}>
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            onClick={continueLaterButton}
+          >
             Continue Later
-           </Button>
+          </Button>
 
-          <Button 
-          className={classes.inputs}
-          style={{ backgroundColor: "#1e565c", color: "white" }}
-          variant='contained'
-          onClick={finalizeButton}> 
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            onClick={handleSubmit}
+          >
             Finalize
           </Button>
-
-        </span>
+        </div>
       </center>
     </>
-  )
-}; // end shippingInfo
-
+  );
+}
 
 export default ShippingInfo;
