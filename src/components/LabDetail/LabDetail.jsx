@@ -28,12 +28,14 @@ function LabDetail({ setOpenDetail }) {
   const handleSave = () => {
     console.log('in Save');
 
-    dispatch({});
     //dispatch changes to db
   }; // end handleSave
 
   const handleCancel = () => {
-    console.log('in cancel');
+    dispatch({
+      type: 'CLEAR_CURRENT_SAMPLE',
+    });
+
     setOpenDetail(false);
   }; // end handleCancel
 
