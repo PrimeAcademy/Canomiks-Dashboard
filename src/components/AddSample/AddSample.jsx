@@ -115,7 +115,9 @@ function AddSample() {
       !extractionMethod
       ) {
         // TO DO - Make this a styled modal
+      setOpen(false);
       alert('Please complete required inputs');
+
 
       return;
     }
@@ -161,8 +163,10 @@ function AddSample() {
   
   const handleClickOpen = () => {
     setOpen(true);
+  };
 
-    handleSubmit;
+  const handleCancel = () => {
+    setOpen(true);
   };
   
   const handleClose = () => {
@@ -516,13 +520,13 @@ function AddSample() {
         </div> 
 
 
-        {/* <div>
+         <div>
           <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleClickOpen}>
+              onClick={handleCancel}>
             Cancel Request
           </Button>
           <Dialog open={open} onClose={handleClose}>
@@ -543,7 +547,7 @@ function AddSample() {
                 </Button>
               </DialogActions>
           </Dialog>
-        </div> */}
+        </div> 
       </Grid>
     </>
   );

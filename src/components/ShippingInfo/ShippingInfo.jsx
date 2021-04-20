@@ -66,6 +66,17 @@ function ShippingInfo() {
 
 
   const [open, setOpen] = React.useState(false);
+
+  const handleClickBack = () => {
+    setOpen(true);
+  }
+  const handleClickContinue= () => {
+    setOpen(true);
+  }
+
+  const handleClickFinal= () => {
+    setOpen(true);
+  }
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -125,13 +136,13 @@ function ShippingInfo() {
         </form>
 
         <div>
-        <div>
+       
           <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleClickOpen}>
+              onClick={handleClickBack}>
              Back
           </Button>
           <Dialog open={open} onClose={handleClose}>
@@ -154,32 +165,14 @@ function ShippingInfo() {
                 </Button>
               </DialogActions>
           </Dialog>
-        </div> 
-
-
-
-
-
-
-          <Button
-            className={classes.inputs}
-            style={{ backgroundColor: '#1e565c', color: 'white' }}
-            variant="contained"
-            onClick={continueLaterButton}
-          >
-            Continue Later
-          </Button>
-
-
-
-          <div>
+        
           <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleClickOpen}>
-             New Continue
+              onClick={handleClickContinue}>
+              Continue
           </Button>
           <Dialog open={open} onClose={handleClose}>
               <DialogTitle>
@@ -201,16 +194,36 @@ function ShippingInfo() {
                 </Button>
               </DialogActions>
           </Dialog>
-        </div> 
-
-          <Button
-            className={classes.inputs}
-            style={{ backgroundColor: '#1e565c', color: 'white' }}
-            variant="contained"
-            onClick={handleSubmit}
-          >
-            Finalize
+       
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleClickFinal}>
+              Finalize
           </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Are you sure?
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  This will finish order!
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button 
+                  onClick={handleSubmit}
+                  color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        
         </div>
       </center>
     </>
