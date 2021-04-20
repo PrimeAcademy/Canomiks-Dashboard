@@ -1,9 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 
+// imports for dialog pop up
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+
+// Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import {
   TextField,
@@ -73,6 +81,10 @@ function AddSample() {
   const [cropStrain, setCropStrain] = useState(currentSample.cropStrain);
   const [currentInput, setCurrentInput] = useState('');
 
+  // Dialogue button states
+  const [open, setOpen] = useState(false);
+  const [openShip, setOpenShip] = useState(false);
+
   /* Tool Tip Test */
   const nameText = `
   Pick an ingredient from this menu. If your ingredient is not listed, please use the 'other' option. For more detailed instructions, refer to the instruction manual.`;
@@ -112,19 +124,17 @@ function AddSample() {
       !dateManufactured ||
       !lotNumber ||
       !extractionMethod
-    ) {
-      // TO DO - Make this a styled modal
+      ) {
+        // TO DO - Make this a styled modal
+      setOpenShip(false);
       alert('Please complete required inputs');
       return;
     }
-
     history.push('/sample/ship');
   }; // end handleSubmit
 
   const cancelRequest = (event) => {
-    // TO DO - Add confirmation pop up
     // TO DO - Currently throwing errors for undefined values
-    
     // Clear all inputs
     setName('');
     setLotNumber('');
@@ -133,11 +143,15 @@ function AddSample() {
     setDateManufactured('');
     setMethod('');
     setCity('');
+    setAmount('');
     setState('');
     setCountry('');
     setCropStrain('');
     setHarvestDate('');
     setSustainability('');
+
+    setOpen(false);
+
 
     // Delete the current sample
     if(companyID && orderId) {
@@ -150,11 +164,26 @@ function AddSample() {
       });
     };
     // go back to sample page
-    history.push('/samples');
+    history.push('/summary');
   }; // end cancelRequest
 
+
+
+  const handleOpenShipping = () => {
+    setOpenShip(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+    setOpenShip(false);
+  };
+
   return (
-    <>
+    <>      
       <Grid container justify="center" alignItems="flex-start">
         {/* Ingredient Name */}
         <FormControl variant="standard" className={classes.formControl}>
@@ -415,7 +444,6 @@ function AddSample() {
           <InfoOutlined />
         </Tooltip>
       </Grid>
-
       <Grid container justify="center" alignItems="flex-start">
         {/* Harvest Date */}
         <TextField
@@ -460,25 +488,61 @@ function AddSample() {
           <InfoOutlined />
         </Tooltip>
       </Grid>
-
-      {/* Buttons */}
       <Grid container justify="center" alignItems="flex-start">
-        <Button
-          className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={cancelRequest}
-        >
-          Cancel Request
-        </Button>
-        <Button
-          className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={handleSubmit}
-        >
-          Next: Shipping Info
-        </Button>
+         <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleCancel}>
+            Cancel Request
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Are you sure?
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Cancelling will erase all current inputs.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button onClick={cancelRequest} color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
+
+        <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleOpenShipping}>
+            Shipping Info
+          </Button>
+          <Dialog open={openShip} onClose={handleClose}>
+              <DialogTitle>
+                Continue to Shipping?
+              </DialogTitle>
+              <DialogContent>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button onClick={handleSubmit} color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
       </Grid>
     </>
   );

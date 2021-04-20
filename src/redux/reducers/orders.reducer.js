@@ -25,6 +25,11 @@ const currentSample = (state = {}, action) => {
         sequence: action.payload.step,
         testState: action.payload.state,
       };
+    case 'EDIT_SAMPLE_DELAY':
+      return {
+        ...state,
+        delayed: action.payload,
+      };
     default:
       return state;
   }
