@@ -1,10 +1,7 @@
 require('dotenv').config();
 
-<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
 const pool = require('../modules/pool');
-=======
->>>>>>> 37cf2eea7eddd9c4ea9adf2c72c18e5be4c0d873
 const express = require('express');
 
 const router = express.Router();
@@ -26,10 +23,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-<<<<<<< HEAD
-=======
 /* POST ROUTES */
->>>>>>> 37cf2eea7eddd9c4ea9adf2c72c18e5be4c0d873
 /*
  * req.body:
  * {
@@ -38,7 +32,6 @@ const transporter = nodemailer.createTransport({
  * }
  */
 router.post('/', rejectUnauthenticated, async (req, res) => {
-<<<<<<< HEAD
   const info =  await transporter.sendMail({
     from: process.env.EMAIL,
     to: `${req.body.customerEmail}`,
@@ -68,8 +61,6 @@ router.post('/resetPassword', (req, res) => {
   console.log('the token:', theToken);
   // verify that the token is good
   jwt.verify(theToken, process.env.JWT_SECRET, (err, authData) => {
-    console.log('💥', err);
-    console.log('🏵 ', authData);
     // check for error and return is so
     if(err) {
       res.status(403);
@@ -91,7 +82,6 @@ router.post('/resetPassword', (req, res) => {
   const password = encryptLib.encryptPassword(req.body.newPassword);
 
   pool.query(sqlText, [password, personId]).then((dbRes) => {
-    console.log("🎉");
     res.sendStatus(200);
   }).catch(err => {
     console.log('💥 something happened in the db query', err);
@@ -134,7 +124,7 @@ router.post('/forgotPassword', async (req, res) => {
     // send the email to the users email
     const info =  await transporter.sendMail({
       from: process.env.EMAIL,
-      to: `joshlobosgulledge@gmail.com`,
+      to: `${req.body.email}`,
       subject: "Password Change Request",
       text: `
       Regarding your password change request, please click the link provided and follow the instructions there. 
@@ -154,28 +144,5 @@ router.post('/forgotPassword', async (req, res) => {
     console.log('💥 something went wrong with the forgot password', err);
   }
 });
-
-
-
-=======
-  const info = await transporter.sendMail(
-    {
-      from: process.env.EMAIL,
-      to: `${req.body.customerEmail}`,
-      subject: 'Sample info from Canomiks',
-      text: `${req.body.message}`,
-    },
-    (err, info) => {
-      if (err) {
-        console.log('Error sending email', err);
-        return;
-      }
-      console.log('Email sent', info.response);
-    }
-  );
-
-  res.sendStatus(200);
-});
->>>>>>> 37cf2eea7eddd9c4ea9adf2c72c18e5be4c0d873
 
 module.exports = router;

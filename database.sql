@@ -7,7 +7,7 @@ CREATE TABLE "companies" (
 	"city" VARCHAR(50) NOT NULL,
 	"state" VARCHAR(50) NOT NULL,
 	"zip" INT NOT NULL,
-	"phoneNumber" VARCHAR(10) NOT NULL,
+	"phoneNumber" VARCHAR(10) NOT NULL, -- this needs to be bigger. wont work if customer uses 123-456-7890 format
 	"alertStatusChange" BOOLEAN NOT NULL DEFAULT false,
 	"alertResultsReady" BOOLEAN NOT NULL DEFAULT false,
 	"alertDelay" BOOLEAN NOT NULL DEFAULT false
