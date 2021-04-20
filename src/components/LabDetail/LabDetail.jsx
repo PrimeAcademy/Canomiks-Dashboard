@@ -21,9 +21,11 @@ function LabDetail({ setOpenDetail }) {
   const currentSample = useSelector((store) => store.orders.currentSample);
 
   const markDelay = () => {
-    console.log('in delayed');
-
-    //dispatch that toggled delay status
+    // Dispatch toggles currentSample delayed status
+    dispatch({
+      type: 'EDIT_SAMPLE_DELAY',
+      payload: !currentSample.delayed,
+    });
   }; // end markDelay
 
   const handleSave = () => {
