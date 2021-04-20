@@ -11,6 +11,14 @@ function Summary() {
   /* Store Imports */
   const user = useSelector((store) => store.user);
   // const company = useSelector(store => store.company);
+  console.log(user, "user")
+  let currentDate = new Date();
+let cDay = currentDate.getDate()
+let cMonth = currentDate.getMonth() + 1
+let cYear = currentDate.getFullYear()
+console.log(cDay);
+console.log(cMonth);
+console.log(cYear);
 
   /*
   // TO DO - on page load get the company info if its not is the store
@@ -34,10 +42,13 @@ function Summary() {
     history.push('/sample/add');
   }; // end goToAddSample
 
-  return (
+  return (<>
     <Grid container justify="center">
       <Grid item xs={12}>
         <Typography variant="h1" align="center">
+        <p 
+          className="title"
+          style={{fontSize: "30px"}}>Summary Page</p>
           {/* TO DO - Should show company name instead of user name*/}
           {user.name}
         </Typography>
@@ -63,7 +74,17 @@ function Summary() {
         Start Sample
       </Button>
     </Grid>
-  );
+    <ul>
+      <li>Company Name: {user.name}</li>
+      <li>MSA ID: </li>
+      <li>Ingredient: </li>
+      <li>SOW: </li>
+      <li>SOW Start Date: </li>
+      <li>Today's Date: {cMonth}-{cDay}-{cYear}</li>
+
+
+    </ul>
+  </>);
 }
 
 export default Summary;
