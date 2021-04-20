@@ -28,9 +28,10 @@ function ShippingInfo() {
   );
   const [shippedDate, setDate] = useState(currentSample.shippedDate);
 
-  const handleSubmit = (event) => {
+  const finalizeButton = (event) => {
     event.preventDefault();
 
+    // send dispatch to update order with shipping info
     if (!shippedDate || !carrierName || !trackingNumber) {
       // TO DO - Change to styled alert
       alert('All inputs are required');
@@ -46,13 +47,17 @@ function ShippingInfo() {
           orderId,
         },
       });
-
       // TO DO - Change to styled alert
       alert('Shipping Successful!');
 
+      // clear the current sample store
+      dispatch({
+        type: 'CLEAR_CURRENT_SAMPLE'
+      })
+
       history.push('/samples');
     }
-  }; // end handleSubmit
+  }; // end finalizeButton
 
   const continueLaterButton = (event) => {
     event.preventDefault();
@@ -134,7 +139,7 @@ function ShippingInfo() {
             className={classes.inputs}
             style={{ backgroundColor: '#1e565c', color: 'white' }}
             variant="contained"
-            onClick={handleSubmit}
+            onClick={finalizeButton}
           >
             Next: Finalize
           </Button>

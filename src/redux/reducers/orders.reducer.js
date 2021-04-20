@@ -15,7 +15,9 @@ const currentSample = (state = {}, action) => {
   switch (action.type) {
     case 'SET_CURRENT_SAMPLE':
       return action.payload;
-
+    case 'CLEAR_CURRENT_SAMPLE':
+      console.log('sample cleared');
+      return {};
     // For lab only
     case 'EDIT_SAMPLE_STATUS':
       return {
