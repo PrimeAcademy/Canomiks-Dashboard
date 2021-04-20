@@ -45,6 +45,7 @@ function LabDashboard() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
+  const [clickedSample, setClickedSample] = useState({});
 
   useEffect(() => {
     dispatch({
@@ -62,6 +63,7 @@ function LabDashboard() {
   }; // end handleChangeRowsPerPage
 
   const handleOpen = (sample) => {
+    setClickedSample(sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,
@@ -214,7 +216,10 @@ function LabDashboard() {
       </center>
 
       <Dialog open={openDetail} onClose={handleClose} scroll="paper">
-        <LabDetail setOpenDetail={setOpenDetail} />
+        <LabDetail
+          originalSample={clickedSample}
+          setOpenDetail={setOpenDetail}
+        />
       </Dialog>
     </>
   );

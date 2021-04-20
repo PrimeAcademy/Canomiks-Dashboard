@@ -4,16 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SampleProgress from '../SampleProgress/SampleProgress';
 
-import {
-  DialogContent,
-  DialogContentText,
-  Button,
-  IconButton,
-} from '@material-ui/core';
+import { DialogContent, DialogContentText, Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
 
-function LabDetail({ setOpenDetail }) {
+function LabDetail({ setOpenDetail, originalSample }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -31,6 +26,20 @@ function LabDetail({ setOpenDetail }) {
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
     // TO DO - trigger email alerts
+
+    // Checks if delayed status has been changed
+    if (originalSample.delayed !== currentSample.delayed) {
+      console.log('Trigger Delayed email');
+    }
+
+    // Checks if test state has been changed
+    if (
+      originalSample.sequence !== currentSample.sequence ||
+      originalSample.testState !== currentSample.testState
+    ) {
+      console.log('Trigger status update email');
+    }
+
     dispatch({
       type: 'UPDATE_SAMPLE_LAB',
       payload: currentSample,
@@ -81,7 +90,7 @@ function LabDetail({ setOpenDetail }) {
 
         <div>
           <p>
-            Manufacture Date:{' '}
+            Manufacture Date:
             {moment(currentSample.dateManufactured).format('M/YYYY')}
           </p>
           <p>Extraction Method: {currentSample.extractionMethod}</p>
