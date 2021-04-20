@@ -1,7 +1,10 @@
 require('dotenv').config();
 
+<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
 const pool = require('../modules/pool');
+=======
+>>>>>>> 37cf2eea7eddd9c4ea9adf2c72c18e5be4c0d873
 const express = require('express');
 
 const router = express.Router();
@@ -11,26 +14,31 @@ const {
 const encryptLib = require('../modules/encryption');
 
 
-// import nodemailer
-const nodemailer = require("nodemailer");
+/* Nodemailer */
+const nodemailer = require('nodemailer');
 // make the "transporter"
-// this is the email that will do the sending 
+// this is the email that will do the sending
 const transporter = nodemailer.createTransport({
-  service: "outlook",
+  service: 'outlook',
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.PASSWORD
+    pass: process.env.PASSWORD,
   },
 });
 
+<<<<<<< HEAD
+=======
+/* POST ROUTES */
+>>>>>>> 37cf2eea7eddd9c4ea9adf2c72c18e5be4c0d873
 /*
-the email needs a req.body as follows:
-{
-  customerEmail: users.email
-  message: 'The message to be sent'
-}
-*/
+ * req.body:
+ * {
+ *   customerEmail: users.email
+ *   message: 'The message to be sent'
+ * }
+ */
 router.post('/', rejectUnauthenticated, async (req, res) => {
+<<<<<<< HEAD
   const info =  await transporter.sendMail({
     from: process.env.EMAIL,
     to: `${req.body.customerEmail}`,
@@ -149,5 +157,25 @@ router.post('/forgotPassword', async (req, res) => {
 
 
 
+=======
+  const info = await transporter.sendMail(
+    {
+      from: process.env.EMAIL,
+      to: `${req.body.customerEmail}`,
+      subject: 'Sample info from Canomiks',
+      text: `${req.body.message}`,
+    },
+    (err, info) => {
+      if (err) {
+        console.log('Error sending email', err);
+        return;
+      }
+      console.log('Email sent', info.response);
+    }
+  );
+
+  res.sendStatus(200);
+});
+>>>>>>> 37cf2eea7eddd9c4ea9adf2c72c18e5be4c0d873
 
 module.exports = router;

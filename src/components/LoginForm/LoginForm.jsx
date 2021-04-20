@@ -1,7 +1,7 @@
-import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,10 +14,14 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  /* Store Imports */
+  const errors = useSelector((store) => store.errors);
+
+  /* Local State */
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const errors = useSelector((store) => store.errors);
-  const dispatch = useDispatch();
 
   const login = (event) => {
     event.preventDefault();
@@ -36,13 +40,21 @@ function LoginForm() {
   }; // end login
 
   return (
-    <form className={classes.root}>
-      <Typography variant="h4" align="center" style={{ fontWeight: 550 }} gutterBottom>Login</Typography>
+    <form className={classes.root} onSubmit={login}>
+      <Typography
+        variant="h4"
+        align="center"
+        style={{ fontWeight: 550 }}
+        gutterBottom
+      >
+        Login
+      </Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
         </h3>
       )}
+
       <center>
         <div>
           <TextField
@@ -55,6 +67,7 @@ function LoginForm() {
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
+
         <div>
           <TextField
             variant="outlined"
@@ -67,12 +80,13 @@ function LoginForm() {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
+
         <div>
           <Button
+            type="submit"
             style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
             name="login"
             value="Log In"
-            onClick={login}
           >
             Login
           </Button>

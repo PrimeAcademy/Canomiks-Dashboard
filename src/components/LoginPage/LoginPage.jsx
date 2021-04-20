@@ -1,6 +1,8 @@
 import React from 'react';
-import LoginForm from '../LoginForm/LoginForm';
 import { useHistory } from 'react-router-dom';
+
+import LoginForm from '../LoginForm/LoginForm';
+
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -9,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 40,
     maxWidth: 350,
     paddingTop: 25,
-    paddingBottom: 25
-  }
-}))
+    paddingBottom: 25,
+  },
+}));
 
 function LoginPage() {
   const classes = useStyles();
@@ -19,9 +21,11 @@ function LoginPage() {
 
   return (
     <center>
-      <Typography variant="h1" 
-      style={{ maxWidth: '80%', fontSize: 60, fontWeight: 800 }} 
-      component="h1">
+      <Typography
+        variant="h1"
+        component="h1"
+        style={{ maxWidth: '80%', fontSize: 60, fontWeight: 800 }}
+      >
         Canomiks
       </Typography>
 
@@ -39,7 +43,6 @@ function LoginPage() {
         }}>
         Register
       </Button>
-
     </center>
   );
 }
