@@ -63,7 +63,7 @@ function LabDashboard() {
   }; // end handleChangeRowsPerPage
 
   const handleOpen = (sample) => {
-    //setClickedSample(sample);
+    setClickedSample(sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,
@@ -216,7 +216,10 @@ function LabDashboard() {
       </center>
 
       <Dialog open={openDetail} onClose={handleClose} scroll="paper">
-        <LabDetail sample={clickedSample} setOpenDetail={setOpenDetail} />
+        <LabDetail
+          originalSample={clickedSample}
+          setOpenDetail={setOpenDetail}
+        />
       </Dialog>
     </>
   );
