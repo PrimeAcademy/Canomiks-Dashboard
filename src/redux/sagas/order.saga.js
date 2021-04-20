@@ -23,7 +23,7 @@ function* fetchAllOrders() {
   } catch (err) {
     console.error('Error in fetchAllOrders', err.message);
   }
-} // end fetchAllOrders
+} // end fetchAllOrders 
 
 function* addSampleOrder(action) {
   try {
