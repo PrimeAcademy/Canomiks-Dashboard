@@ -11,10 +11,23 @@ const orderReducer = (state = [], action) => {
   }
 };
 
-const currentSample = (state = [], action) => {
+const currentSample = (state = {}, action) => {
   switch (action.type) {
     case 'SET_CURRENT_SAMPLE':
       return action.payload;
+
+    // For lab only
+    case 'EDIT_SAMPLE_STATUS':
+      return {
+        ...state,
+        sequence: action.payload.step,
+        testState: action.payload.state,
+      };
+    case 'EDIT_SAMPLE_DELAY':
+      return {
+        ...state,
+        delayed: action.payload,
+      };
     default:
       return state;
   }
@@ -24,5 +37,3 @@ export default combineReducers({
   orderReducer,
   currentSample,
 });
-
-// export default orderReducer;

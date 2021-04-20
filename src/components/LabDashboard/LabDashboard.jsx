@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
+import LabDetail from '../LabDetail/LabDetail';
+
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -14,9 +16,10 @@ import {
   Button,
   Typography,
   TextField,
+  Dialog,
 } from '@material-ui/core';
 
-// Create Material UI Style
+// materiaul ui style
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -41,6 +44,8 @@ function LabDashboard() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
+  const [openDetail, setOpenDetail] = useState(false);
+  const [clickedSample, setClickedSample] = useState({});
 
   useEffect(() => {
     dispatch({
@@ -57,9 +62,19 @@ function LabDashboard() {
     setPage(0);
   }; // end handleChangeRowsPerPage
 
-  const detailButtonClick = () => {
-    console.log('detail button');
-  }; // end detailButtonClick
+  const handleOpen = (sample) => {
+    setClickedSample(sample);
+    dispatch({
+      type: 'SET_CURRENT_SAMPLE',
+      payload: sample,
+    });
+
+    setOpenDetail(true);
+  }; // end handleOpen
+
+  const handleClose = () => {
+    setOpenDetail(false);
+  }; // end handleClose
 
   return (
     <>
@@ -99,7 +114,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Company Name"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Company Name
@@ -107,7 +122,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Date Received"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Date Received
@@ -115,7 +130,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Test Phase"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Test Phase
@@ -123,7 +138,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Action Button"
-                  align="right"
+                  align="center"
                   style={{ fontWeight: 900 }}
                 >
                   Action
@@ -151,29 +166,31 @@ function LabDashboard() {
                         </TableCell>
 
                         {/* Company Name */}
-                        <TableCell align="right">{order.companyID}</TableCell>
+                        <TableCell align="center">
+                          {order.companyName}
+                        </TableCell>
 
                         {/* Date Received */}
                         {order.receivedDate ? (
-                          <TableCell align="right">
+                          <TableCell align="center">
                             {moment(order.receivedDate).format('MMMM DD YYYY')}
                           </TableCell>
                         ) : (
-                          <TableCell align="right">Not Shipped</TableCell>
+                          <TableCell align="center">Not Received</TableCell>
                         )}
 
                         {/* Test Phase */}
-                        <TableCell align="right">{order.statusName}</TableCell>
+                        <TableCell align="center">{order.statusName}</TableCell>
 
                         {/* Action */}
-                        <TableCell align="right">
+                        <TableCell align="center">
                           <Button
                             variant="contained"
                             style={{
                               backgroundColor: '#1e565c',
                               color: 'white',
                             }}
-                            onClick={detailButtonClick}
+                            onClick={() => handleOpen(order)}
                           >
                             View Details
                           </Button>
@@ -197,6 +214,13 @@ function LabDashboard() {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </center>
+
+      <Dialog open={openDetail} onClose={handleClose} scroll="paper">
+        <LabDetail
+          originalSample={clickedSample}
+          setOpenDetail={setOpenDetail}
+        />
+      </Dialog>
     </>
   );
 }

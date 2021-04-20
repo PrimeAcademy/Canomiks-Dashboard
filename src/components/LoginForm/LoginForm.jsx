@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 function LoginForm() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   /* Store Imports */
   const errors = useSelector((store) => store.errors);
@@ -41,14 +43,6 @@ function LoginForm() {
 
   return (
     <form className={classes.root} onSubmit={login}>
-      <Typography
-        variant="h4"
-        align="center"
-        style={{ fontWeight: 550 }}
-        gutterBottom
-      >
-        Login
-      </Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
@@ -84,12 +78,20 @@ function LoginForm() {
         <div>
           <Button
             type="submit"
-            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10, width: '60%' }}
             name="login"
             value="Log In"
           >
-            Login
+            Log In
           </Button>
+        </div>
+        <div>
+          <Link
+            onClick={() => {
+              history.push('/forgotPassword');
+            }}>
+            Forgot Password?
+        </Link>
         </div>
       </center>
     </form>

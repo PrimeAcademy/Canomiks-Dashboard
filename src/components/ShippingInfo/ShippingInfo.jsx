@@ -172,6 +172,7 @@ function ShippingInfo() {
               onClick={handleOpenContinue}>
             Continue Later
           </Button>
+<<<<<<< HEAD
           <Dialog open={openContinue} onClose={handleClose}>
               <DialogTitle>
                 Continue Later?
@@ -198,6 +199,16 @@ function ShippingInfo() {
               color="primary" 
               onClick={handleOpenFinal}>
             Finalize
+=======
+
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            onClick={handleSubmit}
+          >
+            Next: Finalize
+>>>>>>> 890dc0d9f3cf458ed2256d7931db7c3881dbaa52
           </Button>
           <Dialog open={openFinal} onClose={handleClose}>
               <DialogTitle>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import LoginForm from '../LoginForm/LoginForm';
 
@@ -13,6 +13,11 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 25,
     paddingBottom: 25,
   },
+  buttons: {
+    margin: theme.spacing(1),
+    backgroundColor: '#1e565c',
+    color: 'white',
+  }
 }));
 
 function LoginPage() {
@@ -32,16 +37,11 @@ function LoginPage() {
       <Paper className={classes.root}>
         <LoginForm />
       </Paper>
-
       <Button
-        style={{
-          backgroundColor: '#1e565c',
-          color: 'white',
-        }}
+        className={classes.buttons}
         onClick={() => {
           history.push('/registration');
-        }}
-      >
+        }}>
         Register
       </Button>
     </center>
