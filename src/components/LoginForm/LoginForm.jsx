@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 function LoginForm() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   /* Store Imports */
   const errors = useSelector((store) => store.errors);
