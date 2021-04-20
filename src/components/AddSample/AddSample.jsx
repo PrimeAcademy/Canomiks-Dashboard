@@ -160,9 +160,13 @@ function AddSample() {
 
 
   const [open, setOpen] = React.useState(false);
+  const [openShip, setOpenShip] = useState(false);
   
   const handleClickOpen = () => {
     setOpen(true);
+  };
+  const handleOpenShipping = () => {
+    setOpenShip(true);
   };
 
   const handleCancel = () => {
@@ -171,6 +175,7 @@ function AddSample() {
   
   const handleClose = () => {
     setOpen(false);
+    setOpenShip(false);
   };
 
   return (
@@ -493,32 +498,7 @@ function AddSample() {
         </Button> */}
 
  
-        <div>
-          <Button 
-              className={classes.inputs}
-              style={{ backgroundColor: '#1e565c', color: 'white' }}
-              variant="contained" 
-              color="primary" 
-              onClick={handleClickOpen}>
-            Shipping Info
-          </Button>
-          <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>
-                Continue to Shipping?
-              </DialogTitle>
-              <DialogContent>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  No
-                </Button>
-                <Button onClick={handleSubmit} color="primary" autoFocus>
-                  Yes
-                </Button>
-              </DialogActions>
-          </Dialog>
-        </div> 
-
+       
 
          <div>
           <Button 
@@ -548,6 +528,34 @@ function AddSample() {
               </DialogActions>
           </Dialog>
         </div> 
+
+
+        <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleOpenShipping}>
+            Shipping Info
+          </Button>
+          <Dialog open={openShip} onClose={handleClose}>
+              <DialogTitle>
+                Continue to Shipping?
+              </DialogTitle>
+              <DialogContent>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button onClick={handleSubmit} color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
+
       </Grid>
     </>
   );
