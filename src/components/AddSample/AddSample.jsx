@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+// imports for dialog pop up
+
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -501,10 +503,6 @@ function AddSample() {
                 Continue to Shipping?
               </DialogTitle>
               <DialogContent>
-                  {/*
-                <DialogContentText>
-                   Do you do coding ?
-                </DialogContentText> */}
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">

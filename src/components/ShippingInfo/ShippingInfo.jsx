@@ -4,6 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Typography } from '@material-ui/core';
+// imports for dialog pop up
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+
 
 const useStyles = makeStyles((theme) => ({
   inputs: {
@@ -54,15 +61,21 @@ function ShippingInfo() {
     }
   }; // end handleSubmit
 
-  const continueLaterButton = (event) => {
-    event.preventDefault();
+  // end continueLaterButton
 
-    // TO DO - Change to styled alert
-    alert('Sample cannot be processed until shipping information is entered');
 
-    history.push('/samples');
-  }; // end continueLaterButton
 
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+
+    handleSubmit;
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <>
       <center>
@@ -112,14 +125,41 @@ function ShippingInfo() {
         </form>
 
         <div>
-          <Button
-            className={classes.inputs}
-            style={{ backgroundColor: '#1e565c', color: 'white' }}
-            variant="contained"
-            onClick={() => history.push('/sample/add')}
-          >
-            Back
+        <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleClickOpen}>
+             Back
           </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Are you sure?
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Order cannot be completed without shipping information.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button 
+                  onClick={() => history.push('/sample/add')}
+                  color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
+
+
+
+
+
 
           <Button
             className={classes.inputs}
@@ -129,6 +169,39 @@ function ShippingInfo() {
           >
             Continue Later
           </Button>
+
+
+
+          <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleClickOpen}>
+             New Continue
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Are you sure?
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Order cannot be completed without shipping information.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button 
+                  onClick={() => history.push('/samples')}
+                  color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
 
           <Button
             className={classes.inputs}
