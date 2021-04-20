@@ -129,10 +129,6 @@ function AddSample() {
 
   const cancelRequest = (event) => {
     // TO DO - Currently throwing errors for undefined values
-<<<<<<< HEAD
-=======
-    
->>>>>>> 890dc0d9f3cf458ed2256d7931db7c3881dbaa52
     // Clear all inputs
     setName('');
     setLotNumber('');
@@ -162,7 +158,7 @@ function AddSample() {
       });
     };
     // go back to sample page
-    history.push('/samples');
+    history.push('/summary');
   }; // end cancelRequest
 
 
@@ -487,7 +483,6 @@ function AddSample() {
         </Tooltip>
       </Grid>
       <Grid container justify="center" alignItems="flex-start">
-<<<<<<< HEAD
          <div>
           <Button 
               className={classes.inputs}
@@ -542,24 +537,6 @@ function AddSample() {
               </DialogActions>
           </Dialog>
         </div> 
-=======
-        <Button
-          className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={cancelRequest}
-        >
-          Cancel Request
-        </Button>
-        <Button
-          className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={handleSubmit}
-        >
-          Next: Shipping Info
-        </Button>
->>>>>>> 890dc0d9f3cf458ed2256d7931db7c3881dbaa52
       </Grid>
     </>
   );
