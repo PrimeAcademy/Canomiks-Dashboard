@@ -84,13 +84,21 @@ let cYear = currentDate.getFullYear()
       <li>SOW Start Date: </li>
       <li>Today's Date: {cMonth}-{cDay}-{cYear}</li>
     </ul>
-    <table border="1">
+    <table border="3">
       <tr>
         <th></th>
-        <th># of Orders </th>
-        <th> # of Samples </th>
-        <th> # of Orders Remaining </th>
-        <th> # of Samples Remaining </th>
+        <th>SOW: 2021-1-CBD </th>
+        <th></th>
+        <th>SOW: 2021-1-CBD </th>
+        <th> </th>
+
+      </tr>
+      <tr>
+        <td></td>
+        <td># of Orders </td>
+        <td> # of Samples </td>
+        <td> # of Orders Remaining </td>
+        <td> # of Samples Remaining </td>
 
       </tr>
       <tr>
@@ -116,11 +124,13 @@ let cYear = currentDate.getFullYear()
 
       </tr>
       <tr>
-        <td>Total</td>
+        <td>Total Samples</td>
         <td></td>
-        <td>144</td>
+        <td>100</td>
         <td></td>
-        <td>x</td>
+        <td 
+          style={{color: "red"}}>37
+        </td>
 
       </tr>
     </table>
