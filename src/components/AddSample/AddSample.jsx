@@ -102,7 +102,6 @@ function AddSample() {
   }; // end focusChange
 
   const handleSubmit = () => {
-    setOpen(true);
     // Verify all required inputs are filled out
     //  If they aren't, alert the user and don't continue
     if (
@@ -112,9 +111,10 @@ function AddSample() {
       !dateManufactured ||
       !lotNumber ||
       !extractionMethod
-    ) {
-      // TO DO - Make this a styled modal
+      ) {
+        // TO DO - Make this a styled modal
       alert('Please complete required inputs');
+
       return;
     }
 
@@ -133,11 +133,15 @@ function AddSample() {
     setDateManufactured('');
     setMethod('');
     setCity('');
+    setAmount('');
     setState('');
     setCountry('');
     setCropStrain('');
     setHarvestDate('');
     setSustainability('');
+
+    setOpen(false);
+
 
     // Delete the current sample
     dispatch({
@@ -155,6 +159,8 @@ function AddSample() {
   
   const handleClickOpen = () => {
     setOpen(true);
+
+    handleSubmit;
   };
   
   const handleClose = () => {
@@ -162,32 +168,7 @@ function AddSample() {
   };
 
   return (
-    <>
-         <div>
-          <Button 
-              variant="outlined" 
-              color="primary" onClick={handleClickOpen}>
-            Shipping Info
-          </Button>
-          <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>
-                Greetings from GeeksforGeeks
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Do you do coding ?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                Close
-                </Button>
-                <Button onClick={handleClose} color="primary" autoFocus>
-                Yes
-                </Button>
-              </DialogActions>
-          </Dialog>
-        </div>
+    <>      
       <Grid container justify="center" alignItems="flex-start">
         {/* Ingredient Name */}
         <FormControl variant="standard" className={classes.formControl}>
@@ -505,44 +486,66 @@ function AddSample() {
           Old Shipping Info
         </Button> */}
 
-
+ 
         <div>
           <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleSubmit}>
-           New Shipping Info
+              onClick={handleClickOpen}>
+            Shipping Info
           </Button>
           <Dialog open={open} onClose={handleClose}>
               <DialogTitle>
-                Greetings from GeeksforGeeks
+                Continue to Shipping?
+              </DialogTitle>
+              <DialogContent>
+                  {/*
+                <DialogContentText>
+                   Do you do coding ?
+                </DialogContentText> */}
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button onClick={handleSubmit} color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
+
+
+        {/* <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleClickOpen}>
+            Cancel Request
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Are you sure?
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Do you do coding ?
+                  Cancelling will erase all current inputs.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
-                Close
+                  No
                 </Button>
-                <Button onClick={handleClose} color="primary" autoFocus>
-                Yes
+                <Button onClick={cancelRequest} color="primary" autoFocus>
+                  Yes
                 </Button>
               </DialogActions>
           </Dialog>
-        </div>
-
-        <Button
-          className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={cancelRequest}
-        >
-          Cancel Request
-        </Button>
+        </div> */}
       </Grid>
     </>
   );
