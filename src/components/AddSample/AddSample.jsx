@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -97,6 +102,7 @@ function AddSample() {
   }; // end focusChange
 
   const handleSubmit = () => {
+    setOpen(true);
     // Verify all required inputs are filled out
     //  If they aren't, alert the user and don't continue
     if (
@@ -143,8 +149,45 @@ function AddSample() {
     });
   }; // end cancelRequest
 
+
+
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
+         <div>
+          <Button 
+              variant="outlined" 
+              color="primary" onClick={handleClickOpen}>
+            Shipping Info
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Greetings from GeeksforGeeks
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Do you do coding ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                Close
+                </Button>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div>
       <Grid container justify="center" alignItems="flex-start">
         {/* Ingredient Name */}
         <FormControl variant="standard" className={classes.formControl}>
@@ -453,14 +496,44 @@ function AddSample() {
 
       {/* Buttons */}
       <Grid container justify="center" alignItems="flex-start">
-        <Button
+        {/* <Button
           className={classes.inputs}
           style={{ backgroundColor: '#1e565c', color: 'white' }}
           variant="contained"
           onClick={handleSubmit}
         >
-          Shipping Info
-        </Button>
+          Old Shipping Info
+        </Button> */}
+
+
+        <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleSubmit}>
+           New Shipping Info
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Greetings from GeeksforGeeks
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Do you do coding ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                Close
+                </Button>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div>
 
         <Button
           className={classes.inputs}
