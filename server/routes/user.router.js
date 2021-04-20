@@ -57,6 +57,7 @@ router.post('/register', async (req, res, next) => {
       teamLeadName,
       companyID,
     ]);
+
     res.sendStatus(201);
   } catch (err) {
     console.log('💥 something went wrong in the register route');
@@ -72,7 +73,6 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
   console.log('log in user.router', req.user);
   res.send(req.user.active);
-
 });
 
 // clear all server session information about this user
