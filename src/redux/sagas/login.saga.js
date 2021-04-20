@@ -62,11 +62,34 @@ function* logoutUser(action) {
   } catch (error) {
     console.log('Error with user logout:', error);
   }
+};
+
+function* forgotPassword (action) {
+  try {
+    const response = yield axios.post('/api/email/forgotPassword', action.payload);
+
+    console.log(response.data);
+  }
+  catch (err) {
+    console.log('💥 something went wrong in the forgot password', err)
+  }
+};
+
+function* checkPasswordToken (action) {
+ try {
+  const response = yield axios.post('/api/email/resetPassword', action.payload);
+ }
+ catch (err) {
+  console.log('💥 error in the checkPasswordToken', err)
+ };
+
 }
 
 function* loginSaga() {
   yield takeLatest('LOGIN', loginUser);
   yield takeLatest('LOGOUT', logoutUser);
+  yield takeLatest('FORGOT_PASSWORD', forgotPassword);
+  yield takeLatest('CHECK_FORGOT_PASSWORD_TOKEN', checkPasswordToken);
 }
 
 export default loginSaga;
