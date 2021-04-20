@@ -28,6 +28,11 @@ function ShippingInfo() {
   const orderId = currentSample.id;
   const companyID = currentSample.companyID;
 
+  // Dialogues
+  const [openBack, setBack] = React.useState(false);
+  const [openContinue, setContinue] = useState(false);
+  const [openFinal, setFinal] = useState(false);
+  
   /* Local State */
   const [carrierName, setCarrierName] = useState(currentSample.carrierName);
   const [trackingNumber, setTrackingNumber] = useState(
@@ -65,27 +70,19 @@ function ShippingInfo() {
 
 
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickBack = () => {
-    setOpen(true);
-  }
-  const handleClickContinue= () => {
-    setOpen(true);
-  }
-
-  const handleClickFinal= () => {
-    setOpen(true);
+  const handleOpenFinal= () => {
+    setFinal(true);
   }
   
-  const handleClickOpen = () => {
-    setOpen(true);
-
-    handleSubmit;
+  const handleOpenBack = () => {
+    setBack(true);
   };
   
   const handleClose = () => {
-    setOpen(false);
+    setBack(false);
+    setContinue(false);
+    setFinal(false);
+
   };
   return (
     <>
@@ -137,12 +134,12 @@ function ShippingInfo() {
 
         <div>
        
-          <Button 
+           <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleClickBack}>
+              onClick={handleOpenBack}>
              Back
           </Button>
           <Dialog open={open} onClose={handleClose}>
@@ -166,7 +163,7 @@ function ShippingInfo() {
               </DialogActions>
           </Dialog>
         
-          <Button 
+          {/* <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
@@ -193,14 +190,14 @@ function ShippingInfo() {
                   Yes
                 </Button>
               </DialogActions>
-          </Dialog>
+          </Dialog> */}
        
-          <Button 
+          {/* <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleClickFinal}>
+              onClick={handleOpenFinal}>
               Finalize
           </Button>
           <Dialog open={open} onClose={handleClose}>
@@ -222,7 +219,7 @@ function ShippingInfo() {
                   Yes
                 </Button>
               </DialogActions>
-          </Dialog>
+          </Dialog> */}
         
         </div>
       </center>

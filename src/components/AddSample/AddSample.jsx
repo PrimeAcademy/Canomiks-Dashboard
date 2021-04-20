@@ -115,7 +115,7 @@ function AddSample() {
       !extractionMethod
       ) {
         // TO DO - Make this a styled modal
-      setOpen(false);
+      setOpenShip(false);
       alert('Please complete required inputs');
 
 
@@ -528,7 +528,6 @@ function AddSample() {
               </DialogActions>
           </Dialog>
         </div> 
-
 
         <div>
           <Button 
