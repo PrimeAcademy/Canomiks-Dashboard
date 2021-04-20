@@ -89,18 +89,17 @@ function AddSample() {
 
   const focusChange = (val) => {
     // TO DO - Make sure it has a value
-    console.log('focus has changed');
-    playTime();
-    // // Dispatch value and field name to update DB
-    // dispatch({
-    //   type: 'UPDATE_SAMPLE_INFO',
-    //   payload: {
-    //     name: currentInput,
-    //     value: val,
-    //     companyID,
-    //     orderId,
-    //   },
-    // });
+
+    // Dispatch value and field name to update DB
+    dispatch({
+      type: 'UPDATE_SAMPLE_INFO',
+      payload: {
+        name: currentInput,
+        value: val,
+        companyID,
+        orderId,
+      },
+    });
   }; // end focusChange
 
   const handleSubmit = () => {
