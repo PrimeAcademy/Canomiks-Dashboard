@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import Upload from '../Upload/Upload'
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
@@ -73,7 +74,9 @@ function App() {
           <ProtectedRoute exact path="/sample/ship">
             <ShippingInfo />
           </ProtectedRoute>
-
+          <ProtectedRoute exact path="/upload" >
+            <Upload />
+          </ProtectedRoute>
           {user.authLevel === 'admin' && (
             <ProtectedRoute exact path="/manage/customers">
               <ManageCustomers />
