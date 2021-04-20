@@ -1,9 +1,14 @@
+// library imports
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
+// custom components
 import SampleProgress from '../SampleProgress/SampleProgress';
+// style page
+import './CustomerDetail.css';
 
+// material ui
 import {
   DialogContent,
   DialogContentText,
@@ -15,14 +20,13 @@ import {
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline, ArrowForwardIos } from '@material-ui/icons';
 
-import './CustomerDetail.css';
-
+// bring in the sample that was clicked as a prop
 function CustomerDetail({ sample }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const reviewSample = (sample) => {
-    console.log('sample to set', sample);
+    console.log('🦋 sample to set', sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,

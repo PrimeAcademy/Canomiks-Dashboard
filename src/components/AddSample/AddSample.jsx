@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
+
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -54,7 +56,7 @@ function AddSample() {
     currentSample.ingredientUnit ? currentSample.ingredientUnit : ''
   );
   const [purity, setPurity] = useState(currentSample.purity);
-  const [dateManufactured, setDateManufactured] = useState('');
+  const [dateManufactured, setDateManufactured] = useState(currentSample.dateManufactured);
   const [extractionMethod, setMethod] = useState(
     currentSample.extractionMethod
   );
@@ -81,19 +83,32 @@ function AddSample() {
   const harvestDateText = `When was the plant harvested?`;
   const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
 
+  //  ----- play time ----
+  function playTime () {
+    console.log('-------------🐞----------');
+    console.log(dateManufactured);
+    const newDate = moment.utc(dateManufactured).format("YYYY-MM-DD");
+    // const newDate = Date.parse(dateManufactured).toString("YYYY-MM-DD");
+    // // const newDateManu = dateManufactured.toISOString().slice(0, 10);
+    // console.log(newDate);
+  };
+
+
+
   const focusChange = (val) => {
     // TO DO - Make sure it has a value
-
-    // Dispatch value and field name to update DB
-    dispatch({
-      type: 'UPDATE_SAMPLE_INFO',
-      payload: {
-        name: currentInput,
-        value: val,
-        companyID,
-        orderId,
-      },
-    });
+    console.log('focus has changed');
+    playTime();
+    // // Dispatch value and field name to update DB
+    // dispatch({
+    //   type: 'UPDATE_SAMPLE_INFO',
+    //   payload: {
+    //     name: currentInput,
+    //     value: val,
+    //     companyID,
+    //     orderId,
+    //   },
+    // });
   }; // end focusChange
 
   const handleSubmit = () => {
