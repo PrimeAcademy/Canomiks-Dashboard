@@ -42,6 +42,7 @@ function ShippingInfo() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setFinal(false);
 
     if (!shippedDate || !carrierName || !trackingNumber) {
       // TO DO - Change to styled alert
@@ -70,19 +71,31 @@ function ShippingInfo() {
 
 
 
-  const handleOpenFinal= () => {
+  const [openShip, setOpenShip] = useState(false);
+  
+ 
+  const handleOpenShipping = () => {
+    setOpenShip(true);
+  };
+
+  const handleOpenContinue = () => {
+    setContinue(true);
+  }
+
+  
+  const handleBack = () => {
+    setBack(true);
+  };
+
+  const handleOpenFinal = () => {
     setFinal(true);
   }
   
-  const handleOpenBack = () => {
-    setBack(true);
-  };
-  
   const handleClose = () => {
     setBack(false);
-    setContinue(false);
+    setOpenShip(false);
     setFinal(false);
-
+    setContinue(false);
   };
   return (
     <>
@@ -133,95 +146,88 @@ function ShippingInfo() {
         </form>
 
         <div>
-       
-           <Button 
+          <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleOpenBack}>
-             Back
+              onClick={handleBack}>
+            Back
           </Button>
-          <Dialog open={open} onClose={handleClose}>
+          <Dialog open={openBack} onClose={handleClose}>
               <DialogTitle>
                 Are you sure?
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Order cannot be completed without shipping information.
+                  Cancelling will erase all current inputs.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
                   No
                 </Button>
-                <Button 
-                  onClick={() => history.push('/sample/add')}
-                  color="primary" autoFocus>
+                <Button onClick= {() => history.push('./add')} color="primary" autoFocus>
                   Yes
                 </Button>
               </DialogActions>
           </Dialog>
         
-          {/* <Button 
+
+        
+          <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
-              onClick={handleClickContinue}>
-              Continue
+              onClick={handleOpenContinue}>
+            Continue Later
           </Button>
-          <Dialog open={open} onClose={handleClose}>
+          <Dialog open={openContinue} onClose={handleClose}>
               <DialogTitle>
-                Are you sure?
+                Continue Later?
               </DialogTitle>
               <DialogContent>
-                <DialogContentText>
-                  Order cannot be completed without shipping information.
+              <DialogContentText>
+                  Your progress will not be saved.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
                   No
                 </Button>
-                <Button 
-                  onClick={() => history.push('/samples')}
-                  color="primary" autoFocus>
+                <Button onClick={() => history.push('./summary')} color="primary" autoFocus>
                   Yes
                 </Button>
               </DialogActions>
-          </Dialog> */}
-       
-          {/* <Button 
+          </Dialog>
+
+
+
+           <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
               variant="contained" 
               color="primary" 
               onClick={handleOpenFinal}>
-              Finalize
+            Finalize
           </Button>
-          <Dialog open={open} onClose={handleClose}>
+          <Dialog open={openFinal} onClose={handleClose}>
               <DialogTitle>
-                Are you sure?
+                Are you sure you want to finalize?
               </DialogTitle>
               <DialogContent>
-                <DialogContentText>
-                  This will finish order!
-                </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
                   No
                 </Button>
-                <Button 
-                  onClick={handleSubmit}
-                  color="primary" autoFocus>
+                <Button onClick={handleSubmit} color="primary" autoFocus>
                   Yes
                 </Button>
               </DialogActions>
-          </Dialog> */}
-        
-        </div>
+          </Dialog>
+        </div> 
       </center>
     </>
   );

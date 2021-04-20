@@ -485,21 +485,7 @@ function AddSample() {
           <InfoOutlined />
         </Tooltip>
       </Grid>
-
-      {/* Buttons */}
       <Grid container justify="center" alignItems="flex-start">
-        {/* <Button
-          className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={handleSubmit}
-        >
-          Old Shipping Info
-        </Button> */}
-
- 
-       
-
          <div>
           <Button 
               className={classes.inputs}
