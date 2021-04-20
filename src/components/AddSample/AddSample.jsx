@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-// imports for dialog pop up
 
+// imports for dialog pop up
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Dialog from '@material-ui/core/Dialog';
 
+// Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import {
   TextField,
@@ -75,6 +76,10 @@ function AddSample() {
   const [cropStrain, setCropStrain] = useState(currentSample.cropStrain);
   const [currentInput, setCurrentInput] = useState('');
 
+  // Dialogue button states
+  const [open, setOpen] = useState(false);
+  const [openShip, setOpenShip] = useState(false);
+
   /* Tool Tip Test */
   const nameText = `
   Pick an ingredient from this menu. If your ingredient is not listed, please use the 'other' option. For more detailed instructions, refer to the instruction manual.`;
@@ -117,18 +122,13 @@ function AddSample() {
         // TO DO - Make this a styled modal
       setOpenShip(false);
       alert('Please complete required inputs');
-
-
       return;
     }
-
     history.push('/sample/ship');
   }; // end handleSubmit
 
   const cancelRequest = (event) => {
-    // TO DO - Add confirmation pop up
     // TO DO - Currently throwing errors for undefined values
-
     // Clear all inputs
     setName('');
     setLotNumber('');
@@ -159,12 +159,6 @@ function AddSample() {
 
 
 
-  const [open, setOpen] = React.useState(false);
-  const [openShip, setOpenShip] = useState(false);
-  
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleOpenShipping = () => {
     setOpenShip(true);
   };
@@ -440,7 +434,6 @@ function AddSample() {
           <InfoOutlined />
         </Tooltip>
       </Grid>
-
       <Grid container justify="center" alignItems="flex-start">
         {/* Harvest Date */}
         <TextField
@@ -540,7 +533,6 @@ function AddSample() {
               </DialogActions>
           </Dialog>
         </div> 
-
       </Grid>
     </>
   );

@@ -1,7 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Typography } from '@material-ui/core';
 // imports for dialog pop up
@@ -32,6 +31,8 @@ function ShippingInfo() {
   const [openBack, setBack] = React.useState(false);
   const [openContinue, setContinue] = useState(false);
   const [openFinal, setFinal] = useState(false);
+  const [openShip, setOpenShip] = useState(false);
+
   
   /* Local State */
   const [carrierName, setCarrierName] = useState(currentSample.carrierName);
@@ -69,19 +70,10 @@ function ShippingInfo() {
 
   // end continueLaterButton
 
-
-
-  const [openShip, setOpenShip] = useState(false);
-  
- 
-  const handleOpenShipping = () => {
-    setOpenShip(true);
-  };
-
+  // dialogue functions
   const handleOpenContinue = () => {
     setContinue(true);
   }
-
   
   const handleBack = () => {
     setBack(true);
@@ -105,7 +97,6 @@ function ShippingInfo() {
             These are the available shipping dates. Samples cannot be processed
             until shipping info is filled out
           </Typography>
-
           <div>
             <TextField
               label="Date to be shipped"
@@ -172,9 +163,7 @@ function ShippingInfo() {
                 </Button>
               </DialogActions>
           </Dialog>
-        
-
-        
+      
           <Button 
               className={classes.inputs}
               style={{ backgroundColor: '#1e565c', color: 'white' }}
@@ -196,13 +185,11 @@ function ShippingInfo() {
                 <Button onClick={handleClose} color="primary">
                   No
                 </Button>
-                <Button onClick={() => history.push('./summary')} color="primary" autoFocus>
+                <Button onClick={() => history.push('/samples')} color="primary" autoFocus>
                   Yes
                 </Button>
               </DialogActions>
           </Dialog>
-
-
 
            <Button 
               className={classes.inputs}
