@@ -15,7 +15,7 @@ function Summary() {
   const customer = useSelector((store) => store.customer);
 
 
-  console.log(sample, "smurple")
+  console.log(sample, "sample")
   console.log(customer, "cus")
 
   // const company = useSelector(store => store.company);
@@ -82,6 +82,7 @@ let cYear = currentDate.getFullYear()
       </Button>
     </Grid>
     <ul>
+      {/* pull from store/reducers for values below */}
       <li>Company Name: {user.companyName}</li>
       <li>MSA ID: {user.companyID}</li>
       <li>Ingredient: {sample.ingredientName}</li>
