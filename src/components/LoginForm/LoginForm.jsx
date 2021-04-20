@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,12 +77,20 @@ function LoginForm() {
         <div>
           <Button
             type="submit"
-            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10, width: '60%' }}
             name="login"
             value="Log In"
           >
-            Login
+            Log In
           </Button>
+        </div>
+        <div>
+          <Link
+            onClick={() => {
+              history.push('/forgotPassword');
+            }}>
+            Forgot Password?
+        </Link>
         </div>
       </center>
     </form>
