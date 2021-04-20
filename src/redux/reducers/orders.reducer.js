@@ -11,6 +11,13 @@ const orderReducer = (state = [], action) => {
   }
 };
 
+/*
+{
+  dateManufactured : new Date( ),
+  ingredientName : ''
+}
+*/
+
 const currentSample = (state = {}, action) => {
   switch (action.type) {
     case 'SET_CURRENT_SAMPLE':

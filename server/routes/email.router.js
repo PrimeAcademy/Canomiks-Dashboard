@@ -31,8 +31,8 @@ const transporter = nodemailer.createTransport({
  *   message: 'The message to be sent'
  * }
  */
-router.post('/', rejectUnauthenticated, async (req, res) => {
-  const info =  await transporter.sendMail({
+router.post('/', rejectUnauthenticated, (req, res) => {
+  const info = transporter.sendMail({
     from: process.env.EMAIL,
     to: `${req.body.customerEmail}`,
     subject: "Sample info from Canomiks",
@@ -40,6 +40,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   }, (err, info) => {
     if (err) {
       res.send('💥 error sending email', err);
+      return;
     } ;
     console.log('🎉 it has been sent', info.response)
   });

@@ -40,6 +40,9 @@ function AddSample() {
   const currentSample = useSelector((store) => store.orders.currentSample);
   const companyID = user.companyID;
   const orderId = currentSample.id;
+  // change date format
+  const newDateManufactured = moment.utc(currentSample.dateManufactured).format("YYYY-MM-DD");
+  const newHarvestDate = moment.utc(currentSample.harvestDate).format("YYYY-MM-DD");
 
   /* Local State */
   const [ingredientName, setName] = useState(
@@ -56,14 +59,14 @@ function AddSample() {
     currentSample.ingredientUnit ? currentSample.ingredientUnit : ''
   );
   const [purity, setPurity] = useState(currentSample.purity);
-  const [dateManufactured, setDateManufactured] = useState(currentSample.dateManufactured);
+  const [dateManufactured, setDateManufactured] = useState(newDateManufactured);
   const [extractionMethod, setMethod] = useState(
     currentSample.extractionMethod
   );
   const [city, setCity] = useState(currentSample.city);
   const [state, setState] = useState(currentSample.state);
   const [country, setCountry] = useState(currentSample.country);
-  const [harvestDate, setHarvestDate] = useState(currentSample.harvestDate);
+  const [harvestDate, setHarvestDate] = useState(newHarvestDate);
   const [sustainabilityInfo, setSustainability] = useState(
     currentSample.sustainabilityInfo
   );
@@ -82,17 +85,6 @@ function AddSample() {
   const strainText = `If known please add the exact strain of the crop.`;
   const harvestDateText = `When was the plant harvested?`;
   const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
-
-  //  ----- play time ----
-  function playTime () {
-    console.log('-------------🐞----------');
-    console.log(dateManufactured);
-    const newDate = moment.utc(dateManufactured).format("YYYY-MM-DD");
-    // const newDate = Date.parse(dateManufactured).toString("YYYY-MM-DD");
-    // // const newDateManu = dateManufactured.toISOString().slice(0, 10);
-    // console.log(newDate);
-  };
-
 
 
   const focusChange = (val) => {
