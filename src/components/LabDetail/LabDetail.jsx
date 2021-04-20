@@ -27,8 +27,8 @@ function LabDetail({ setOpenDetail }) {
   }; // end markDelay
 
   const handleSave = () => {
-    console.log('in Save');
-
+    // TO DO - Add confirmation reminding them the customer will be alerted
+    // TO DO - trigger email alerts
     dispatch({
       type: 'UPDATE_SAMPLE_LAB',
       payload: currentSample,

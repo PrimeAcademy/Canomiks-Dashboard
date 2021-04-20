@@ -78,6 +78,10 @@ function* updateShipping(action) {
 function* updateSampleLab(action) {
   try {
     const response = yield axios.put('/api/orders/lab/update', action.payload);
+
+    yield put({
+      type: 'FETCH_ALL_ORDERS',
+    });
   } catch (err) {
     console.error('Error in updateSampleLab', err.message);
   }
