@@ -7,9 +7,11 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+// local components
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import Upload from '../Upload/Upload'
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
@@ -20,6 +22,9 @@ import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
 import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
+import ResetPassword from '../ResetPassword/ResetPassword';
+
 
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
@@ -73,12 +78,35 @@ function App() {
           <ProtectedRoute exact path="/sample/ship">
             <ShippingInfo />
           </ProtectedRoute>
-
+          <ProtectedRoute exact path="/upload" >
+            <Upload />
+          </ProtectedRoute>
           {user.authLevel === 'admin' && (
             <ProtectedRoute exact path="/manage/customers">
               <ManageCustomers />
             </ProtectedRoute>
           )}
+          <ProtectedRoute exact path="/shipping">
+            <ShippingInfo />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/summary">
+            <Summary />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/forgotPassword" authRedirect="/samples">
+            <ForgotPassword />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/resetPassword/:token/:id" authRedirect="/samples">
+            <ResetPassword />
+          </ProtectedRoute>
+
+
+          {/* <Route exact path="/forgotPassword">
+            <ForgotPassword />
+          </Route> */}
+
         </Switch>
         <Footer />
       </Router>

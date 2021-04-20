@@ -77,7 +77,6 @@ function CustomerDashboard() {
       >
         {user.companyName}
       </Typography>
-
       {!user.active ? (
         <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
           <Alert severity="warning">

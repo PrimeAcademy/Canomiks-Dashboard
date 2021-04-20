@@ -12,6 +12,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     const queryText = `
     SELECT 
       "orders"."id",
+      "orders"."delayed",
       "orders"."ingredientName",
       "orders"."ingredientAmount",
       "orders"."ingredientUnit",
@@ -50,7 +51,42 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
 
 router.get('/all', rejectUnauthenticated, async (req, res) => {
   try {
-    const query = `SELECT * FROM orders ORDER BY ("companyID");`;
+    const query = `
+    SELECT 
+      "orders"."id",
+      "orders"."ingredientName",
+      "orders"."ingredientAmount",
+      "orders"."ingredientUnit",
+      "orders"."format",
+      "orders"."purity",
+      "orders"."dateManufactured",
+      "orders"."lotNumber",
+      "orders"."extractionMethod",
+      "orders"."city",
+      "orders"."state",
+      "orders"."country",
+      "orders"."harvestDate",
+      "orders"."cropStrain",
+      "orders"."sustainabilityInfo",
+      "orders"."shippedDate",
+      "orders"."carrierName",
+      "orders"."trackingNumber",
+      "orders"."receivedDate",
+      "orders"."testingStatus",
+      "status"."statusName",
+      "status"."testState",
+      "status"."sequence",
+      "companies"."companyName", 
+      "companies"."alertStatusChange",
+      "companies"."alertResultsReady",
+      "companies". "alertDelay"
+    FROM "orders"
+    JOIN "status"
+      ON "status".id = "orders"."testingStatus"
+    JOIN "companies"
+      ON "companies".id = "orders"."companyID"
+    WHERE "shippedDate" IS NOT NULL
+    ORDER BY "receivedDate" DESC, "companyID";`;
     const dbRes = await pool.query(query);
 
     res.send(dbRes.rows);
@@ -132,6 +168,32 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    }
+  } catch (err) {
+    console.error('Error in PUT /shipping', err.message);
+    res.sendStatus(500);
+  }
+});
+// Adding pdfurl
+router.put('/url', rejectUnauthenticated, async (req, res) => {
+  try {
+    const order = req.body;
+    const orderArray = [ order.pdfUrl, order.companyID,
+      order.orderId,]
+
+    const sqlText = `
+      UPDATE "orders"
+      SET "pdfUrl" = $1 
+      WHERE "companyID" = $2 AND "id" = $3
+      RETURNING *;
+    `;
+    const dbRes = await pool.query(sqlText, orderArray);
+
     console.log(dbRes.rows);
 
     if (dbRes.rows.length === 0) {
@@ -141,7 +203,7 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
       res.send(dbRes.rows[0]);
     }
   } catch (err) {
-    console.error('Error in PUT /shipping', err.message);
+    console.error('Error in PUT /url', err.message);
     res.sendStatus(500);
   }
 });

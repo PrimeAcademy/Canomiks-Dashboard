@@ -15,7 +15,7 @@ import {
   Tooltip,
   Fade,
 } from '@material-ui/core';
-import { InfoOutlined } from '@material-ui/icons';
+import { HistoryOutlined, InfoOutlined } from '@material-ui/icons';
 
 // material ui styling
 const useStyles = makeStyles((theme) => ({
@@ -118,7 +118,7 @@ function AddSample() {
   const cancelRequest = (event) => {
     // TO DO - Add confirmation pop up
     // TO DO - Currently throwing errors for undefined values
-
+    
     // Clear all inputs
     setName('');
     setLotNumber('');
@@ -134,13 +134,17 @@ function AddSample() {
     setSustainability('');
 
     // Delete the current sample
-    dispatch({
-      type: 'DELETE_CURRENT_SAMPLE',
-      payload: {
-        companyID,
-        orderId,
-      },
-    });
+    if(companyID && orderId) {
+      dispatch({
+        type: 'DELETE_CURRENT_SAMPLE',
+        payload: {
+          companyID,
+          orderId,
+        },
+      });
+    };
+    // go back to sample page
+    history.push('/samples');
   }; // end cancelRequest
 
   return (
@@ -457,18 +461,17 @@ function AddSample() {
           className={classes.inputs}
           style={{ backgroundColor: '#1e565c', color: 'white' }}
           variant="contained"
-          onClick={handleSubmit}
+          onClick={cancelRequest}
         >
-          Shipping Info
+          Cancel Request
         </Button>
-
         <Button
           className={classes.inputs}
           style={{ backgroundColor: '#1e565c', color: 'white' }}
           variant="contained"
-          onClick={cancelRequest}
+          onClick={handleSubmit}
         >
-          Cancel Request
+          Next: Shipping Info
         </Button>
       </Grid>
     </>

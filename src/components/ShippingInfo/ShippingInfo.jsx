@@ -136,7 +136,7 @@ function ShippingInfo() {
             variant="contained"
             onClick={handleSubmit}
           >
-            Finalize
+            Next: Finalize
           </Button>
         </div>
       </center>

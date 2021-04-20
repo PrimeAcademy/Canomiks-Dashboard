@@ -45,7 +45,7 @@ function Nav() {
   }
 
   return (
-    <AppBar position="static" style={{ marginBottom: 50 }}>
+    <AppBar position="static" style={{ marginBottom: 30 }}>
       <Toolbar
         style={{
           display: 'flex',
@@ -72,13 +72,17 @@ function Nav() {
             </Link>
           )}
 
-          <a className="navLink" href="https://www.canomiks.com/contactus">
-            Help
-          </a>
+          {user.authLevel === 'team' && (
+            <>
+              <a className="navLink" href="https://www.canomiks.com/contactus">
+                Help
+              </a>
 
-          <a className="navLink" href="https://www.canomiks.com/about-us">
-            About Us
-          </a>
+              <a className="navLink" href="https://www.canomiks.com/about-us">
+                About Us
+              </a>
+            </>
+          )}
 
           {user.id && <LogOutButton className="navLink" />}
         </div>
