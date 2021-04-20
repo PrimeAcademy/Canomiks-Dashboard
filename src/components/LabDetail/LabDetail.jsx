@@ -15,6 +15,7 @@ import { ErrorOutline } from '@material-ui/icons';
 
 function LabDetail({ setOpenDetail }) {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   /* Store Imports */
   const currentSample = useSelector((store) => store.orders.currentSample);
@@ -28,7 +29,12 @@ function LabDetail({ setOpenDetail }) {
   const handleSave = () => {
     console.log('in Save');
 
-    //dispatch changes to db
+    dispatch({
+      type: 'UPDATE_SAMPLE_LAB',
+      payload: currentSample,
+    });
+
+    setOpenDetail(false);
   }; // end handleSave
 
   const handleCancel = () => {
