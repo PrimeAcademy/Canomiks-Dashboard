@@ -9,6 +9,8 @@ import {
   DialogContentText,
   Button,
   IconButton,
+  Typography,
+  Divider,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline, ArrowForwardIos } from '@material-ui/icons';
@@ -20,6 +22,7 @@ function CustomerDetail({ sample }) {
   const dispatch = useDispatch();
 
   const reviewSample = (sample) => {
+    console.log('sample to set', sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,
@@ -66,17 +69,16 @@ function CustomerDetail({ sample }) {
           </Alert>
         )}
 
-        <h2>Lot # {sample.lotNumber}</h2>
-        <h3>{sample.ingredientName}</h3>
+        <Typography align="center" variant="h4">Lot # {sample.lotNumber}</Typography>
+        <Typography align="center" variant="h5">{sample.ingredientName}</Typography>
+        <Divider style={{ marginTop: 15 }} />
 
-        <div>
-          <p>
-            Amount: {sample.ingredientAmount} {sample.ingredientUnit}
-          </p>
-          <p>Format: {sample.format}</p>
-          {sample.purity && <p>Purity: {sample.purity}</p>}
-          {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
-        </div>
+        <p>
+          Amount: {sample.ingredientAmount} {sample.ingredientUnit}
+        </p>
+        <p>Format: {sample.format}</p>
+        {sample.purity && <p>Purity: {sample.purity}</p>}
+        {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
 
         <div>
           <p>
@@ -98,7 +100,11 @@ function CustomerDetail({ sample }) {
 
         {/* Render Review button if the sample is in pre-shipment */}
         {sample.statusName === 'Pre-Shipment' && (
-          <Button variant="contained" onClick={() => reviewSample(sample)}>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            onClick={() => reviewSample(sample)}
+          >
             Review Sample
           </Button>
         )}
@@ -107,6 +113,7 @@ function CustomerDetail({ sample }) {
         {sample.pdfUrl && (
           <Button
             variant="contained"
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
             onClick={() => window.open(sample.pdfUrl)}
           >
             Download Results

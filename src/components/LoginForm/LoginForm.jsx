@@ -41,14 +41,6 @@ function LoginForm() {
 
   return (
     <form className={classes.root} onSubmit={login}>
-      <Typography
-        variant="h4"
-        align="center"
-        style={{ fontWeight: 550 }}
-        gutterBottom
-      >
-        Login
-      </Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
