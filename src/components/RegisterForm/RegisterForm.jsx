@@ -222,7 +222,9 @@ function RegisterForm() {
           onChange={(event) => setPasswordConfirm(event.target.value)}
           required
         />
-        <Typography>Notify me when:</Typography>
+        <div>
+          <Typography align="left" variant="h5" style={{ marginLeft: 30 }}>Notify me when:</Typography>
+        </div>
         <FormControlLabel
           control={
             <Switch
@@ -258,7 +260,7 @@ function RegisterForm() {
         />
         <div>
           <Button
-            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10, width: '60%' }}
             value="Register"
             onClick={registerUser}
           >

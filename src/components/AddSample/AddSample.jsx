@@ -141,7 +141,6 @@ function AddSample() {
         orderId,
       },
     });
-    history.push('/samples');
   }; // end cancelRequest
 
   return (
