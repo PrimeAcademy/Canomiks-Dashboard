@@ -28,6 +28,7 @@ function* fetchAllOrders() {
 function* addSampleOrder(action) {
   try {
     const response = yield axios.post('/api/orders/start', action.payload);
+    console.log(response.data, "response here")
 
     yield put({
       type: 'SET_CURRENT_SAMPLE',

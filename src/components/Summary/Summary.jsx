@@ -11,8 +11,13 @@ function Summary() {
 
   /* Store Imports */
   const user = useSelector((store) => store.user);
-  const sample = useSelector((store) => store.orders.currentSample)
-  console.log(sample, "sample")
+  const sample = useSelector((store) => store.orders);
+  const customer = useSelector((store) => store.customer);
+
+
+  console.log(sample, "smurple")
+  console.log(customer, "cus")
+
   // const company = useSelector(store => store.company);
   console.log(user, "user")
 
@@ -77,9 +82,9 @@ let cYear = currentDate.getFullYear()
       </Button>
     </Grid>
     <ul>
-      <li>Company Name: {user.name}</li>
-      <li>MSA ID: </li>
-      <li>Ingredient: </li>
+      <li>Company Name: {user.companyName}</li>
+      <li>MSA ID: {user.companyID}</li>
+      <li>Ingredient: {sample.ingredientName}</li>
       <li>SOW: </li>
       <li>SOW Start Date: </li>
       <li>Today's Date: {cMonth}-{cDay}-{cYear}</li>
