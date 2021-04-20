@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import LoginForm from '../LoginForm/LoginForm';
 
@@ -37,22 +37,12 @@ function LoginPage() {
       <Paper className={classes.root}>
         <LoginForm />
       </Paper>
-
       <Button
-        className = {classes.buttons}
+        className={classes.buttons}
         onClick={() => {
           history.push('/registration');
         }}>
         Register
-      </Button>
-
-      <Button
-        className = {classes.buttons}
-        size="small"
-        onClick={() => {
-          history.push('/forgotPassword');
-        }}>
-        Forgot Password
       </Button>
     </center>
   );

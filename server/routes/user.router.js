@@ -33,12 +33,15 @@ router.post('/register', async (req, res, next) => {
       phoneNumber,
       teamLeadName,
       email,
+      notifyStatusChange,
+      notifyResultsReady,
+      notifyDelay
     } = req.body;
     const password = encryptLib.encryptPassword(req.body.password);
 
     // send the first query, inserts the company
-    const queryText = `INSERT INTO "companies" ("companyName", "address", "city", "state", "zip", "phoneNumber")
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`;
+    const queryText = `INSERT INTO "companies" ("companyName", "address", "city", "state", "zip", "phoneNumber", "alertStatusChange", "alertResultsReady", "alertDelay")
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`;
     const dbRes = await pool.query(queryText, [
       companyName,
       companyAddress,
@@ -46,12 +49,15 @@ router.post('/register', async (req, res, next) => {
       state,
       zip,
       phoneNumber,
+      notifyStatusChange,
+      notifyResultsReady,
+      notifyDelay
     ]);
 
     // the second insert, for the individual user
     const companyID = dbRes.rows[0].id;
     const queryTextTwo = `INSERT INTO "users" ("email", "password", "name", "companyID") VALUES ($1, $2, $3, $4)`;
-    const dbResTwo = await pool.query(queryTextTwo, [
+    await pool.query(queryTextTwo, [
       email,
       password,
       teamLeadName,
@@ -71,7 +77,6 @@ router.post('/register', async (req, res, next) => {
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
-  console.log('log in user.router', req.user);
   res.send(req.user.active);
 });
 
