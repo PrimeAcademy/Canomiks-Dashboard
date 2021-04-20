@@ -223,7 +223,7 @@ function RegisterForm() {
           required
         />
         <div>
-          <Typography align="left" variant="h5" style={{ marginLeft: 30 }}>Notify me when:</Typography>
+          <Typography align="left" variant="h5" style={{ margin: 15 }}>Notify me when:</Typography>
         </div>
         <FormControlLabel
           control={
