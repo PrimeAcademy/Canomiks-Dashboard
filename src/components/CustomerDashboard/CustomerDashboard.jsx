@@ -81,7 +81,7 @@ function CustomerDashboard() {
       <Typography
         variant="h3"
         component="h1"
-        style={{ marginLeft: '10%', fontWeight: 900 }}
+        style={{ marginLeft: '10%', fontWeight: 900, }}
         gutterBottom
       >
         {user.companyName}
@@ -193,6 +193,7 @@ function CustomerDashboard() {
                       <TableCell align="right">
                         {order.statusName === 'Pre-shipment' ? (
                           <Button
+                            size="small"
                             variant="contained"
                             style={{
                               backgroundColor: 'white',
@@ -204,6 +205,7 @@ function CustomerDashboard() {
                           </Button>
                         ) : (
                           <Button
+                            size="small"
                             variant="contained"
                             style={{
                               backgroundColor: '#1e565c',

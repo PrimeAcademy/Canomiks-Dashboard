@@ -117,9 +117,8 @@ function AddSample() {
 
     setOpen(false);
 
-
     // Delete the current sample
-    if(companyID && orderId) {
+    if (companyID && orderId) {
       dispatch({
         type: 'DELETE_CURRENT_SAMPLE',
         payload: {
@@ -139,7 +138,7 @@ function AddSample() {
   const handleCancel = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
     setOpenShip(false);
@@ -157,7 +156,7 @@ function AddSample() {
   }; // end enterInfo
 
   return (
-    <>      
+    <>
       <Grid container justify="center" alignItems="flex-start">
 
         {/* Ingredient Name */}
@@ -464,60 +463,60 @@ function AddSample() {
         </Tooltip>
       </Grid>
       <Grid container justify="center" alignItems="flex-start">
-         <div>
-          <Button 
-              className={classes.inputs}
-              style={{ backgroundColor: '#1e565c', color: 'white' }}
-              variant="contained" 
-              color="primary" 
-              onClick={handleCancel}>
+        <div>
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            color="primary"
+            onClick={handleCancel}>
             Cancel Request
           </Button>
           <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>
-                Are you sure?
+            <DialogTitle>
+              Are you sure?
               </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Cancelling will erase all current inputs.
+            <DialogContent>
+              <DialogContentText>
+                Cancelling will erase all current inputs.
                 </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  No
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
                 </Button>
-                <Button onClick={cancelRequest} color="primary" autoFocus>
-                  Yes
+              <Button onClick={cancelRequest} color="primary" autoFocus>
+                Yes
                 </Button>
-              </DialogActions>
+            </DialogActions>
           </Dialog>
-        </div> 
+        </div>
 
         <div>
-          <Button 
-              className={classes.inputs}
-              style={{ backgroundColor: '#1e565c', color: 'white' }}
-              variant="contained" 
-              color="primary" 
-              onClick={handleOpenShipping}>
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            color="primary"
+            onClick={handleOpenShipping}>
             Shipping Info
           </Button>
           <Dialog open={openShip} onClose={handleClose}>
-              <DialogTitle>
-                Continue to Shipping?
+            <DialogTitle>
+              Continue to Shipping?
               </DialogTitle>
-              <DialogContent>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  No
+            <DialogContent>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
                 </Button>
                 <Button onClick={goToShippingPage} color="primary" autoFocus>
                   Yes
                 </Button>
-              </DialogActions>
+            </DialogActions>
           </Dialog>
-        </div> 
+        </div>
       </Grid>
     </>
   );

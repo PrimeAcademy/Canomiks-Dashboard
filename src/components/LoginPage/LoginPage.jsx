@@ -13,11 +13,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 25,
     paddingBottom: 25,
   },
-  buttons: {
-    margin: theme.spacing(1),
-    backgroundColor: '#1e565c',
-    color: 'white',
-  }
 }));
 
 function LoginPage() {
@@ -26,23 +21,24 @@ function LoginPage() {
 
   return (
     <center>
-      <Typography
-        variant="h1"
-        component="h1"
-        style={{ maxWidth: '80%', fontSize: 60, fontWeight: 800 }}
-      >
-        Canomiks
-      </Typography>
-
       <Paper className={classes.root}>
         <LoginForm />
       </Paper>
+      <Typography style={{ marginTop: 50 }} variant="subtitle1">
+        Need to request an account?
+      </Typography>
       <Button
-        className={classes.buttons}
+        size="small"
+        variant="outlined"
+        style={{
+          color: '#1e565c',
+          marginTop: 10
+        }}
         onClick={() => {
           history.push('/registration');
-        }}>
-        Register
+        }}
+      >
+        Request
       </Button>
     </center>
   );
