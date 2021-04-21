@@ -4,6 +4,7 @@ import './LandingPage.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import RegisterPage from '../RegisterPage/RegisterPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +25,7 @@ function LandingPage() {
   }; // end onLogin
 
   return (
-    <center>
+    <>
       <Typography
         variant="h1"
         style={{ maxWidth: '80%', fontSize: 60, fontWeight: 800 }}
@@ -34,7 +35,7 @@ function LandingPage() {
       </Typography>
 
       <Paper className={classes.root}>
-        <RegisterForm />
+        <RegisterPage />
       </Paper>
 
       <Typography>Already have an account?</Typography>
@@ -48,7 +49,7 @@ function LandingPage() {
       >
         Login
       </Button>
-    </center>
+    </>
   );
 }
 

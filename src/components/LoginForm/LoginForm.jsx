@@ -43,11 +43,16 @@ function LoginForm() {
 
   return (
     <form className={classes.root} onSubmit={login}>
-      {errors.loginMessage && (
-        <h3 className="alert" role="alert">
-          {errors.loginMessage}
-        </h3>
-      )}
+      {errors.loginMessage && errors.loginMessage === 'Account Inactive' ?
+        <div style={{ marginTop: 0, marginBottom: 15 }} className="alert" role="alert">
+          <Typography variant="h5">Account Inactive</Typography>
+          <Typography variant="body1">We are still processing your request.</Typography>
+          <Typography variant="body2">For more information about your account, please feel free to reach out.</Typography>
+          <Button style={{ marginTop: 10, fontWeight: 650 }} size="small" variant="contained">Contact Us</Button>
+        </div> : errors.loginMessage ?
+          <Typography className="alert" role="alert" gutterBottom>{errors.loginMessage}</Typography>
+          : <></>
+      }
 
       <center>
         <div>

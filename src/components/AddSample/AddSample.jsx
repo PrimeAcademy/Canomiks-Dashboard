@@ -118,7 +118,7 @@ function AddSample() {
   const cancelRequest = (event) => {
     // TO DO - Add confirmation pop up
     // TO DO - Currently throwing errors for undefined values
-    
+
     // Clear all inputs
     setName('');
     setLotNumber('');
@@ -134,7 +134,7 @@ function AddSample() {
     setSustainability('');
 
     // Delete the current sample
-    if(companyID && orderId) {
+    if (companyID && orderId) {
       dispatch({
         type: 'DELETE_CURRENT_SAMPLE',
         payload: {

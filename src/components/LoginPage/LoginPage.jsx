@@ -13,11 +13,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 25,
     paddingBottom: 25,
   },
-  buttons: {
-    margin: theme.spacing(1),
-    backgroundColor: '#1e565c',
-    color: 'white',
-  }
 }));
 
 function LoginPage() {
@@ -38,7 +33,11 @@ function LoginPage() {
         <LoginForm />
       </Paper>
       <Button
-        className={classes.buttons}
+        style={{
+          backgroundColor: '#1e565c',
+          color: 'white',
+          marginTop: 20
+        }}
         onClick={() => {
           history.push('/registration');
         }}>

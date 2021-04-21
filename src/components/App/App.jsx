@@ -25,9 +25,8 @@ import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import ResetPassword from '../ResetPassword/ResetPassword';
 
-
 import './App.css';
-import { CssBaseline } from '@material-ui/core';
+import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 
 function App() {
   const dispatch = useDispatch();
@@ -48,7 +47,7 @@ function App() {
           <Redirect exact from="/" to="/home" />
 
           <ProtectedRoute exact path="/home" authRedirect="/samples">
-            <LandingPage />
+            <RegisterPage />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/login" authRedirect="/samples">
