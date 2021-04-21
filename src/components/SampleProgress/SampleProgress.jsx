@@ -8,7 +8,7 @@ import clsx from 'clsx';
 
 import './SampleProgress.css';
 
-function SampleProgress({ sequence, state, delay }) {
+function SampleProgress({ sequence, state, delay, changeStep }) {
   const dispatch = useDispatch();
 
   /* Local State */
@@ -78,14 +78,14 @@ function SampleProgress({ sequence, state, delay }) {
     // Click only functions for lab or admin
     if (user.authLevel === 'lab' || user.authLevel === 'admin') {
       console.log('in click', step);
-
-      dispatch({
-        type: 'EDIT_SAMPLE_STATUS',
-        payload: {
-          step,
-          state,
-        },
-      });
+      changeStep(step);
+      // dispatch({
+      //   type: 'EDIT_SAMPLE_STATUS',
+      //   payload: {
+      //     step,
+      //     state,
+      //   },
+      // });
 
       // Changes the visual on the stepper to match
       setActiveStep(step - 1);
@@ -100,7 +100,12 @@ function SampleProgress({ sequence, state, delay }) {
           {shipSteps.map((label, index) => {
             return (
               <Step key={index}>
-                <StepLabel StepIconComponent={StepIcon}>{label}</StepLabel>
+                <StepLabel
+                  StepIconComponent={StepIcon}
+                  onClick={() => handleClick(index + 1)}
+                >
+                  {label}
+                </StepLabel>
               </Step>
             );
           })}

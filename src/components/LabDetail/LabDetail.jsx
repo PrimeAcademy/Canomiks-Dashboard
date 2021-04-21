@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 
 import SampleProgress from '../SampleProgress/SampleProgress';
 
@@ -12,136 +13,121 @@ function LabDetail({ setOpenDetail, originalSample }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  /* Store Imports */
-  const currentSample = useSelector((store) => store.orders.currentSample);
+  const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
     // Dispatch toggles currentSample delayed status
-    dispatch({
-      type: 'EDIT_SAMPLE_DELAY',
-      payload: !currentSample.delayed,
-    });
+    setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
+
+  const changeStep = (step) => {
+    setSample({ ...sample, sequence: step });
+  }; // end changeStep
 
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
     // TO DO - trigger email alerts
 
     // Checks if delayed status has been changed
-    if (originalSample.delayed !== currentSample.delayed) {
+    if (originalSample.delayed !== sample.delayed) {
       console.log('Trigger Delayed email');
     }
 
     // Checks if test state has been changed
     if (
-      originalSample.sequence !== currentSample.sequence ||
-      originalSample.testState !== currentSample.testState
+      originalSample.sequence !== sample.sequence ||
+      originalSample.testState !== sample.testState
     ) {
       console.log('Trigger status update email');
     }
 
     dispatch({
       type: 'UPDATE_SAMPLE_LAB',
-      payload: currentSample,
+      payload: sample,
     });
 
     setOpenDetail(false);
   }; // end handleSave
 
-  const handleCancel = () => {
-    dispatch({
-      type: 'CLEAR_CURRENT_SAMPLE',
-    });
-
-    setOpenDetail(false);
-  }; // end handleCancel
-
   return (
     <DialogContent>
       <DialogContentText>
         <SampleProgress
-          sequence={currentSample.sequence}
-          state={currentSample.testState}
-          delay={currentSample.delayed}
+          sequence={sample.sequence}
+          state={sample.testState}
+          delay={sample.delayed}
+          changeStep={changeStep}
         />
 
         {/* Render warning if sample is delayed*/}
-        {currentSample.delayed && (
+        {sample.delayed && (
           <Alert icon={<ErrorOutline />} severity="warning">
             <AlertTitle>Test Currently Delayed</AlertTitle>
           </Alert>
         )}
 
-        <h2>Lot # {currentSample.lotNumber}</h2>
-        <h3>{currentSample.companyName}</h3>
+        <h2>Lot # {sample.lotNumber}</h2>
+        <h3>{sample.companyName}</h3>
 
         <div>
-          <p>Product: {currentSample.ingredientName}</p>
+          <p>Product: {sample.ingredientName}</p>
           <p>
-            Amount: {currentSample.ingredientAmount}{' '}
-            {currentSample.ingredientUnit}
+            Amount: {sample.ingredientAmount} {sample.ingredientUnit}
           </p>
-          <p>Format: {currentSample.format}</p>
-          {currentSample.purity && <p>Purity: {currentSample.purity}</p>}
-          {currentSample.cropStrain && (
-            <p>Strain: {currentSample.cropStrain}</p>
-          )}
+          <p>Format: {sample.format}</p>
+          {sample.purity && <p>Purity: {sample.purity}</p>}
+          {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
         </div>
 
         <div>
           <p>
             Manufacture Date:
-            {moment(currentSample.dateManufactured).format('M/YYYY')}
+            {moment(sample.dateManufactured).format('M/YYYY')}
           </p>
-          <p>Extraction Method: {currentSample.extractionMethod}</p>
-          {(currentSample.city ||
-            currentSample.state ||
-            currentSample.country) && (
+          <p>Extraction Method: {sample.extractionMethod}</p>
+          {(sample.city || sample.state || sample.country) && (
             <p>
-              Growth Region: {currentSample.city}, {currentSample.state},{' '}
-              {currentSample.country}
+              Growth Region: {sample.city}, {sample.state}, {sample.country}
             </p>
           )}
-          {currentSample.harvestDate && (
-            <p>
-              Harvest Date: {moment(currentSample.harvestDate).format('M/YYYY')}
-            </p>
+          {sample.harvestDate && (
+            <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
           )}
-          {currentSample.sustainabilityInfo && (
-            <p>Sustainability: {currentSample.sustainabilityInfo}</p>
+          {sample.sustainabilityInfo && (
+            <p>Sustainability: {sample.sustainabilityInfo}</p>
           )}
         </div>
 
-        {/* Render Review button if the sample is in pre-shipment */}
-        {currentSample.statusName === 'Complete' && !currentSample.pdfUrl && (
+        {/* Render Upload button if the sample is complete with no results */}
+        {sample.sequence === 7 && !sample.pdfUrl && (
           <Button
             variant="contained"
-            onClick={() => history.push(`/sample/${currentSample.id}`)}
+            onClick={() => history.push(`/sample/${sample.id}`)}
           >
             Upload Results
           </Button>
         )}
 
         {/* Render download button if sample is complete and results are uploaded */}
-        {currentSample.pdfUrl && (
+        {sample.pdfUrl && (
           <div>
             <Button
               variant="contained"
-              onClick={() => window.open(currentSample.pdfUrl)}
+              onClick={() => window.open(sample.pdfUrl)}
             >
               Download Results
             </Button>
           </div>
         )}
 
-        <Button variant="contained" onClick={handleCancel}>
+        <Button variant="contained" onClick={() => setOpenDetail(false)}>
           Cancel Changes
         </Button>
         <Button variant="contained" onClick={handleSave}>
           Save Changes
         </Button>
         <Button variant="contained" onClick={markDelay}>
-          Mark Delayed
+          {sample.delayed ? <>Un-mark Delay</> : <>Mark Delay</>}
         </Button>
       </DialogContentText>
     </DialogContent>
