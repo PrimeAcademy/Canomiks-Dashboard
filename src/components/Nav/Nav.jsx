@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import LogOutButton from '../LogOutButton/LogOutButton';
 
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   /* Store Import */
   const user = useSelector((store) => store.user);
@@ -62,7 +63,6 @@ function Nav() {
           </div>
         </Link>
 
-
         <div>
           <NavLink activeClassName="activeLink" className="navLink" to={loginLinkData.path}>
             {loginLinkData.text}
@@ -88,6 +88,7 @@ function Nav() {
 
           {user.id && <LogOutButton className="navLink" />}
         </div>
+
       </Toolbar>
     </AppBar>
   );

@@ -28,8 +28,6 @@ function LogOutButton(props) {
     >
       Log Out
     </button>
-
-
   );
 }
 
