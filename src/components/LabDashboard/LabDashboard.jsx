@@ -40,12 +40,9 @@ let cDay = currentDate.getDate()
 let cMonth = currentDate.getMonth() + 1
 let cYear = currentDate.getFullYear()
 
-let thisDate = {
-  year: cYear,
-  month: cMonth,
-  day: cDay 
-};
-console.log(thisDate, "DATE")
+let thisDate = `${cYear} ${cMonth} ${cDay}`;
+
+// console.log(thisDate, "DATE")
 
 
 
@@ -63,18 +60,12 @@ console.log(thisDate, "DATE")
   const [clickedSample, setClickedSample] = useState({});
 
   useEffect(() => {
-    dateCheck();
    
     dispatch({
       type: 'FETCH_ALL_ORDERS',
     });
   }, []);
 
-  const dateCheck = () => {
-    console.log("date check")
-   
-    
-  }
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   }; // end handleChangePage
@@ -173,10 +164,10 @@ console.log(thisDate, "DATE")
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
                   if(order.statusName === 'Pre-Shipment'
-                  
-                      && order.lotNumber == 3){
+                      && 
+                      order.shippedDate > thisDate){
+                        console.log(order.shippedDate, "and", thisDate, "this date")
                     order.statusName = "In Transit"
-                    console.log(order.statusName)
                   }
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
