@@ -45,7 +45,7 @@ function* addSampleOrder(action) {
     console.log(response.data, 'response here');
 
     yield put({
-      type: 'SET_CURRENT_SAMPLE',
+      type: 'SET_INIT_SAMPLE_ID',
       payload: response.data,
     });
   } catch (err) {

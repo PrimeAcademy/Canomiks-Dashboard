@@ -14,15 +14,6 @@ function Summary() {
   const sample = useSelector((store) => store.orders);
   const customer = useSelector((store) => store.customer);
 
-
-  console.log(sample, "sample")
-  console.log(customer, "cus")
-
-  // const company = useSelector(store => store.company);
-  console.log(user, "user")
-
-
-
 // date set up
 let currentDate = new Date();
 let cDay = currentDate.getDate()

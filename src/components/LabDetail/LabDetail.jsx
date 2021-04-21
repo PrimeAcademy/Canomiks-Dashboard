@@ -111,6 +111,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         {sample.pdfUrl && (
           <div>
             <Button
+              size="small"
               variant="contained"
               onClick={() => window.open(sample.pdfUrl)}
             >
@@ -119,10 +120,46 @@ function LabDetail({ setOpenDetail, originalSample }) {
           </div>
         )}
 
-        <Button variant="contained" onClick={() => setOpenDetail(false)}>
+        <Button
+          variant="outline"
+          size="small"
+          style={{
+            margin: 5,
+            marginRight: 120,
+          }}
+          variant="outlined"
+          onClick={() => setOpenDetail(false)}
+        >
           Cancel Changes
         </Button>
-        <Button variant="contained" onClick={handleSave}>
+        {currentSample.delayed ? (
+          <Button
+            style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+            size="small"
+            color="primary"
+            variant="contained"
+            onClick={markDelay}
+          >
+            Clear Delay
+          </Button>
+        ) : (
+          <Button
+            style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+            size="small"
+            color="primary"
+            variant="contained"
+            onClick={markDelay}
+          >
+            Mark Delayed
+          </Button>
+        )}
+        <Button
+          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick={handleSave}
+        >
           Save Changes
         </Button>
         <Button variant="contained" onClick={markDelay}>

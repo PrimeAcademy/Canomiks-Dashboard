@@ -17,9 +17,10 @@ import {
   Typography,
   TextField,
   Dialog,
+  Container,
 } from '@material-ui/core';
 
-// materiaul ui style
+// material ui style
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -77,12 +78,11 @@ function LabDashboard() {
   }; // end handleClose
 
   return (
-    <>
+    <Container maxWidth='xl'>
       <Typography
         variant="h3"
         component="h1"
-        style={{ marginLeft: '10%', fontWeight: 900 }}
-        gutterBottom
+        style={{ marginLeft: '10%', fontWeight: 700 }}
       >
         Current Orders
       </Typography>
@@ -108,14 +108,14 @@ function LabDashboard() {
           >
             <TableHead>
               <TableRow>
-                <TableCell label="Lot Number" style={{ fontWeight: 900 }}>
+                <TableCell label="Lot Number" style={{ fontWeight: 700 }}>
                   Lot Number
                 </TableCell>
 
                 <TableCell
                   label="Company Name"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Company Name
                 </TableCell>
@@ -123,7 +123,7 @@ function LabDashboard() {
                 <TableCell
                   label="Date Received"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Date Received
                 </TableCell>
@@ -131,7 +131,7 @@ function LabDashboard() {
                 <TableCell
                   label="Test Phase"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Test Phase
                 </TableCell>
@@ -139,7 +139,7 @@ function LabDashboard() {
                 <TableCell
                   label="Action Button"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Action
                 </TableCell>
@@ -222,7 +222,7 @@ function LabDashboard() {
           setOpenDetail={setOpenDetail}
         />
       </Dialog>
-    </>
+    </Container>
   );
 }
 
