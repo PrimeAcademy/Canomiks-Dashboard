@@ -27,25 +27,31 @@ const transporter = nodemailer.createTransport({
 /*
  * req.body:
  * {
- *   customerEmail: users.email
+ * ........
+ *   email: users.email
  *   message: 'The message to be sent'
+ *   lotNumber: 0000
+ * .......
  * }
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
   console.log('🐻 ', req.body);
-  
-  // const info = transporter.sendMail({
-  //   from: process.env.EMAIL,
-  //   to: `${req.body.customerEmail}`,
-  //   subject: "Sample info from Canomiks",
-  //   text: `${req.body.message}`,
-  // }, (err, info) => {
-  //   if (err) {
-  //     res.send('💥 error sending email', err);
-  //     return;
-  //   } ;
-  //   console.log('🎉 it has been sent', info.response)
-  // });
+
+  const info = transporter.sendMail({
+    from: process.env.EMAIL,
+    to: `${req.body.email}`,
+    subject: "Sample info from Canomiks",
+    text: ` ${req.body.name},
+    ${req.body.message}
+    
+    Lot Number Effected: ${req.body.lotNumber}`,
+  }, (err, info) => {
+    if (err) {
+      res.send('💥 error sending email', err);
+      return;
+    } ;
+    console.log('🎉 it has been sent', info.response)
+  });
   
   res.sendStatus(200);
 }); // end basic email

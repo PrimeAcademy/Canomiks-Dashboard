@@ -47,7 +47,16 @@ function LabDetail({ setOpenDetail, originalSample }) {
       originalSample.sequence !== currentSample.sequence ||
       originalSample.testState !== currentSample.testState
     ) {
-      console.log('Trigger status update email');
+      dispatch({
+        type: 'EMAIL_DELAYED_STATUS',
+        payload: {
+          orderId: currentSample.id,
+          companyID: currentSample.companyID,
+          changedStatus: currentSample.delayed,
+          changedStatusKey: 'delayed',
+          message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
+        }
+      }); // end dispatch
     }
 
     dispatch({
