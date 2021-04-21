@@ -197,6 +197,39 @@ router.put('/lab/update', async (req, res) => {
   }
 });
 
+// when ship date has passed
+router.put('/date', rejectUnauthenticated, async (req, res) => {
+  try {
+        const order = req.body;
+        const orderArray = [
+          order.testingStatus,
+          order.companyID,
+          order.id,
+        ];
+        console.log(orderArray, "router order")
+
+        const sqlText = `
+          UPDATE "orders"
+          SET "testingStatus" = $1
+          WHERE "companyID" = $2 AND "id" = $3
+          RETURNING *;
+        `;
+        const dbRes = await pool.query(sqlText, orderArray);
+        console.log(dbRes.rows);
+        if (dbRes.rows.length === 0) {
+          res.sendStatus(404);
+          return;
+        } else {
+          res.send(dbRes.rows[0]);
+        }
+  } catch (err) {
+    console.error('Error in PUT /date', err.message);
+    res.sendStatus(500);
+  }
+});
+
+
+
 /* DELETE ROUTES */
 router.delete(
   '/delete/:company/:order',

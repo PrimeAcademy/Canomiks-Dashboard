@@ -68,6 +68,7 @@ const dispatch = useDispatch();
   }; // end handleChangeRowsPerPage
 
   const handleOpen = (sample) => {
+    console.log("handle hit")
     setClickedSample(sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
@@ -81,6 +82,15 @@ const dispatch = useDispatch();
     setOpenDetail(false);
   }; // end handleClose
 
+
+  const shippingUpdate = (order) => {
+    // console.log(order, "shippingUpdate")
+    dispatch({
+      type: 'UPDATE_TEST_PHASE',
+      payload: order,
+    });
+
+  }
   return (
     <Container maxWidth='xl'>
       <Typography
@@ -159,7 +169,8 @@ const dispatch = useDispatch();
                       order.shippedDate < ourDate)
                       {
                         order.statusName = "In Transit"
-                        console.log("test phase changed")
+                        order.testingStatus = 2;
+                        shippingUpdate(order);
                       }
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
