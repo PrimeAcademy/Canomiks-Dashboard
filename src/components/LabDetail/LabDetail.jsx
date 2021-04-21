@@ -15,10 +15,14 @@ function LabDetail({ setOpenDetail, originalSample }) {
   /* Store Imports */
   const currentSample = useSelector((store) => store.orders.currentSample);
 
+  console.log('🧢 ', originalSample);
+  console.log('🎩 ', currentSample);
+
+
   const markDelay = () => {
     // Dispatch toggles currentSample delayed status
     dispatch({
-      type: 'EDIT_SAMPLE_DELAY',
+      type: 'EDIT_SAMPLE_DELAY', // goes to a saga
       payload: !currentSample.delayed,
     });
   }; // end markDelay
