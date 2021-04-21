@@ -43,7 +43,6 @@ function* addSampleOrder(action) {
   try {
     const response = yield axios.post('/api/orders/start', action.payload);
     console.log(response.data, 'response here');
-
     yield put({
       type: 'SET_INIT_SAMPLE_ID',
       payload: response.data,
@@ -56,7 +55,6 @@ function* addSampleOrder(action) {
 function* updateSampleInfo(action) {
   try {
     const response = yield axios.put('/api/orders/update', action.payload);
-
     // now set current sample with all the info
     yield put({
       type: 'SET_CURRENT_SAMPLE',
@@ -89,9 +87,10 @@ function* updateSampleLab(action) {
 
 function* deleteCurrentSample(action) {
   try {
-    const response = yield axios.delete(
-      `/api/orders/delete/${action.payload.companyID}/${action.payload.orderId}`
-    );
+    yield axios.delete(`/api/orders/delete/${action.payload.companyID}/${action.payload.orderId}`);
+    yield put({
+      type: 'CLEAR_CURRENT_SAMPLE'
+    });
   } catch (err) {
     console.error('Error in deleteCurrentSample', err.message);
   }

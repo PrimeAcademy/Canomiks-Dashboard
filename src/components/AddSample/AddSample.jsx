@@ -88,31 +88,18 @@ function AddSample() {
         orderId,
       },
     });
-    
+
   }; // end focusChange
 
   const goToShippingPage = () => {
     // if errors, alert, close window and stop function
-    
+
     history.push('/sample/ship');
   }; // end goToShippingPage
 
   const cancelRequest = (event) => {
     // TO DO - Currently throwing errors for undefined values
     // Clear all inputs
-    setName('');
-    setLotNumber('');
-    setFormat('');
-    setPurity('');
-    setDateManufactured('');
-    setMethod('');
-    setCity('');
-    setAmount('');
-    setState('');
-    setCountry('');
-    setCropStrain('');
-    setHarvestDate('');
-    setSustainability('');
 
     setOpen(false);
 
@@ -143,7 +130,7 @@ function AddSample() {
     setOpenShip(false);
   };
 
-  function enterInfo (inputValue) {
+  function enterInfo(inputValue) {
     // send to the reducer, no saga needed
     dispatch({
       type: 'UPDATE_CURRENT_SAMPLE',
@@ -498,7 +485,7 @@ function AddSample() {
             variant="contained"
             color="primary"
             onClick={handleOpenShipping}>
-            Shipping Info
+            Next: Shipping Info
           </Button>
           <Dialog open={openShip} onClose={handleClose}>
             <DialogTitle>
@@ -510,8 +497,8 @@ function AddSample() {
               <Button onClick={handleClose} color="primary">
                 No
                 </Button>
-                <Button onClick={goToShippingPage} color="primary" autoFocus>
-                  Yes
+              <Button onClick={goToShippingPage} color="primary" autoFocus>
+                Yes
                 </Button>
             </DialogActions>
           </Dialog>

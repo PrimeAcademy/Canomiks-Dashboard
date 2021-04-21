@@ -91,10 +91,7 @@ function LoginForm() {
           </Button>
         </div>
         <div>
-          <Link
-            onClick={() => {
-              history.push('/forgotPassword');
-            }}>
+          <Link to='/forgotPassword'>
             Forgot Password?
         </Link>
         </div>

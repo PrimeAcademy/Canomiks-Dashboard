@@ -1,24 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import './Summary.css';
 
-import { Button, Typography, Grid } from '@material-ui/core';
+import { Button, Typography, Grid, Paper, List, ListItem, makeStyles, Divider, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, ListItemText } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '80%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  table: {
+    minWidth: 650,
+  },
+}));
 
 function Summary() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   /* Store Imports */
   const user = useSelector((store) => store.user);
   const sample = useSelector((store) => store.orders);
   const customer = useSelector((store) => store.customer);
 
-// date set up
-let currentDate = new Date();
-let cDay = currentDate.getDate()
-let cMonth = currentDate.getMonth() + 1
-let cYear = currentDate.getFullYear()
+  // date set up
+  let currentDate = new Date();
+  let cDay = currentDate.getDate()
+  let cMonth = currentDate.getMonth() + 1
+  let cYear = currentDate.getFullYear()
 
 
   /*
@@ -43,96 +54,73 @@ let cYear = currentDate.getFullYear()
     history.push('/sample/add');
   }; // end goToAddSample
 
-  return (<>
-    <Grid container justify="center">
-      <Grid item xs={12}>
-        <Typography variant="h1" align="center">
-          {/* TO DO - Should show company name instead of user name*/}
-          {user.companyName}
+  return (
+    <center>
+      <Typography variant="h3" align="center" gutterBottom>
+        {/* TO DO - Should show company name instead of user name*/}
+        {user.companyName}
+      </Typography>
+      <Typography variant="h6" align="center" gutterBottom>
+        Current Contract Summary
         </Typography>
-      </Grid>
+      <Paper style={{ width: 'fit-content' }}>
+        <List className={classes.root}>
+          {/* pull from store/reducers for values below */}
+          <ListItem>Company Name:<ListItemText style={{ marginLeft: 10 }} primary={user.companyName} /></ListItem>
+          <ListItem>MSA ID:<ListItemText style={{ marginLeft: 10 }} primary={user.companyID} /></ListItem>
+          <ListItem>Ingredient:<ListItemText style={{ marginLeft: 10 }} primary='CBD' /></ListItem>
+          <ListItem>SOW:<ListItemText style={{ marginLeft: 10 }} primary='###' /></ListItem>
+          <ListItem>SOW Start Date:<ListItemText style={{ marginLeft: 10 }} primary='01-01-2021' /></ListItem>
+          <ListItem>Today's Date:<ListItemText style={{ marginLeft: 10 }} primary={`${cMonth}-${cDay}-${cYear}`} /></ListItem>
+        </List>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" align="center">
-          Reminder:
-        </Typography>
-
-        <Typography variant="body1" align="center" gutterBottom>
-          {/* Displays information pulled from contract on number of samples remaining */}
-          You only have 2 samples left on your contract
-        </Typography>
-      </Grid>
-
+        <TableContainer style={{ border: 1, marginBottom: 40, padding: 50, paddingTop: 0 }}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell># of Orders </TableCell>
+                <TableCell> # of Samples </TableCell>
+                <TableCell> # of Orders Remaining </TableCell>
+                <TableCell> # of Samples Remaining </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>10 Sample Orders</TableCell>
+                <TableCell>5</TableCell>
+                <TableCell>50</TableCell>
+                <TableCell>2</TableCell>
+                <TableCell>20</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>5 Sample Orders</TableCell>
+                <TableCell>8</TableCell>
+                <TableCell>40</TableCell>
+                <TableCell>3</TableCell>
+                <TableCell>15</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>2 Sample Orders</TableCell>
+                <TableCell>5</TableCell>
+                <TableCell>10</TableCell>
+                <TableCell>1</TableCell>
+                <TableCell>2</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
       <Button
-        style={{ backgroundColor: '#1e565c', color: 'white', marginTop: 15 }}
+        style={{ backgroundColor: '#1e565c', color: 'white', marginTop: 10, width: '30%' }}
         variant="contained"
         color="primary"
         onClick={goToAddSample}
       >
         Start Sample
       </Button>
-    </Grid>
-    <ul>
-      {/* pull from store/reducers for values below */}
-      <li>Company Name: {user.companyName}</li>
-      <li>MSA ID: {user.companyID}</li>
-      <li>Ingredient: {sample.ingredientName}</li>
-      <li>SOW: </li>
-      <li>SOW Start Date: </li>
-      <li>Today's Date: {cMonth}-{cDay}-{cYear}</li>
-    </ul>
-    <table border="3">
-      <tr>
-        <th></th>
-        <th>SOW: 2021-1-CBD </th>
-        <th></th>
-        <th>SOW: 2021-1-CBD </th>
-        <th> </th>
-
-      </tr>
-      <tr>
-        <td></td>
-        <td># of Orders </td>
-        <td> # of Samples </td>
-        <td> # of Orders Remaining </td>
-        <td> # of Samples Remaining </td>
-
-      </tr>
-      <tr>
-        <td>10 Sample Orders</td>
-        <td>5</td>
-        <td>50</td>
-        <td>2</td>
-        <td>20</td>
-      </tr>
-      <tr>
-        <td>5 Sample Orders</td>
-        <td>8</td>
-        <td>40</td>
-        <td>3</td>
-        <td>15</td>
-      </tr>
-      <tr>
-        <td>2 Sample Orders</td>
-        <td>5</td>
-        <td>10</td>
-        <td>1</td>
-        <td>2</td>
-
-      </tr>
-      <tr>
-        <td>Total Samples</td>
-        <td></td>
-        <td>100</td>
-        <td></td>
-        <td 
-          style={{color: "red"}}>37
-        </td>
-
-      </tr>
-    </table>
-
-  </>);
+    </center>
+  );
 }
 
 export default Summary;
