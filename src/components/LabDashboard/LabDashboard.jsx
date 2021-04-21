@@ -186,6 +186,7 @@ function LabDashboard() {
                         <TableCell align="center">
                           <Button
                             variant="contained"
+                            size="small"
                             style={{
                               backgroundColor: '#1e565c',
                               color: 'white',

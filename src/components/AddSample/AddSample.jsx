@@ -21,7 +21,7 @@ import swal from 'sweetalert';
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import InfoOutlined from '@material-ui/core/InfoOutlined';
+import { InfoOutlined } from '@material-ui/icons';
 
 
 
@@ -74,6 +74,7 @@ function AddSample() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("form submit")
+    history.push('/sample/ship')
   };
   // Dialogue button states
   const [open, setOpen] = useState(false);
@@ -118,14 +119,7 @@ function AddSample() {
       !lotNumber ||
       !extractionMethod
     ) {
-      swal("Uh oh!", "Please fill out all required fields", "warning");
-
-      return;
-    }; // end required field check
-    //swal has blank space to allow icon success
-    swal("", "Order successfully saved", "success");
-       {
-        // TO DO - Make this a styled modal
+      // TO DO - Make this a styled modal
       setOpenShip(false);
       alert('Please complete required inputs');
       return;
@@ -196,9 +190,8 @@ function AddSample() {
 
     setOpen(false);
 
-
     // Delete the current sample
-    if(companyID && orderId) {
+    if (companyID && orderId) {
       dispatch({
         type: 'DELETE_CURRENT_SAMPLE',
         payload: {
@@ -211,8 +204,6 @@ function AddSample() {
     history.push('/summary');
   }; // end cancelRequest
 
-
-
   const handleOpenShipping = () => {
     setOpenShip(true);
   };
@@ -220,14 +211,14 @@ function AddSample() {
   const handleCancel = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
     setOpenShip(false);
   };
 
   return (
-    <>      
+    <>
       <Grid container justify="center" alignItems="flex-start">
         {/* Ingredient Name */}
         <FormControl variant="standard" className={classes.formControl}>
@@ -457,59 +448,59 @@ function AddSample() {
       </Grid>
       <Grid container justify="center" alignItems="flex-start">
         <div>
-          <Button 
-              className={classes.inputs}
-              style={{ backgroundColor: '#1e565c', color: 'white' }}
-              variant="contained" 
-              color="primary" 
-              onClick={handleCancel}>
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            color="primary"
+            onClick={handleCancel}>
             Cancel Request
           </Button>
           <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>
-                Are you sure?
+            <DialogTitle>
+              Are you sure?
               </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Cancelling will erase all current inputs.
+            <DialogContent>
+              <DialogContentText>
+                Cancelling will erase all current inputs.
                 </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  No
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
                 </Button>
-                <Button onClick={cancelRequest} color="primary" autoFocus>
-                  Yes
+              <Button onClick={cancelRequest} color="primary" autoFocus>
+                Yes
                 </Button>
-              </DialogActions>
+            </DialogActions>
           </Dialog>
-        </div> 
+        </div>
 
         <div>
-          <Button 
-              className={classes.inputs}
-              style={{ backgroundColor: '#1e565c', color: 'white' }}
-              variant="contained" 
-              color="primary" 
-              onClick={handleOpenShipping}>
+          <Button
+            className={classes.inputs}
+            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            color="primary"
+            onClick={handleOpenShipping}>
             Shipping Info
           </Button>
           <Dialog open={openShip} onClose={handleClose}>
-              <DialogTitle>
-                Continue to Shipping?
+            <DialogTitle>
+              Continue to Shipping?
               </DialogTitle>
-              <DialogContent>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  No
+            <DialogContent>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
                 </Button>
-                <Button onClick={handleSubmit} color="primary" autoFocus>
-                  Yes
+              <Button onClick={handleSubmit} color="primary" autoFocus>
+                Yes
                 </Button>
-              </DialogActions>
+            </DialogActions>
           </Dialog>
-        </div> 
+        </div>
       </Grid>
   </>)
 }
