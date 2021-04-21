@@ -21,26 +21,23 @@ function LoginPage() {
 
   return (
     <center>
-      <Typography
-        variant="h1"
-        component="h1"
-        style={{ maxWidth: '80%', fontSize: 60, fontWeight: 800 }}
-      >
-        Canomiks
-      </Typography>
-
       <Paper className={classes.root}>
         <LoginForm />
       </Paper>
+      <Typography style={{ marginTop: 50 }} variant="subtitle1">
+        Need to register?
+      </Typography>
       <Button
+        size="small"
+        variant="outlined"
         style={{
-          backgroundColor: '#1e565c',
-          color: 'white',
-          marginTop: 20
+          color: '#1e565c',
+          marginTop: 10
         }}
         onClick={() => {
           history.push('/registration');
-        }}>
+        }}
+      >
         Register
       </Button>
     </center>

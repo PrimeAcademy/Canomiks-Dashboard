@@ -1,4 +1,4 @@
-import { Divider, makeStyles, Switch, TextField, Typography } from '@material-ui/core';
+import { Divider, makeStyles, TextField, Typography } from '@material-ui/core';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -12,21 +12,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RegisterForm(props) {
-  const dispatch = useDispatch();
+function CompanyForm(props) {
   const classes = useStyles();
-  const history = useHistory();
 
   /* Store Imports */
   const errors = useSelector((store) => store.errors);
 
   return (
     <form autoComplete="off" className={classes.root}>
-      {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
-          {errors.registrationMessage}
-        </h3>
-      )}
       <Typography variant="h5" style={{ fontWeight: 600 }} gutterBottom>Company Information</Typography>
       <Divider />
       <div>
@@ -58,8 +51,8 @@ function RegisterForm(props) {
           label="City"
           variant="standard"
           size="small"
-          value={props.city}
-          onChange={(event) => props.setCity(event.target.value)}
+          value={props.companyCity}
+          onChange={(event) => props.setCompanyCity(event.target.value)}
           required
         />
       </div>
@@ -69,8 +62,8 @@ function RegisterForm(props) {
           label="State"
           variant="standard"
           size="small"
-          value={props.state}
-          onChange={(event) => props.setState(event.target.value)}
+          value={props.companyState}
+          onChange={(event) => props.setCompanyState(event.target.value)}
           required
         />
       </div>
@@ -80,8 +73,8 @@ function RegisterForm(props) {
           label="Zip Code"
           variant="standard"
           size="small"
-          value={props.zip}
-          onChange={(event) => props.setZip(event.target.value)}
+          value={props.companyZip}
+          onChange={(event) => props.setCompanyZip(event.target.value)}
           required
         />
       </div>
@@ -89,4 +82,4 @@ function RegisterForm(props) {
   );
 }
 
-export default RegisterForm;
+export default CompanyForm;

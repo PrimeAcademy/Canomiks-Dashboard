@@ -1,12 +1,14 @@
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import RegisterForm from '../RegisterForm/RegisterForm';
-import RegisterForm2 from '../RegisterForm/RegisterForm2';
-import RegisterNotify from '../RegisterForm/RegisterNotify';
+import CompanyForm from '../RegisterForm/CompanyForm';
+import TeamLeadForm from '../RegisterForm/TeamLeadForm';
+import NotifyForm from '../RegisterForm/NotifyForm';
 
 import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import Swal from 'sweetalert2';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,14 +21,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function RegisterPage() {
+  const errors = useSelector((store) => store.errors);
   const classes = useStyles();
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const [companyName, setCompanyName] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [zip, setZip] = useState('');
+  const [companyCity, setCompanyCity] = useState('');
+  const [companyState, setCompanyState] = useState('');
+  const [companyZip, setCompanyZip] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [teamLeadName, setTeamLeadName] = useState('');
   const [email, setEmail] = useState('');
@@ -38,29 +42,18 @@ function RegisterPage() {
 
   const registerUser = (event) => {
     event.preventDefault();
-    console.log(
-      companyName,
-      companyAddress,
-      phoneNumber,
-      teamLeadName,
-      email,
-      password,
-      notifyStatusChange,
-      notifyResultsReady,
-      notifyDelay
-    );
 
     // Check that both password fields match
     if (password === passwordConfirm) {
-      if (email && companyName && companyAddress && city && state && zip && phoneNumber && teamLeadName) {
+      if (email && companyName && companyAddress && companyCity && companyState && companyZip && phoneNumber && teamLeadName) {
         dispatch({
           type: 'REGISTER',
           payload: {
             companyName,
             companyAddress,
-            city,
-            state,
-            zip,
+            companyCity,
+            companyState,
+            companyZip,
             phoneNumber,
             teamLeadName,
             email,
@@ -80,17 +73,14 @@ function RegisterPage() {
         clearForm();
         history.push('/login');
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Make sure the form is filled out entirely.',
+        dispatch({
+          type: 'REGISTRATION_INPUT_ERROR'
         })
       }
     } else {
       // TO DO - convert to styled alert
-      Swal.fire({
-        icon: 'error',
-        title: 'Make sure your passwords match.',
-        confirmButtonColor: '#1e565c'
+      dispatch({
+        type: 'INVALID_PASSWORD'
       })
     }
   }; // end registerUser
@@ -98,9 +88,9 @@ function RegisterPage() {
   const clearForm = () => {
     setCompanyName('');
     setCompanyAddress('');
-    setCity('');
-    setState('');
-    setZip('');
+    setCompanyCity('');
+    setCompanyState('');
+    setCompanyZip('');
     setPhoneNumber('');
     setTeamLeadName('');
     setEmail('');
@@ -113,53 +103,57 @@ function RegisterPage() {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        component="h1"
-        style={{ maxWidth: '80%', fontSize: 50, fontWeight: 800 }}
-        gutterBottom
-      >
-        Register
-        </Typography>
+
       <Paper style={{ marginBottom: 20 }}>
+        <center>
+          {errors.registrationMessage && (
+            <h3 className="alert" role="alert">
+              {errors.registrationMessage}
+            </h3>
+          )}
+        </center>
         <Grid container>
 
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
-              <RegisterForm companyName={companyName} setCompanyName={setCompanyName} city={city} setCity={setCity} state={setState} zip={zip} setZip={setZip} />
+              <CompanyForm companyName={companyName} setCompanyName={setCompanyName} companyAddress={companyAddress} setCompanyAddress={setCompanyAddress} companyCity={companyCity} setCompanyCity={setCompanyCity} companyState={companyState} setCompanyState={setCompanyState} companyZip={companyZip} setCompanyZip={setCompanyZip} />
             </Paper>
           </Grid>
 
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
-              <RegisterForm2 phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} teamLeadName={teamLeadName} setTeamLeadName={setTeamLeadName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} />
+              <TeamLeadForm phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} teamLeadName={teamLeadName} setTeamLeadName={setTeamLeadName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} />
             </Paper>
           </Grid>
 
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
-              <RegisterNotify notifyStatusChange={notifyStatusChange} setNotifyStatusChange={setNotifyStatusChange} notifyResultsReady={notifyResultsReady} setNotifyResultsReady={setNotifyResultsReady} notifyDelay={notifyDelay} setNotifyDelay={setNotifyDelay} />
+              <NotifyForm notifyStatusChange={notifyStatusChange} setNotifyStatusChange={setNotifyStatusChange} notifyResultsReady={notifyResultsReady} setNotifyResultsReady={setNotifyResultsReady} notifyDelay={notifyDelay} setNotifyDelay={setNotifyDelay} />
             </Paper>
-            <Button
-              style={{ backgroundColor: '#1e565c', color: 'white', width: '50%' }}
-              value="Register"
-              onClick={registerUser}
-            >
-              Register
+            <center>
+              <Button
+                align="center"
+                style={{ backgroundColor: '#1e565c', color: 'white', width: '50%' }}
+                value="Register"
+                onClick={registerUser}
+              >
+                Register
               </Button>
+            </center>
           </Grid>
         </Grid>
       </Paper>
 
       <center>
-        <Typography variant="subtitle1">
+        <Typography style={{ marginTop: 50 }} variant="subtitle1">
           Already have an account?
         </Typography>
         <Button
+          size="small"
+          variant="outlined"
           style={{
-            backgroundColor: '#1e565c',
-            color: 'white',
-            marginTop: 20
+            color: '#1e565c',
+            marginTop: 10
           }}
           onClick={() => {
             history.push('/login');

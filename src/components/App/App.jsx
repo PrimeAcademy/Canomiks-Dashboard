@@ -12,7 +12,6 @@ import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Upload from '../Upload/Upload'
-import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
@@ -26,7 +25,7 @@ import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import ResetPassword from '../ResetPassword/ResetPassword';
 
 import './App.css';
-import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 
 function App() {
   const dispatch = useDispatch();
@@ -80,11 +79,13 @@ function App() {
           <ProtectedRoute exact path="/upload" >
             <Upload />
           </ProtectedRoute>
+
           {user.authLevel === 'admin' && (
             <ProtectedRoute exact path="/manage/customers">
               <ManageCustomers />
             </ProtectedRoute>
           )}
+
           <ProtectedRoute exact path="/shipping">
             <ShippingInfo />
           </ProtectedRoute>

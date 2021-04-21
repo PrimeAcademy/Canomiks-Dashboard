@@ -1,4 +1,4 @@
-import { createMuiTheme, Divider, FormControl, FormControlLabel, FormLabel, makeStyles, Switch, ThemeProvider, Typography } from "@material-ui/core"
+import { createMuiTheme, Divider, FormControl, FormControlLabel, Switch, ThemeProvider, Typography } from "@material-ui/core"
 
 const theme = createMuiTheme({
   overrides: {
@@ -27,7 +27,7 @@ const theme = createMuiTheme({
   }
 });
 
-function RegisterNotify(props) {
+function NotifyForm(props) {
 
   return (
     <ThemeProvider theme={theme}>
@@ -75,4 +75,4 @@ function RegisterNotify(props) {
   )
 }
 
-export default RegisterNotify;
+export default NotifyForm;

@@ -26,7 +26,9 @@ const registrationMessage = (state = '', action) => {
     case 'CLEAR_REGISTRATION_ERROR':
       return '';
     case 'REGISTRATION_INPUT_ERROR':
-      return 'Choose a username and password!';
+      return 'Fill out all required fields';
+    case 'INVALID_PASSWORD':
+      return 'Make sure your passwords match'
     case 'REGISTRATION_FAILED':
       return "Oops! That didn't work. The username might already be taken. Try again!";
     default:

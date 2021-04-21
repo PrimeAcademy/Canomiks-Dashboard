@@ -1,8 +1,8 @@
-import { Button, Divider, FormControlLabel, makeStyles, Switch, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Divider, makeStyles, TextField, Typography } from '@material-ui/core';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import Swal from 'sweetalert2';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,10 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RegisterForm(props) {
-  const dispatch = useDispatch();
+function TeamLeadForm(props) {
   const classes = useStyles();
-  const history = useHistory();
 
   /* Store Imports */
   const errors = useSelector((store) => store.errors);
@@ -24,11 +22,6 @@ function RegisterForm(props) {
   return (
     <>
       <form autoComplete="off" className={classes.root}>
-        {errors.registrationMessage && (
-          <h3 className="alert" role="alert">
-            {errors.registrationMessage}
-          </h3>
-        )}
         <Typography variant="h5" style={{ fontWeight: 600 }} gutterBottom>Team Lead Information</Typography>
         <Divider />
         <div>
@@ -91,4 +84,4 @@ function RegisterForm(props) {
   );
 }
 
-export default RegisterForm;
+export default TeamLeadForm;
