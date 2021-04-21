@@ -164,6 +164,7 @@ const dispatch = useDispatch();
               {orders
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
+                  // change status if date has passed
                   if(order.statusName === 'Pre-Shipment'
                       && 
                       order.shippedDate < ourDate)
