@@ -71,6 +71,15 @@ function CustomerDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
+  function addSampleButton () {
+    // clear the current sample
+    dispatch({
+      type: 'CLEAR_CURRENT_SAMPLE'
+    });
+    // move to summary page
+    history.push('/summary');
+  }; // end addSampleButton
+
   return (
     <Container maxWidth="xl">
       <Typography
@@ -99,7 +108,7 @@ function CustomerDashboard() {
             color: 'white',
             marginLeft: '10%',
           }}
-          onClick={() => history.push('/summary')}
+          onClick={addSampleButton}
         >
           + SAMPLE
         </Button>
@@ -208,7 +217,15 @@ function CustomerDashboard() {
                               backgroundColor: '#1e565c',
                               color: 'white',
                             }}
-                            onClick={() => handleOpen(order)}
+                            onClick={() => {
+                              // make clicked order the current sample
+                              dispatch({
+                                type:'',
+                                payload:''
+                              });
+                              // open the popup
+                              handleOpen(order)
+                            }}
                           >
                             View Details
                           </Button>
