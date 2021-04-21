@@ -13,19 +13,15 @@ import Dialog from '@material-ui/core/Dialog';
 
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  TextField,
-  Button,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
-  Typography,
-  Grid,
-  Tooltip,
-  Fade,
-} from '@material-ui/core';
-import { HistoryOutlined, InfoOutlined } from '@material-ui/icons';
+import { TextField, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fade from '@material-ui/core/Fade';
+import Swal from 'sweetalert2';
+import { InfoOutlined } from '@material-ui/icons';
+
+
+
+
 
 // material ui styling
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 180,
   },
 }));
+
 
 function AddSample() {
   // material ui style
@@ -58,6 +55,12 @@ function AddSample() {
   /* Local State */
   const [currentInput, setCurrentInput] = useState('');
 
+  // functions
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("form submit")
+    history.push('/sample/ship')
+  };
   // Dialogue button states
   const [open, setOpen] = useState(false);
   const [openShip, setOpenShip] = useState(false);
@@ -154,8 +157,7 @@ function AddSample() {
             onBlur={() => focusChange(currentSample.ingredientName)}
             onChange={(event) => enterInfo(event.target.value)}
             displayEmpty
-            required
-          >
+            inputProps={{ 'aria-label': 'Without label' }}>
             <MenuItem value="" disabled>
               Pick Ingredient
             </MenuItem>
@@ -504,8 +506,7 @@ function AddSample() {
           </Dialog>
         </div>
       </Grid>
-    </>
-  );
+    </>)
 }
 
 export default AddSample;
