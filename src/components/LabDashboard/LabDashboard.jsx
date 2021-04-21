@@ -35,8 +35,7 @@ const useStyles = makeStyles({
 //////Main function start
 function LabDashboard() {
   // date set up
-  let ourDate = moment().format();                                // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
-  console.log(ourDate, "our Date")
+  let ourDate = moment().format(); // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -50,7 +49,6 @@ function LabDashboard() {
   const [filter, setFilter] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
   const [clickedSample, setClickedSample] = useState({});
-
 
   useEffect(() => {
     dispatch({
@@ -68,8 +66,8 @@ function LabDashboard() {
   }; // end handleChangeRowsPerPage
 
   const handleOpen = (sample) => {
-    console.log("handle hit")
     setClickedSample(sample);
+
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,
@@ -82,17 +80,15 @@ function LabDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
-
   const shippingUpdate = (order) => {
-    // console.log(order, "shippingUpdate")
     dispatch({
       type: 'UPDATE_TEST_PHASE',
       payload: order,
     });
+  }; // end shippingUpdate
 
-  }
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth="xl">
       <Typography
         variant="h3"
         component="h1"
@@ -165,13 +161,15 @@ function LabDashboard() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
                   // change status if date has passed
-                  if (order.statusName === 'Pre-Shipment'
-                    &&
-                    order.shippedDate < ourDate) {
-                    order.statusName = "In Transit"
+                  if (
+                    order.statusName === 'Pre-Shipment' &&
+                    order.shippedDate < ourDate
+                  ) {
+                    order.statusName = 'In Transit';
                     order.testingStatus = 2;
                     shippingUpdate(order);
                   }
+
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
                   ) {
@@ -203,19 +201,6 @@ function LabDashboard() {
 
                         {/* Test Phase */}
                         <TableCell align="center">{order.statusName}</TableCell>
-                        {/* if statusName === 'Pre-Shipment 
-                               {/* if statusName === 'Pre-Shipment 
-                        {/* if statusName === 'Pre-Shipment 
-                               {/* if statusName === 'Pre-Shipment 
-                        {/* if statusName === 'Pre-Shipment 
-                               {/* if statusName === 'Pre-Shipment 
-                        {/* if statusName === 'Pre-Shipment 
-                               {/* if statusName === 'Pre-Shipment 
-                        {/* if statusName === 'Pre-Shipment 
-                        && shippedDate < cDate {
-                          order.statusName === "In Shipment"
-
-                        } */}
 
                         {/* Action */}
                         <TableCell align="center">

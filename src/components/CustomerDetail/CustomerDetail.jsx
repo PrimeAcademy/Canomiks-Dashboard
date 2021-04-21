@@ -38,11 +38,7 @@ function CustomerDetail({ sample }) {
   return (
     <DialogContent>
       <DialogContentText>
-        <SampleProgress
-          sequence={sample.sequence}
-          state={sample.testState}
-          delay={sample.delayed}
-        />
+        <SampleProgress sample={sample} />
 
         {/* Render warning if sample is delayed*/}
         {sample.delayed && (
@@ -73,8 +69,12 @@ function CustomerDetail({ sample }) {
           </Alert>
         )}
 
-        <Typography align="center" variant="h4">Lot # {sample.lotNumber}</Typography>
-        <Typography align="center" variant="h5">{sample.ingredientName}</Typography>
+        <Typography align="center" variant="h4">
+          Lot # {sample.lotNumber}
+        </Typography>
+        <Typography align="center" variant="h5">
+          {sample.ingredientName}
+        </Typography>
         <Divider style={{ marginTop: 15 }} />
 
         <p>
