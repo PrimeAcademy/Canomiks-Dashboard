@@ -113,6 +113,7 @@ router.put('/update', rejectUnauthenticated, async (req, res) => {
 router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   try {
     const order = req.body;
+    console.log('🐹  order router put', order)
     const orderArray = [
       order.shippedDate,
       order.carrierName,

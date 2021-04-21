@@ -24,9 +24,7 @@ function ShippingInfo() {
 
   /* Store Imports */
   const currentSample = useSelector((store) => store.orders.currentSample);
-  const orderId = currentSample.id;
-  const companyID = currentSample.companyID;
-
+  
   // Dialogues
   const [openBack, setBack] = React.useState(false);
   const [openContinue, setContinue] = useState(false);
@@ -44,21 +42,21 @@ function ShippingInfo() {
   const finalizeButton = (event) => {
     event.preventDefault();
     setFinal(false);
-
     // send dispatch to update order with shipping info
-    if (!shippedDate || !carrierName || !trackingNumber) {
-      // TO DO - Change to styled alert
-      alert('All inputs are required');
-      return;
-    } else {
+    // if (!shippedDate || !carrierName || !trackingNumber) {
+    //   // TO DO - Change to styled alert
+    //   alert('All inputs are required');
+    //   return;
+    // } else {
+      console.log('🐸  shippingInfo client', currentSample);
       dispatch({
         type: 'UPDATE_SHIPPING_INFO',
         payload: {
-          shippedDate,
-          carrierName,
-          trackingNumber,
-          companyID,
-          orderId,
+          shippedDate: currentSample.shippedDate,
+          carrierName: currentSample.carrierName,
+          trackingNumber: currentSample.trackingNumber,
+          companyID: currentSample.companyID,
+          orderId: currentSample.id,
         },
       });
       // TO DO - Change to styled alert
@@ -70,15 +68,14 @@ function ShippingInfo() {
       })
 
       history.push('/samples');
-    }
+    // }
   }; // end finalizeButton
 
-  // end continueLaterButton
 
   // dialogue functions
   const handleOpenContinue = () => {
     setContinue(true);
-  }
+  };
   
   const handleBack = () => {
     setBack(true);
@@ -86,7 +83,7 @@ function ShippingInfo() {
 
   const handleOpenFinal = () => {
     setFinal(true);
-  }
+  };
   
   const handleClose = () => {
     setBack(false);
@@ -94,6 +91,17 @@ function ShippingInfo() {
     setFinal(false);
     setContinue(false);
   };
+
+  function enteredInput (inputKey, inputValue) {
+    dispatch({
+      type: 'UPDATE_CURRENT_SAMPLE',
+      payload: {
+        currentInputName: inputKey,
+        newValue: inputValue
+      },
+    });
+  }
+
   return (
     <>
       <center>
@@ -104,15 +112,15 @@ function ShippingInfo() {
           </Typography>
           <div>
             <TextField
-              label="Date to be shipped"
+              label="Date shipped"
               type="date"
               id="date"
               className={classes.inputs}
               InputLabelProps={{
                 shrink: true,
               }}
-              value={shippedDate}
-              onChange={(e) => setDate(e.target.value)}
+              value={currentSample.shippedDate}
+              onChange={(e) => enteredInput('shippedDate', e.target.value)}
             />
           </div>
 
@@ -122,8 +130,8 @@ function ShippingInfo() {
               type="text"
               className={classes.inputs}
               variant="standard"
-              value={carrierName}
-              onChange={(event) => setCarrierName(event.target.value)}
+              value={currentSample.carrierName}
+              onChange={(event) => enteredInput('carrierName', event.target.value)}
               required
             />
           </div>
@@ -134,8 +142,8 @@ function ShippingInfo() {
               type="text"
               className={classes.inputs}
               variant="standard"
-              value={trackingNumber}
-              onChange={(event) => setTrackingNumber(event.target.value)}
+              value={currentSample.trackingNumber}
+              onChange={(event) => enteredInput('trackingNumber', event.target.value)}
               required
             />
           </div>
@@ -214,7 +222,7 @@ function ShippingInfo() {
                 <Button onClick={handleClose} color="primary">
                   No
                 </Button>
-                <Button onClick={handleSubmit} color="primary" autoFocus>
+                <Button onClick={finalizeButton} color="primary" autoFocus>
                   Yes
                 </Button>
               </DialogActions>

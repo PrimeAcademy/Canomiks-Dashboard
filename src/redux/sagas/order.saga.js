@@ -45,7 +45,7 @@ function* addSampleOrder(action) {
     console.log(response.data, 'response here');
 
     yield put({
-      type: 'SET_CURRENT_SAMPLE',
+      type: 'SET_INIT_SAMPLE_ID',
       payload: response.data,
     });
   } catch (err) {
@@ -69,6 +69,8 @@ function* updateSampleInfo(action) {
 
 function* updateShipping(action) {
   try {
+    console.log('🐨 updateShippingSaga', action.payload);
+
     const response = yield axios.put('/api/orders/shipping', action.payload);
   } catch (err) {
     console.error('Error in updateShipping', err.message);

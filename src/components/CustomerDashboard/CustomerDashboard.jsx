@@ -209,7 +209,15 @@ function CustomerDashboard() {
                               backgroundColor: '#1e565c',
                               color: 'white',
                             }}
-                            onClick={() => handleOpen(order)}
+                            onClick={() => {
+                              // make clicked order the current sample
+                              dispatch({
+                                type:'',
+                                payload:''
+                              });
+                              // open the popup
+                              handleOpen(order)
+                            }}
                           >
                             View Details
                           </Button>

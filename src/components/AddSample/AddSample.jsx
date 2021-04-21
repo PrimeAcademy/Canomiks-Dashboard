@@ -39,48 +39,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddSample() {
+  // material ui style
   const classes = useStyles();
+  // functions from library to use
   const dispatch = useDispatch();
   const history = useHistory();
 
   /* Store Imports */
   const user = useSelector((store) => store.user);
   const currentSample = useSelector((store) => store.orders.currentSample);
+  // get ids for company and order
   const companyID = user.companyID;
   const orderId = currentSample.id;
-  // change date format
+  // change date format on dates from store
   const newDateManufactured = moment.utc(currentSample.dateManufactured).format("YYYY-MM-DD");
   const newHarvestDate = moment.utc(currentSample.harvestDate).format("YYYY-MM-DD");
 
   /* Local State */
-  const [ingredientName, setName] = useState(
-    currentSample.ingredientName ? currentSample.ingredientName : ''
-  );
-  const [lotNumber, setLotNumber] = useState(currentSample.lotNumber);
-
-  const [format, setFormat] = useState(
-    currentSample.format ? currentSample.format : ''
-  );
-  const [ingredientAmount, setAmount] = useState(
-    currentSample.ingredientAmount
-  );
-  const [ingredientUnit, setIngredientUnit] = useState(
-    currentSample.ingredientUnit ? currentSample.ingredientUnit : ''
-  );
-  const [purity, setPurity] = useState(currentSample.purity);
-  const [dateManufactured, setDateManufactured] = useState(newDateManufactured);
-
-  const [extractionMethod, setMethod] = useState(
-    currentSample.extractionMethod
-  );
-  const [city, setCity] = useState(currentSample.city);
-  const [state, setState] = useState(currentSample.state);
-  const [country, setCountry] = useState(currentSample.country);
-  const [harvestDate, setHarvestDate] = useState(newHarvestDate);
-  const [sustainabilityInfo, setSustainability] = useState(currentSample.sustainabilityInfo);
-
-  const [cropStrain, setCropStrain] = useState(currentSample.cropStrain);
-
   const [currentInput, setCurrentInput] = useState('');
 
   // Dialogue button states
@@ -118,14 +93,8 @@ function AddSample() {
   }; // end focusChange
 
   const goToShippingPage = () => {
-    // Verify all required inputs are filled out
-    //  If they aren't, alert the user and don't continue
+    // if errors, alert, close window and stop function
     
-    // TO DO - Make this a styled modal
-    setOpenShip(false);
-    alert('Please complete required inputs');
-    return;
-  
     history.push('/sample/ship');
   }; // end goToShippingPage
 
@@ -176,14 +145,13 @@ function AddSample() {
     setOpenShip(false);
   };
 
-  function enterInfo (key) {
-    console.log('🗝 ', key);
+  function enterInfo (inputValue) {
     // send to the reducer, no saga needed
     dispatch({
       type: 'UPDATE_CURRENT_SAMPLE',
       payload: {
         currentInputName: currentInput,
-        newValue: key
+        newValue: inputValue
       },
     });
   }; // end enterInfo
