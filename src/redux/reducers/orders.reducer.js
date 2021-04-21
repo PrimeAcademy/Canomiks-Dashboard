@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import moment from 'moment';
 
 const orderReducer = (state = [], action) => {
   switch (action.type) {
@@ -11,13 +12,44 @@ const orderReducer = (state = [], action) => {
   }
 };
 
-const currentSample = (state = {}, action) => {
+// state for current sample
+const emptySampleObj = {
+  id:'',
+  ingredientName: '',
+  lotNumber: '',
+  format: '',
+  ingredientAmount: '',
+  ingredientUnit: '',
+  purity: '',
+  dateManufactured: moment.utc(new Date()).format("YYYY-MM-DD"),
+  extractionMethod: '',
+  city: '',
+  state: '',
+  country: '',
+  harvestDate: moment.utc(new Date()).format("YYYY-MM-DD"),
+  sustainabilityInfo: '',
+  cropStrain: '',
+};
+
+// start the current sample with empty information
+const currentSample = (state = emptySampleObj, action) => {
   switch (action.type) {
     case 'SET_CURRENT_SAMPLE':
-      return action.payload;
+      console.log('🐨 ', action.payload);
+      return { ...state,
+      id: action.payload.id};
+
     case 'CLEAR_CURRENT_SAMPLE':
-      console.log('sample cleared');
-      return {};
+      return emptySampleObj;
+
+    case 'UPDATE_CURRENT_SAMPLE':
+      console.log('🐒', action.payload);
+      let inputName = action.payload.currentInputName;
+      return {
+        ...state,
+        [inputName]: action.payload.newValue
+      };
+
     // For lab only
     case 'EDIT_SAMPLE_STATUS':
       return {

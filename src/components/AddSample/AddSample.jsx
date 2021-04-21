@@ -57,6 +57,7 @@ function AddSample() {
     currentSample.ingredientName ? currentSample.ingredientName : ''
   );
   const [lotNumber, setLotNumber] = useState(currentSample.lotNumber);
+
   const [format, setFormat] = useState(
     currentSample.format ? currentSample.format : ''
   );
@@ -68,6 +69,7 @@ function AddSample() {
   );
   const [purity, setPurity] = useState(currentSample.purity);
   const [dateManufactured, setDateManufactured] = useState(newDateManufactured);
+
   const [extractionMethod, setMethod] = useState(
     currentSample.extractionMethod
   );
@@ -75,10 +77,10 @@ function AddSample() {
   const [state, setState] = useState(currentSample.state);
   const [country, setCountry] = useState(currentSample.country);
   const [harvestDate, setHarvestDate] = useState(newHarvestDate);
-  const [sustainabilityInfo, setSustainability] = useState(
-    currentSample.sustainabilityInfo
-  );
+  const [sustainabilityInfo, setSustainability] = useState(currentSample.sustainabilityInfo);
+
   const [cropStrain, setCropStrain] = useState(currentSample.cropStrain);
+
   const [currentInput, setCurrentInput] = useState('');
 
   // Dialogue button states
@@ -101,7 +103,7 @@ function AddSample() {
 
   const focusChange = (val) => {
     // TO DO - Make sure it has a value
-
+    console.log('🐭 ', val)
     // Dispatch value and field name to update DB
     dispatch({
       type: 'UPDATE_SAMPLE_INFO',
@@ -112,26 +114,20 @@ function AddSample() {
         orderId,
       },
     });
+    
   }; // end focusChange
 
-  const handleSubmit = () => {
+  const goToShippingPage = () => {
     // Verify all required inputs are filled out
     //  If they aren't, alert the user and don't continue
-    if (
-      !ingredientName ||
-      !ingredientAmount ||
-      !format ||
-      !dateManufactured ||
-      !lotNumber ||
-      !extractionMethod
-      ) {
-        // TO DO - Make this a styled modal
-      setOpenShip(false);
-      alert('Please complete required inputs');
-      return;
-    }
+    
+    // TO DO - Make this a styled modal
+    setOpenShip(false);
+    alert('Please complete required inputs');
+    return;
+  
     history.push('/sample/ship');
-  }; // end handleSubmit
+  }; // end goToShippingPage
 
   const cancelRequest = (event) => {
     // TO DO - Currently throwing errors for undefined values
@@ -167,8 +163,6 @@ function AddSample() {
     history.push('/summary');
   }; // end cancelRequest
 
-
-
   const handleOpenShipping = () => {
     setOpenShip(true);
   };
@@ -182,17 +176,30 @@ function AddSample() {
     setOpenShip(false);
   };
 
+  function enterInfo (key) {
+    console.log('🗝 ', key);
+    // send to the reducer, no saga needed
+    dispatch({
+      type: 'UPDATE_CURRENT_SAMPLE',
+      payload: {
+        currentInputName: currentInput,
+        newValue: key
+      },
+    });
+  }; // end enterInfo
+
   return (
     <>      
       <Grid container justify="center" alignItems="flex-start">
+
         {/* Ingredient Name */}
         <FormControl variant="standard" className={classes.formControl}>
           <Select
             inputProps={{ 'aria-label': 'Without label' }}
-            value={ingredientName}
+            value={currentSample.ingredientName}
             onFocus={() => setCurrentInput('ingredientName')}
-            onBlur={() => focusChange(ingredientName)}
-            onChange={(e) => setName(e.target.value)}
+            onBlur={() => focusChange(currentSample.ingredientName)}
+            onChange={(event) => enterInfo(event.target.value)}
             displayEmpty
             required
           >
@@ -220,10 +227,10 @@ function AddSample() {
           type="text"
           className={classes.inputs}
           variant="standard"
-          value={lotNumber}
+          value={currentSample.lotNumber}
           onFocus={() => setCurrentInput('lotNumber')}
-          onBlur={() => focusChange(lotNumber)}
-          onChange={(event) => setLotNumber(event.target.value)}
+          onBlur={() => focusChange(currentSample.lotNumber)}
+          onChange={(event) => enterInfo(event.target.value)}
           required
         />
         <Tooltip
@@ -239,10 +246,10 @@ function AddSample() {
         <FormControl variant="standard" className={classes.formControl}>
           <Select
             inputProps={{ 'aria-label': 'Without label' }}
-            value={format}
+            value={currentSample.format}
             onFocus={() => setCurrentInput('format')}
-            onBlur={() => focusChange(format)}
-            onChange={(e) => setFormat(e.target.value)}
+            onBlur={() => focusChange(currentSample.format)}
+            onChange={(e) => enterInfo(e.target.value)}
             displayEmpty
           >
             <MenuItem value="" disabled>
@@ -265,28 +272,28 @@ function AddSample() {
           <InfoOutlined />
         </Tooltip>
       </Grid>
-
       <Grid container justify="center" alignItems="flex-start">
+
         {/* Sample Amount */}
         <TextField
           label="Ingredient Amount"
           type="text"
           className={classes.inputs}
           variant="standard"
-          value={ingredientAmount}
+          value={currentSample.ingredientAmount}
           onFocus={() => setCurrentInput('ingredientAmount')}
-          onBlur={() => focusChange(ingredientAmount)}
-          onChange={(event) => setAmount(event.target.value)}
+          onBlur={() => focusChange(currentSample.ingredientAmount)}
+          onChange={(event) => enterInfo(event.target.value)}
           required
         />
 
         <FormControl variant="standard" className={classes.formControl}>
           <Select
             inputProps={{ 'aria-label': 'Without label' }}
-            value={ingredientUnit}
+            value={currentSample.ingredientUnit}
             onFocus={() => setCurrentInput('ingredientUnit')}
-            onBlur={() => focusChange(ingredientUnit)}
-            onChange={(e) => setIngredientUnit(e.target.value)}
+            onBlur={() => focusChange(currentSample.ingredientUnit)}
+            onChange={(e) => enterInfo(e.target.value)}
             displayEmpty
           >
             <MenuItem value="" disabled>
@@ -313,10 +320,10 @@ function AddSample() {
           type="text"
           className={classes.inputs}
           variant="standard"
-          value={purity}
+          value={currentSample.purity}
           onFocus={() => setCurrentInput('purity')}
-          onBlur={() => focusChange(purity)}
-          onChange={(event) => setPurity(event.target.value)}
+          onBlur={() => focusChange(currentSample.purity)}
+          onChange={(event) => enterInfo(event.target.value)}
         />
         <Tooltip
           title={purityText}
@@ -327,8 +334,8 @@ function AddSample() {
           <InfoOutlined />
         </Tooltip>
       </Grid>
-
       <Grid container justify="center" alignItems="flex-start">
+
         {/* Manufactured Date */}
         <TextField
           label="Date Manufactured"
@@ -338,10 +345,10 @@ function AddSample() {
             shrink: true,
           }}
           className={classes.inputs}
-          value={dateManufactured}
+          value={newDateManufactured}
           onFocus={() => setCurrentInput('dateManufactured')}
-          onBlur={() => focusChange(dateManufactured)}
-          onChange={(e) => setDateManufactured(e.target.value)}
+          onBlur={() => focusChange(currentSample.dateManufactured)}
+          onChange={(e) => enterInfo(e.target.value)}
         />
 
         <Tooltip
@@ -356,13 +363,13 @@ function AddSample() {
         {/* Extraction Method */}
         <TextField
           onFocus={() => setCurrentInput('extractionMethod')}
-          onBlur={() => focusChange(extractionMethod)}
+          onBlur={() => focusChange(currentSample.extractionMethod)}
           className={classes.inputs}
           label="Extraction Method"
           variant="standard"
-          value={extractionMethod}
+          value={currentSample.extractionMethod}
           type="text"
-          onChange={(event) => setMethod(event.target.value)}
+          onChange={(event) => enterInfo(event.target.value)}
           required
         />
         <Tooltip
@@ -380,10 +387,10 @@ function AddSample() {
           label="Strain Of Crop"
           variant="standard"
           type="text"
-          value={cropStrain}
+          value={currentSample.cropStrain}
           onFocus={() => setCurrentInput('cropStrain')}
-          onBlur={() => focusChange(cropStrain)}
-          onChange={(event) => setCropStrain(event.target.value)}
+          onBlur={() => focusChange(currentSample.cropStrain)}
+          onChange={(event) => enterInfo(event.target.value)}
           required
         />
         <Tooltip
@@ -395,8 +402,8 @@ function AddSample() {
           <InfoOutlined />
         </Tooltip>
       </Grid>
-
       <Grid container justify="center" alignItems="flex-start">
+
         {/* Growth Region */}
         <Typography variant="body1">Growth Region:</Typography>
 
@@ -405,10 +412,10 @@ function AddSample() {
           type="text"
           className={classes.inputs}
           variant="standard"
-          value={city}
+          value={currentSample.city}
           onFocus={() => setCurrentInput('city')}
-          onBlur={() => focusChange(city)}
-          onChange={(event) => setCity(event.target.value)}
+          onBlur={() => focusChange(currentSample.city)}
+          onChange={(event) => enterInfo(event.target.value)}
           required
         />
 
@@ -417,10 +424,10 @@ function AddSample() {
           type="text"
           className={classes.inputs}
           variant="standard"
-          value={state}
+          value={currentSample.state}
           onFocus={() => setCurrentInput('state')}
-          onBlur={() => focusChange(state)}
-          onChange={(event) => setState(event.target.value)}
+          onBlur={() => focusChange(currentSample.state)}
+          onChange={(event) => enterInfo(event.target.value)}
           required
         />
 
@@ -429,10 +436,10 @@ function AddSample() {
           type="text"
           className={classes.inputs}
           variant="standard"
-          value={country}
+          value={currentSample.country}
           onFocus={() => setCurrentInput('country')}
-          onBlur={() => focusChange(country)}
-          onChange={(event) => setCountry(event.target.value)}
+          onBlur={() => focusChange(currentSample.country)}
+          onChange={(event) => enterInfo(event.target.value)}
           required
         />
         <Tooltip
@@ -454,10 +461,10 @@ function AddSample() {
           InputLabelProps={{
             shrink: true,
           }}
-          value={harvestDate}
+          value={newHarvestDate}
           onFocus={() => setCurrentInput('harvestDate')}
-          onBlur={() => focusChange(harvestDate)}
-          onChange={(e) => setHarvestDate(e.target.value)}
+          onBlur={() => focusChange(currentSample.harvestDate)}
+          onChange={(e) => enterInfo(e.target.value)}
         />
         <Tooltip
           title={harvestDateText}
@@ -474,10 +481,10 @@ function AddSample() {
           type="text"
           className={classes.inputs}
           variant="standard"
-          value={sustainabilityInfo}
+          value={currentSample.sustainabilityInfo}
           onFocus={() => setCurrentInput('sustainabilityInfo')}
-          onBlur={() => focusChange(sustainabilityInfo)}
-          onChange={(event) => setSustainability(event.target.value)}
+          onBlur={() => focusChange(currentSample.sustainabilityInfo)}
+          onChange={(event) => enterInfo(event.target.value)}
         />
         <Tooltip
           title={sustainabilityText}
@@ -537,7 +544,7 @@ function AddSample() {
                 <Button onClick={handleClose} color="primary">
                   No
                 </Button>
-                <Button onClick={handleSubmit} color="primary" autoFocus>
+                <Button onClick={goToShippingPage} color="primary" autoFocus>
                   Yes
                 </Button>
               </DialogActions>

@@ -67,6 +67,15 @@ function CustomerDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
+  function addSampleButton () {
+    // clear the current sample
+    dispatch({
+      type: 'CLEAR_CURRENT_SAMPLE'
+    });
+    // move to summary page
+    history.push('/summary');
+  }; // end addSampleButton
+
   return (
     <>
       <Typography
@@ -95,7 +104,7 @@ function CustomerDashboard() {
             color: 'white',
             marginLeft: '10%',
           }}
-          onClick={() => history.push('/summary')}
+          onClick={addSampleButton}
         >
           + SAMPLE
         </Button>
