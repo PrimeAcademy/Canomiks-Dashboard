@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 import LabDetail from '../LabDetail/LabDetail';
-
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -17,9 +16,10 @@ import {
   Typography,
   TextField,
   Dialog,
+  Container,
 } from '@material-ui/core';
 
-// materiaul ui style
+// material ui style
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -32,10 +32,14 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-
+//////Main function start
 function LabDashboard() {
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  // date set up
+let ourDate = moment().format();                                // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
+console.log(ourDate, "our Date")
+
+const classes = useStyles();
+const dispatch = useDispatch();
 
   /* Store Imports */
   const orders = useSelector((store) => store.orders.orderReducer);
@@ -46,6 +50,7 @@ function LabDashboard() {
   const [filter, setFilter] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
   const [clickedSample, setClickedSample] = useState({});
+
 
   useEffect(() => {
     dispatch({
@@ -63,6 +68,7 @@ function LabDashboard() {
   }; // end handleChangeRowsPerPage
 
   const handleOpen = (sample) => {
+    console.log("handle hit")
     setClickedSample(sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
@@ -76,13 +82,21 @@ function LabDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
+
+  const shippingUpdate = (order) => {
+    // console.log(order, "shippingUpdate")
+    dispatch({
+      type: 'UPDATE_TEST_PHASE',
+      payload: order,
+    });
+
+  }
   return (
-    <>
+    <Container maxWidth='xl'>
       <Typography
         variant="h3"
         component="h1"
-        style={{ marginLeft: '10%', fontWeight: 900 }}
-        gutterBottom
+        style={{ marginLeft: '10%', fontWeight: 700 }}
       >
         Current Orders
       </Typography>
@@ -108,14 +122,14 @@ function LabDashboard() {
           >
             <TableHead>
               <TableRow>
-                <TableCell label="Lot Number" style={{ fontWeight: 900 }}>
+                <TableCell label="Lot Number" style={{ fontWeight: 700 }}>
                   Lot Number
                 </TableCell>
 
                 <TableCell
                   label="Company Name"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Company Name
                 </TableCell>
@@ -123,7 +137,7 @@ function LabDashboard() {
                 <TableCell
                   label="Date Received"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Date Received
                 </TableCell>
@@ -131,7 +145,7 @@ function LabDashboard() {
                 <TableCell
                   label="Test Phase"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Test Phase
                 </TableCell>
@@ -139,7 +153,7 @@ function LabDashboard() {
                 <TableCell
                   label="Action Button"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Action
                 </TableCell>
@@ -150,6 +164,15 @@ function LabDashboard() {
               {orders
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
+                  // change status if date has passed
+                  if(order.statusName === 'Pre-Shipment'
+                      && 
+                      order.shippedDate < ourDate)
+                      {
+                        order.statusName = "In Transit"
+                        order.testingStatus = 2;
+                        shippingUpdate(order);
+                      }
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
                   ) {
@@ -181,11 +204,17 @@ function LabDashboard() {
 
                         {/* Test Phase */}
                         <TableCell align="center">{order.statusName}</TableCell>
-                 
+                               {/* if statusName === 'Pre-Shipment 
+                        && shippedDate < cDate {
+                          order.statusName === "In Shipment"
+
+                        } */}
+
                         {/* Action */}
                         <TableCell align="center">
                           <Button
                             variant="contained"
+                            size="small"
                             style={{
                               backgroundColor: '#1e565c',
                               color: 'white',
@@ -221,7 +250,7 @@ function LabDashboard() {
           setOpenDetail={setOpenDetail}
         />
       </Dialog>
-    </>
+    </Container>
   );
 }
 

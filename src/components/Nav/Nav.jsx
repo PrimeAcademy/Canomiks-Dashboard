@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import LogOutButton from '../LogOutButton/LogOutButton';
 
@@ -12,12 +12,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(2),
-  },
   title: {
     flexGrow: 1,
+    maxWidth: 160
   },
   right: {
     display: 'flex',
@@ -25,11 +22,16 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
+  navBar: {
+    letterSpacing: '.11em',
+    textTransform: 'uppercase'
+  },
   offset: theme.mixins.toolbar,
 }));
 
 function Nav() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   /* Store Import */
   const user = useSelector((store) => store.user);
@@ -45,31 +47,31 @@ function Nav() {
   }
 
   return (
-    <AppBar position="static" style={{ marginBottom: 30 }}>
+    <AppBar className={classes.navBar} position="static" style={{ marginBottom: 30, }}>
       <Toolbar
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#1e565c',
+          height: '112px'
         }}
       >
-        <Link style={{ textDecoration: 'none', color: 'white' }} to="/samples">
-          <div className="header-brand-logo">
+        <Link style={{ textDecoration: 'none', color: 'white' }} to={user.id ? "/samples" : "/login"}>
+          <div className="img">
             <img src="../favicon.ico" alt="logo" />
-            <Typography className={classes.title}>Canomiks</Typography>
           </div>
         </Link>
 
         <div>
-          <Link className="navLink" to={loginLinkData.path}>
+          <NavLink activeClassName="activeLink" className="navLink" to={loginLinkData.path}>
             {loginLinkData.text}
-          </Link>
+          </NavLink>
 
           {user.authLevel === 'admin' && (
-            <Link className="navLink" to="/manage/customers">
+            <NavLink activeClassName="activeLink" className="navLink" to="/manage/customers">
               Manage Customers
-            </Link>
+            </NavLink>
           )}
 
           {user.authLevel === 'team' && (
@@ -86,6 +88,7 @@ function Nav() {
 
           {user.id && <LogOutButton className="navLink" />}
         </div>
+
       </Toolbar>
     </AppBar>
   );

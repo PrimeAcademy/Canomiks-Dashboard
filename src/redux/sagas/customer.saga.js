@@ -13,8 +13,21 @@ function* fetchCustomers() {
   }
 } // end fetchCustomers
 
+function* toggleCompanyActiveStatus(action) {
+  console.log('action', action)
+  try {
+    yield axios.put('/api/companies', action.payload);
+    yield put({
+      type: 'FETCH_CUSTOMERS'
+    });
+  } catch (err) {
+    console.err(err.message);
+  }
+}
+
 function* customerSaga() {
   yield takeLatest('FETCH_CUSTOMERS', fetchCustomers);
+  yield takeLatest('TOGGLE_COMPANY_ACTIVE_STATUS', toggleCompanyActiveStatus);
 }
 
 export default customerSaga;
