@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 import LabDetail from '../LabDetail/LabDetail';
-
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -17,9 +16,10 @@ import {
   Typography,
   TextField,
   Dialog,
+  Container,
 } from '@material-ui/core';
 
-// materiaul ui style
+// material ui style
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -32,22 +32,14 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-
+//////Main function start
 function LabDashboard() {
   // date set up
-let currentDate = new Date();
-let cDay = currentDate.getDate()
-let cMonth = currentDate.getMonth() + 1
-let cYear = currentDate.getFullYear()
+let ourDate = moment().format();                                // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
+console.log(ourDate, "our Date")
 
-let thisDate = `${cYear} ${cMonth} ${cDay}`;
-
-// console.log(thisDate, "DATE")
-
-
-
-  const classes = useStyles();
-  const dispatch = useDispatch();
+const classes = useStyles();
+const dispatch = useDispatch();
 
   /* Store Imports */
   const orders = useSelector((store) => store.orders.orderReducer);
@@ -59,8 +51,8 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
   const [openDetail, setOpenDetail] = useState(false);
   const [clickedSample, setClickedSample] = useState({});
 
+
   useEffect(() => {
-   
     dispatch({
       type: 'FETCH_ALL_ORDERS',
     });
@@ -90,12 +82,11 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
   }; // end handleClose
 
   return (
-    <>
+    <Container maxWidth='xl'>
       <Typography
         variant="h3"
         component="h1"
-        style={{ marginLeft: '10%', fontWeight: 900 }}
-        gutterBottom
+        style={{ marginLeft: '10%', fontWeight: 700 }}
       >
         Current Orders
       </Typography>
@@ -121,14 +112,14 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
           >
             <TableHead>
               <TableRow>
-                <TableCell label="Lot Number" style={{ fontWeight: 900 }}>
+                <TableCell label="Lot Number" style={{ fontWeight: 700 }}>
                   Lot Number
                 </TableCell>
 
                 <TableCell
                   label="Company Name"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Company Name
                 </TableCell>
@@ -136,7 +127,7 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
                 <TableCell
                   label="Date Received"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Date Received
                 </TableCell>
@@ -144,7 +135,7 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
                 <TableCell
                   label="Test Phase"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Test Phase
                 </TableCell>
@@ -152,7 +143,7 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
                 <TableCell
                   label="Action Button"
                   align="center"
-                  style={{ fontWeight: 900 }}
+                  style={{ fontWeight: 700 }}
                 >
                   Action
                 </TableCell>
@@ -165,10 +156,11 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
                 .map((order) => {
                   if(order.statusName === 'Pre-Shipment'
                       && 
-                      order.shippedDate > thisDate){
-                        console.log(order.shippedDate, "and", thisDate, "this date")
-                    order.statusName = "In Transit"
-                  }
+                      order.shippedDate < ourDate)
+                      {
+                        order.statusName = "In Transit"
+                        console.log("test phase changed")
+                      }
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
                   ) {
@@ -246,7 +238,7 @@ let thisDate = `${cYear} ${cMonth} ${cDay}`;
           setOpenDetail={setOpenDetail}
         />
       </Dialog>
-    </>
+    </Container>
   );
 }
 
