@@ -72,6 +72,21 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
+// gets the sample owner info to send email alerts
+router.post('/sampleOwner', rejectUnauthenticated, async (req, res) => {
+  console.log('🦁 currentUser route', req.body);
+
+  const sqlText = `
+  SELECT * FROM "users"
+  JOIN "orders" ON "orders"."companyID" = "users"."companyID"
+  WHERE "orders"."id" = $1 AND "orders"."companyID" = $2;
+  `;
+
+  const dbRes = await pool.query(sqlText, [req.body.orderId, req.body.companyID]);
+
+  res.send(dbRes.rows[0]);
+}); // end route to get user info for email
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful

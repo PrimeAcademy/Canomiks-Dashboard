@@ -15,14 +15,10 @@ function LabDetail({ setOpenDetail, originalSample }) {
   /* Store Imports */
   const currentSample = useSelector((store) => store.orders.currentSample);
 
-  console.log('🧢 ', originalSample);
-  console.log('🎩 ', currentSample);
-
-
   const markDelay = () => {
     // Dispatch toggles currentSample delayed status
     dispatch({
-      type: 'EDIT_SAMPLE_DELAY', // goes to a saga
+      type: 'EDIT_SAMPLE_DELAY', // goes to reducer
       payload: !currentSample.delayed,
     });
   }; // end markDelay
@@ -33,7 +29,17 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
     // Checks if delayed status has been changed
     if (originalSample.delayed !== currentSample.delayed) {
-      console.log('Trigger Delayed email');
+      console.log('🐒 Trigger Delayed email');
+      dispatch({
+        type: 'EMAIL_DELAYED_STATUS',
+        payload: {
+          orderId: currentSample.id,
+          companyID: currentSample.companyID,
+          changedStatus: currentSample.delayed,
+          changedStatusKey: 'delayed',
+          message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
+        }
+      }); // end dispatch
     }
 
     // Checks if test state has been changed

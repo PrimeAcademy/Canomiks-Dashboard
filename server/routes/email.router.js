@@ -32,22 +32,28 @@ const transporter = nodemailer.createTransport({
  * }
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
-  const info = transporter.sendMail({
-    from: process.env.EMAIL,
-    to: `${req.body.customerEmail}`,
-    subject: "Sample info from Canomiks",
-    text: `${req.body.message}`,
-  }, (err, info) => {
-    if (err) {
-      res.send('💥 error sending email', err);
-      return;
-    } ;
-    console.log('🎉 it has been sent', info.response)
-  });
+  console.log('🐻 ', req.body);
+  
+  // const info = transporter.sendMail({
+  //   from: process.env.EMAIL,
+  //   to: `${req.body.customerEmail}`,
+  //   subject: "Sample info from Canomiks",
+  //   text: `${req.body.message}`,
+  // }, (err, info) => {
+  //   if (err) {
+  //     res.send('💥 error sending email', err);
+  //     return;
+  //   } ;
+  //   console.log('🎉 it has been sent', info.response)
+  // });
   
   res.sendStatus(200);
 }); // end basic email
 
+
+// -------- FORGOT PASSWORD ROUTES --------
+
+// two routes to the forgot password function
 router.post('/resetPassword', (req, res) => {
   // get token
   const theToken = req.body.token;
@@ -78,7 +84,6 @@ router.post('/resetPassword', (req, res) => {
   SET "password" = $1
   WHERE "id" = $2
   `;
-  
   // hash the new password
   const password = encryptLib.encryptPassword(req.body.newPassword);
 
@@ -88,9 +93,7 @@ router.post('/resetPassword', (req, res) => {
     console.log('💥 something happened in the db query', err);
     res.sendStatus(500);
   });
-
-});
-
+}); // end resetPassword
 
 router.post('/forgotPassword', async (req, res) => {
   try{
@@ -144,6 +147,8 @@ router.post('/forgotPassword', async (req, res) => {
   catch(err) {
     console.log('💥 something went wrong with the forgot password', err);
   }
-});
+}); // end forgotPassword
+
+//  -------- END FORGOT PASSWORD ROUTE --------
 
 module.exports = router;
