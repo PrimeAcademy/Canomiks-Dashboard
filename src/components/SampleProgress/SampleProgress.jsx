@@ -77,15 +77,7 @@ function SampleProgress({ sequence, state, delay, changeStep }) {
   const handleClick = (step) => {
     // Click only functions for lab or admin
     if (user.authLevel === 'lab' || user.authLevel === 'admin') {
-      console.log('in click', step);
       changeStep(step);
-      // dispatch({
-      //   type: 'EDIT_SAMPLE_STATUS',
-      //   payload: {
-      //     step,
-      //     state,
-      //   },
-      // });
 
       // Changes the visual on the stepper to match
       setActiveStep(step - 1);
