@@ -41,7 +41,6 @@ const emptySampleObj = {
 const currentSample = (state = emptySampleObj, action) => {
   switch (action.type) {
     case 'SET_CURRENT_SAMPLE':
-      console.log('🙈 ', action.payload);
       return action.payload;
     case 'SET_INIT_SAMPLE_ID':
       return {
@@ -52,7 +51,6 @@ const currentSample = (state = emptySampleObj, action) => {
       return emptySampleObj;
 
     case 'UPDATE_CURRENT_SAMPLE':
-      console.log('🐯 ', action.payload);
       let inputName = action.payload.currentInputName;
       return {
         ...state,

@@ -1,14 +1,14 @@
 import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Typography } from '@material-ui/core';
+
+// material ui imports
+import { makeStyles, TextField, 
+  Button, Typography } from '@material-ui/core';
 // imports for dialog pop up
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
+import { Dialog, DialogActions, 
+  DialogContent, DialogTitle,
+  DialogContentText } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,24 +31,10 @@ function ShippingInfo() {
   const [openFinal, setFinal] = useState(false);
   const [openShip, setOpenShip] = useState(false);
 
-  
-  /* Local State */
-  const [carrierName, setCarrierName] = useState(currentSample.carrierName);
-  const [trackingNumber, setTrackingNumber] = useState(
-    currentSample.trackingNumber
-  );
-  const [shippedDate, setDate] = useState(currentSample.shippedDate);
-
   const finalizeButton = (event) => {
     event.preventDefault();
     setFinal(false);
     // send dispatch to update order with shipping info
-    // if (!shippedDate || !carrierName || !trackingNumber) {
-    //   // TO DO - Change to styled alert
-    //   alert('All inputs are required');
-    //   return;
-    // } else {
-      console.log('🐸  shippingInfo client', currentSample);
       dispatch({
         type: 'UPDATE_SHIPPING_INFO',
         payload: {
@@ -68,7 +54,6 @@ function ShippingInfo() {
       })
 
       history.push('/samples');
-    // }
   }; // end finalizeButton
 
 

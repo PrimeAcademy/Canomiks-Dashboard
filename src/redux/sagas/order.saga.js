@@ -69,8 +69,6 @@ function* updateSampleInfo(action) {
 
 function* updateShipping(action) {
   try {
-    console.log('🐨 updateShippingSaga', action.payload);
-
     const response = yield axios.put('/api/orders/shipping', action.payload);
   } catch (err) {
     console.error('Error in updateShipping', err.message);

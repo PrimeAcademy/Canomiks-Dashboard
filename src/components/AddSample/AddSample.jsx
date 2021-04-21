@@ -78,7 +78,6 @@ function AddSample() {
 
   const focusChange = (val) => {
     // TO DO - Make sure it has a value
-    console.log('🐭 ', val)
     // Dispatch value and field name to update DB
     dispatch({
       type: 'UPDATE_SAMPLE_INFO',
