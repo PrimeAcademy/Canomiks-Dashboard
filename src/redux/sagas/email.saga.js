@@ -11,7 +11,7 @@ function* sendEmail(action) {
 
 function* emailSaga() {
   yield takeLatest('SEND_EMAIL', sendEmail);
-  yield takeLatest('EMAIL_DELAYED_STATUS')
+  // yield takeLatest('EMAIL_DELAYED_STATUS')
 }
 
 export default emailSaga;
