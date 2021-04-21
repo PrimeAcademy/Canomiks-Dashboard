@@ -63,6 +63,7 @@ router.post('/register', async (req, res, next) => {
       teamLeadName,
       companyID,
     ]);
+
     res.sendStatus(201);
   } catch (err) {
     console.log('💥 something went wrong in the register route');

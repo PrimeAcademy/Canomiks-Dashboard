@@ -1,8 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-// material ui imports 
+// imports for dialog pop up
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+
+// Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, MenuItem, FormHelperText, FormControl, 
   Select, Typography, Grid } from '@material-ui/core';
@@ -66,6 +73,37 @@ function AddSample() {
     event.preventDefault();
     console.log("form submit")
   };
+  // Dialogue button states
+  const [open, setOpen] = useState(false);
+  const [openShip, setOpenShip] = useState(false);
+
+  /* Tool Tip Test */
+  const nameText = `
+  Pick an ingredient from this menu. If your ingredient is not listed, please use the 'other' option. For more detailed instructions, refer to the instruction manual.`;
+  const lotText = `Please use the lot number you have created for this batch. For more detailed instructions, refer to the instruction manual.`;
+  const formatText = `Select the proper ingredient format. For more detailed instructions, please refer to the instruction manual.`;
+  const purityText = `Add percent purity of the active ingredient if known. For more detailed instructions, please refer to the instruction manual.`;
+  const dateText = `Add the date that the ingredient was extracted or manufactured. For more detailed instructions, please refer to the instruction manual.`;
+  const extractionText = `Add the extraction method such as ethanol, water etc. for the extraction of the ingredient. If no extraction method was used, please write the concentrator method for the ingredient. For more detailed instructions, please refer to the instruction manual.`;
+  const regionText = `If known please add the region where the plant was grown. If ingredient was extracted from plants grown in more than one region, please write that in the blank space.`;
+  const strainText = `If known please add the exact strain of the crop.`;
+  const harvestDateText = `When was the plant harvested?`;
+  const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
+
+  const focusChange = (val) => {
+    // TO DO - Make sure it has a value
+
+    // Dispatch value and field name to update DB
+    dispatch({
+      type: 'UPDATE_SAMPLE_INFO',
+      payload: {
+        name: currentInput,
+        value: val,
+        companyID,
+        orderId,
+      },
+    });
+  }; // end focusChange
 
   // on shipping button click
   const shipping = () => {
@@ -84,6 +122,12 @@ function AddSample() {
     }; // end required field check
     //swal has blank space to allow icon success
     swal("", "Order successfully saved", "success");
+       {
+        // TO DO - Make this a styled modal
+      setOpenShip(false);
+      alert('Please complete required inputs');
+      return;
+    }
     history.push('/sample/ship');
   
   }; // end shipping
@@ -131,40 +175,60 @@ function AddSample() {
     });
   }; // end cancel
 
-  function focusChange (val) {
-    // make sure it has a value
+  const cancelRequest = (event) => {
+    // TO DO - Currently throwing errors for undefined values
+    // Clear all inputs
+    setName('');
+    setLotNumber('');
+    setFormat('');
+    setPurity('');
+    setDateManufactured('');
+    setMethod('');
+    setCity('');
+    setAmount('');
+    setState('');
+    setCountry('');
+    setCropStrain('');
+    setHarvestDate('');
+    setSustainability('');
+
+    setOpen(false);
+
+
+    // Delete the current sample
+    if(companyID && orderId) {
+      dispatch({
+        type: 'DELETE_CURRENT_SAMPLE',
+        payload: {
+          companyID,
+          orderId,
+        },
+      });
+    };
+    // go back to sample page
+    history.push('/summary');
+  }; // end cancelRequest
+
+
+
+  const handleOpenShipping = () => {
+    setOpenShip(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(true);
+  };
   
-    // send dispatch with the value
-    dispatch({
-      type: 'ADD_SAMPLE_INFO',
-      payload: {
-        name: currentInput,
-        value: val,
-        companyID,
-        orderId
-      }
-    }); // end dispatch
-  }; // end focusChange
+  const handleClose = () => {
+    setOpen(false);
+    setOpenShip(false);
+  };
 
-  // text plugged into tooltips
-  const nameText = `
-  Pick an ingredient from this menu. If your ingredient is not listed, please use the 'other' option. For more detailed instructions, refer to the instruction manual.
-  `;
-  const lotText =`Please use the lot number you have created for this batch. For more detailed instructions, refer to the instruction manual.`;
-  const formatText =`Select the proper ingredient format. For more detailed instructions, please refer to the instruction manual.`;
-  const purityText = `Add percent purity of the active ingredient if known. For more detailed instructions, please refer to the instruction manual.`;
-  const dateText = `Add the date that the ingredient was extracted or manufactured. For more detailed instructions, please refer to the instruction manual.`;
-  const extractionText = `Add the extraction method such as ethanol, water etc. for the extraction of the ingredient. If no extraction method was used, please write the concentrator method for the ingredient. For more detailed instructions, please refer to the instruction manual.`;
-  const regionText = `If known please add the region where the plant was grown. If ingredient was extracted from plants grown in more than one region, please write that in the blank space.`;
-  const strainText =`If known please add the exact strain of the crop.`;
-  const harvestDateText = `When was the plant harvested?`;
-  const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
-
-
-  return (<>
-    <div>
-      <Grid container justify='center' alignItems='flex-start'>
-        <FormControl variant="filled" className={classes.formControl}>
+  return (
+    <>      
+      <Grid container justify="center" alignItems="flex-start">
+        {/* Ingredient Name */}
+        <FormControl variant="standard" className={classes.formControl}>
           <Select
             onFocus={() => setCurrentInput('ingredientName')}
             onBlur={() => focusChange(ingredientName)}
@@ -345,111 +409,106 @@ function AddSample() {
               <InfoIcon />
             </Tooltip>        
       </Grid>
-
-      <Grid container justify='center' alignItems='flex-start'>
-          <Typography variant='body1'> 
-            Growth Region: 
-            <Tooltip title={regionText}
-              TransitionComponent={Zoom} 
-              TransitionProps={{ timeout: 600 }}
-              placement="top-end">
-                <InfoIcon />
-            </Tooltip>
-          </Typography>
-
-          <TextField
-            onFocus={() => setCurrentInput('city')}
-            onBlur={() => focusChange(city)}
-            className={classes.inputs}
-            required
-            label='City'
-            variant='filled'
-            value={city} 
-            type="text" 
-            onChange={(event) => setCity(event.target.value)}/>
-            
-          <TextField
-            onFocus={() => setCurrentInput('state')}
-            onBlur={() => focusChange(state)}
-            className={classes.inputs}
-            required
-            label='State'
-            variant='filled'
-            value={state} 
-            type="text" 
-            onChange={(event) => setState(event.target.value)}/>
-              
-          <TextField
-            onFocus={() => setCurrentInput('country')}
-            onBlur={() => focusChange(country)}
-            className={classes.inputs}
-            required
-            label='Country'
-            variant='filled'
-            value={country} 
-            type="text" 
-            onChange={(event) => setCountry(event.target.value)}/>       
-      </Grid>
-        
-      <Grid container justify='center' alignItems='flex-start'>
-          <TextField
-            onFocus={() => setCurrentInput('harvestDate')}
-            onBlur={() => focusChange(harvestDate)}
-            id="date"
-            label="Harvest Date"
-            value={harvestDate}
-            type="date"
-            defaultValue="2021-01-01"
-            onChange={(e)=> setHarvestDate(e.target.value)}
-            className={classes.inputs}
-            InputLabelProps={{
-              shrink: true,
-            }}/>
-            <Tooltip title={harvestDateText}
-              TransitionComponent={Zoom} 
-              TransitionProps={{ timeout: 600 }}
-              placement="top-end">
-              <InfoIcon />
-            </Tooltip>
-       
-          <TextField
-            onFocus={() => setCurrentInput('sustainabilityInfo')}
-            onBlur={() => focusChange(sustainabilityInfo)}
-            className={classes.inputs}
-            label='Sustainability Info:'
-            variant='filled'
-            value={sustainabilityInfo} 
-            type="text" 
-            onChange={(event) => setSustainability(event.target.value)}/>
-            <Tooltip title={sustainabilityText}
-              TransitionComponent={Zoom} 
-              TransitionProps={{ timeout: 600 }}
-              placement="top-end">
-              <InfoIcon />
-            </Tooltip>          
-      </Grid>
-
-      {/* Buttons */}
       <Grid container justify="center" alignItems="flex-start">
-        <Button
+        {/* Harvest Date */}
+        <TextField
+          label="Harvest Date"
+          type="date"
+          id="date"
           className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={cancel}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={harvestDate}
+          onFocus={() => setCurrentInput('harvestDate')}
+          onBlur={() => focusChange(harvestDate)}
+          onChange={(e) => setHarvestDate(e.target.value)}
+        />
+        <Tooltip
+          title={harvestDateText}
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+          placement="top-end"
         >
-          Cancel Request
-        </Button>
-        <Button
+          <InfoOutlined />
+        </Tooltip>
+
+        {/* Susatinability Info */}
+        <TextField
+          label="Sustainability Info"
+          type="text"
           className={classes.inputs}
-          style={{ backgroundColor: '#1e565c', color: 'white' }}
-          variant="contained"
-          onClick={handleSubmit}
+          variant="standard"
+          value={sustainabilityInfo}
+          onFocus={() => setCurrentInput('sustainabilityInfo')}
+          onBlur={() => focusChange(sustainabilityInfo)}
+          onChange={(event) => setSustainability(event.target.value)}
+        />
+        <Tooltip
+          title={sustainabilityText}
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+          placement="top-end"
         >
-          Next: Shipping Info
-        </Button>
+          <InfoOutlined />
+        </Tooltip>
       </Grid>
-      
-    </div>
+      <Grid container justify="center" alignItems="flex-start">
+        <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleCancel}>
+            Cancel Request
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>
+                Are you sure?
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Cancelling will erase all current inputs.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button onClick={cancelRequest} color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
+
+        <div>
+          <Button 
+              className={classes.inputs}
+              style={{ backgroundColor: '#1e565c', color: 'white' }}
+              variant="contained" 
+              color="primary" 
+              onClick={handleOpenShipping}>
+            Shipping Info
+          </Button>
+          <Dialog open={openShip} onClose={handleClose}>
+              <DialogTitle>
+                Continue to Shipping?
+              </DialogTitle>
+              <DialogContent>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  No
+                </Button>
+                <Button onClick={handleSubmit} color="primary" autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+          </Dialog>
+        </div> 
+      </Grid>
   </>)
 }
 

@@ -86,6 +86,9 @@ function SampleProgress({ sequence, state, delay }) {
           state,
         },
       });
+
+      // Changes the visual on the stepper to match
+      setActiveStep(step - 1);
     }
   }; //end handleClick
 
