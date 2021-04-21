@@ -1,14 +1,14 @@
 import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Typography } from '@material-ui/core';
+
+// material ui imports
+import { makeStyles, TextField, 
+  Button, Typography } from '@material-ui/core';
 // imports for dialog pop up
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
+import { Dialog, DialogActions, 
+  DialogContent, DialogTitle,
+  DialogContentText } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,56 +24,43 @@ function ShippingInfo() {
 
   /* Store Imports */
   const currentSample = useSelector((store) => store.orders.currentSample);
-  const orderId = currentSample.id;
-  const companyID = currentSample.companyID;
-
+  
   // Dialogues
   const [openBack, setBack] = React.useState(false);
   const [openContinue, setContinue] = useState(false);
   const [openFinal, setFinal] = useState(false);
   const [openShip, setOpenShip] = useState(false);
 
-  
-  /* Local State */
-  const [carrierName, setCarrierName] = useState(currentSample.carrierName);
-  const [trackingNumber, setTrackingNumber] = useState(
-    currentSample.trackingNumber
-  );
-  const [shippedDate, setDate] = useState(currentSample.shippedDate);
-
-  const handleSubmit = (event) => {
+  const finalizeButton = (event) => {
     event.preventDefault();
     setFinal(false);
-
-    if (!shippedDate || !carrierName || !trackingNumber) {
-      // TO DO - Change to styled alert
-      alert('All inputs are required');
-      return;
-    } else {
+    // send dispatch to update order with shipping info
       dispatch({
         type: 'UPDATE_SHIPPING_INFO',
         payload: {
-          shippedDate,
-          carrierName,
-          trackingNumber,
-          companyID,
-          orderId,
+          shippedDate: currentSample.shippedDate,
+          carrierName: currentSample.carrierName,
+          trackingNumber: currentSample.trackingNumber,
+          companyID: currentSample.companyID,
+          orderId: currentSample.id,
         },
       });
-
       // TO DO - Change to styled alert
       alert('Shipping Successful!');
 
-      history.push('/samples');
-    }
-  }; // end handleSubmit
+      // clear the current sample store
+      dispatch({
+        type: 'CLEAR_CURRENT_SAMPLE'
+      })
 
-  // end continueLaterButton
+      history.push('/samples');
+  }; // end finalizeButton
+
 
   // dialogue functions
   const handleOpenContinue = () => {
     setContinue(true);
-  }
+  };
   
   const handleBack = () => {
     setBack(true);
@@ -81,7 +68,7 @@ function ShippingInfo() {
 
   const handleOpenFinal = () => {
     setFinal(true);
-  }
+  };
   
   const handleClose = () => {
     setBack(false);
@@ -89,6 +76,17 @@ function ShippingInfo() {
     setFinal(false);
     setContinue(false);
   };
+
+  function enteredInput (inputKey, inputValue) {
+    dispatch({
+      type: 'UPDATE_CURRENT_SAMPLE',
+      payload: {
+        currentInputName: inputKey,
+        newValue: inputValue
+      },
+    });
+  }
+
   return (
     <>
       <center>
@@ -99,15 +97,15 @@ function ShippingInfo() {
           </Typography>
           <div>
             <TextField
-              label="Date to be shipped"
+              label="Date shipped"
               type="date"
               id="date"
               className={classes.inputs}
               InputLabelProps={{
                 shrink: true,
               }}
-              value={shippedDate}
-              onChange={(e) => setDate(e.target.value)}
+              value={currentSample.shippedDate}
+              onChange={(e) => enteredInput('shippedDate', e.target.value)}
             />
           </div>
 
@@ -117,8 +115,8 @@ function ShippingInfo() {
               type="text"
               className={classes.inputs}
               variant="standard"
-              value={carrierName}
-              onChange={(event) => setCarrierName(event.target.value)}
+              value={currentSample.carrierName}
+              onChange={(event) => enteredInput('carrierName', event.target.value)}
               required
             />
           </div>
@@ -129,8 +127,8 @@ function ShippingInfo() {
               type="text"
               className={classes.inputs}
               variant="standard"
-              value={trackingNumber}
-              onChange={(event) => setTrackingNumber(event.target.value)}
+              value={currentSample.trackingNumber}
+              onChange={(event) => enteredInput('trackingNumber', event.target.value)}
               required
             />
           </div>
@@ -209,7 +207,7 @@ function ShippingInfo() {
                 <Button onClick={handleClose} color="primary">
                   No
                 </Button>
-                <Button onClick={handleSubmit} color="primary" autoFocus>
+                <Button onClick={finalizeButton} color="primary" autoFocus>
                   Yes
                 </Button>
               </DialogActions>
