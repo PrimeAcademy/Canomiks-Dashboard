@@ -11,27 +11,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
     SELECT 
-      "orders"."id",
-      "orders"."delayed",
-      "orders"."ingredientName",
-      "orders"."ingredientAmount",
-      "orders"."ingredientUnit",
-      "orders"."format",
-      "orders"."purity",
-      "orders"."dateManufactured",
-      "orders"."lotNumber",
-      "orders"."extractionMethod",
-      "orders"."city",
-      "orders"."state",
-      "orders"."country",
-      "orders"."harvestDate",
-      "orders"."cropStrain",
-      "orders"."sustainabilityInfo",
-      "orders"."shippedDate",
-      "orders"."carrierName",
-      "orders"."trackingNumber",
-      "orders"."receivedDate",
-      "orders"."testingStatus",
+      "orders".*,
       "status"."statusName",
       "status"."testState",
       "status"."sequence"
@@ -53,26 +33,7 @@ router.get('/all', rejectUnauthenticated, async (req, res) => {
   try {
     const query = `
     SELECT 
-      "orders"."id",
-      "orders"."ingredientName",
-      "orders"."ingredientAmount",
-      "orders"."ingredientUnit",
-      "orders"."format",
-      "orders"."purity",
-      "orders"."dateManufactured",
-      "orders"."lotNumber",
-      "orders"."extractionMethod",
-      "orders"."city",
-      "orders"."state",
-      "orders"."country",
-      "orders"."harvestDate",
-      "orders"."cropStrain",
-      "orders"."sustainabilityInfo",
-      "orders"."shippedDate",
-      "orders"."carrierName",
-      "orders"."trackingNumber",
-      "orders"."receivedDate",
-      "orders"."testingStatus",
+      "orders".*,
       "status"."statusName",
       "status"."testState",
       "status"."sequence",
@@ -179,12 +140,12 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-// Adding pdfurl
+
+// Adding results pdf to database
 router.put('/url', rejectUnauthenticated, async (req, res) => {
   try {
     const order = req.body;
-    const orderArray = [ order.pdfUrl, order.companyID,
-      order.orderId,]
+    const orderArray = [order.pdfUrl, order.companyID, order.orderId];
 
     const sqlText = `
       UPDATE "orders"
@@ -204,6 +165,34 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
     }
   } catch (err) {
     console.error('Error in PUT /url', err.message);
+    res.sendStatus(500);
+  }
+});
+
+// Updates lab changes made
+router.put('/lab/update', async (req, res) => {
+  try {
+    const orderArray = [
+      req.body.id,
+      req.body.delayed,
+      req.body.testState,
+      req.body.sequence,
+    ];
+    const sqlText = `
+    UPDATE "orders"
+    SET "delayed" = $2,
+      "testingStatus" = 
+        (SELECT id FROM "status"
+          WHERE "testState" = $3
+            AND "sequence" = $4)
+    WHERE "id" = $1;
+    `;
+
+    await pool.query(sqlText, orderArray);
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error('Error in PUT /lab/update', err.message);
     res.sendStatus(500);
   }
 });

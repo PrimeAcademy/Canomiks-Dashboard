@@ -1,8 +1,17 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+// imports for dialog pop up
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
 
 function LogOutButton(props) {
   const dispatch = useDispatch();
+
+
+  
   return (
     <button
       // This button shows up in multiple locations and is styled differently
@@ -20,6 +29,8 @@ function LogOutButton(props) {
     >
       Log Out
     </button>
+
+    
   );
 }
 
