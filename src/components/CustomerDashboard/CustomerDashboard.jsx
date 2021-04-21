@@ -17,10 +17,14 @@ import {
   Typography,
   TextField,
   Dialog,
+  Container,
+  IconButton,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { makeStyles } from '@material-ui/core/styles';
 import Swal from 'sweetalert2';
+import { ArrowForwardIos } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   table: {
@@ -77,11 +81,11 @@ function CustomerDashboard() {
   }; // end addSampleButton
 
   return (
-    <>
+    <Container maxWidth="xl">
       <Typography
         variant="h3"
         component="h1"
-        style={{ marginLeft: '10%', fontWeight: 900, }}
+        style={{ marginLeft: '10%', fontWeight: 700, }}
         gutterBottom
       >
         {user.companyName}
@@ -134,21 +138,21 @@ function CustomerDashboard() {
           >
             <TableHead>
               <TableRow>
-                <TableCell style={{ fontWeight: 900 }}>Lot Number</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>Lot Number</TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 900 }}>
+                <TableCell align="right" style={{ fontWeight: 700 }}>
                   Ingredient Name
                 </TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 900 }}>
+                <TableCell align="right" style={{ fontWeight: 700 }}>
                   Date Shipped
                 </TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 900 }}>
+                <TableCell align="right" style={{ fontWeight: 700 }}>
                   Test Phase
                 </TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 900 }}>
+                <TableCell align="right" style={{ fontWeight: 700 }}>
                   Details
                 </TableCell>
               </TableRow>
@@ -187,7 +191,9 @@ function CustomerDashboard() {
                       )}
 
                       {/* Test Phase */}
-                      <TableCell align="right">{order.statusName}</TableCell>
+                      <TableCell align="right">
+                        {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
+                      </TableCell>
 
                       {/* Details */}
                       <TableCell align="right">
@@ -238,7 +244,7 @@ function CustomerDashboard() {
       <Dialog open={openDetail} onClose={handleClose} scroll="paper">
         <CustomerDetail sample={clickedSample} />
       </Dialog>
-    </>
+    </Container>
   );
 }
 

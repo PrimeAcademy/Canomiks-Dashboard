@@ -1,82 +1,89 @@
-import React, { useState } from 'react';
+import { Button, createMuiTheme, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, Switch, ThemeProvider } from '@material-ui/core';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { Modal } from '@material-ui/core';
-// TO DO - convert Modal to Dialog
+const theme = createMuiTheme({
+  overrides: {
+    MuiSwitch: {
+      switchBase: {
+        // Controls default (unchecked) color for the thumb
+        color: "#1e565c"
+      },
+      colorSecondary: {
+        "&$checked": {
+          // Controls checked color for the thumb
+          color: "#1e565c"
+        }
+      },
+      track: {
+        // Controls default (unchecked) color for the track
+        opacity: 0.2,
+        backgroundColor: "#1e565c",
+        "$checked$checked + &": {
+          // Controls checked color for the track
+          opacity: 0.7,
+          backgroundColor: "#1e565c"
+        }
+      }
+    }
+  }
+});
 
-function ManageCustomersDetail(props) {
-  const [open, setOpen] = useState(false);
+function ManageCustomersDetail({ clickedCustomer, handleClose }) {
 
-  const rand = () => {
-    return Math.round(Math.random() * 20) - 10;
-  }; // end rand
+  const dispatch = useDispatch();
 
-  const getModalStyle = () => {
-    const top = 50 + rand();
-    const left = 50 + rand();
+  const [active, setActive] = useState(clickedCustomer.active);
 
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }; // end getModalStyle
-
-  const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  })); // end useStyles
-
-  const classes = useStyles();
-  const [modalStyle] = useState(getModalStyle);
-
-  const handleOpen = () => {
-    setOpen(true);
-  }; // end handleOpen
-
-  const handleClose = () => {
-    setOpen(false);
-  }; // end handleClose
-
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="name">{props.customer.companyName}</h2>
-      <p id="details">
-        {props.customer.address} {props.customer.city} {props.customer.state}{' '}
-        {props.customer.zip}
-      </p>
-
-      <p> {props.customer.phoneNumber}</p>
-    </div>
-  );
+  const toggleCompanyActive = (company) => {
+    try {
+      dispatch({
+        type: 'TOGGLE_COMPANY_ACTIVE_STATUS',
+        payload: {
+          company,
+          active
+        }
+      });
+      handleClose();
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
 
   return (
-    <div>
-      <tr>
-        {<td>{props.customer.companyName} </td>}
-        <td>
-          <button onClick={handleOpen}>View Details</button>
-        </td>
-      </tr>
-
-      <div>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="name"
-          aria-describedby="details"
-        >
-          {body}
-        </Modal>
-      </div>
-    </div>
+    <ThemeProvider theme={theme}>
+      <DialogTitle id="view-details-slide-title">{clickedCustomer.companyName}</DialogTitle>
+      <Divider />
+      <DialogContent>
+        <DialogContentText id="view-details-slide-description">
+          <p>{clickedCustomer.address}</p>
+          <p>{clickedCustomer.city}, {clickedCustomer.state} {clickedCustomer.zip}</p>
+        </DialogContentText>
+      </DialogContent>
+      <DialogTitle style={{ marginBottom: 0, paddingBottom: 0 }}>Contact:</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          <p>Name: {clickedCustomer.name}</p>
+          <p>Phone: {clickedCustomer.phoneNumber}</p>
+          <p>Email: <a href={`mailto:${clickedCustomer.email}}`}>{clickedCustomer.email}</a></p>
+        </DialogContentText>
+      </DialogContent>
+      <Divider />
+      <center>
+        <DialogActions>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={active}
+                onChange={(event, val) => setActive(val)}
+                name="companyActiveStatus"
+              />
+            }
+            label={active ? 'Active' : 'Inactive'}
+          />
+          <Button onClick={() => toggleCompanyActive(clickedCustomer)} variant="contained" style={{ backgroundColor: '#1e565c', color: 'white' }}>Confirm</Button>
+        </DialogActions></center>
+    </ThemeProvider>
   );
 }
 

@@ -90,18 +90,18 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
         <div>
           <p>
-            Manufacture Date:
+            Manufactured Date:
             {moment(currentSample.dateManufactured).format('M/YYYY')}
           </p>
           <p>Extraction Method: {currentSample.extractionMethod}</p>
           {(currentSample.city ||
             currentSample.state ||
             currentSample.country) && (
-            <p>
-              Growth Region: {currentSample.city}, {currentSample.state},{' '}
-              {currentSample.country}
-            </p>
-          )}
+              <p>
+                Growth Region: {currentSample.city}, {currentSample.state},{' '}
+                {currentSample.country}
+              </p>
+            )}
           {currentSample.harvestDate && (
             <p>
               Harvest Date: {moment(currentSample.harvestDate).format('M/YYYY')}
@@ -126,6 +126,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         {currentSample.pdfUrl && (
           <div>
             <Button
+              size="small"
               variant="contained"
               onClick={() => window.open(currentSample.pdfUrl)}
             >
@@ -134,15 +135,29 @@ function LabDetail({ setOpenDetail, originalSample }) {
           </div>
         )}
 
-        <Button variant="contained" onClick={handleCancel}>
+        <Button
+          variant="outline"
+          size="small"
+          style={{
+            margin: 5,
+            marginRight: 120
+          }}
+          variant="outlined"
+          onClick={handleCancel}
+        >
           Cancel Changes
         </Button>
-        <Button variant="contained" onClick={handleSave}>
+        {
+          currentSample.delayed ?
+            <Button style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }} size="small" color="primary" variant="contained" onClick={markDelay}>Clear Delay</Button>
+            :
+            <Button style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }} size="small" color="primary" variant="contained" onClick={markDelay}>Mark Delayed</Button>
+        }
+        <Button style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }} size="small" color="primary" variant="contained" onClick={handleSave}>
           Save Changes
         </Button>
-        <Button variant="contained" onClick={markDelay}>
-          Mark Delayed
-        </Button>
+
+
       </DialogContentText>
     </DialogContent>
   );

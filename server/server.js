@@ -10,7 +10,6 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const orderRouter = require('./routes/order.router');
-
 const companyRouter = require('./routes/company.router');
 const emailRouter = require('./routes/email.router');
 
