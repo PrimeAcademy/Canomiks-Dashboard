@@ -20,8 +20,17 @@ function LabDetail({ setOpenDetail, originalSample }) {
   }; // end markDelay
 
   const changeStep = (step) => {
-    setSample({ ...sample, sequence: step });
+    if (step === 3 && sample.testState === 'SHIP') {
+      console.log('received');
+      setSample({ ...sample, receivedDate: new Date(), sequence: step });
+    } else {
+      setSample({ ...sample, sequence: step });
+    }
   }; // end changeStep
+
+  const moveToQueue = () => {
+    setSample({ ...sample, testState: 'CBDTEST', sequence: 1 });
+  };
 
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
@@ -97,6 +106,13 @@ function LabDetail({ setOpenDetail, originalSample }) {
           )}
         </div>
 
+        {/* Render button when sample is received to move it into the queue */}
+        {sample.sequence === 3 && sample.testState === 'SHIP' && (
+          <Button variant="contained" onClick={moveToQueue}>
+            Move to Queue
+          </Button>
+        )}
+
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
           <Button
@@ -132,27 +148,17 @@ function LabDetail({ setOpenDetail, originalSample }) {
         >
           Cancel Changes
         </Button>
-        {currentSample.delayed ? (
-          <Button
-            style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
-            size="small"
-            color="primary"
-            variant="contained"
-            onClick={markDelay}
-          >
-            Clear Delay
-          </Button>
-        ) : (
-          <Button
-            style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
-            size="small"
-            color="primary"
-            variant="contained"
-            onClick={markDelay}
-          >
-            Mark Delayed
-          </Button>
-        )}
+
+        <Button
+          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick={markDelay}
+        >
+          {sample.delayed ? <>Un-mark Delay</> : <>Mark Delay</>}
+        </Button>
+
         <Button
           style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
           size="small"
@@ -161,9 +167,6 @@ function LabDetail({ setOpenDetail, originalSample }) {
           onClick={handleSave}
         >
           Save Changes
-        </Button>
-        <Button variant="contained" onClick={markDelay}>
-          {sample.delayed ? <>Un-mark Delay</> : <>Mark Delay</>}
         </Button>
       </DialogContentText>
     </DialogContent>
