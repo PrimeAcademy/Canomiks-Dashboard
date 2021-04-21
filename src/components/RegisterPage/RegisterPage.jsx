@@ -137,7 +137,7 @@ function RegisterPage() {
                 value="Register"
                 onClick={registerUser}
               >
-                Register
+                Request Account
               </Button>
             </center>
           </Grid>

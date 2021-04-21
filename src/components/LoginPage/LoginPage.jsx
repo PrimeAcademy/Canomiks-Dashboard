@@ -25,7 +25,7 @@ function LoginPage() {
         <LoginForm />
       </Paper>
       <Typography style={{ marginTop: 50 }} variant="subtitle1">
-        Need to register?
+        Need to request an account?
       </Typography>
       <Button
         size="small"
@@ -38,7 +38,7 @@ function LoginPage() {
           history.push('/registration');
         }}
       >
-        Register
+        Request
       </Button>
     </center>
   );

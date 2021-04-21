@@ -46,7 +46,7 @@ function App() {
           <Redirect exact from="/" to="/home" />
 
           <ProtectedRoute exact path="/home" authRedirect="/samples">
-            <RegisterPage />
+            <LoginPage />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/login" authRedirect="/samples">
