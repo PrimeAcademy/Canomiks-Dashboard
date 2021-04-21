@@ -12,7 +12,6 @@ import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Upload from '../Upload/Upload'
-import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
@@ -24,7 +23,6 @@ import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import ResetPassword from '../ResetPassword/ResetPassword';
-
 
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
@@ -48,7 +46,7 @@ function App() {
           <Redirect exact from="/" to="/home" />
 
           <ProtectedRoute exact path="/home" authRedirect="/samples">
-            <LandingPage />
+            <LoginPage />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/login" authRedirect="/samples">
@@ -81,11 +79,13 @@ function App() {
           <ProtectedRoute exact path="/upload" >
             <Upload />
           </ProtectedRoute>
+
           {user.authLevel === 'admin' && (
             <ProtectedRoute exact path="/manage/customers">
               <ManageCustomers />
             </ProtectedRoute>
           )}
+
           <ProtectedRoute exact path="/shipping">
             <ShippingInfo />
           </ProtectedRoute>
