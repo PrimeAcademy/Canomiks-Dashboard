@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 
 import { Stepper, Step, StepLabel } from '@material-ui/core';
 import { Check, ErrorOutline } from '@material-ui/icons';
@@ -8,16 +9,19 @@ import clsx from 'clsx';
 
 import './SampleProgress.css';
 
-function SampleProgress({ sequence, state, delay, changeStep }) {
-  const dispatch = useDispatch();
-
+function SampleProgress({ sample, changeStep }) {
   /* Local State */
-  const [activeStep, setActiveStep] = useState(sequence - 1);
+  const [activeStep, setActiveStep] = useState(sample.sequence - 1);
 
   /* Store Imports */
   const user = useSelector((store) => store.user);
 
-  const stepColor = delay ? '#fdcb43' : '#1e565c';
+  //Changes the step whenever the sample is updated
+  useEffect(() => {
+    setActiveStep(sample.sequence - 1);
+  }, [sample]);
+
+  const stepColor = sample.delayed ? '#fdcb43' : '#1e565c';
   const shipSteps = ['Pre-Shipment', 'In Transit', 'Received'];
   const testSteps = [
     'Queued',
@@ -63,7 +67,7 @@ function SampleProgress({ sequence, state, delay, changeStep }) {
           [classes.active]: active,
         })}
       >
-        {active && delay ? (
+        {active && sample.delayed ? (
           <ErrorOutline className={classes.completed} />
         ) : completed ? (
           <Check className={classes.completed} />
@@ -78,16 +82,13 @@ function SampleProgress({ sequence, state, delay, changeStep }) {
     // Click only functions for lab or admin
     if (user.authLevel === 'lab' || user.authLevel === 'admin') {
       changeStep(step);
-
-      // Changes the visual on the stepper to match
-      setActiveStep(step - 1);
     }
   }; //end handleClick
 
   return (
     <>
       {/* Render different steps depending on the test state */}
-      {state === 'SHIP' ? (
+      {sample.testState === 'SHIP' ? (
         <Stepper activeStep={activeStep} alternativeLabel>
           {shipSteps.map((label, index) => {
             return (

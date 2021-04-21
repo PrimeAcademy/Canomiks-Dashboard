@@ -64,6 +64,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
           sequence={sample.sequence}
           state={sample.testState}
           delay={sample.delayed}
+          sample={sample}
           changeStep={changeStep}
         />
 
