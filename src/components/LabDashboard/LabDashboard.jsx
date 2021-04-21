@@ -35,11 +35,11 @@ const useStyles = makeStyles({
 //////Main function start
 function LabDashboard() {
   // date set up
-let ourDate = moment().format();                                // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
-console.log(ourDate, "our Date")
+  let ourDate = moment().format();                                // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
+  console.log(ourDate, "our Date")
 
-const classes = useStyles();
-const dispatch = useDispatch();
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   /* Store Imports */
   const orders = useSelector((store) => store.orders.orderReducer);
@@ -165,14 +165,13 @@ const dispatch = useDispatch();
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
                   // change status if date has passed
-                  if(order.statusName === 'Pre-Shipment'
-                      && 
-                      order.shippedDate < ourDate)
-                      {
-                        order.statusName = "In Transit"
-                        order.testingStatus = 2;
-                        shippingUpdate(order);
-                      }
+                  if (order.statusName === 'Pre-Shipment'
+                    &&
+                    order.shippedDate < ourDate) {
+                    order.statusName = "In Transit"
+                    order.testingStatus = 2;
+                    shippingUpdate(order);
+                  }
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
                   ) {
@@ -204,7 +203,15 @@ const dispatch = useDispatch();
 
                         {/* Test Phase */}
                         <TableCell align="center">{order.statusName}</TableCell>
+                        {/* if statusName === 'Pre-Shipment 
                                {/* if statusName === 'Pre-Shipment 
+                        {/* if statusName === 'Pre-Shipment 
+                               {/* if statusName === 'Pre-Shipment 
+                        {/* if statusName === 'Pre-Shipment 
+                               {/* if statusName === 'Pre-Shipment 
+                        {/* if statusName === 'Pre-Shipment 
+                               {/* if statusName === 'Pre-Shipment 
+                        {/* if statusName === 'Pre-Shipment 
                         && shippedDate < cDate {
                           order.statusName === "In Shipment"
 

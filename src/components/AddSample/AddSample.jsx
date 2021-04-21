@@ -13,16 +13,10 @@ import Dialog from '@material-ui/core/Dialog';
 
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, MenuItem, FormHelperText, FormControl, 
-  Select, Typography, Grid } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
+import { TextField, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
 import Fade from '@material-ui/core/Fade';
-import swal from 'sweetalert';
-import Alert from '@material-ui/lab/Alert';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+import Swal from 'sweetalert2';
 import { InfoOutlined } from '@material-ui/icons';
 
 
@@ -32,7 +26,7 @@ import { InfoOutlined } from '@material-ui/icons';
 // material ui styling
 const useStyles = makeStyles((theme) => ({
   inputs: {
-   margin: theme.spacing(2),
+    margin: theme.spacing(2),
   },
   formControl: {
     margin: theme.spacing(2),
@@ -97,12 +91,12 @@ function AddSample() {
         orderId,
       },
     });
-    
+
   }; // end focusChange
 
   const goToShippingPage = () => {
     // if errors, alert, close window and stop function
-    
+
     history.push('/sample/ship');
   }; // end goToShippingPage
 
@@ -152,7 +146,7 @@ function AddSample() {
     setOpenShip(false);
   };
 
-  function enterInfo (inputValue) {
+  function enterInfo(inputValue) {
     // send to the reducer, no saga needed
     dispatch({
       type: 'UPDATE_CURRENT_SAMPLE',
@@ -518,14 +512,14 @@ function AddSample() {
               <Button onClick={handleClose} color="primary">
                 No
                 </Button>
-                <Button onClick={goToShippingPage} color="primary" autoFocus>
-                  Yes
+              <Button onClick={goToShippingPage} color="primary" autoFocus>
+                Yes
                 </Button>
             </DialogActions>
           </Dialog>
         </div>
       </Grid>
-  </>)
+    </>)
 }
 
 export default AddSample;
