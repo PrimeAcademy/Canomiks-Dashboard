@@ -43,8 +43,9 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     subject: "Sample info from Canomiks",
     text: ` ${req.body.name},
     ${req.body.message}
-    
-    Lot Number Effected: ${req.body.lotNumber}`,
+
+    Lot Number Effected: ${req.body.lotNumber}
+    Sample Status: ${req.body.statusName}`,
   }, (err, info) => {
     if (err) {
       res.send('💥 error sending email', err);

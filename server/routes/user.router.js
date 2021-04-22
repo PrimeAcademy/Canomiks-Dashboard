@@ -77,8 +77,10 @@ router.post('/sampleOwner', rejectUnauthenticated, async (req, res) => {
   console.log('🦁 currentUser route', req.body);
 
   const sqlText = `
-  SELECT * FROM "users"
+  SELECT "users".* , "status"."statusName" 
+  FROM "users"
   JOIN "orders" ON "orders"."companyID" = "users"."companyID"
+  JOIN "status" ON "status"."id" = "orders"."testingStatus"
   WHERE "orders"."id" = $1 AND "orders"."companyID" = $2;
   `;
 

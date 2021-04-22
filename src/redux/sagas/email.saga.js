@@ -9,26 +9,31 @@ function* sendEmail(action) {
   }
 } // end sendEmail
 
-function* emailDelayedStatus (action) {
+function* emailStatus (action) {
   try {
-    console.log('🦁 emailDelayedStatus', action.payload);
+    console.log('🦺 updateSampleStatus', action.payload);
+
     // send a dispatch that returns the email of the user that is connected with the order
     const ownerResponse = yield axios.post('/api/user/sampleOwner', action.payload);
 
-    console.log('🐣 should have the info now:', ownerResponse.data);
+    const newPayload =  {...action.payload, ...ownerResponse.data};
 
-    const newPayload =  {...action.payload, ...ownerResponse.data}
+    console.log('🎒 new payload:', newPayload);
     // send to server that sends email to correct person
     const emailResponse = yield axios.post('/api/email/', newPayload);
+
+    console.log('🐬  emailResponse:', emailResponse);
   }
   catch (err) {
-    console.log('💥 error in the emailDelayedStatus', err);
+    console.log('💥 error in the emailStatus', err);
   }
-}; // end emailDelayedStatus
+}; // end emailStatus
+
+
 
 function* emailSaga() {
   yield takeLatest('SEND_EMAIL', sendEmail);
-  yield takeLatest('EMAIL_DELAYED_STATUS', emailDelayedStatus);
+  yield takeLatest('EMAIL_STATUS', emailStatus);
 }
 
 export default emailSaga;

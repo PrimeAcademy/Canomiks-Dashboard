@@ -1,9 +1,12 @@
-import moment from 'moment';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
+// custom components
 import SampleProgress from '../SampleProgress/SampleProgress';
 
+// material ui
 import { DialogContent, DialogContentText, Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
@@ -21,48 +24,23 @@ function LabDetail({ setOpenDetail, originalSample }) {
       type: 'EDIT_SAMPLE_DELAY', // goes to reducer
       payload: !currentSample.delayed,
     });
+
   }; // end markDelay
 
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
     // TO DO - trigger email alerts
 
-    // Checks if delayed status has been changed
-    if (originalSample.delayed !== currentSample.delayed) {
-      console.log('🐒 Trigger Delayed email');
-      dispatch({
-        type: 'EMAIL_DELAYED_STATUS',
-        payload: {
-          orderId: currentSample.id,
-          companyID: currentSample.companyID,
-          changedStatus: currentSample.delayed,
-          changedStatusKey: 'delayed',
-          message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
-        }
-      }); // end dispatch
-    }
-
-    // Checks if test state has been changed
-    if (
-      originalSample.sequence !== currentSample.sequence ||
-      originalSample.testState !== currentSample.testState
-    ) {
-      dispatch({
-        type: 'EMAIL_DELAYED_STATUS',
-        payload: {
-          orderId: currentSample.id,
-          companyID: currentSample.companyID,
-          changedStatus: currentSample.delayed,
-          changedStatusKey: 'delayed',
-          message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
-        }
-      }); // end dispatch
-    }
-
-    dispatch({
+     dispatch({
       type: 'UPDATE_SAMPLE_LAB',
-      payload: currentSample,
+      payload: {
+        currentSample,
+        sequence: originalSample.sequence,
+        testState: originalSample.testState
+      },
     });
+
+    // the email and check is triggered inside the saga
 
     setOpenDetail(false);
   }; // end handleSave
