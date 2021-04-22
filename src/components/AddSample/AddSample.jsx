@@ -3,39 +3,12 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-<<<<<<< HEAD
 // Material UI imports
 import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Zoom, makeStyles } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
 import { InfoOutlined } from '@material-ui/icons';
 
-=======
-// imports for dialog pop up
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
-
-// Material UI imports
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  TextField,
-  Button,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
-  Typography,
-  Grid,
-  Tooltip,
-  Fade,
-} from '@material-ui/core';
-import { InfoOutlined } from '@material-ui/icons';
-
-// material ui styling
->>>>>>> master
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -511,7 +484,7 @@ function AddSample() {
           </Button>
         </DialogActions>
       </Dialog>
-    </center >
+    </center>
   );
 }
 
