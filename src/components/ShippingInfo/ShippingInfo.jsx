@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // material ui imports
-import { makeStyles, TextField, Button, Typography, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Paper } from '@material-ui/core';
+import { makeStyles, TextField, Button, Typography, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Paper, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -14,6 +14,28 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#1e565c',
+      light: '#26AB6E',
+      dark: '#1e565c'
+    },
+    secondary: {
+      main: '#0044ff',
+      light: '#01689b',
+      contrastText: '#ffcc00',
+    },
+  },
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        color: 'black',
+      },
+    },
+  }
+});
 
 function ShippingInfo() {
   const history = useHistory();
@@ -80,126 +102,128 @@ function ShippingInfo() {
   }
 
   return (
-    <center>
-      <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
-        <form className={classes.root}>
-          <Alert style={{ maxWidth: '50%', marginBottom: 20 }} severity="warning">
-            These are the available shipping dates. Samples cannot be processed
-            until shipping info is filled out
+    <ThemeProvider theme={theme}>
+      <center>
+        <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
+          <form className={classes.root}>
+            <Alert style={{ maxWidth: '50%', marginBottom: 20 }} severity="warning">
+              These are the available shipping dates. Samples cannot be processed
+              until shipping info is filled out
           </Alert>
-          <div>
-            <TextField
-              label="Date shipped"
-              type="date"
-              id="date"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={currentSample.shippedDate}
-              onChange={(e) => enteredInput('shippedDate', e.target.value)}
-            />
-          </div>
+            <div>
+              <TextField
+                label="Date shipped"
+                type="date"
+                id="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={currentSample.shippedDate}
+                onChange={(e) => enteredInput('shippedDate', e.target.value)}
+              />
+            </div>
 
-          <div>
-            <TextField
-              label="Carrier"
-              type="text"
-              variant="standard"
-              value={currentSample.carrierName}
-              onChange={(event) => enteredInput('carrierName', event.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <TextField
-              label="Tracking Number"
-              type="text"
-              variant="standard"
-              value={currentSample.trackingNumber}
-              onChange={(event) => enteredInput('trackingNumber', event.target.value)}
-              required
-            />
-          </div>
-        </form>
-      </Paper>
+            <div>
+              <TextField
+                label="Carrier"
+                type="text"
+                variant="standard"
+                value={currentSample.carrierName}
+                onChange={(event) => enteredInput('carrierName', event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <TextField
+                label="Tracking Number"
+                type="text"
+                variant="standard"
+                value={currentSample.trackingNumber}
+                onChange={(event) => enteredInput('trackingNumber', event.target.value)}
+                required
+              />
+            </div>
+          </form>
+        </Paper>
 
-      <div>
-        <Button
-          style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
-          variant="contained"
-          color="primary"
-          onClick={history.goBack}>
-          Back
+        <div>
+          <Button
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
+            variant="contained"
+            color="primary"
+            onClick={history.goBack}>
+            Back
           </Button>
-        <Dialog open={openBack} onClose={handleClose}>
-          <DialogTitle>
-            Are you sure?
+          <Dialog open={openBack} onClose={handleClose}>
+            <DialogTitle>
+              Are you sure?
               </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Cancelling will erase all current inputs.
+            <DialogContent>
+              <DialogContentText>
+                Cancelling will erase all current inputs.
                 </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
                 </Button>
-            <Button onClick={() => history.push('./add')} color="primary" autoFocus>
-              Yes
+              <Button onClick={() => history.push('./add')} color="primary" autoFocus>
+                Yes
                 </Button>
-          </DialogActions>
-        </Dialog>
+            </DialogActions>
+          </Dialog>
 
-        <Button
-          style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
-          variant="contained"
-          color="primary"
-          onClick={handleOpenContinue}>
-          Continue Later
+          <Button
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
+            variant="contained"
+            color="primary"
+            onClick={handleOpenContinue}>
+            Continue Later
           </Button>
-        <Dialog open={openContinue} onClose={handleClose}>
-          <DialogTitle>
-            Continue Later?
+          <Dialog open={openContinue} onClose={handleClose}>
+            <DialogTitle>
+              Continue Later?
               </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Your progress will not be saved.
+            <DialogContent>
+              <DialogContentText>
+                Your progress will not be saved.
                 </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
                 </Button>
-            <Button onClick={() => history.push('/samples')} color="primary" autoFocus>
-              Yes
+              <Button onClick={() => history.push('/samples')} color="primary" autoFocus>
+                Yes
                 </Button>
-          </DialogActions>
-        </Dialog>
+            </DialogActions>
+          </Dialog>
 
-        <Button
-          style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
-          variant="contained"
-          color="primary"
-          onClick={handleOpenFinal}>
-          Next : Finalize
+          <Button
+            style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
+            variant="contained"
+            color="primary"
+            onClick={handleOpenFinal}>
+            Next : Finalize
           </Button>
-        <Dialog open={openFinal} onClose={handleClose}>
-          <DialogTitle>
-            Are you sure you want to finalize?
+          <Dialog open={openFinal} onClose={handleClose}>
+            <DialogTitle>
+              Are you sure you want to finalize?
               </DialogTitle>
-          <DialogContent>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
+            <DialogContent>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
                 </Button>
-            <Button onClick={finalizeButton} color="primary" autoFocus>
-              Yes
+              <Button onClick={finalizeButton} color="primary" autoFocus>
+                Yes
                 </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </center>
+            </DialogActions>
+          </Dialog>
+        </div>
+      </center>
+    </ThemeProvider>
   );
 }
 

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { lighten, makeStyles } from '@material-ui/core/styles';
-import { Button, Dialog, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, TextField, Container, Typography, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Button, Dialog, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, TextField, Container, Typography, Checkbox, FormControlLabel, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
@@ -122,6 +122,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#1e565c',
+      light: '#26AB6E',
+      dark: '#1e565c'
+    },
+    secondary: {
+      main: '#0044ff',
+      light: '#01689b',
+      contrastText: '#ffcc00',
+    },
+  },
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        color: 'black',
+      },
+    },
+  }
+});
+
 export default function LabDashTest() {
 
   const classes = useStyles();
@@ -149,35 +171,6 @@ export default function LabDashTest() {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = allOrders.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -230,143 +223,146 @@ export default function LabDashTest() {
   }
 
   return (
-    <Container maxWidth="xl">
-      <Typography
-        variant="h3"
-        component="h1"
-        style={{ marginLeft: '10%', fontWeight: 700 }}
-      >
-        Current Orders
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="xl">
+        <Typography
+          variant="h3"
+          component="h1"
+          style={{ marginLeft: '10%', fontWeight: 700 }}
+          gutterBottom
+        >
+          Current Orders
       </Typography>
-      <div>
-        <TextField
-          label="Search company name..."
-          variant="standard"
-          style={{ margin: 25, marginLeft: '10%' }}
-          onChange={(event) => {
-            setFilter(event.target.value);
-          }}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={isDelayed}
-              onChange={(event, val) => handleSearchByDelayed(event, val)}
-              name="delayed"
-              style={{ color: '#1e565c' }}
-            />
-          }
-          label="Delayed Tests"
-        />
-      </div>
-      <center>
-        <TableContainer className={classes.container}>
-          <Table
-            stickyHeader
-            className={classes.table}
-            aria-labelledby="currentOrdersTable"
-            size={rowsPerPage > 10 ? "small" : "medium"}
-            aria-label="currentOrders"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={allOrders.length}
-            />
-            <TableBody>
-              {stableSort(allOrders, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((thisOrder, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  if (thisOrder.statusName === 'Pre-Shipment' && thisOrder.shippedDate < ourDate) {
-                    thisOrder.statusName = 'In Transit';
-                    thisOrder.testingStatus = 2;
-                    shippingUpdate(thisOrder);
-                  }
-
-                  if (thisOrder.companyName.toLowerCase().includes(filter.toLowerCase())) {
-
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, thisOrder.id)}
-                        tabIndex={-1}
-                        key={thisOrder.id}
-                      >
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          {thisOrder.id}
-                        </TableCell>
-
-                        {/* Lot Number */}
-                        <TableCell align="right">{thisOrder.lotNumber}</TableCell>
-
-                        {/* Company Name */}
-                        <TableCell align="right">{thisOrder.companyName}</TableCell>
-
-                        {/* Date Received */}
-                        {thisOrder.receivedDate ? (
-                          <TableCell align="right">
-                            {moment(thisOrder.receivedDate).format('MMMM DD YYYY')}
-                          </TableCell>
-                        ) : (
-                          <TableCell align="right">Not Received</TableCell>
-                        )}
-
-                        {/* Test Phase */}
-                        <TableCell align="right">
-                          {thisOrder.delayed && <IconButton style={{ padding: 0, margin: 0, marginRight: 5 }} onClick={() => handleOpen(thisOrder)}><ErrorOutlineIcon style={{ color: '#F3A653', padding: 0, margin: 0 }} /></IconButton>}{thisOrder.statusName}
-                        </TableCell>
-
-                        {/* Action */}
-                        <TableCell align="right">
-                          <Button
-                            variant="contained"
-                            size="small"
-                            style={{
-                              backgroundColor: '#1e565c',
-                              color: 'white',
-                            }}
-                            onClick={() => handleOpen(thisOrder)}
-                          >
-                            View Details
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  }
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (rowsPerPage > 10 ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          className={classes.container}
-          rowsPerPageOptions={[10, 20, 50]}
-          component="div"
-          count={allOrders.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-        <Dialog open={openDetail} onClose={handleClose} scroll="paper">
-          <LabDetail
-            originalSample={clickedSample}
-            setOpenDetail={setOpenDetail}
+        <div style={{ width: 'fit-content', marginLeft: '10%', marginBottom: 10 }}>
+          <TextField
+            label="Search company name..."
+            variant="standard"
+            onChange={(event) => {
+              setFilter(event.target.value);
+            }}
           />
-        </Dialog>
-      </center>
-    </Container>
+          <FormControlLabel
+            style={{ marginLeft: 20, marginTop: 10 }}
+            control={
+              <Checkbox
+                checked={isDelayed}
+                onChange={(event, val) => handleSearchByDelayed(event, val)}
+                name="delayed"
+                style={{ color: '#1e565c' }}
+              />
+            }
+            label={<Typography>Delayed Tests</Typography>}
+          />
+        </div>
+        <center>
+          <TableContainer className={classes.container}>
+            <Table
+              stickyHeader
+              className={classes.table}
+              aria-labelledby="currentOrdersTable"
+              size={rowsPerPage > 10 ? "small" : "medium"}
+              aria-label="currentOrders"
+            >
+              <EnhancedTableHead
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={allOrders.length}
+              />
+              <TableBody>
+                {stableSort(allOrders, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((thisOrder, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    if (thisOrder.statusName === 'Pre-Shipment' && thisOrder.shippedDate < ourDate) {
+                      thisOrder.statusName = 'In Transit';
+                      thisOrder.testingStatus = 2;
+                      shippingUpdate(thisOrder);
+                    }
+
+                    if (thisOrder.companyName.toLowerCase().includes(filter.toLowerCase())) {
+
+                      return (
+                        <TableRow
+                          hover
+                          tabIndex={-1}
+                          key={thisOrder.id}
+                        >
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                          >
+                            {thisOrder.id}
+                          </TableCell>
+
+                          {/* Lot Number */}
+                          <TableCell align="right">{thisOrder.lotNumber}</TableCell>
+
+                          {/* Company Name */}
+                          <TableCell align="right">{thisOrder.companyName}</TableCell>
+
+                          {/* Date Received */}
+                          {thisOrder.receivedDate ? (
+                            <TableCell align="right">
+                              {moment(thisOrder.receivedDate).format('MMMM DD YYYY')}
+                            </TableCell>
+                          ) : (
+                            <TableCell align="right">Not Received</TableCell>
+                          )}
+
+                          {/* Test Phase */}
+                          <TableCell align="right">
+                            {thisOrder.delayed && <IconButton style={{ padding: 0, margin: 0, marginRight: 5 }} onClick={() => handleOpen(thisOrder)}><ErrorOutlineIcon style={{ color: '#F3A653', padding: 0, margin: 0 }} /></IconButton>}{thisOrder.statusName}
+                          </TableCell>
+
+                          {/* Action */}
+                          <TableCell align="right">
+                            <Button
+                              variant="contained"
+                              size="small"
+                              style={{
+                                backgroundColor: '#1e565c',
+                                color: 'white',
+                              }}
+                              onClick={() => handleOpen(thisOrder)}
+                            >
+                              View Details
+                          </Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    }
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: (rowsPerPage > 10 ? 33 : 53) * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+
+            </Table>
+          </TableContainer>
+          <TablePagination
+            style={{ marginRight: '10%' }}
+            rowsPerPageOptions={[10, 20, 50]}
+            component="div"
+            count={allOrders.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+          <Dialog open={openDetail} onClose={handleClose} scroll="paper">
+            <LabDetail
+              originalSample={clickedSample}
+              setOpenDetail={setOpenDetail}
+            />
+          </Dialog>
+        </center>
+      </Container>
+    </ThemeProvider>
   );
 }
