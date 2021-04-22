@@ -53,8 +53,9 @@ function RegisterPage() {
         });
         Swal.fire({
           icon: 'success',
+          iconColor: '#26AB6E',
           title: 'Thank you for your interest',
-          text: 'You will receive an email with directions for the next step shortly.',
+          text: 'You will receive an email following up with your request.',
           showCloseButton: true,
           confirmButtonColor: '#1e565c'
         })
@@ -91,7 +92,7 @@ function RegisterPage() {
 
   return (
     <center>
-      <Paper style={{ marginBottom: 20, width: 'fit-content' }}>
+      <Paper style={{ marginBottom: 20, width: 'fit-content', padding: 17 }}>
         {errors.registrationMessage && (
           <h3 className="alert" role="alert">
             {errors.registrationMessage}

@@ -41,12 +41,22 @@ function CustomerDetail({ sample }) {
         <SampleProgress sample={sample} />
 
         {/* Render warning if sample is delayed*/}
-        {sample.delayed && (
+        {sample.delayed ?
           <Alert icon={<ErrorOutline />} severity="warning">
-            <AlertTitle>Test Delayed</AlertTitle>
+            <AlertTitle>Test Delayed - Lot #{sample.lotNumber}</AlertTitle>
             More information will be available via email
-          </Alert>
-        )}
+          </Alert> :
+          <>
+            <Typography align="center" variant="h4">
+              Lot # {sample.lotNumber}
+            </Typography>
+            <Typography align="center" variant="h5">
+              {sample.ingredientName}
+            </Typography>
+          </>
+        }
+
+
 
         {/* Render warning if there is no shipping information */}
         {!sample.shippedDate && (
@@ -68,15 +78,7 @@ function CustomerDetail({ sample }) {
             We cannot process this sample until shipping information is added.
           </Alert>
         )}
-
-        <Typography align="center" variant="h4">
-          Lot # {sample.lotNumber}
-        </Typography>
-        <Typography align="center" variant="h5">
-          {sample.ingredientName}
-        </Typography>
         <Divider style={{ marginTop: 15 }} />
-
         <p>
           Amount: {sample.ingredientAmount} {sample.ingredientUnit}
         </p>

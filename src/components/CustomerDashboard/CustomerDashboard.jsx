@@ -24,7 +24,6 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { makeStyles } from '@material-ui/core/styles';
 import Swal from 'sweetalert2';
-import { ArrowForwardIos } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   table: {
@@ -71,7 +70,7 @@ function CustomerDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
-  function addSampleButton () {
+  function addSampleButton() {
     // clear the current sample
     dispatch({
       type: 'CLEAR_CURRENT_SAMPLE'
@@ -220,8 +219,8 @@ function CustomerDashboard() {
                             onClick={() => {
                               // make clicked order the current sample
                               dispatch({
-                                type:'',
-                                payload:''
+                                type: '',
+                                payload: ''
                               });
                               // open the popup
                               handleOpen(order)
