@@ -1,7 +1,7 @@
 import { Divider, makeStyles, TextField, Typography } from '@material-ui/core';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +26,6 @@ function CompanyForm(props) {
         <TextField
           label="Company Name"
           id="companyName"
-          className={classes.textField}
           variant="standard"
           size="small"
           value={props.companyName}

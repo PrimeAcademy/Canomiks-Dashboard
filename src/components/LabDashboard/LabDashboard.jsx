@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import LabDetail from '../LabDetail/LabDetail';
 import { makeStyles } from '@material-ui/core/styles';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+
 import {
   Table,
   TableBody,
@@ -17,6 +19,7 @@ import {
   TextField,
   Dialog,
   Container,
+  IconButton,
 } from '@material-ui/core';
 
 // material ui style
@@ -35,11 +38,10 @@ const useStyles = makeStyles({
 //////Main function start
 function LabDashboard() {
   // date set up
-let ourDate = moment().format();                                // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
-console.log(ourDate, "our Date")
+  let ourDate = moment().format(); // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
 
-const classes = useStyles();
-const dispatch = useDispatch();
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   /* Store Imports */
   const orders = useSelector((store) => store.orders.orderReducer);
@@ -50,7 +52,6 @@ const dispatch = useDispatch();
   const [filter, setFilter] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
   const [clickedSample, setClickedSample] = useState({});
-
 
   useEffect(() => {
     dispatch({
@@ -68,8 +69,8 @@ const dispatch = useDispatch();
   }; // end handleChangeRowsPerPage
 
   const handleOpen = (sample) => {
-    console.log("handle hit")
     setClickedSample(sample);
+
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,
@@ -82,17 +83,15 @@ const dispatch = useDispatch();
     setOpenDetail(false);
   }; // end handleClose
 
-
   const shippingUpdate = (order) => {
-    // console.log(order, "shippingUpdate")
     dispatch({
       type: 'UPDATE_TEST_PHASE',
       payload: order,
     });
+  }; // end shippingUpdate
 
-  }
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth="xl">
       <Typography
         variant="h3"
         component="h1"
@@ -128,7 +127,7 @@ const dispatch = useDispatch();
 
                 <TableCell
                   label="Company Name"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Company Name
@@ -136,7 +135,7 @@ const dispatch = useDispatch();
 
                 <TableCell
                   label="Date Received"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Date Received
@@ -144,7 +143,7 @@ const dispatch = useDispatch();
 
                 <TableCell
                   label="Test Phase"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Test Phase
@@ -152,7 +151,7 @@ const dispatch = useDispatch();
 
                 <TableCell
                   label="Action Button"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Action
@@ -165,14 +164,15 @@ const dispatch = useDispatch();
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
                   // change status if date has passed
-                  if(order.statusName === 'Pre-Shipment'
-                      && 
-                      order.shippedDate < ourDate)
-                      {
-                        order.statusName = "In Transit"
-                        order.testingStatus = 2;
-                        shippingUpdate(order);
-                      }
+                  if (
+                    order.statusName === 'Pre-Shipment' &&
+                    order.shippedDate < ourDate
+                  ) {
+                    order.statusName = 'In Transit';
+                    order.testingStatus = 2;
+                    shippingUpdate(order);
+                  }
+
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
                   ) {
@@ -189,29 +189,26 @@ const dispatch = useDispatch();
                         </TableCell>
 
                         {/* Company Name */}
-                        <TableCell align="center">
+                        <TableCell align="right">
                           {order.companyName}
                         </TableCell>
 
                         {/* Date Received */}
                         {order.receivedDate ? (
-                          <TableCell align="center">
+                          <TableCell align="right">
                             {moment(order.receivedDate).format('MMMM DD YYYY')}
                           </TableCell>
                         ) : (
-                          <TableCell align="center">Not Received</TableCell>
+                          <TableCell align="right">Not Received</TableCell>
                         )}
 
                         {/* Test Phase */}
-                        <TableCell align="center">{order.statusName}</TableCell>
-                         {/* if statusName === 'Pre-Shipment 
-                        && shippedDate < cDate {
-                          order.statusName === "In Shipment"
-
-                        } */}
+                        <TableCell align="right">
+                          {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
+                        </TableCell>
 
                         {/* Action */}
-                        <TableCell align="center">
+                        <TableCell align="right">
                           <Button
                             variant="contained"
                             size="small"

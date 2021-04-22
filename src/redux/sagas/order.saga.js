@@ -43,7 +43,6 @@ function* addSampleOrder(action) {
   try {
     const response = yield axios.post('/api/orders/start', action.payload);
     console.log(response.data, 'response here');
-
     yield put({
       type: 'SET_INIT_SAMPLE_ID',
       payload: response.data,
@@ -56,7 +55,6 @@ function* addSampleOrder(action) {
 function* updateSampleInfo(action) {
   try {
     const response = yield axios.put('/api/orders/update', action.payload);
-
     // now set current sample with all the info
     yield put({
       type: 'SET_CURRENT_SAMPLE',
@@ -77,11 +75,41 @@ function* updateShipping(action) {
 
 function* updateSampleLab(action) {
   try {
-    const response = yield axios.put('/api/orders/lab/update', action.payload);
+    const response = yield axios.put('/api/orders/lab/update', action.payload.sample);
+
+    // // Checks if delayed status has been changed
+    if (action.payload.delayed !== response.data.delayed && response.data.delayed === true) {
+      // delayed status email triggered
+       yield put({
+        type: 'EMAIL_STATUS',
+        payload: {
+          orderId: response.data.id,
+          companyID: response.data.companyID,
+          message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
+        }
+      }); // end dispatch
+    }
+
+    // Checks if test state has been changed
+    if (
+      action.payload.sequence !== action.payload.sample.sequence ||
+      action.payload.testState !== action.payload.sample.testState
+    ) {
+      // status change email triggered
+       yield put({
+        type: 'EMAIL_STATUS',
+        payload: {
+          orderId: action.payload.sample.id,
+          companyID: action.payload.sample.companyID,
+          message: 'Your sample has moved to the next stage of the testing process. '
+        }
+      }); // end dispatch
+    }
 
     yield put({
       type: 'FETCH_ALL_ORDERS',
     });
+
   } catch (err) {
     console.error('Error in updateSampleLab', err.message);
   }
@@ -89,9 +117,10 @@ function* updateSampleLab(action) {
 
 function* deleteCurrentSample(action) {
   try {
-    const response = yield axios.delete(
-      `/api/orders/delete/${action.payload.companyID}/${action.payload.orderId}`
-    );
+    yield axios.delete(`/api/orders/delete/${action.payload.companyID}/${action.payload.orderId}`);
+    yield put({
+      type: 'CLEAR_CURRENT_SAMPLE'
+    });
   } catch (err) {
     console.error('Error in deleteCurrentSample', err.message);
   }

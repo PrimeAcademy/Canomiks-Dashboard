@@ -185,12 +185,12 @@ router.put('/lab/update', async (req, res) => {
         (SELECT id FROM "status"
           WHERE "testState" = $3
             AND "sequence" = $4)
-    WHERE "id" = $1;
+    WHERE "id" = $1
+    RETURNING *;
     `;
 
-    await pool.query(sqlText, orderArray);
-
-    res.sendStatus(200);
+    const dbRes = await pool.query(sqlText, orderArray);
+    res.send(dbRes.rows[0]);
   } catch (err) {
     console.error('Error in PUT /lab/update', err.message);
     res.sendStatus(500);
