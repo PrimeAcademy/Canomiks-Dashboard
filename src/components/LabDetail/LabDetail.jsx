@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -21,7 +21,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
     // Dispatch toggles currentSample delayed status
     dispatch({
       type: 'EDIT_SAMPLE_DELAY', // goes to reducer
-      payload: !currentSample.delayed,
+      payload: !sample.delayed,
     });
 
     setSample({ ...sample, delayed: !sample.delayed });
@@ -46,7 +46,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
      dispatch({
       type: 'UPDATE_SAMPLE_LAB',
       payload: {
-        currentSample,
+        sample,
         sequence: originalSample.sequence,
         testState: originalSample.testState
       },

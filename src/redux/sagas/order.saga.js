@@ -76,9 +76,8 @@ function* updateShipping(action) {
 } // end updateShipping
 
 function* updateSampleLab(action) {
-  console.log(action.payload);
   try {
-    const response = yield axios.put('/api/orders/lab/update', action.payload.currentSample);
+    const response = yield axios.put('/api/orders/lab/update', action.payload.sample);
 
     // // Checks if delayed status has been changed
     if (action.payload.delayed !== response.data.delayed && response.data.delayed === true) {
@@ -95,15 +94,15 @@ function* updateSampleLab(action) {
 
     // Checks if test state has been changed
     if (
-      action.payload.sequence !== action.payload.currentSample.sequence ||
-      action.payload.testState !== action.payload.currentSample.testState
+      action.payload.sequence !== action.payload.sample.sequence ||
+      action.payload.testState !== action.payload.sample.testState
     ) {
       // status change email triggered
        yield put({
         type: 'EMAIL_STATUS',
         payload: {
-          orderId: action.payload.currentSample.id,
-          companyID: action.payload.currentSample.companyID,
+          orderId: action.payload.sample.id,
+          companyID: action.payload.sample.companyID,
           message: 'Your sample has moved to the next stage of the testing process. '
         }
       }); // end dispatch
@@ -112,6 +111,7 @@ function* updateSampleLab(action) {
     yield put({
       type: 'FETCH_ALL_ORDERS',
     });
+
   } catch (err) {
     console.error('Error in updateSampleLab', err.message);
   }
