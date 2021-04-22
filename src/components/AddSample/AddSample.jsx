@@ -459,7 +459,7 @@ function AddSample() {
                 style={{ marginLeft: 125, backgroundColor: '#1e565c', color: 'white' }}
                 variant="contained"
                 color="primary"
-                onClick={goToShippingPage}>
+                onClick={() => history.push('/sample/ship')}>
                 Next : Shipping Info
           </Button>
             </div>
