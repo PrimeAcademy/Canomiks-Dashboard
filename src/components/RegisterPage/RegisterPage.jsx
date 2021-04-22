@@ -6,23 +6,11 @@ import CompanyForm from '../RegisterForm/CompanyForm';
 import TeamLeadForm from '../RegisterForm/TeamLeadForm';
 import NotifyForm from '../RegisterForm/NotifyForm';
 
-import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Button, Grid, Paper, Typography } from '@material-ui/core';
 import Swal from 'sweetalert2';
-
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: 40,
-    marginBottom: 40,
-    maxWidth: 350,
-    paddingTop: 25,
-    paddingBottom: 25,
-  },
-}));
 
 function RegisterPage() {
   const errors = useSelector((store) => store.errors);
-  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -103,7 +91,6 @@ function RegisterPage() {
 
   return (
     <>
-
       <Paper style={{ marginBottom: 20 }}>
         <center>
           {errors.registrationMessage && (
@@ -113,19 +100,16 @@ function RegisterPage() {
           )}
         </center>
         <Grid container>
-
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
               <CompanyForm companyName={companyName} setCompanyName={setCompanyName} companyAddress={companyAddress} setCompanyAddress={setCompanyAddress} companyCity={companyCity} setCompanyCity={setCompanyCity} companyState={companyState} setCompanyState={setCompanyState} companyZip={companyZip} setCompanyZip={setCompanyZip} />
             </Paper>
           </Grid>
-
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
               <TeamLeadForm phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} teamLeadName={teamLeadName} setTeamLeadName={setTeamLeadName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} />
             </Paper>
           </Grid>
-
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
               <NotifyForm notifyStatusChange={notifyStatusChange} setNotifyStatusChange={setNotifyStatusChange} notifyResultsReady={notifyResultsReady} setNotifyResultsReady={setNotifyResultsReady} notifyDelay={notifyDelay} setNotifyDelay={setNotifyDelay} />

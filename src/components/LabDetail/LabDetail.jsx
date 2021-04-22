@@ -116,7 +116,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         {currentSample.statusName === 'Complete' && !currentSample.pdfUrl && (
           <Button
             variant="contained"
-            onClick={() => history.push(`/sample/${currentSample.id}`)}
+            onClick={() => history.push(`/upload`)}
           >
             Upload Results
           </Button>
