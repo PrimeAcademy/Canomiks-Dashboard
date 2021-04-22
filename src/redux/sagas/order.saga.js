@@ -74,6 +74,7 @@ function* updateShipping(action) {
 } // end updateShipping
 
 function* updateSampleLab(action) {
+  console.log(action.payload);
   try {
     const response = yield axios.put('/api/orders/lab/update', action.payload);
 

@@ -3,12 +3,39 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
+<<<<<<< HEAD
 // Material UI imports
 import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Zoom, makeStyles } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
 import { InfoOutlined } from '@material-ui/icons';
 
+=======
+// imports for dialog pop up
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+
+// Material UI imports
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  TextField,
+  Button,
+  MenuItem,
+  FormHelperText,
+  FormControl,
+  Select,
+  Typography,
+  Grid,
+  Tooltip,
+  Fade,
+} from '@material-ui/core';
+import { InfoOutlined } from '@material-ui/icons';
+
+// material ui styling
+>>>>>>> master
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -27,12 +54,17 @@ function AddSample() {
   /* Store Imports */
   const user = useSelector((store) => store.user);
   const currentSample = useSelector((store) => store.orders.currentSample);
+
   // get ids for company and order
   const companyID = user.companyID;
   const orderId = currentSample.id;
   // change date format on dates from store
-  const newDateManufactured = moment.utc(currentSample.dateManufactured).format("YYYY-MM-DD");
-  const newHarvestDate = moment.utc(currentSample.harvestDate).format("YYYY-MM-DD");
+  const newDateManufactured = moment
+    .utc(currentSample.dateManufactured)
+    .format('YYYY-MM-DD');
+  const newHarvestDate = moment
+    .utc(currentSample.harvestDate)
+    .format('YYYY-MM-DD');
 
   /* Local State */
   const [currentInput, setCurrentInput] = useState('');
@@ -65,17 +97,9 @@ function AddSample() {
         orderId,
       },
     });
-
   }; // end focusChange
 
-  const goToShippingPage = () => {
-    // if errors, alert, close window and stop function
-
-    history.push('/sample/ship');
-  }; // end goToShippingPage
-
   const cancelRequest = (event) => {
-    // TO DO - Currently throwing errors for undefined values
     // Clear all inputs
 
     setOpen(false);
@@ -89,7 +113,8 @@ function AddSample() {
           orderId,
         },
       });
-    };
+    }
+
     // go back to sample page
     history.push('/samples');
   }; // end cancelRequest
@@ -109,10 +134,10 @@ function AddSample() {
       type: 'UPDATE_CURRENT_SAMPLE',
       payload: {
         currentInputName: currentInput,
-        newValue: inputValue
+        newValue: inputValue,
       },
     });
-  }; // end enterInfo
+  } // end enterInfo
 
   return (
     <center>

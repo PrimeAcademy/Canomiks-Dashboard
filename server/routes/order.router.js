@@ -171,12 +171,14 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
 
 // Updates lab changes made
 router.put('/lab/update', async (req, res) => {
+  console.log(req.body);
   try {
     const orderArray = [
       req.body.id,
       req.body.delayed,
       req.body.testState,
       req.body.sequence,
+      req.body.receivedDate,
     ];
     const sqlText = `
     UPDATE "orders"
@@ -184,7 +186,8 @@ router.put('/lab/update', async (req, res) => {
       "testingStatus" = 
         (SELECT id FROM "status"
           WHERE "testState" = $3
-            AND "sequence" = $4)
+            AND "sequence" = $4),
+      "receivedDate" = $5
     WHERE "id" = $1;
     `;
 
