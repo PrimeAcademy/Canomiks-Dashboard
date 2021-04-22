@@ -4,9 +4,7 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 // Material UI imports
-import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Zoom, makeStyles } from '@material-ui/core';
-import Tooltip from '@material-ui/core/Tooltip';
-import Fade from '@material-ui/core/Fade';
+import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Fade, makeStyles, Tooltip } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
