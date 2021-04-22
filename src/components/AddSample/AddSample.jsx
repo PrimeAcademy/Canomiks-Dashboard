@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-
 // imports for dialog pop up
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -25,7 +24,7 @@ import {
   Tooltip,
   Fade,
 } from '@material-ui/core';
-import { HistoryOutlined, InfoOutlined } from '@material-ui/icons';
+import { InfoOutlined } from '@material-ui/icons';
 
 // material ui styling
 const useStyles = makeStyles((theme) => ({
@@ -48,12 +47,17 @@ function AddSample() {
   /* Store Imports */
   const user = useSelector((store) => store.user);
   const currentSample = useSelector((store) => store.orders.currentSample);
+
   // get ids for company and order
   const companyID = user.companyID;
   const orderId = currentSample.id;
   // change date format on dates from store
-  const newDateManufactured = moment.utc(currentSample.dateManufactured).format("YYYY-MM-DD");
-  const newHarvestDate = moment.utc(currentSample.harvestDate).format("YYYY-MM-DD");
+  const newDateManufactured = moment
+    .utc(currentSample.dateManufactured)
+    .format('YYYY-MM-DD');
+  const newHarvestDate = moment
+    .utc(currentSample.harvestDate)
+    .format('YYYY-MM-DD');
 
   /* Local State */
   const [currentInput, setCurrentInput] = useState('');
@@ -75,7 +79,6 @@ function AddSample() {
   const harvestDateText = `When was the plant harvested?`;
   const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
 
-
   const focusChange = (val) => {
     // TO DO - Make sure it has a value
     // Dispatch value and field name to update DB
@@ -88,17 +91,9 @@ function AddSample() {
         orderId,
       },
     });
-    
   }; // end focusChange
 
-  const goToShippingPage = () => {
-    // if errors, alert, close window and stop function
-    
-    history.push('/sample/ship');
-  }; // end goToShippingPage
-
   const cancelRequest = (event) => {
-    // TO DO - Currently throwing errors for undefined values
     // Clear all inputs
     setName('');
     setLotNumber('');
@@ -125,9 +120,10 @@ function AddSample() {
           orderId,
         },
       });
-    };
+    }
+
     // go back to sample page
-    history.push('/summary');
+    history.push('/samples');
   }; // end cancelRequest
 
   const handleOpenShipping = () => {
@@ -143,21 +139,20 @@ function AddSample() {
     setOpenShip(false);
   };
 
-  function enterInfo (inputValue) {
+  function enterInfo(inputValue) {
     // send to the reducer, no saga needed
     dispatch({
       type: 'UPDATE_CURRENT_SAMPLE',
       payload: {
         currentInputName: currentInput,
-        newValue: inputValue
+        newValue: inputValue,
       },
     });
-  }; // end enterInfo
+  } // end enterInfo
 
   return (
     <>
       <Grid container justify="center" alignItems="flex-start">
-
         {/* Ingredient Name */}
         <FormControl variant="standard" className={classes.formControl}>
           <Select
@@ -167,7 +162,7 @@ function AddSample() {
             onBlur={() => focusChange(currentSample.ingredientName)}
             onChange={(event) => enterInfo(event.target.value)}
             displayEmpty
-            required
+            inputProps={{ 'aria-label': 'Without label' }}
           >
             <MenuItem value="" disabled>
               Pick Ingredient
@@ -239,7 +234,6 @@ function AddSample() {
         </Tooltip>
       </Grid>
       <Grid container justify="center" alignItems="flex-start">
-
         {/* Sample Amount */}
         <TextField
           label="Ingredient Amount"
@@ -301,7 +295,6 @@ function AddSample() {
         </Tooltip>
       </Grid>
       <Grid container justify="center" alignItems="flex-start">
-
         {/* Manufactured Date */}
         <TextField
           label="Date Manufactured"
@@ -369,7 +362,6 @@ function AddSample() {
         </Tooltip>
       </Grid>
       <Grid container justify="center" alignItems="flex-start">
-
         {/* Growth Region */}
         <Typography variant="body1">Growth Region:</Typography>
 
@@ -468,25 +460,26 @@ function AddSample() {
             style={{ backgroundColor: '#1e565c', color: 'white' }}
             variant="contained"
             color="primary"
-            onClick={handleCancel}>
+            onClick={handleCancel}
+          >
             Cancel Request
           </Button>
+
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>
-              Are you sure?
-              </DialogTitle>
+            <DialogTitle>Are you sure?</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 Cancelling will erase all current inputs.
-                </DialogContentText>
+              </DialogContentText>
             </DialogContent>
+
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 No
-                </Button>
+              </Button>
               <Button onClick={cancelRequest} color="primary" autoFocus>
                 Yes
-                </Button>
+              </Button>
             </DialogActions>
           </Dialog>
         </div>
@@ -497,22 +490,25 @@ function AddSample() {
             style={{ backgroundColor: '#1e565c', color: 'white' }}
             variant="contained"
             color="primary"
-            onClick={handleOpenShipping}>
+            onClick={handleOpenShipping}
+          >
             Shipping Info
           </Button>
+
           <Dialog open={openShip} onClose={handleClose}>
-            <DialogTitle>
-              Continue to Shipping?
-              </DialogTitle>
-            <DialogContent>
-            </DialogContent>
+            <DialogTitle>Continue to Shipping?</DialogTitle>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 No
-                </Button>
-                <Button onClick={goToShippingPage} color="primary" autoFocus>
-                  Yes
-                </Button>
+              </Button>
+
+              <Button
+                onClick={() => history.push('/sample/ship')}
+                color="primary"
+                autoFocus
+              >
+                Yes
+              </Button>
             </DialogActions>
           </Dialog>
         </div>

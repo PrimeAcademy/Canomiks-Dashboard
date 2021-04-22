@@ -76,6 +76,7 @@ function* updateShipping(action) {
 } // end updateShipping
 
 function* updateSampleLab(action) {
+  console.log(action.payload);
   try {
     const response = yield axios.put('/api/orders/lab/update', action.payload.currentSample);
 
@@ -126,6 +127,23 @@ function* deleteCurrentSample(action) {
   }
 } // end deleteCurrentSample
 
+function* updateTestPhase(action) {
+  console.log(action, "action")
+  try{
+    const response = yield axios.put('/api/orders/date', action.payload)
+    console.log(response.data, "response");
+    yield put({
+      type: 'SET_CURRENT_SAMPLE',
+      payload: response.data,
+    });
+  }catch (err) {
+    console.error('Error in updateTestPhase', err.message);
+  }
+}
+
+
+
+
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
   yield takeLatest('ADD_URL', updateUrl);
@@ -135,6 +153,7 @@ function* orderSaga() {
   yield takeLatest('UPDATE_SHIPPING_INFO', updateShipping);
   yield takeLatest('UPDATE_SAMPLE_LAB', updateSampleLab);
   yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
+  yield takeLatest('UPDATE_TEST_PHASE', updateTestPhase);
 }
 
 export default orderSaga;

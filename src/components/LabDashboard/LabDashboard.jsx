@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 import LabDetail from '../LabDetail/LabDetail';
-
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -33,8 +32,11 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-
+//////Main function start
 function LabDashboard() {
+  // date set up
+  let ourDate = moment().format(); // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -65,6 +67,7 @@ function LabDashboard() {
 
   const handleOpen = (sample) => {
     setClickedSample(sample);
+
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,
@@ -77,8 +80,15 @@ function LabDashboard() {
     setOpenDetail(false);
   }; // end handleClose
 
+  const shippingUpdate = (order) => {
+    dispatch({
+      type: 'UPDATE_TEST_PHASE',
+      payload: order,
+    });
+  }; // end shippingUpdate
+
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth="xl">
       <Typography
         variant="h3"
         component="h1"
@@ -150,6 +160,16 @@ function LabDashboard() {
               {orders
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((order) => {
+                  // change status if date has passed
+                  if (
+                    order.statusName === 'Pre-Shipment' &&
+                    order.shippedDate < ourDate
+                  ) {
+                    order.statusName = 'In Transit';
+                    order.testingStatus = 2;
+                    shippingUpdate(order);
+                  }
+
                   if (
                     order.lotNumber.toLowerCase().includes(filter.toLowerCase())
                   ) {
