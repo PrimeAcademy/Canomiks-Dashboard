@@ -7,7 +7,7 @@ const theme = createMuiTheme({
     MuiSwitch: {
       switchBase: {
         // Controls default (unchecked) color for the thumb
-        color: "#1e565c"
+        color: "#efefef"
       },
       colorSecondary: {
         "&$checked": {
@@ -70,7 +70,9 @@ function ManageCustomersDetail({ clickedCustomer, handleClose }) {
       </DialogContent>
       <Divider />
       <center>
-        <DialogActions>
+        <DialogActions style={{
+          justifyContent: 'center'
+        }}>
           <FormControlLabel
             control={
               <Switch
@@ -83,7 +85,7 @@ function ManageCustomersDetail({ clickedCustomer, handleClose }) {
           />
           <Button onClick={() => toggleCompanyActive(clickedCustomer)} variant="contained" style={{ backgroundColor: '#1e565c', color: 'white' }}>Confirm</Button>
         </DialogActions></center>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }
 

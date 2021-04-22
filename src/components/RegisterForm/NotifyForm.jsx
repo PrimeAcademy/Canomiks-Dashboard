@@ -5,12 +5,12 @@ const theme = createMuiTheme({
     MuiSwitch: {
       switchBase: {
         // Controls default (unchecked) color for the thumb
-        color: "#1e565c"
+        color: "#efefef",
       },
       colorSecondary: {
         "&$checked": {
           // Controls checked color for the thumb
-          color: "#1e565c"
+          color: "#1e565c",
         }
       },
       track: {

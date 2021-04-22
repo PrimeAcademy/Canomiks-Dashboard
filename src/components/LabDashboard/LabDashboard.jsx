@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import LabDetail from '../LabDetail/LabDetail';
 import { makeStyles } from '@material-ui/core/styles';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+
 import {
   Table,
   TableBody,
@@ -17,6 +19,7 @@ import {
   TextField,
   Dialog,
   Container,
+  IconButton,
 } from '@material-ui/core';
 
 // material ui style
@@ -124,7 +127,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Company Name"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Company Name
@@ -132,7 +135,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Date Received"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Date Received
@@ -140,7 +143,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Test Phase"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Test Phase
@@ -148,7 +151,7 @@ function LabDashboard() {
 
                 <TableCell
                   label="Action Button"
-                  align="center"
+                  align="right"
                   style={{ fontWeight: 700 }}
                 >
                   Action
@@ -186,24 +189,26 @@ function LabDashboard() {
                         </TableCell>
 
                         {/* Company Name */}
-                        <TableCell align="center">
+                        <TableCell align="right">
                           {order.companyName}
                         </TableCell>
 
                         {/* Date Received */}
                         {order.receivedDate ? (
-                          <TableCell align="center">
+                          <TableCell align="right">
                             {moment(order.receivedDate).format('MMMM DD YYYY')}
                           </TableCell>
                         ) : (
-                          <TableCell align="center">Not Received</TableCell>
+                          <TableCell align="right">Not Received</TableCell>
                         )}
 
                         {/* Test Phase */}
-                        <TableCell align="center">{order.statusName}</TableCell>
+                        <TableCell align="right">
+                          {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
+                        </TableCell>
 
                         {/* Action */}
-                        <TableCell align="center">
+                        <TableCell align="right">
                           <Button
                             variant="contained"
                             size="small"

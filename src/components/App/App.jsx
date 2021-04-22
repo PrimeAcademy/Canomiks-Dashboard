@@ -43,11 +43,7 @@ function App() {
       <Router>
         <Nav />
         <Switch>
-          <Redirect exact from="/" to="/home" />
-
-          <ProtectedRoute exact path="/home" authRedirect="/samples">
-            <LoginPage />
-          </ProtectedRoute>
+          <Redirect exact from="/" to="/login" />
 
           <ProtectedRoute exact path="/login" authRedirect="/samples">
             <LoginPage />

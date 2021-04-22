@@ -43,7 +43,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
 
-     dispatch({
+    dispatch({
       type: 'UPDATE_SAMPLE_LAB',
       payload: {
         sample,
@@ -68,15 +68,12 @@ function LabDetail({ setOpenDetail, originalSample }) {
         />
 
         {/* Render warning if sample is delayed*/}
-        {sample.delayed && (
+        {sample.delayed ?
           <Alert icon={<ErrorOutline />} severity="warning">
-            <AlertTitle>Test Currently Delayed</AlertTitle>
-          </Alert>
-        )}
-
-        <h2>Lot # {sample.lotNumber}</h2>
+            <AlertTitle>Testing Currently Delayed for Lot #{sample.lotNumber}</AlertTitle>
+          </Alert> : <h2>Lot # {sample.lotNumber}</h2>
+        }
         <h3>{sample.companyName}</h3>
-
         <div>
           <p>Product: {sample.ingredientName}</p>
           <p>
@@ -117,7 +114,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         {sample.sequence === 7 && !sample.pdfUrl && (
           <Button
             variant="contained"
-            onClick={() => history.push(`/sample/${sample.id}`)}
+            onClick={() => history.push(`/upload`)}
           >
             Upload Results
           </Button>
