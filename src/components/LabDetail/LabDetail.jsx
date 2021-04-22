@@ -1,10 +1,12 @@
-import moment from 'moment';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 
+// custom components
 import SampleProgress from '../SampleProgress/SampleProgress';
 
+// material ui
 import { DialogContent, DialogContentText, Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
@@ -16,6 +18,12 @@ function LabDetail({ setOpenDetail, originalSample }) {
   const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
+    // Dispatch toggles currentSample delayed status
+    dispatch({
+      type: 'EDIT_SAMPLE_DELAY', // goes to reducer
+      payload: !sample.delayed,
+    });
+
     setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
 
@@ -34,25 +42,16 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
-    // TO DO - trigger email alerts
 
-    // Checks if delayed status has been changed
-    if (originalSample.delayed !== sample.delayed) {
-      console.log('Trigger Delayed email');
-    }
-
-    // Checks if test state has been changed
-    if (
-      originalSample.sequence !== sample.sequence ||
-      originalSample.testState !== sample.testState
-    ) {
-      console.log('Trigger status update email');
-    }
-
-    dispatch({
+     dispatch({
       type: 'UPDATE_SAMPLE_LAB',
-      payload: sample,
+      payload: {
+        sample,
+        sequence: originalSample.sequence,
+        testState: originalSample.testState
+      },
     });
+    // the email and check is triggered inside the saga
 
     setOpenDetail(false);
   }; // end handleSave
