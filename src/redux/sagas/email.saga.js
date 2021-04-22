@@ -11,18 +11,13 @@ function* sendEmail(action) {
 
 function* emailStatus (action) {
   try {
-    console.log('🦺 updateSampleStatus', action.payload);
-
     // send a dispatch that returns the email of the user that is connected with the order
     const ownerResponse = yield axios.post('/api/user/sampleOwner', action.payload);
 
     const newPayload =  {...action.payload, ...ownerResponse.data};
 
-    console.log('🎒 new payload:', newPayload);
     // send to server that sends email to correct person
-    const emailResponse = yield axios.post('/api/email/', newPayload);
-
-    console.log('🐬  emailResponse:', emailResponse);
+     yield axios.post('/api/email/', newPayload);
   }
   catch (err) {
     console.log('💥 error in the emailStatus', err);

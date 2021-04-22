@@ -35,7 +35,6 @@ const transporter = nodemailer.createTransport({
  * }
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
-  console.log('🐻 ', req.body);
 
   const info = transporter.sendMail({
     from: process.env.EMAIL,
@@ -46,6 +45,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
     Lot Number Effected: ${req.body.lotNumber}
     Sample Status: ${req.body.statusName}`,
+    
   }, (err, info) => {
     if (err) {
       res.send('💥 error sending email', err);

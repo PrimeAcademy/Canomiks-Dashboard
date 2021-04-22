@@ -74,10 +74,8 @@ router.post('/register', async (req, res, next) => {
 
 // gets the sample owner info to send email alerts
 router.post('/sampleOwner', rejectUnauthenticated, async (req, res) => {
-  console.log('🦁 currentUser route', req.body);
-
   const sqlText = `
-  SELECT "users".* , "status"."statusName" 
+  SELECT "users".* , "orders".*, "status"."statusName" 
   FROM "users"
   JOIN "orders" ON "orders"."companyID" = "users"."companyID"
   JOIN "status" ON "status"."id" = "orders"."testingStatus"

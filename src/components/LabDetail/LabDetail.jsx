@@ -29,7 +29,6 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
-    // TO DO - trigger email alerts
 
      dispatch({
       type: 'UPDATE_SAMPLE_LAB',
@@ -39,7 +38,6 @@ function LabDetail({ setOpenDetail, originalSample }) {
         testState: originalSample.testState
       },
     });
-
     // the email and check is triggered inside the saga
 
     setOpenDetail(false);

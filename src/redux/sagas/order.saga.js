@@ -77,22 +77,19 @@ function* updateShipping(action) {
 
 function* updateSampleLab(action) {
   try {
-    const response = yield axios.put('/api/orders/lab/update', action.payload);
-
-    console.log('🦉 ', action.payload);
-    console.log('🐞 ', response.data);
+    const response = yield axios.put('/api/orders/lab/update', action.payload.currentSample);
 
     // // Checks if delayed status has been changed
     if (action.payload.delayed !== response.data.delayed && response.data.delayed === true) {
-      console.log('🐒 Trigger Delayed email');
-      //  yield put({
-      //   type: 'EMAIL_STATUS',
-      //   payload: {
-      //     orderId: response.data.id,
-      //     companyID: response.data.companyID,
-      //     message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
-      //   }
-      // }); // end dispatch
+      // delayed status email triggered
+       yield put({
+        type: 'EMAIL_STATUS',
+        payload: {
+          orderId: response.data.id,
+          companyID: response.data.companyID,
+          message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
+        }
+      }); // end dispatch
     }
 
     // Checks if test state has been changed
@@ -100,15 +97,15 @@ function* updateSampleLab(action) {
       action.payload.sequence !== action.payload.currentSample.sequence ||
       action.payload.testState !== action.payload.currentSample.testState
     ) {
-      console.log('🐴 status change triggered')
-      //  yield put({
-      //   type: 'EMAIL_STATUS',
-      //   payload: {
-      //     orderId: currentSample.id,
-      //     companyID: currentSample.companyID,
-      //     message: 'Your sample has moved to the next stage of the testing process. '
-      //   }
-      // }); // end dispatch
+      // status change email triggered
+       yield put({
+        type: 'EMAIL_STATUS',
+        payload: {
+          orderId: action.payload.currentSample.id,
+          companyID: action.payload.currentSample.companyID,
+          message: 'Your sample has moved to the next stage of the testing process. '
+        }
+      }); // end dispatch
     }
 
     yield put({

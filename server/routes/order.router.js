@@ -190,7 +190,6 @@ router.put('/lab/update', async (req, res) => {
     `;
 
     const dbRes = await pool.query(sqlText, orderArray);
-    console.log('🦇 ', dbRes.rows)
     res.send(dbRes.rows[0]);
   } catch (err) {
     console.error('Error in PUT /lab/update', err.message);
