@@ -112,6 +112,7 @@ function Summary() {
         </TableContainer>
       </Paper>
       <Button
+        size="large"
         style={{ backgroundColor: '#1e565c', color: 'white', marginTop: 10, width: '30%' }}
         variant="contained"
         color="primary"

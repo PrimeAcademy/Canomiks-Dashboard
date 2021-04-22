@@ -90,63 +90,59 @@ function RegisterPage() {
   }; // end clearForm
 
   return (
-    <>
-      <Paper style={{ marginBottom: 20 }}>
-        <center>
-          {errors.registrationMessage && (
-            <h3 className="alert" role="alert">
-              {errors.registrationMessage}
-            </h3>
-          )}
-        </center>
+    <center>
+      <Paper style={{ marginBottom: 20, width: 'fit-content' }}>
+        {errors.registrationMessage && (
+          <h3 className="alert" role="alert">
+            {errors.registrationMessage}
+          </h3>
+        )}
         <Grid container>
           <Grid item xs>
-            <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
+            <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
               <CompanyForm companyName={companyName} setCompanyName={setCompanyName} companyAddress={companyAddress} setCompanyAddress={setCompanyAddress} companyCity={companyCity} setCompanyCity={setCompanyCity} companyState={companyState} setCompanyState={setCompanyState} companyZip={companyZip} setCompanyZip={setCompanyZip} />
             </Paper>
           </Grid>
           <Grid item xs>
-            <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
+            <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
               <TeamLeadForm phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} teamLeadName={teamLeadName} setTeamLeadName={setTeamLeadName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} />
             </Paper>
           </Grid>
           <Grid item xs>
-            <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
+            <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
               <NotifyForm notifyStatusChange={notifyStatusChange} setNotifyStatusChange={setNotifyStatusChange} notifyResultsReady={notifyResultsReady} setNotifyResultsReady={setNotifyResultsReady} notifyDelay={notifyDelay} setNotifyDelay={setNotifyDelay} />
             </Paper>
-            <center>
-              <Button
-                align="center"
-                style={{ backgroundColor: '#1e565c', color: 'white', width: '50%' }}
-                value="Register"
-                onClick={registerUser}
-              >
-                Request Account
+            <Button
+              style={{ backgroundColor: '#1e565c', color: 'white', width: '50%' }}
+              value="Register"
+              onClick={registerUser}
+            >
+              Request Account
               </Button>
-            </center>
+
           </Grid>
         </Grid>
       </Paper>
 
-      <center>
-        <Typography style={{ marginTop: 50 }} variant="subtitle1">
-          Already have an account?
+
+      <Typography style={{ marginTop: 50 }} variant="subtitle1">
+        Already have an account?
         </Typography>
-        <Button
-          size="small"
-          variant="outlined"
-          style={{
-            color: '#1e565c',
-            marginTop: 10
-          }}
-          onClick={() => {
-            history.push('/login');
-          }}
-        >
-          Login
+      <Button
+        size="small"
+        variant="outlined"
+        style={{
+          color: '#1e565c',
+          marginTop: 10
+        }}
+        onClick={() => {
+          history.push('/login');
+        }}
+      >
+        Login
           </Button>
-      </center>
-    </>
+
+    </center>
   );
 }
 
