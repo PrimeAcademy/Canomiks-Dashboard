@@ -71,7 +71,6 @@ function AddSample() {
   }; // end focusChange
 
   const cancelRequest = (event) => {
-    // Clear all inputs
 
     setOpen(false);
 
