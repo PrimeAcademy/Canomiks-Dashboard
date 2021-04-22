@@ -59,7 +59,7 @@ function Nav() {
       >
         <Link style={{ textDecoration: 'none', color: 'white' }} to={user.id ? "/samples" : "/login"}>
           <div className="img">
-            <img src="../favicon.ico" alt="logo" />
+            <img src="../canomiks-logo.png" alt="logo" />
           </div>
         </Link>
 
@@ -85,10 +85,8 @@ function Nav() {
               </a>
             </>
           )}
-
           {user.id && <LogOutButton className="navLink" />}
         </div>
-
       </Toolbar>
     </AppBar>
   );

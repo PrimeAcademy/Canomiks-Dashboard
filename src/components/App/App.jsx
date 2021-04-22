@@ -19,6 +19,7 @@ import AddSample from '../AddSample/AddSample';
 import Summary from '../Summary/Summary';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
+import LabDashTest from '../LabDashboard/LabDashTest';
 import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
@@ -55,7 +56,7 @@ function App() {
 
           <ProtectedRoute exact path="/samples">
             {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
-              <LabDashboard />
+              <LabDashTest />
             ) : (
               <CustomerDashboard />
             )}
