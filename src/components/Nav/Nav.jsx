@@ -74,7 +74,7 @@ function Nav() {
             </NavLink>
           )}
 
-          {(user.authLevel !== 'admin' || user.authLevel !== 'lab') && (
+          {(user.authLevel !== 'admin' && user.authLevel !== 'lab') && (
             <>
               <a className="navLink" href="https://www.canomiks.com/contactus">
                 Help
