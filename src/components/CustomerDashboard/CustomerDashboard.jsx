@@ -19,6 +19,7 @@ import {
   Dialog,
   Container,
   IconButton,
+  Grid,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
@@ -81,49 +82,48 @@ function CustomerDashboard() {
   } // end addSampleButton
 
   return (
-    <Container maxWidth="xl">
-      <Typography
-        variant="h3"
-        component="h1"
-        style={{ marginLeft: '10%', fontWeight: 700 }}
-        gutterBottom
-      >
+    <Container maxWidth="lg">
+      <Typography variant="h1" style={{ marginLeft: '10%' }} gutterBottom>
         {user.companyName}
       </Typography>
-      {!user.active ? (
-        <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
-          <Alert severity="warning">
-            <AlertTitle>Warning</AlertTitle>
-            <strong>
-              Your account is still waiting on approval. Please check your email
-              for additional information.
-            </strong>
-          </Alert>
-        </div>
-      ) : (
-        <Button
-          variant="contained"
-          style={{
-            marginLeft: '10%',
-          }}
-          color="primary"
-          onClick={addSampleButton}
-        >
-          + SAMPLE
-        </Button>
-      )}
 
-      {/* Search field */}
-      <div>
-        <TextField
-          label="Search..."
-          variant="standard"
-          style={{ margin: 25, marginLeft: '10%' }}
-          onChange={(event) => {
-            setFilter(event.target.value);
-          }}
-        />
-      </div>
+      <Grid justify="flex-end" alignItems="center" container>
+        <Grid xs={3} item>
+          {/* Search field */}
+          <TextField
+            label="Search by Lot#"
+            variant="standard"
+            style={{ marginBottom: 15 }}
+            onChange={(event) => {
+              setFilter(event.target.value);
+            }}
+          />
+        </Grid>
+        <Grid xs={4} item></Grid>
+        <Grid xs={3} item>
+          {!user.active ? (
+            <div
+              style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}
+            >
+              <Alert severity="warning">
+                <AlertTitle>Warning</AlertTitle>
+                <strong>
+                  Your account is still waiting on approval. Please check your
+                  email for additional information.
+                </strong>
+              </Alert>
+            </div>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={addSampleButton}
+            >
+              + SAMPLE
+            </Button>
+          )}
+        </Grid>
+      </Grid>
 
       <center>
         <TableContainer

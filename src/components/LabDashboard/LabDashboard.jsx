@@ -91,7 +91,7 @@ function LabDashboard() {
   }; // end shippingUpdate
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="lg">
       <Typography
         variant="h3"
         component="h1"

@@ -61,7 +61,7 @@ function Manage() {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="lg">
       <Typography
         variant="h3"
         component="h1"

@@ -45,6 +45,16 @@ function App() {
         main: '#1e565c',
       },
     },
+    typography: {
+      fontFamily: 'Roboto',
+      fontWeight: 300,
+      h1: {
+        fontFamily: 'Roboto',
+        fontSize: '3.8em',
+        fontWeight: 400,
+        letterSpacing: '.05em',
+      },
+    },
   });
 
   return (
