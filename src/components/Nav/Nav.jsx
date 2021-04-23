@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    maxWidth: 160
+    maxWidth: 160,
   },
   right: {
     display: 'flex',
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   navBar: {
     letterSpacing: '.11em',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   offset: theme.mixins.toolbar,
 }));
@@ -47,29 +47,44 @@ function Nav() {
   }
 
   return (
-    <AppBar className={classes.navBar} position="static" style={{ marginBottom: 30, }}>
+    <AppBar
+      className={classes.navBar}
+      position="static"
+      style={{ marginBottom: 30 }}
+    >
       <Toolbar
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#1e565c',
-          height: '112px'
+          height: '112px',
         }}
       >
-        <Link style={{ textDecoration: 'none', color: 'white' }} to={user.id ? "/samples" : "/login"}>
+        <Link
+          style={{ textDecoration: 'none', color: 'white' }}
+          to={user.id ? '/samples' : '/login'}
+        >
           <div className="img">
-            <img src="../favicon.ico" alt="logo" />
+            <img src="../logo.png" alt="logo" />
           </div>
         </Link>
 
         <div>
-          <NavLink activeClassName="activeLink" className="navLink" to={loginLinkData.path}>
+          <NavLink
+            activeClassName="activeLink"
+            className="navLink"
+            to={loginLinkData.path}
+          >
             {loginLinkData.text}
           </NavLink>
 
           {user.authLevel === 'admin' && (
-            <NavLink activeClassName="activeLink" className="navLink" to="/manage/customers">
+            <NavLink
+              activeClassName="activeLink"
+              className="navLink"
+              to="/manage/customers"
+            >
               Manage Customers
             </NavLink>
           )}
@@ -88,7 +103,6 @@ function Nav() {
 
           {user.id && <LogOutButton className="navLink" />}
         </div>
-
       </Toolbar>
     </AppBar>
   );

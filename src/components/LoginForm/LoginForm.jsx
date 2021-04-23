@@ -102,6 +102,7 @@ function LoginForm() {
         <div>
           <Button
             type="submit"
+            variant="contained"
             color="primary"
             style={{ margin: 10, width: '60%' }}
             name="login"

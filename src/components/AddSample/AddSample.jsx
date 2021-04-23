@@ -89,7 +89,7 @@ function AddSample() {
     });
   }; // end focusChange
 
-  const cancelRequest = (event) => {
+  const deleteRequest = (event) => {
     // Clear all inputs
 
     setOpen(false);
@@ -471,14 +471,11 @@ function AddSample() {
               </Paper>
             </Grid>
           </Grid>
+
           <Grid container justify="center" alignItems="flex-start">
             <div style={{ marginBottom: 40 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleCancel}
-              >
-                Cancel Request
+              <Button variant="outlined" color="primary" onClick={handleCancel}>
+                Delete Request
               </Button>
               <Button
                 style={{ marginLeft: 125 }}
@@ -492,20 +489,25 @@ function AddSample() {
           </Grid>
         </form>
       </Paper>
+
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          Are you sure you want to cancel the current sample?
-        </DialogTitle>
+        <DialogTitle>Are you sure you want to delete this sample?</DialogTitle>
+
         <DialogContent>
-          <DialogContentText>
-            Cancelling will erase all current inputs.
-          </DialogContentText>
+          <DialogContentText>This cannot be undone</DialogContentText>
         </DialogContent>
+
         <DialogActions>
-          <Button onClick={cancelRequest} color="primary">
+          <Button onClick={deleteRequest} variant="outlined" color="primary">
             Yes
           </Button>
-          <Button variant="contained" onClick={handleClose} autoFocus>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleClose}
+            autoFocus
+          >
             No
           </Button>
         </DialogActions>
