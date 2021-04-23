@@ -7,6 +7,8 @@ const orderReducer = (state = [], action) => {
       return action.payload;
     case 'SET_ALL_ORDERS':
       return action.payload;
+    case 'UNSET_USER':
+      return [];
     default:
       return state;
   }
