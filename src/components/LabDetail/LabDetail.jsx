@@ -7,7 +7,13 @@ import moment from 'moment';
 import SampleProgress from '../SampleProgress/SampleProgress';
 
 // material ui
-import { DialogContent, DialogContentText, Button } from '@material-ui/core';
+import {
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  DialogActions,
+  Button,
+} from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
 
@@ -147,7 +153,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         </Button>
 
         <Button
-          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+          style={{ margin: 5 }}
           size="small"
           color="primary"
           variant="contained"
@@ -157,7 +163,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         </Button>
 
         <Button
-          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+          style={{ margin: 5 }}
           size="small"
           color="primary"
           variant="contained"

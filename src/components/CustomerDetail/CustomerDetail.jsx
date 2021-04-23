@@ -41,11 +41,12 @@ function CustomerDetail({ sample }) {
         <SampleProgress sample={sample} />
 
         {/* Render warning if sample is delayed*/}
-        {sample.delayed ?
+        {sample.delayed ? (
           <Alert icon={<ErrorOutline />} severity="warning">
             <AlertTitle>Test Delayed - Lot #{sample.lotNumber}</AlertTitle>
             More information will be available via email
-          </Alert> :
+          </Alert>
+        ) : (
           <>
             <Typography align="center" variant="h4">
               Lot # {sample.lotNumber}
@@ -54,9 +55,7 @@ function CustomerDetail({ sample }) {
               {sample.ingredientName}
             </Typography>
           </>
-        }
-
-
+        )}
 
         {/* Render warning if there is no shipping information */}
         {!sample.shippedDate && (
@@ -108,7 +107,7 @@ function CustomerDetail({ sample }) {
         {sample.statusName === 'Pre-Shipment' && (
           <Button
             variant="contained"
-            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            color="primary"
             onClick={() => reviewSample(sample)}
           >
             Review Sample
@@ -119,7 +118,8 @@ function CustomerDetail({ sample }) {
         {sample.pdfUrl && (
           <Button
             variant="contained"
-            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+            color="primary"
+            style={{ margin: 10 }}
             onClick={() => window.open(sample.pdfUrl)}
           >
             Download Results

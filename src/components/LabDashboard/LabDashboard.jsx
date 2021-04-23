@@ -189,9 +189,7 @@ function LabDashboard() {
                         </TableCell>
 
                         {/* Company Name */}
-                        <TableCell align="right">
-                          {order.companyName}
-                        </TableCell>
+                        <TableCell align="right">{order.companyName}</TableCell>
 
                         {/* Date Received */}
                         {order.receivedDate ? (
@@ -204,18 +202,20 @@ function LabDashboard() {
 
                         {/* Test Phase */}
                         <TableCell align="right">
-                          {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
+                          {order.delayed && (
+                            <IconButton onClick={() => handleOpen(order)}>
+                              <ErrorOutlineIcon style={{ color: '#F3A653' }} />
+                            </IconButton>
+                          )}
+                          {order.statusName}
                         </TableCell>
 
                         {/* Action */}
                         <TableCell align="right">
                           <Button
                             variant="contained"
+                            color="primary"
                             size="small"
-                            style={{
-                              backgroundColor: '#1e565c',
-                              color: 'white',
-                            }}
                             onClick={() => handleOpen(order)}
                           >
                             View Details
@@ -241,7 +241,7 @@ function LabDashboard() {
         />
       </center>
 
-      <Dialog open={openDetail} onClose={handleClose} scroll="paper">
+      <Dialog open={openDetail} onClose={handleClose} scroll="body">
         <LabDetail
           originalSample={clickedSample}
           setOpenDetail={setOpenDetail}

@@ -2,7 +2,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import ManageCustomersDetail from '../ManageCustomersDetail/ManageCustomersDetail';
-import { Button, Container, Dialog, IconButton, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  Dialog,
+  IconButton,
+  makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import BlockIcon from '@material-ui/icons/Block';
 
@@ -28,7 +43,7 @@ function Manage() {
 
   const [open, setOpen] = useState(false);
   const [clickedCustomer, setClickedCustomer] = useState({});
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     dispatch({
@@ -46,7 +61,7 @@ function Manage() {
   };
 
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth="xl">
       <Typography
         variant="h3"
         component="h1"
@@ -73,37 +88,71 @@ function Manage() {
             aria-label="manage-customers-table"
           >
             <TableHead>
-              <TableRow >
-                <TableCell label="Company Name" style={{ fontWeight: 700 }}>Company Name</TableCell>
-                <TableCell label="Status" align="right" style={{ fontWeight: 700 }}>Status</TableCell>
-                <TableCell label="Details" align="right" style={{ fontWeight: 700 }}>Details</TableCell>
+              <TableRow>
+                <TableCell label="Company Name" style={{ fontWeight: 700 }}>
+                  Company Name
+                </TableCell>
+                <TableCell
+                  label="Status"
+                  align="right"
+                  style={{ fontWeight: 700 }}
+                >
+                  Status
+                </TableCell>
+                <TableCell
+                  label="Details"
+                  align="right"
+                  style={{ fontWeight: 700 }}
+                >
+                  Details
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {customerList.map((customer) => {
-                if (customer.companyName !== 'Canomiks' && customer.companyName.toLowerCase().includes(filter.toLowerCase())) {
+                if (
+                  customer.companyName !== 'Canomiks' &&
+                  customer.companyName
+                    .toLowerCase()
+                    .includes(filter.toLowerCase())
+                ) {
                   return (
                     <TableRow key={customer.id}>
                       <TableCell component="th" scope="row">
-                        <Typography onClick={() => handleClickOpen(customer)}>{customer.companyName}</Typography>
+                        <Typography onClick={() => handleClickOpen(customer)}>
+                          {customer.companyName}
+                        </Typography>
                       </TableCell>
 
                       <TableCell align="right">
-                        {customer.active ? <IconButton style={{ color: '#1e565c' }} onClick={() => handleClickOpen(customer)}><CheckIcon /></IconButton> : <IconButton style={{ color: '#fdcb43' }} onClick={() => handleClickOpen(customer)}><BlockIcon /></IconButton>}
+                        {customer.active ? (
+                          <IconButton
+                            style={{ color: '#1e565c' }}
+                            onClick={() => handleClickOpen(customer)}
+                          >
+                            <CheckIcon />
+                          </IconButton>
+                        ) : (
+                          <IconButton
+                            style={{ color: '#fdcb43' }}
+                            onClick={() => handleClickOpen(customer)}
+                          >
+                            <BlockIcon />
+                          </IconButton>
+                        )}
                       </TableCell>
                       <TableCell align="right">
                         <Button
                           onClick={() => handleClickOpen(customer)}
                           size="small"
                           variant="contained"
+                          color="primary"
                           style={{
-                            backgroundColor: '#1e565c',
-                            color: 'white',
-                            marginTop: 10
+                            marginTop: 10,
                           }}
                         >
                           Details
-                      </Button>
+                        </Button>
                       </TableCell>
                     </TableRow>
                   );
@@ -119,7 +168,10 @@ function Manage() {
         aria-labelledby="view-details-slide-title"
         aria-describedby="view-details-slide-description"
       >
-        <ManageCustomersDetail clickedCustomer={clickedCustomer} handleClose={handleClose} />
+        <ManageCustomersDetail
+          clickedCustomer={clickedCustomer}
+          handleClose={handleClose}
+        />
       </Dialog>
     </Container>
   );

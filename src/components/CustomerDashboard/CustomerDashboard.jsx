@@ -51,10 +51,11 @@ function CustomerDashboard() {
         icon: 'warning',
         title: 'Account Inactive',
         text: 'We are still processing your account request.',
-        footer: '<a target="_blank" href="https://www.canomiks.com/contactus">Contact Us</a>',
+        footer:
+          '<a target="_blank" href="https://www.canomiks.com/contactus">Contact Us</a>',
         iconColor: '#F3A653',
-        confirmButtonColor: '#1e565c'
-      })
+        confirmButtonColor: '#1e565c',
+      });
       dispatch({ type: 'LOGOUT' });
     } else {
       dispatch({ type: 'FETCH_CUSTOMER_ORDERS' });
@@ -73,18 +74,18 @@ function CustomerDashboard() {
   function addSampleButton() {
     // clear the current sample
     dispatch({
-      type: 'CLEAR_CURRENT_SAMPLE'
+      type: 'CLEAR_CURRENT_SAMPLE',
     });
     // move to summary page
     history.push('/summary');
-  }; // end addSampleButton
+  } // end addSampleButton
 
   return (
     <Container maxWidth="xl">
       <Typography
         variant="h3"
         component="h1"
-        style={{ marginLeft: '10%', fontWeight: 700, }}
+        style={{ marginLeft: '10%', fontWeight: 700 }}
         gutterBottom
       >
         {user.companyName}
@@ -103,10 +104,9 @@ function CustomerDashboard() {
         <Button
           variant="contained"
           style={{
-            backgroundColor: '#1e565c',
-            color: 'white',
             marginLeft: '10%',
           }}
+          color="primary"
           onClick={addSampleButton}
         >
           + SAMPLE
@@ -191,7 +191,12 @@ function CustomerDashboard() {
 
                       {/* Test Phase */}
                       <TableCell align="right">
-                        {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
+                        {order.delayed && (
+                          <IconButton onClick={() => handleOpen(order)}>
+                            <ErrorOutlineIcon style={{ color: '#F3A653' }} />
+                          </IconButton>
+                        )}
+                        {order.statusName}
                       </TableCell>
 
                       {/* Details */}
@@ -200,10 +205,7 @@ function CustomerDashboard() {
                           <Button
                             size="small"
                             variant="contained"
-                            style={{
-                              backgroundColor: 'white',
-                              color: '#1e565c',
-                            }}
+                            color="primary"
                             onClick={() => handleOpen(order)}
                           >
                             Add Shipping Info
@@ -212,18 +214,15 @@ function CustomerDashboard() {
                           <Button
                             size="small"
                             variant="contained"
-                            style={{
-                              backgroundColor: '#1e565c',
-                              color: 'white',
-                            }}
+                            color="primary"
                             onClick={() => {
                               // make clicked order the current sample
                               dispatch({
                                 type: '',
-                                payload: ''
+                                payload: '',
                               });
                               // open the popup
-                              handleOpen(order)
+                              handleOpen(order);
                             }}
                           >
                             View Details
