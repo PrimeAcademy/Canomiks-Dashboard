@@ -284,7 +284,8 @@ export default function LabDashTest() {
                     thisOrder.testingStatus = 2;
                     shippingUpdate(thisOrder);
                   }
-                  if (true) {
+                  console.log('thisOrder', thisOrder);
+                  if (thisOrder.companyName.toLowerCase().includes(filter.toLowerCase())) {
                     return (
                       <TableRow
                         hover
