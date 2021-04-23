@@ -20,13 +20,36 @@ import Summary from '../Summary/Summary';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
 import LabDashTest from '../LabDashboard/LabDashTest';
+import LabDashTest2 from '../LabDashboard/LabDashTest2';
 import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import ResetPassword from '../ResetPassword/ResetPassword';
 
 import './App.css';
-import { CssBaseline } from '@material-ui/core';
+import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#1e565c',
+      light: '#26AB6E',
+      dark: '#1e565c'
+    },
+    secondary: {
+      main: '#0044ff',
+      light: '#01689b',
+      contrastText: '#ffcc00',
+    },
+  },
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        color: 'black',
+      },
+    },
+  }
+});
 
 function App() {
   const dispatch = useDispatch();
@@ -39,7 +62,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <Nav />
@@ -56,7 +79,7 @@ function App() {
 
           <ProtectedRoute exact path="/samples">
             {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
-              <LabDashTest />
+              <LabDashTest2 />
             ) : (
               <CustomerDashboard />
             )}
@@ -107,7 +130,7 @@ function App() {
         </Switch>
         <Footer />
       </Router>
-    </>
+    </ThemeProvider>
   );
 }
 

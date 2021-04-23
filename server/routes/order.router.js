@@ -155,8 +155,6 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 
-    console.log(dbRes.rows);
-
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -250,12 +248,10 @@ router.get('/delayed/:status', rejectUnauthenticated, async (req, res) => {
     const dbRes = await pool.query(query, [req.params.status]);
     res.send(dbRes.rows);
   } catch (err) {
-    console.error('Error in PUT /delayed', err.message);
+    console.error('Error in GET /delayed', err.message);
     res.sendStates(500);
   }
 })
-
-
 
 /* DELETE ROUTES */
 router.delete(

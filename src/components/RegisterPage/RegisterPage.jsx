@@ -6,30 +6,8 @@ import CompanyForm from '../RegisterForm/CompanyForm';
 import TeamLeadForm from '../RegisterForm/TeamLeadForm';
 import NotifyForm from '../RegisterForm/NotifyForm';
 
-import { Button, createMuiTheme, Grid, Paper, ThemeProvider, Typography } from '@material-ui/core';
+import { Button, Grid, Paper, Typography } from '@material-ui/core';
 import Swal from 'sweetalert2';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#1e565c',
-      light: '#26AB6E',
-      dark: '#1e565c'
-    },
-    secondary: {
-      main: '#0044ff',
-      light: '#01689b',
-      contrastText: '#ffcc00',
-    },
-  },
-  overrides: {
-    MuiInputLabel: {
-      root: {
-        color: 'black',
-      },
-    },
-  }
-});
 
 function RegisterPage() {
   const errors = useSelector((store) => store.errors);
@@ -113,60 +91,58 @@ function RegisterPage() {
   }; // end clearForm
 
   return (
-    <ThemeProvider theme={theme}>
-      <center>
-        <Paper style={{ marginBottom: 20, width: 'fit-content', padding: 17 }}>
-          {errors.registrationMessage && (
-            <h3 className="alert" role="alert">
-              {errors.registrationMessage}
-            </h3>
-          )}
-          <Grid container>
-            <Grid item xs>
-              <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
-                <CompanyForm companyName={companyName} setCompanyName={setCompanyName} companyAddress={companyAddress} setCompanyAddress={setCompanyAddress} companyCity={companyCity} setCompanyCity={setCompanyCity} companyState={companyState} setCompanyState={setCompanyState} companyZip={companyZip} setCompanyZip={setCompanyZip} />
-              </Paper>
-            </Grid>
-            <Grid item xs>
-              <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
-                <TeamLeadForm phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} teamLeadName={teamLeadName} setTeamLeadName={setTeamLeadName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} />
-              </Paper>
-            </Grid>
-            <Grid item xs>
-              <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
-                <NotifyForm notifyStatusChange={notifyStatusChange} setNotifyStatusChange={setNotifyStatusChange} notifyResultsReady={notifyResultsReady} setNotifyResultsReady={setNotifyResultsReady} notifyDelay={notifyDelay} setNotifyDelay={setNotifyDelay} />
-              </Paper>
-              <Button
-                style={{ backgroundColor: '#1e565c', color: 'white', width: '50%' }}
-                value="Register"
-                onClick={registerUser}
-              >
-                Request Account
+    <center>
+      <Paper style={{ marginBottom: 20, width: 'fit-content', padding: 17 }}>
+        {errors.registrationMessage && (
+          <h3 className="alert" role="alert">
+            {errors.registrationMessage}
+          </h3>
+        )}
+        <Grid container>
+          <Grid item xs>
+            <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
+              <CompanyForm companyName={companyName} setCompanyName={setCompanyName} companyAddress={companyAddress} setCompanyAddress={setCompanyAddress} companyCity={companyCity} setCompanyCity={setCompanyCity} companyState={companyState} setCompanyState={setCompanyState} companyZip={companyZip} setCompanyZip={setCompanyZip} />
+            </Paper>
+          </Grid>
+          <Grid item xs>
+            <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
+              <TeamLeadForm phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} teamLeadName={teamLeadName} setTeamLeadName={setTeamLeadName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} />
+            </Paper>
+          </Grid>
+          <Grid item xs>
+            <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
+              <NotifyForm notifyStatusChange={notifyStatusChange} setNotifyStatusChange={setNotifyStatusChange} notifyResultsReady={notifyResultsReady} setNotifyResultsReady={setNotifyResultsReady} notifyDelay={notifyDelay} setNotifyDelay={setNotifyDelay} />
+            </Paper>
+            <Button
+              style={{ backgroundColor: '#1e565c', color: 'white', width: '50%' }}
+              value="Register"
+              onClick={registerUser}
+            >
+              Request Account
               </Button>
 
-            </Grid>
           </Grid>
-        </Paper>
+        </Grid>
+      </Paper>
 
 
-        <Typography style={{ marginTop: 50 }} variant="subtitle1">
-          Already have an account?
+      <Typography style={{ marginTop: 50 }} variant="subtitle1">
+        Already have an account?
         </Typography>
-        <Button
-          size="small"
-          variant="outlined"
-          style={{
-            color: '#1e565c',
-            marginTop: 10
-          }}
-          onClick={() => {
-            history.push('/login');
-          }}
-        >
-          Login
+      <Button
+        size="small"
+        variant="outlined"
+        style={{
+          color: '#1e565c',
+          marginTop: 10
+        }}
+        onClick={() => {
+          history.push('/login');
+        }}
+      >
+        Login
           </Button>
-      </center>
-    </ThemeProvider>
+    </center>
   );
 }
 

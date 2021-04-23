@@ -19,40 +19,15 @@ import {
   Dialog,
   Container,
   IconButton,
-  createMuiTheme,
-  ThemeProvider,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { makeStyles } from '@material-ui/core/styles';
-import Swal from 'sweetalert2';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
-});
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#1e565c',
-      light: '#26AB6E',
-      dark: '#1e565c'
-    },
-    secondary: {
-      main: '#0044ff',
-      light: '#01689b',
-      contrastText: '#ffcc00',
-    },
-  },
-  overrides: {
-    MuiInputLabel: {
-      root: {
-        color: 'black',
-      },
-    },
-  }
 });
 
 function CustomerDashboard() {
@@ -70,19 +45,7 @@ function CustomerDashboard() {
   const [clickedSample, setClickedSample] = useState({});
 
   useEffect(() => {
-    if (user.id && !user.active) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Account Inactive',
-        text: 'We are still processing your account request.',
-        footer: '<a target="_blank" href="https://www.canomiks.com/contactus">Contact Us</a>',
-        iconColor: '#F3A653',
-        confirmButtonColor: '#1e565c'
-      })
-      dispatch({ type: 'LOGOUT' });
-    } else {
-      dispatch({ type: 'FETCH_CUSTOMER_ORDERS' });
-    }
+    dispatch({ type: 'FETCH_CUSTOMER_ORDERS' });
   }, []);
 
   const handleOpen = (sample) => {
@@ -104,172 +67,170 @@ function CustomerDashboard() {
   }; // end addSampleButton
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container maxWidth="xl">
-        <Typography
-          variant="h3"
-          component="h1"
-          style={{ marginLeft: '10%', fontWeight: 700, }}
-          gutterBottom
-        >
-          {user.companyName}
-        </Typography>
-        {!user.active ? (
-          <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
-            <Alert severity="warning">
-              <AlertTitle>Warning</AlertTitle>
-              <strong>
-                Your account is still waiting on approval. Please check your email
-                for additional information.
+    <Container maxWidth="xl">
+      <Typography
+        variant="h3"
+        component="h1"
+        style={{ marginLeft: '10%', fontWeight: 700, }}
+        gutterBottom
+      >
+        {user.companyName}
+      </Typography>
+      {!user.active ? (
+        <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
+          <Alert severity="warning">
+            <AlertTitle>Warning</AlertTitle>
+            <strong>
+              Your account is still waiting on approval. Please check your email
+              for additional information.
             </strong>
-            </Alert>
-          </div>
-        ) : (
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: '#1e565c',
-              color: 'white',
-              marginLeft: '10%',
-            }}
-            onClick={addSampleButton}
-          >
-            + SAMPLE
-          </Button>
-        )}
-
-        {/* Search field */}
-        <div>
-          <TextField
-            label="Search Lot Number..."
-            variant="standard"
-            style={{ margin: 25, marginLeft: '10%' }}
-            onChange={(event) => {
-              setFilter(event.target.value);
-            }}
-          />
+          </Alert>
         </div>
+      ) : (
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: '#1e565c',
+            color: 'white',
+            marginLeft: '10%',
+          }}
+          onClick={addSampleButton}
+        >
+          + SAMPLE
+        </Button>
+      )}
 
-        <center>
-          <TableContainer
-            style={{ maxWidth: '80%', maxHeight: 450 }}
-            component={Paper}
+      {/* Search field */}
+      <div>
+        <TextField
+          label="Search Ingredient Name..."
+          variant="standard"
+          style={{ margin: 25, marginLeft: '10%' }}
+          onChange={(event) => {
+            setFilter(event.target.value);
+          }}
+        />
+      </div>
+
+      <center>
+        <TableContainer
+          style={{ maxWidth: '80%', maxHeight: 450 }}
+          component={Paper}
+        >
+          <Table
+            className={classes.table}
+            aria-label="sample table"
+            stickyHeader
           >
-            <Table
-              className={classes.table}
-              aria-label="sample table"
-              stickyHeader
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ fontWeight: 700 }}>Lot Number</TableCell>
+            <TableHead>
+              <TableRow>
+                <TableCell style={{ fontWeight: 700 }}>Lot Number</TableCell>
 
-                  <TableCell align="right" style={{ fontWeight: 700 }}>
-                    Ingredient Name
+                <TableCell align="right" style={{ fontWeight: 700 }}>
+                  Ingredient Name
                 </TableCell>
 
-                  <TableCell align="right" style={{ fontWeight: 700 }}>
-                    Date Shipped
+                <TableCell align="right" style={{ fontWeight: 700 }}>
+                  Date Shipped
                 </TableCell>
 
-                  <TableCell align="right" style={{ fontWeight: 700 }}>
-                    Test Phase
+                <TableCell align="right" style={{ fontWeight: 700 }}>
+                  Test Phase
                 </TableCell>
 
-                  <TableCell align="right" style={{ fontWeight: 700 }}>
-                    Details
+                <TableCell align="right" style={{ fontWeight: 700 }}>
+                  Details
                 </TableCell>
-                </TableRow>
-              </TableHead>
+              </TableRow>
+            </TableHead>
 
-              <TableBody>
-                {orders.map((order, index) => {
-                  if (
-                    order.lotNumber.toLowerCase().includes(filter.toLowerCase())
-                  ) {
-                    return (
-                      <TableRow
-                        key={index}
-                        style={{
-                          backgroundColor:
-                            order.statusName === 'Pre-Shipment' && '#F3A653',
-                        }}
-                      >
-                        {/* Lot Number */}
-                        <TableCell component="th" scope="row">
-                          #{order.lotNumber}
-                        </TableCell>
+            <TableBody>
+              {orders.map((order, index) => {
+                if (
+                  order.cropStrain.toLowerCase().includes(filter.toLowerCase())
+                ) {
+                  return (
+                    <TableRow
+                      key={index}
+                      style={{
+                        backgroundColor:
+                          order.statusName === 'Pre-Shipment' && '#F3A653',
+                      }}
+                    >
+                      {/* Lot Number */}
+                      <TableCell component="th" scope="row">
+                        #{order.lotNumber}
+                      </TableCell>
 
-                        {/* Ingredient Name */}
+                      {/* Ingredient Name */}
+                      <TableCell align="right">
+                        {order.ingredientName} - {order.cropStrain}
+                      </TableCell>
+
+                      {/* Date Shipped */}
+                      {order.shippedDate ? (
                         <TableCell align="right">
-                          {order.ingredientName} - {order.cropStrain}
+                          {moment(order.shippedDate).format('MMMM DD YYYY')}
                         </TableCell>
+                      ) : (
+                        <TableCell align="right">Not Shipped</TableCell>
+                      )}
 
-                        {/* Date Shipped */}
-                        {order.shippedDate ? (
-                          <TableCell align="right">
-                            {moment(order.shippedDate).format('MMMM DD YYYY')}
-                          </TableCell>
+                      {/* Test Phase */}
+                      <TableCell align="right">
+                        {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
+                      </TableCell>
+
+                      {/* Details */}
+                      <TableCell align="right">
+                        {order.statusName === 'Pre-shipment' ? (
+                          <Button
+                            size="small"
+                            variant="contained"
+                            style={{
+                              backgroundColor: 'white',
+                              color: '#1e565c',
+                            }}
+                            onClick={() => handleOpen(order)}
+                          >
+                            Add Shipping Info
+                          </Button>
                         ) : (
-                          <TableCell align="right">Not Shipped</TableCell>
+                          <Button
+                            size="small"
+                            variant="contained"
+                            style={{
+                              backgroundColor: '#1e565c',
+                              color: 'white',
+                            }}
+                            onClick={() => {
+                              // make clicked order the current sample
+                              dispatch({
+                                type: '',
+                                payload: ''
+                              });
+                              // open the popup
+                              handleOpen(order)
+                            }}
+                          >
+                            View Details
+                          </Button>
                         )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </center>
 
-                        {/* Test Phase */}
-                        <TableCell align="right">
-                          {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
-                        </TableCell>
-
-                        {/* Details */}
-                        <TableCell align="right">
-                          {order.statusName === 'Pre-shipment' ? (
-                            <Button
-                              size="small"
-                              variant="contained"
-                              style={{
-                                backgroundColor: 'white',
-                                color: '#1e565c',
-                              }}
-                              onClick={() => handleOpen(order)}
-                            >
-                              Add Shipping Info
-                            </Button>
-                          ) : (
-                            <Button
-                              size="small"
-                              variant="contained"
-                              style={{
-                                backgroundColor: '#1e565c',
-                                color: 'white',
-                              }}
-                              onClick={() => {
-                                // make clicked order the current sample
-                                dispatch({
-                                  type: '',
-                                  payload: ''
-                                });
-                                // open the popup
-                                handleOpen(order)
-                              }}
-                            >
-                              View Details
-                            </Button>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  }
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </center>
-
-        {/* Detail Pop up */}
-        <Dialog open={openDetail} onClose={handleClose} scroll="paper">
-          <CustomerDetail sample={clickedSample} />
-        </Dialog>
-      </Container>
-    </ThemeProvider>
+      {/* Detail Pop up */}
+      <Dialog open={openDetail} onClose={handleClose} scroll="paper">
+        <CustomerDetail sample={clickedSample} />
+      </Dialog>
+    </Container>
   );
 }
 

@@ -4,10 +4,10 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 // Material UI imports
-import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Fade, makeStyles, Tooltip, createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Fade, makeStyles, Tooltip } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -15,28 +15,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#1e565c',
-      light: '#26AB6E',
-      dark: '#1e565c'
-    },
-    secondary: {
-      main: '#0044ff',
-      light: '#01689b',
-      contrastText: '#ffcc00',
-    },
-  },
-  overrides: {
-    MuiInputLabel: {
-      root: {
-        color: 'black',
-      },
-    },
-  }
-});
 
 function AddSample() {
   // functions from library to use
@@ -133,380 +111,378 @@ function AddSample() {
   } // end enterInfo
 
   return (
-    <ThemeProvider theme={theme}>
-      <center>
-        <Paper style={{ padding: 17, marginBottom: 20, maxWidth: '70%' }}>
-          <Typography variant="h3" align="center" gutterBottom>Sample Information</Typography>
-          <center>
-            <Divider style={{ maxWidth: "60%" }} />
-          </center>
-          <form className={classes.root}>
-            <Grid container justify="center" alignItems="flex-start">
-              <Grid item xs>
-                <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
-                  {/* Ingredient Name */}
-                  <div>
-                    <FormControl variant="standard">
-                      <Select
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        value={currentSample.ingredientName}
-                        onFocus={() => setCurrentInput('ingredientName')}
-                        onBlur={() => focusChange(currentSample.ingredientName)}
-                        onChange={(event) => enterInfo(event.target.value)}
-                        displayEmpty>
-                        <MenuItem value="" disabled>
-                          Ingredient Name
+
+    <center>
+      <Paper style={{ padding: 17, marginBottom: 20, maxWidth: '70%' }}>
+        <Typography variant="h3" align="center" gutterBottom>Sample Information</Typography>
+        <center>
+          <Divider style={{ maxWidth: "60%" }} />
+        </center>
+        <form className={classes.root}>
+          <Grid container justify="center" alignItems="flex-start">
+            <Grid item xs>
+              <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
+                {/* Ingredient Name */}
+                <div>
+                  <FormControl variant="standard">
+                    <Select
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      value={currentSample.ingredientName}
+                      onFocus={() => setCurrentInput('ingredientName')}
+                      onBlur={() => focusChange(currentSample.ingredientName)}
+                      onChange={(event) => enterInfo(event.target.value)}
+                      displayEmpty>
+                      <MenuItem value="" disabled>
+                        Ingredient Name
                   </MenuItem>
-                        <MenuItem value={'CBD'}>CBD</MenuItem>
-                        <MenuItem value={'Other'}>Other</MenuItem>
-                      </Select>
-                      <FormHelperText>Ingredient Name</FormHelperText>
-                    </FormControl>
-                    <Tooltip
-                      arrow
-                      title={nameText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
+                      <MenuItem value={'CBD'}>CBD</MenuItem>
+                      <MenuItem value={'Other'}>Other</MenuItem>
+                    </Select>
+                    <FormHelperText>Ingredient Name</FormHelperText>
+                  </FormControl>
+                  <Tooltip
+                    arrow
+                    title={nameText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
 
-                  {/* Lot Number */}
-                  <div>
-                    <FormControl variant="standard">
-                      <TextField
-                        label="Lot Number"
-                        type="text"
-                        variant="standard"
-                        value={currentSample.lotNumber}
-                        onFocus={() => setCurrentInput('lotNumber')}
-                        onBlur={() => focusChange(currentSample.lotNumber)}
-                        onChange={(event) => enterInfo(event.target.value)}
-                        required
-                      />
-                    </FormControl>
-                    <Tooltip
-                      arrow
-                      title={lotText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-
-                  </div>
-
-                  {/* Ingredient Format */}
-                  <div>
-                    <FormControl variant="standard">
-                      <Select
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        value={currentSample.format}
-                        onFocus={() => setCurrentInput('format')}
-                        onBlur={() => focusChange(currentSample.format)}
-                        onChange={(e) => enterInfo(e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem value="" disabled>
-                          Pick a Format
-                    </MenuItem>
-                        <MenuItem value={'Powder'}>Powder</MenuItem>
-                        <MenuItem value={'Tincture'}>Tincture</MenuItem>
-                        <MenuItem value={'Oil'}>Oil</MenuItem>
-                        <MenuItem value={'Other'}>Other</MenuItem>
-                      </Select>
-                      <FormHelperText>Product Format</FormHelperText>
-                    </FormControl>
-
-                    <Tooltip
-                      arrow
-                      title={formatText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                  <div>
-                    {/* Sample Amount */}
+                {/* Lot Number */}
+                <div>
+                  <FormControl variant="standard">
                     <TextField
-                      label="Ingredient Amount"
+                      label="Lot Number"
                       type="text"
                       variant="standard"
-                      value={currentSample.ingredientAmount}
-                      onFocus={() => setCurrentInput('ingredientAmount')}
-                      onBlur={() => focusChange(currentSample.ingredientAmount)}
+                      value={currentSample.lotNumber}
+                      onFocus={() => setCurrentInput('lotNumber')}
+                      onBlur={() => focusChange(currentSample.lotNumber)}
                       onChange={(event) => enterInfo(event.target.value)}
                       required
                     />
-                  </div>
-                  <div>
-                    <FormControl variant="standard">
-                      <Select
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        value={currentSample.ingredientUnit}
-                        onFocus={() => setCurrentInput('ingredientUnit')}
-                        onBlur={() => focusChange(currentSample.ingredientUnit)}
-                        onChange={(e) => enterInfo(e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem value="" disabled>
-                          Unit
-                    </MenuItem>
-                        <MenuItem value={'Milligrams'}>Milligrams</MenuItem>
-                        <MenuItem value={'Grams'}>Grams</MenuItem>
-                        <MenuItem value={'Ounces'}>Ounces</MenuItem>
-                      </Select>
-                      <FormHelperText>Ingredient Unit</FormHelperText>
-                    </FormControl>
-                    <Tooltip
-                      arrow
-                      title={formatText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                  <div>
-                    {/* Purity */}
-                    <TextField
-                      label="Purity"
-                      type="text"
-                      variant="standard"
-                      value={currentSample.purity}
-                      onFocus={() => setCurrentInput('purity')}
-                      onBlur={() => focusChange(currentSample.purity)}
-                      onChange={(event) => enterInfo(event.target.value)}
-                    />
-                    <Tooltip
-                      arrow
-                      title={purityText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
-                  <div>
-                    {/* Manufactured Date */}
-                    <TextField
-                      label="Date Manufactured"
-                      type="date"
-                      id="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      value={newDateManufactured}
-                      onFocus={() => setCurrentInput('dateManufactured')}
-                      onBlur={() => focusChange(currentSample.dateManufactured)}
+                  </FormControl>
+                  <Tooltip
+                    arrow
+                    title={lotText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+
+                </div>
+
+                {/* Ingredient Format */}
+                <div>
+                  <FormControl variant="standard">
+                    <Select
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      value={currentSample.format}
+                      onFocus={() => setCurrentInput('format')}
+                      onBlur={() => focusChange(currentSample.format)}
                       onChange={(e) => enterInfo(e.target.value)}
-                    />
-                    <Tooltip
-                      arrow
-                      title={dateText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
+                      displayEmpty
                     >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                  <div>
-                    {/* Extraction Method */}
-                    <TextField
-                      onFocus={() => setCurrentInput('extractionMethod')}
-                      onBlur={() => focusChange(currentSample.extractionMethod)}
-                      label="Extraction Method"
-                      variant="standard"
-                      value={currentSample.extractionMethod}
-                      type="text"
-                      onChange={(event) => enterInfo(event.target.value)}
-                      required
-                    />
-                    <Tooltip
-                      arrow
-                      title={extractionText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                  <div>
-                    {/* Crop Strain */}
-                    <TextField
-                      label="Strain Of Crop"
-                      variant="standard"
-                      type="text"
-                      value={currentSample.cropStrain}
-                      onFocus={() => setCurrentInput('cropStrain')}
-                      onBlur={() => focusChange(currentSample.cropStrain)}
-                      onChange={(event) => enterInfo(event.target.value)}
-                      required
-                    />
-                    <Tooltip
-                      arrow
-                      title={strainText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
+                      <MenuItem value="" disabled>
+                        Pick a Format
+                    </MenuItem>
+                      <MenuItem value={'Powder'}>Powder</MenuItem>
+                      <MenuItem value={'Tincture'}>Tincture</MenuItem>
+                      <MenuItem value={'Oil'}>Oil</MenuItem>
+                      <MenuItem value={'Other'}>Other</MenuItem>
+                    </Select>
+                    <FormHelperText>Product Format</FormHelperText>
+                  </FormControl>
 
-                  {/* Growth Region */}
-                  <Typography variant="body1">Growth Region:
+                  <Tooltip
+                    arrow
+                    title={formatText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+                <div>
+                  {/* Sample Amount */}
+                  <TextField
+                    label="Ingredient Amount"
+                    type="text"
+                    variant="standard"
+                    value={currentSample.ingredientAmount}
+                    onFocus={() => setCurrentInput('ingredientAmount')}
+                    onBlur={() => focusChange(currentSample.ingredientAmount)}
+                    onChange={(event) => enterInfo(event.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <FormControl variant="standard">
+                    <Select
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      value={currentSample.ingredientUnit}
+                      onFocus={() => setCurrentInput('ingredientUnit')}
+                      onBlur={() => focusChange(currentSample.ingredientUnit)}
+                      onChange={(e) => enterInfo(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem value="" disabled>
+                        Unit
+                    </MenuItem>
+                      <MenuItem value={'Milligrams'}>Milligrams</MenuItem>
+                      <MenuItem value={'Grams'}>Grams</MenuItem>
+                      <MenuItem value={'Ounces'}>Ounces</MenuItem>
+                    </Select>
+                    <FormHelperText>Ingredient Unit</FormHelperText>
+                  </FormControl>
+                  <Tooltip
+                    arrow
+                    title={formatText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+                <div>
+                  {/* Purity */}
+                  <TextField
+                    label="Purity"
+                    type="text"
+                    variant="standard"
+                    value={currentSample.purity}
+                    onFocus={() => setCurrentInput('purity')}
+                    onBlur={() => focusChange(currentSample.purity)}
+                    onChange={(event) => enterInfo(event.target.value)}
+                  />
+                  <Tooltip
+                    arrow
+                    title={purityText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+              </Paper>
+            </Grid>
+            <Grid item xs>
+              <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
+                <div>
+                  {/* Manufactured Date */}
+                  <TextField
+                    label="Date Manufactured"
+                    type="date"
+                    id="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={newDateManufactured}
+                    onFocus={() => setCurrentInput('dateManufactured')}
+                    onBlur={() => focusChange(currentSample.dateManufactured)}
+                    onChange={(e) => enterInfo(e.target.value)}
+                  />
+                  <Tooltip
+                    arrow
+                    title={dateText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+                <div>
+                  {/* Extraction Method */}
+                  <TextField
+                    onFocus={() => setCurrentInput('extractionMethod')}
+                    onBlur={() => focusChange(currentSample.extractionMethod)}
+                    label="Extraction Method"
+                    variant="standard"
+                    value={currentSample.extractionMethod}
+                    type="text"
+                    onChange={(event) => enterInfo(event.target.value)}
+                    required
+                  />
+                  <Tooltip
+                    arrow
+                    title={extractionText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+                <div>
+                  {/* Crop Strain */}
+                  <TextField
+                    label="Strain Of Crop"
+                    variant="standard"
+                    type="text"
+                    value={currentSample.cropStrain}
+                    onFocus={() => setCurrentInput('cropStrain')}
+                    onBlur={() => focusChange(currentSample.cropStrain)}
+                    onChange={(event) => enterInfo(event.target.value)}
+                    required
+                  />
+                  <Tooltip
+                    arrow
+                    title={strainText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+              </Paper>
+            </Grid>
+            <Grid item xs>
+              <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
+
+                {/* Growth Region */}
+                <Typography variant="body1">Growth Region:
                 <Tooltip
-                      arrow
-                      title={regionText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </Typography>
-                  <div>
-                    <TextField
-                      label="City"
-                      type="text"
-                      variant="standard"
-                      value={currentSample.city}
-                      onFocus={() => setCurrentInput('city')}
-                      onBlur={() => focusChange(currentSample.city)}
-                      onChange={(event) => enterInfo(event.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      label="State"
-                      type="text"
-                      variant="standard"
-                      value={currentSample.state}
-                      onFocus={() => setCurrentInput('state')}
-                      onBlur={() => focusChange(currentSample.state)}
-                      onChange={(event) => enterInfo(event.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      label="Country"
-                      type="text"
-                      variant="standard"
-                      value={currentSample.country}
-                      onFocus={() => setCurrentInput('country')}
-                      onBlur={() => focusChange(currentSample.country)}
-                      onChange={(event) => enterInfo(event.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    {/* Harvest Date */}
-                    <TextField
-                      label="Harvest Date"
-                      type="date"
-                      id="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      value={newHarvestDate}
-                      onFocus={() => setCurrentInput('harvestDate')}
-                      onBlur={() => focusChange(currentSample.harvestDate)}
-                      onChange={(e) => enterInfo(e.target.value)}
-                    />
-                    <Tooltip
-                      arrow
-                      title={harvestDateText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                  <div>
-                    {/* Susatinability Info */}
-                    <TextField
-                      label="Sustainability Info"
-                      type="text"
-                      variant="standard"
-                      value={currentSample.sustainabilityInfo}
-                      onFocus={() => setCurrentInput('sustainabilityInfo')}
-                      onBlur={() => focusChange(currentSample.sustainabilityInfo)}
-                      onChange={(event) => enterInfo(event.target.value)}
-                    />
-                    <Tooltip
-                      arrow
-                      title={sustainabilityText}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      placement="top-end"
-                    >
-                      <InfoOutlined />
-                    </Tooltip>
-                  </div>
-                </Paper>
-              </Grid>
+                    arrow
+                    title={regionText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </Typography>
+                <div>
+                  <TextField
+                    label="City"
+                    type="text"
+                    variant="standard"
+                    value={currentSample.city}
+                    onFocus={() => setCurrentInput('city')}
+                    onBlur={() => focusChange(currentSample.city)}
+                    onChange={(event) => enterInfo(event.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <TextField
+                    label="State"
+                    type="text"
+                    variant="standard"
+                    value={currentSample.state}
+                    onFocus={() => setCurrentInput('state')}
+                    onBlur={() => focusChange(currentSample.state)}
+                    onChange={(event) => enterInfo(event.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <TextField
+                    label="Country"
+                    type="text"
+                    variant="standard"
+                    value={currentSample.country}
+                    onFocus={() => setCurrentInput('country')}
+                    onBlur={() => focusChange(currentSample.country)}
+                    onChange={(event) => enterInfo(event.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  {/* Harvest Date */}
+                  <TextField
+                    label="Harvest Date"
+                    type="date"
+                    id="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={newHarvestDate}
+                    onFocus={() => setCurrentInput('harvestDate')}
+                    onBlur={() => focusChange(currentSample.harvestDate)}
+                    onChange={(e) => enterInfo(e.target.value)}
+                  />
+                  <Tooltip
+                    arrow
+                    title={harvestDateText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+                <div>
+                  {/* Sustainability Info */}
+                  <TextField
+                    label="Sustainability Info"
+                    type="text"
+                    variant="standard"
+                    value={currentSample.sustainabilityInfo}
+                    onFocus={() => setCurrentInput('sustainabilityInfo')}
+                    onBlur={() => focusChange(currentSample.sustainabilityInfo)}
+                    onChange={(event) => enterInfo(event.target.value)}
+                  />
+                  <Tooltip
+                    arrow
+                    title={sustainabilityText}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    placement="top-end"
+                  >
+                    <InfoOutlined />
+                  </Tooltip>
+                </div>
+              </Paper>
             </Grid>
-            <Grid container justify="center" alignItems="flex-start">
-              <div style={{ marginBottom: 40 }}>
-                <Button
-                  style={{ backgroundColor: '#1e565c', color: 'white' }}
-                  variant="contained"
-                  color="primary"
-                  onClick={handleCancel}>
-                  Cancel Request
-          </Button>
-                <Button
-                  style={{ marginLeft: 125, backgroundColor: '#1e565c', color: 'white' }}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => history.push('/sample/ship')}>
-                  Next : Shipping Info
-          </Button>
-              </div>
-            </Grid>
-          </form>
-        </Paper>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>
-            Are you sure you want to cancel the current sample?
+          </Grid>
+          <Grid container justify="center" alignItems="flex-start">
+            <div style={{ marginBottom: 40 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleCancel}>
+                Cancel Request
+                </Button>
+              <Button
+                style={{ marginLeft: 125, backgroundColor: '#1e565c', color: 'white' }}
+                variant="contained"
+                color="primary"
+                onClick={() => history.push('/sample/ship')}>
+                Next : Shipping Info
+                </Button>
+            </div>
+          </Grid>
+        </form>
+      </Paper>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
+          Are you sure you want to cancel the current sample?
         </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Cancelling will erase all current inputs.
+        <DialogContent>
+          <DialogContentText>
+            Cancelling will erase all current inputs.
           </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={cancelRequest} style={{ backgroundColor: '#1e565c', color: 'white' }} >
-              Yes
+        </DialogContent>
+        <DialogActions>
+          <Button size="small" variant="contained" onClick={cancelRequest} color="primary" >
+            Yes
           </Button>
-            <Button variant="contained" onClick={handleClose} style={{ color: '#1e565c' }} autoFocus>
-              No
+          <Button size="small" variant="outlined" onClick={handleClose} color="primary" autoFocus>
+            No
           </Button>
-          </DialogActions>
-        </Dialog>
-      </center>
-    </ThemeProvider>
+        </DialogActions>
+      </Dialog>
+    </center>
   );
 }
 
