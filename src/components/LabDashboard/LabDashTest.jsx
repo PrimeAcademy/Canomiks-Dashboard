@@ -213,19 +213,19 @@ export default function LabDashTest() {
     });
   } // end shippingUpdate
 
-  // const handleSearchByDelayed = (event, value) => {
-  //   if (value) {
-  //     dispatch({
-  //       type: 'SEARCH_DELAYED_ORDERS',
-  //       payload: { value }
-  //     });
-  //   } else if (!value) {
-  //     dispatch({
-  //       type: 'FETCH_ALL_ORDERS'
-  //     });
-  //   }
-  //   setIsDelayed(value);
-  // }
+  const handleSearchByDelayed = (event, value) => {
+    if (value) {
+      dispatch({
+        type: 'SEARCH_DELAYED_ORDERS',
+        payload: { value }
+      });
+    } else if (!value) {
+      dispatch({
+        type: 'FETCH_ALL_ORDERS'
+      });
+    }
+    setIsDelayed(value);
+  }
 
   return (
     <Container maxWidth="xl">
@@ -245,18 +245,18 @@ export default function LabDashTest() {
             setFilter(event.target.value);
           }}
         />
-        {/* <FormControlLabel
-            style={{ marginLeft: 20, marginTop: 10 }}
-            control={
-              <Checkbox
-                checked={isDelayed}
-                onChange={(event, val) => handleSearchByDelayed(event, val)}
-                name="delayed"
-                style={{ color: '#1e565c' }}
-              />
-            }
-            label={<Typography>Delayed Tests</Typography>}
-          /> */}
+        <FormControlLabel
+          style={{ marginLeft: 20, marginTop: 10 }}
+          control={
+            <Checkbox
+              checked={isDelayed}
+              onChange={(event, val) => handleSearchByDelayed(event, val)}
+              name="delayed"
+              style={{ color: '#1e565c' }}
+            />
+          }
+          label={<Typography>Delayed Tests</Typography>}
+        />
       </div>
       <center>
         <TableContainer className={classes.container}>
@@ -284,7 +284,7 @@ export default function LabDashTest() {
                     thisOrder.testingStatus = 2;
                     shippingUpdate(thisOrder);
                   }
-                  if (thisOrder.companyName.toLowerCase().includes(filter.toLowerCase())) {
+                  if (true) {
                     return (
                       <TableRow
                         hover

@@ -103,7 +103,7 @@ function CustomerDashboard() {
       {/* Search field */}
       <div>
         <TextField
-          label="Search Ingredient Name..."
+          label="Search ingredient..."
           variant="standard"
           style={{ margin: 25, marginLeft: '10%' }}
           onChange={(event) => {
@@ -147,7 +147,7 @@ function CustomerDashboard() {
             <TableBody>
               {orders.map((order, index) => {
                 if (
-                  order.cropStrain.toLowerCase().includes(filter.toLowerCase())
+                  order.cropStrain && order.cropStrain.toLowerCase().includes(filter.toLowerCase())
                 ) {
                   return (
                     <TableRow
