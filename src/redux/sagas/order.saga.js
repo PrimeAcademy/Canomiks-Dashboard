@@ -81,7 +81,7 @@ function* updateSampleLab(action) {
     // // Checks if delayed status has been changed
     if (action.payload.delayed !== response.data.delayed && response.data.delayed === true) {
       // delayed status email triggered
-       yield put({
+      yield put({
         type: 'EMAIL_STATUS',
         payload: {
           orderId: response.data.id,
@@ -97,7 +97,7 @@ function* updateSampleLab(action) {
       action.payload.testState !== action.payload.sample.testState
     ) {
       // status change email triggered
-       yield put({
+      yield put({
         type: 'EMAIL_STATUS',
         payload: {
           orderId: action.payload.sample.id,
@@ -128,21 +128,30 @@ function* deleteCurrentSample(action) {
 } // end deleteCurrentSample
 
 function* updateTestPhase(action) {
-  console.log(action, "action")
-  try{
+  try {
     const response = yield axios.put('/api/orders/date', action.payload)
     console.log(response.data, "response");
     yield put({
       type: 'SET_CURRENT_SAMPLE',
       payload: response.data,
     });
-  }catch (err) {
+  } catch (err) {
     console.error('Error in updateTestPhase', err.message);
   }
 }
 
-
-
+function* searchDelayedOrders(action) {
+  console.log('action', action.payload.value);
+  try {
+    const response = yield axios.get(`/api/orders/delayed/${action.payload.value}`);
+    yield put({
+      type: 'SET_ALL_ORDERS',
+      payload: response.data
+    });
+  } catch (err) {
+    console.error('Error in searchDelayedOrders', err.message);
+  }
+}
 
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
@@ -154,6 +163,7 @@ function* orderSaga() {
   yield takeLatest('UPDATE_SAMPLE_LAB', updateSampleLab);
   yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
   yield takeLatest('UPDATE_TEST_PHASE', updateTestPhase);
+  yield takeLatest('SEARCH_DELAYED_ORDERS', searchDelayedOrders);
 }
 
 export default orderSaga;

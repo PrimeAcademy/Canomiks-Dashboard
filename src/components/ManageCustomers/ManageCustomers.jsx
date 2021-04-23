@@ -58,7 +58,7 @@ function Manage() {
       <div>
         <TextField
           style={{ margin: 25, marginLeft: '10%' }}
-          label="Search..."
+          label="Search company name..."
           variant="standard"
           onChange={(event) => {
             setFilter(event.target.value);

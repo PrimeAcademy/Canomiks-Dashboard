@@ -1,17 +1,17 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-// imports for dialog pop up
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
-import { Button } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 function LogOutButton(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-
+  const handleLogout = () => {
+    dispatch({
+      type: 'LOGOUT'
+    });
+    history.push('/login');
+  }
 
   return (
     <button
@@ -24,7 +24,7 @@ function LogOutButton(props) {
         letterSpacing: '.11em',
         textTransform: 'uppercase'
       }}
-      onClick={() => dispatch({ type: 'LOGOUT' })}
+      onClick={handleLogout}
     >
       Log Out
     </button>
