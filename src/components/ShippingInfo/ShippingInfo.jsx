@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // material ui imports
-import { makeStyles, TextField, Button, Typography, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Paper } from '@material-ui/core';
+import { makeStyles, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
@@ -125,7 +125,7 @@ function ShippingInfo() {
 
       <div>
         <Button
-          style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
+          style={{ margin: 25 }}
           variant="contained"
           color="primary"
           onClick={history.goBack}>
@@ -167,15 +167,14 @@ function ShippingInfo() {
                 </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
-                </Button>
-            <Button onClick={() => history.push('/samples')} color="primary" autoFocus>
+            <Button variant="contained" size="small" onClick={() => history.push('/samples')} color="primary">
               Yes
-                </Button>
+            </Button>
+            <Button variant="outlined" size="small" onClick={handleClose} color="primary" autoFocus>
+              No
+            </Button>
           </DialogActions>
         </Dialog>
-
         <Button
           style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
           variant="contained"
@@ -190,12 +189,12 @@ function ShippingInfo() {
           <DialogContent>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
-                </Button>
-            <Button onClick={finalizeButton} color="primary" autoFocus>
+            <Button variant="contained" onClick={finalizeButton} color="primary" autoFocus>
               Yes
-                </Button>
+              </Button>
+            <Button variant="outlined" onClick={handleClose} color="primary">
+              No
+              </Button>
           </DialogActions>
         </Dialog>
       </div>

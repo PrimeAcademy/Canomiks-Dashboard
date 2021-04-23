@@ -7,7 +7,7 @@ import moment from 'moment';
 import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Fade, makeStyles, Tooltip } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -421,7 +421,7 @@ function AddSample() {
                   </Tooltip>
                 </div>
                 <div>
-                  {/* Susatinability Info */}
+                  {/* Sustainability Info */}
                   <TextField
                     label="Sustainability Info"
                     type="text"
@@ -447,19 +447,18 @@ function AddSample() {
           <Grid container justify="center" alignItems="flex-start">
             <div style={{ marginBottom: 40 }}>
               <Button
-                style={{ backgroundColor: '#1e565c', color: 'white' }}
                 variant="contained"
                 color="primary"
                 onClick={handleCancel}>
                 Cancel Request
-          </Button>
+                </Button>
               <Button
                 style={{ marginLeft: 125, backgroundColor: '#1e565c', color: 'white' }}
                 variant="contained"
                 color="primary"
                 onClick={() => history.push('/sample/ship')}>
                 Next : Shipping Info
-          </Button>
+                </Button>
             </div>
           </Grid>
         </form>
@@ -474,15 +473,15 @@ function AddSample() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={cancelRequest} style={{ backgroundColor: '#1e565c', color: 'white' }} >
+          <Button size="small" variant="contained" onClick={cancelRequest} color="primary" >
             Yes
           </Button>
-          <Button variant="contained" onClick={handleClose} style={{ color: '#1e565c' }} autoFocus>
+          <Button size="small" variant="outlined" onClick={handleClose} color="primary" autoFocus>
             No
           </Button>
         </DialogActions>
       </Dialog>
-    </center>
+    </center >
   );
 }
 

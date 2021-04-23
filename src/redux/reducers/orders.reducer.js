@@ -14,7 +14,7 @@ const orderReducer = (state = [], action) => {
 
 // state for current sample
 const emptySampleObj = {
-  id:'',
+  id: '',
   ingredientName: '',
   lotNumber: '',
   format: '',

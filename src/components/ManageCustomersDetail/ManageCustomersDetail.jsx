@@ -1,33 +1,6 @@
-import { Button, createMuiTheme, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, Switch, ThemeProvider } from '@material-ui/core';
+import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, Switch, } from '@material-ui/core';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiSwitch: {
-      switchBase: {
-        // Controls default (unchecked) color for the thumb
-        color: "#efefef"
-      },
-      colorSecondary: {
-        "&$checked": {
-          // Controls checked color for the thumb
-          color: "#1e565c"
-        }
-      },
-      track: {
-        // Controls default (unchecked) color for the track
-        opacity: 0.2,
-        backgroundColor: "#1e565c",
-        "$checked$checked + &": {
-          // Controls checked color for the track
-          opacity: 0.7,
-          backgroundColor: "#1e565c"
-        }
-      }
-    }
-  }
-});
 
 function ManageCustomersDetail({ clickedCustomer, handleClose }) {
 
@@ -51,7 +24,7 @@ function ManageCustomersDetail({ clickedCustomer, handleClose }) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <DialogTitle id="view-details-slide-title">{clickedCustomer.companyName}</DialogTitle>
       <Divider />
       <DialogContent>
@@ -85,7 +58,7 @@ function ManageCustomersDetail({ clickedCustomer, handleClose }) {
           />
           <Button onClick={() => toggleCompanyActive(clickedCustomer)} variant="contained" style={{ backgroundColor: '#1e565c', color: 'white' }}>Confirm</Button>
         </DialogActions></center>
-    </ThemeProvider >
+    </>
   );
 }
 
