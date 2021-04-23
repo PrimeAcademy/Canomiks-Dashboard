@@ -95,7 +95,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
         <div>
           <p>
-            Manufacture Date:
+            Manufactured Date:
             {moment(sample.dateManufactured).format('M/YYYY')}
           </p>
           <p>Extraction Method: {sample.extractionMethod}</p>
@@ -111,17 +111,34 @@ function LabDetail({ setOpenDetail, originalSample }) {
             <p>Sustainability: {sample.sustainabilityInfo}</p>
           )}
         </div>
-
+      </DialogContentText>
+      <DialogActions>
         {/* Render button when sample is received to move it into the queue */}
         {sample.sequence === 3 && sample.testState === 'SHIP' && (
           <Button variant="contained" onClick={moveToQueue}>
             Move to Queue
           </Button>
         )}
-
+        <Button
+          variant="outline"
+          size="small"
+          style={{
+            margin: 5,
+            marginRight: 120,
+          }}
+          variant="outlined"
+          onClick={() => setOpenDetail(false)}
+        >
+          Cancel Changes
+        </Button>
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
-          <Button variant="contained" onClick={() => history.push(`/upload`)}>
+          <Button
+            size="small"
+            color="primary"
+            variant="contained"
+            onClick={() => history.push(`/upload`)}
+          >
             Upload Results
           </Button>
         )}
@@ -140,30 +157,15 @@ function LabDetail({ setOpenDetail, originalSample }) {
         )}
 
         <Button
-          variant="outline"
-          size="small"
-          style={{
-            margin: 5,
-            marginRight: 120,
-          }}
-          variant="outlined"
-          onClick={() => setOpenDetail(false)}
-        >
-          Cancel Changes
-        </Button>
-
-        <Button
-          style={{ margin: 5 }}
           size="small"
           color="primary"
           variant="contained"
           onClick={markDelay}
         >
-          {sample.delayed ? <>Un-mark Delay</> : <>Mark Delay</>}
+          {sample.delayed ? 'Un-mark Delay' : 'Mark Delay'}
         </Button>
 
         <Button
-          style={{ margin: 5 }}
           size="small"
           color="primary"
           variant="contained"
@@ -171,7 +173,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         >
           Save Changes
         </Button>
-      </DialogContentText>
+      </DialogActions>
     </DialogContent>
   );
 }

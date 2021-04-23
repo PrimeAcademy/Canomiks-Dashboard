@@ -155,8 +155,6 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 
-    console.log(dbRes.rows);
-
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
@@ -223,6 +221,33 @@ router.put('/date', rejectUnauthenticated, async (req, res) => {
   } catch (err) {
     console.error('Error in PUT /date', err.message);
     res.sendStatus(500);
+  }
+});
+
+router.get('/delayed/:status', rejectUnauthenticated, async (req, res) => {
+  try {
+    console.log(req.params);
+    const query = `
+    SELECT 
+      "orders".*,
+      "status"."statusName",
+      "status"."testState",
+      "status"."sequence",
+      "companies"."companyName", 
+      "companies"."alertStatusChange",
+      "companies"."alertResultsReady",
+      "companies". "alertDelay"
+    FROM "orders"
+    JOIN "status"
+      ON "status".id = "orders"."testingStatus"
+    JOIN "companies"
+      ON "companies".id = "orders"."companyID"
+    WHERE "shippedDate" IS NOT NULL AND "orders".delayed=$1;`;
+    const dbRes = await pool.query(query, [req.params.status]);
+    res.send(dbRes.rows);
+  } catch (err) {
+    console.error('Error in GET /delayed', err.message);
+    res.sendStates(500);
   }
 });
 

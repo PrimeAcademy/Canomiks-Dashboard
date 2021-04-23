@@ -136,7 +136,6 @@ function* deleteCurrentSample(action) {
 } // end deleteCurrentSample
 
 function* updateTestPhase(action) {
-  console.log(action, 'action');
   try {
     const response = yield axios.put('/api/orders/date', action.payload);
     console.log(response.data, 'response');
@@ -146,6 +145,21 @@ function* updateTestPhase(action) {
     });
   } catch (err) {
     console.error('Error in updateTestPhase', err.message);
+  }
+}
+
+function* searchDelayedOrders(action) {
+  console.log('action', action.payload.value);
+  try {
+    const response = yield axios.get(
+      `/api/orders/delayed/${action.payload.value}`
+    );
+    yield put({
+      type: 'SET_ALL_ORDERS',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.error('Error in searchDelayedOrders', err.message);
   }
 }
 
@@ -159,6 +173,7 @@ function* orderSaga() {
   yield takeLatest('UPDATE_SAMPLE_LAB', updateSampleLab);
   yield takeLatest('UPDATE_TEST_PHASE', updateTestPhase);
   yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
+  yield takeLatest('SEARCH_DELAYED_ORDERS', searchDelayedOrders);
 }
 
 export default orderSaga;

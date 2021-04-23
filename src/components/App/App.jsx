@@ -19,6 +19,7 @@ import AddSample from '../AddSample/AddSample';
 import Summary from '../Summary/Summary';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
+import LabDashTest from '../LabDashboard/LabDashTest';
 import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
@@ -27,6 +28,29 @@ import ResetPassword from '../ResetPassword/ResetPassword';
 import { CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import './App.css';
+import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#1e565c',
+      light: '#26AB6E',
+      dark: '#1e565c'
+    },
+    secondary: {
+      main: '#0044ff',
+      light: '#01689b',
+      contrastText: '#ffcc00',
+    },
+  },
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        color: 'black',
+      },
+    },
+  }
+});
 
 function App() {
   const dispatch = useDispatch();
@@ -75,7 +99,7 @@ function App() {
 
           <ProtectedRoute exact path="/samples">
             {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
-              <LabDashboard />
+              <LabDashTest />
             ) : (
               <CustomerDashboard />
             )}

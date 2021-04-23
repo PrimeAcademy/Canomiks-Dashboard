@@ -186,19 +186,25 @@ function ShippingInfo() {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
-            </Button>
             <Button
+              variant="contained"
+              size="small"
               onClick={() => history.push('/samples')}
               color="primary"
-              autoFocus
             >
               Yes
             </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={handleClose}
+              color="primary"
+              autoFocus
+            >
+              No
+            </Button>
           </DialogActions>
         </Dialog>
-
         <Button
           style={{ margin: 25 }}
           variant="contained"
@@ -211,10 +217,15 @@ function ShippingInfo() {
           <DialogTitle>Are you sure you want to finalize?</DialogTitle>
           <DialogContent></DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button variant="outlined" onClick={handleClose} color="primary">
               No
             </Button>
-            <Button onClick={finalizeButton} color="primary" autoFocus>
+            <Button
+              variant="contained"
+              onClick={finalizeButton}
+              color="primary"
+              autoFocus
+            >
               Yes
             </Button>
           </DialogActions>

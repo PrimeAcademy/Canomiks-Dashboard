@@ -100,7 +100,6 @@ function Nav() {
               </a>
             </>
           )}
-
           {user.id && <LogOutButton className="navLink" />}
         </div>
       </Toolbar>

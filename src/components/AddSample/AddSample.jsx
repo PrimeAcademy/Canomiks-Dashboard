@@ -26,7 +26,7 @@ import {
 } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -448,7 +448,7 @@ function AddSample() {
                   </Tooltip>
                 </div>
                 <div>
-                  {/* Susatinability Info */}
+                  {/* Sustainability Info */}
                   <TextField
                     label="Sustainability Info"
                     type="text"
@@ -498,21 +498,15 @@ function AddSample() {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={deleteRequest} variant="outlined" color="primary">
+          <Button size="small" variant="contained" onClick={cancelRequest} color="primary" >
             Yes
           </Button>
-
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleClose}
-            autoFocus
-          >
+          <Button size="small" variant="outlined" onClick={handleClose} color="primary" autoFocus>
             No
           </Button>
         </DialogActions>
       </Dialog>
-    </center>
+    </center >
   );
 }
 
