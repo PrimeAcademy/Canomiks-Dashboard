@@ -11,7 +11,8 @@ function* fetchCustomerOrders() {
   } catch (err) {
     console.error('Error in fetchCustomerOrders', err.message);
   }
-}
+}; // end fetchCustomerOrders
+
 function* updateUrl(action) {
   try {
     const response = yield axios.put('/api/orders/url', action.payload);
