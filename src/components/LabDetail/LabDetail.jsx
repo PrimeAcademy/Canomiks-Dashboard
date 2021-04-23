@@ -29,7 +29,6 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
   const changeStep = (step) => {
     if (step === 3 && sample.testState === 'SHIP') {
-      console.log('received');
       setSample({ ...sample, receivedDate: new Date(), sequence: step });
     } else {
       setSample({ ...sample, sequence: step });
@@ -48,7 +47,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
       payload: {
         sample,
         sequence: originalSample.sequence,
-        testState: originalSample.testState
+        testState: originalSample.testState,
       },
     });
     // the email and check is triggered inside the saga
@@ -68,11 +67,15 @@ function LabDetail({ setOpenDetail, originalSample }) {
         />
 
         {/* Render warning if sample is delayed*/}
-        {sample.delayed ?
+        {sample.delayed ? (
           <Alert icon={<ErrorOutline />} severity="warning">
-            <AlertTitle>Testing Currently Delayed for Lot #{sample.lotNumber}</AlertTitle>
-          </Alert> : <h2>Lot # {sample.lotNumber}</h2>
-        }
+            <AlertTitle>
+              Testing Currently Delayed for Lot #{sample.lotNumber}
+            </AlertTitle>
+          </Alert>
+        ) : (
+          <h2>Lot # {sample.lotNumber}</h2>
+        )}
         <h3>{sample.companyName}</h3>
         <div>
           <p>Product: {sample.ingredientName}</p>
@@ -112,10 +115,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
-          <Button
-            variant="contained"
-            onClick={() => history.push(`/upload`)}
-          >
+          <Button variant="contained" onClick={() => history.push(`/upload`)}>
             Upload Results
           </Button>
         )}
