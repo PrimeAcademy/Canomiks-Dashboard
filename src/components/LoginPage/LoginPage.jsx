@@ -5,7 +5,7 @@ import LoginForm from '../LoginForm/LoginForm';
 
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 40,
     marginBottom: 40,

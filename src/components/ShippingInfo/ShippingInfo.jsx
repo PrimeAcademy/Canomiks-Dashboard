@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -169,13 +169,12 @@ function ShippingInfo() {
           <DialogActions>
             <Button variant="contained" size="small" onClick={() => history.push('/samples')} color="primary">
               Yes
-                </Button>
+            </Button>
             <Button variant="outlined" size="small" onClick={handleClose} color="primary" autoFocus>
               No
-                </Button>
+            </Button>
           </DialogActions>
         </Dialog>
-
         <Button
           style={{ backgroundColor: '#1e565c', color: 'white', margin: 25 }}
           variant="contained"

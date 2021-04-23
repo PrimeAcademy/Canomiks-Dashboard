@@ -111,7 +111,6 @@ function AddSample() {
   } // end enterInfo
 
   return (
-
     <center>
       <Paper style={{ padding: 17, marginBottom: 20, maxWidth: '70%' }}>
         <Typography variant="h3" align="center" gutterBottom>Sample Information</Typography>
@@ -482,7 +481,7 @@ function AddSample() {
           </Button>
         </DialogActions>
       </Dialog>
-    </center>
+    </center >
   );
 }
 

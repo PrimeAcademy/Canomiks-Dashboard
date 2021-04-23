@@ -96,7 +96,6 @@ function LabDashboard() {
         variant="h3"
         component="h1"
         style={{ marginLeft: '10%', fontWeight: 700 }}
-        gutterBottom
       >
         Current Orders
       </Typography>
