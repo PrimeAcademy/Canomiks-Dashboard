@@ -42,6 +42,7 @@ function ShippingInfo() {
         orderId: currentSample.id,
       },
     });
+
     // clear the current sample store
     dispatch({
       type: 'CLEAR_CURRENT_SAMPLE'
@@ -160,7 +161,7 @@ function ShippingInfo() {
               </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Your progress will not be saved.
+              Your Shipping information will not be saved.
                 </DialogContentText>
           </DialogContent>
           <DialogActions>
