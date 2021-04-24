@@ -47,6 +47,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     Ingredient: ${req.body.ingredient}
     CropStrain: ${req.body.strain}
     Sample Status: ${req.body.statusName}
+    ${req.body.pdf ? `Download PDF of your Results: ${req.body.pdf}` : ``}
     
     For more Information please feel free to contact us:
     https://www.canomiks.com/contactus

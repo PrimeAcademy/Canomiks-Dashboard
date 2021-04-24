@@ -78,15 +78,10 @@ function* updateSampleLab(action) {
   try {
     const response = yield axios.put('/api/orders/lab/update', action.payload.sample);
 
-    console.log('🦺 response in order.saga', response.data);
-
-    console.log('🦅 action payload in order saga', action.payload.sample);
-
     const customerSampleInfo = action.payload.sample
 
     // // Checks if delayed status has been changed
     if (response.data.delayed) {
-      console.log('🐳 hit hit hit');
       // check if customer wants to be alerted
       if(customerSampleInfo.alertDelay) {
         console.log('its a hit')
@@ -95,6 +90,7 @@ function* updateSampleLab(action) {
           type: 'EMAIL_STATUS',
           payload: {
             strain: customerSampleInfo.cropStrain,
+            pdf: customerSampleInfo.pdfUrl,
             ingredient: customerSampleInfo.ingredientName,
             orderId: response.data.id,
             companyID: response.data.companyID,

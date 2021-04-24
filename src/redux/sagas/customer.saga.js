@@ -14,7 +14,6 @@ function* fetchCustomers() {
 } // end fetchCustomers
 
 function* toggleCompanyActiveStatus(action) {
-  console.log('action', action)
   try {
     yield axios.put('/api/companies', action.payload);
     yield put({

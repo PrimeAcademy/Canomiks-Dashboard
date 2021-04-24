@@ -42,9 +42,6 @@ function ShippingInfo() {
         orderId: currentSample.id,
       },
     });
-    // TO DO - Change to styled alert
-    alert('Shipping Successful!');
-
     // clear the current sample store
     dispatch({
       type: 'CLEAR_CURRENT_SAMPLE'
