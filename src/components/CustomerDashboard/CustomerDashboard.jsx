@@ -18,10 +18,8 @@ import {
   TextField,
   Dialog,
   Container,
-  IconButton,
   Grid,
 } from '@material-ui/core';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -79,73 +77,65 @@ function CustomerDashboard() {
   }; // end shippingUpdate
 
   return (
-    <Container maxWidth="lg">
-      <Typography variant="h1" style={{ marginLeft: '10%' }} gutterBottom>
-        {user.companyName}
-      </Typography>
-      {!user.active ? (
-        <div style={{ marginLeft: '10%', marginBottom: 10, maxWidth: '80%' }}>
-          <Alert severity="warning">
-            <AlertTitle>Warning</AlertTitle>
-            <strong>
-              Your account is still waiting on approval. Please check your email
-              for additional information.
-            </strong>
-          </Alert>
-        </div>
-      ) : (
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: '#1e565c',
-            color: 'white',
-            marginLeft: '10%',
-          }}
-          onClick={addSampleButton}
-        >
-          + SAMPLE
-        </Button>
-      )}
+    <Container maxWidth="md">
+      <Grid container justify="center" alignItems="center">
+        <Grid item xs={10}>
+          <Typography variant="h1" style={{ marginBottom: 5 }} gutterBottom>
+            {user.companyName}
+          </Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              margin: 15,
+              marginBottom: 10,
+            }}
+            onClick={addSampleButton}
+          >
+            + SAMPLE
+          </Button>
+        </Grid>
+      </Grid>
 
       {/* Search field */}
-      <div>
-        <TextField
-          label="Search ingredient..."
-          variant="standard"
-          style={{ margin: 25, marginLeft: '10%' }}
-          onChange={(event) => {
-            setFilter(event.target.value);
-          }}
-        />
-      </div>
+      <TextField
+        label="Search ingredient..."
+        variant="standard"
+        style={{ margin: 10 }}
+        onChange={(event) => {
+          setFilter(event.target.value);
+        }}
+      />
 
       <center>
         <TableContainer
-          style={{ maxWidth: '80%', maxHeight: 450 }}
+          style={{ width: '100%', maxHeight: '55vh' }}
           component={Paper}
         >
           <Table
             className={classes.table}
-            aria-label="sample table"
+            aria-label="Sample table"
             stickyHeader
           >
             <TableHead>
               <TableRow>
                 <TableCell style={{ fontWeight: 700 }}>Lot Number</TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 700 }}>
+                <TableCell align="center" style={{ fontWeight: 700 }}>
                   Ingredient Name
                 </TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 700 }}>
+                <TableCell align="center" style={{ fontWeight: 700 }}>
                   Date Shipped
                 </TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 700 }}>
+                <TableCell align="center" style={{ fontWeight: 700 }}>
                   Test Phase
                 </TableCell>
 
-                <TableCell align="right" style={{ fontWeight: 700 }}>
+                <TableCell align="center" style={{ fontWeight: 700 }}>
                   Details
                 </TableCell>
               </TableRow>
@@ -161,7 +151,7 @@ function CustomerDashboard() {
                   order.statusName = 'In Transit';
                   order.testingStatus = 2;
                   shippingUpdate(order);
-                };
+                }
 
                 if (
                   order.cropStrain &&
@@ -181,58 +171,48 @@ function CustomerDashboard() {
                       </TableCell>
 
                       {/* Ingredient Name */}
-                      <TableCell align="right">
+                      <TableCell style={{ width: '30%' }} align="center">
                         {order.ingredientName} - {order.cropStrain}
                       </TableCell>
 
                       {/* Date Shipped */}
                       {order.shippedDate ? (
-                        <TableCell align="right">
+                        <TableCell align="center">
                           {moment(order.shippedDate).format('MMMM DD YYYY')}
                         </TableCell>
                       ) : (
-                        <TableCell align="right">Not Shipped</TableCell>
+                        <TableCell align="center">Not Shipped</TableCell>
                       )}
 
                       {/* Test Phase */}
-                      <TableCell align="right">
-                        {order.delayed && (
-                          <IconButton onClick={() => handleOpen(order)}>
-                            <ErrorOutlineIcon style={{ color: '#F3A653' }} />
-                          </IconButton>
-                        )}
+                      <TableCell align="center">
                         {order.statusName}
+                        {order.delayed && (
+                          <ErrorOutlineIcon
+                            style={{
+                              color: '#F3A653',
+                              fontSize: '1.2em',
+                              marginLeft: 3,
+                            }}
+                            onClick={() => handleOpen(order)}
+                          />
+                        )}
                       </TableCell>
 
                       {/* Details */}
-                      <TableCell align="right">
-                        {order.statusName === 'Pre-shipment' ? (
-                          <Button
-                            size="small"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => handleOpen(order)}
-                          >
-                            Add Shipping Info
-                          </Button>
-                        ) : (
-                          <Button
-                            size="small"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              // make clicked order the current sample
-                              dispatch({
-                                type: '',
-                                payload: '',
-                              });
-                              // open the popup
-                              handleOpen(order);
-                            }}
-                          >
-                            View Details
-                          </Button>
-                        )}
+                      <TableCell align="center">
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="primary"
+                          onClick={() => handleOpen(order)}
+                        >
+                          {order.statusName === 'Pre-shipment' ? (
+                            <>Add Shipping Info</>
+                          ) : (
+                            <>View Detail</>
+                          )}
+                        </Button>
                       </TableCell>
                     </TableRow>
                   );
