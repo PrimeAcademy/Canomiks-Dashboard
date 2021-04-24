@@ -26,7 +26,6 @@ function CustomerDetail({ sample }) {
   const dispatch = useDispatch();
 
   const reviewSample = (sample) => {
-    console.log('🦋 sample to set', sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,

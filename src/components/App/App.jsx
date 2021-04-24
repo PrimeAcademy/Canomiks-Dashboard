@@ -28,14 +28,13 @@ import ResetPassword from '../ResetPassword/ResetPassword';
 import { CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import './App.css';
-import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#1e565c',
       light: '#26AB6E',
-      dark: '#1e565c'
+      dark: '#1e565c',
     },
     secondary: {
       main: '#0044ff',
@@ -49,7 +48,7 @@ const theme = createMuiTheme({
         color: 'black',
       },
     },
-  }
+  },
 });
 
 function App() {

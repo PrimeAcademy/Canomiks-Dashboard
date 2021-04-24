@@ -16,7 +16,6 @@ function* loginUser(action) {
     // the config includes credentials which
     // allow the server session to recognize the user
     const response = yield axios.post('/api/user/login', action.payload, config);
-    console.log('response', response);
     if (response.data) {
       yield put({ type: 'FETCH_USER' });
     } else {
@@ -27,7 +26,6 @@ function* loginUser(action) {
     // get the user information from the server
 
   } catch (error) {
-    console.log('Error with user login:', error);
     if (error.response.status === 401) {
       // The 401 is the error status sent from passport
       // if user isn't in the database or
@@ -66,9 +64,8 @@ function* logoutUser(action) {
 
 function* forgotPassword (action) {
   try {
-    const response = yield axios.post('/api/email/forgotPassword', action.payload);
+     yield axios.post('/api/email/forgotPassword', action.payload);
 
-    console.log(response.data);
   }
   catch (err) {
     console.log('💥 something went wrong in the forgot password', err)
@@ -77,7 +74,7 @@ function* forgotPassword (action) {
 
 function* checkPasswordToken (action) {
  try {
-  const response = yield axios.post('/api/email/resetPassword', action.payload);
+   yield axios.post('/api/email/resetPassword', action.payload);
  }
  catch (err) {
   console.log('💥 error in the checkPasswordToken', err)
