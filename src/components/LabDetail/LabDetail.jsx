@@ -18,7 +18,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
   const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
-    // Dispatch toggles currentSample delayed status
+    // Dispatch toggles currentSample delayed status    
     dispatch({
       type: 'EDIT_SAMPLE_DELAY', // goes to reducer
       payload: !sample.delayed,

@@ -7,7 +7,7 @@ import moment from 'moment';
 import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Fade, makeStyles, Tooltip } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -71,7 +71,6 @@ function AddSample() {
   }; // end focusChange
 
   const cancelRequest = (event) => {
-    // Clear all inputs
 
     setOpen(false);
 

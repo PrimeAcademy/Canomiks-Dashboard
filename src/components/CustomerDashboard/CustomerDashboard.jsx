@@ -44,10 +44,14 @@ function CustomerDashboard() {
   const [openDetail, setOpenDetail] = useState(false);
   const [clickedSample, setClickedSample] = useState({});
 
+  // date set up
+  let ourDate = moment().format(); // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
+
   useEffect(() => {
     dispatch({ type: 'FETCH_CUSTOMER_ORDERS' });
   }, []);
 
+  // local functions
   const handleOpen = (sample) => {
     setClickedSample(sample);
     setOpenDetail(true);
@@ -65,6 +69,13 @@ function CustomerDashboard() {
     // move to summary page
     history.push('/summary');
   }; // end addSampleButton
+
+  const shippingUpdate = (order) => {
+    dispatch({
+      type: 'UPDATE_TEST_PHASE',
+      payload: order,
+    });
+  }; // end shippingUpdate
 
   return (
     <Container maxWidth="xl">
@@ -146,6 +157,16 @@ function CustomerDashboard() {
 
             <TableBody>
               {orders.map((order, index) => {
+                // change status if date has passed
+                if (
+                  order.statusName === 'Pre-Shipment' &&
+                  order.shippedDate < ourDate
+                ) {
+                  order.statusName = 'In Transit';
+                  order.testingStatus = 2;
+                  shippingUpdate(order);
+                };
+
                 if (
                   order.cropStrain && order.cropStrain.toLowerCase().includes(filter.toLowerCase())
                 ) {

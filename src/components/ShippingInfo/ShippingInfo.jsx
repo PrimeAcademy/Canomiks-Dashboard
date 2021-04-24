@@ -42,8 +42,6 @@ function ShippingInfo() {
         orderId: currentSample.id,
       },
     });
-    // TO DO - Change to styled alert
-    alert('Shipping Successful!');
 
     // clear the current sample store
     dispatch({
@@ -163,7 +161,7 @@ function ShippingInfo() {
               </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Your progress will not be saved.
+              Your Shipping information will not be saved.
                 </DialogContentText>
           </DialogContent>
           <DialogActions>
