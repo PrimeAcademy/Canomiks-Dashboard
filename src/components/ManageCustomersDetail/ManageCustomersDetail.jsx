@@ -56,7 +56,7 @@ function ManageCustomersDetail({ clickedCustomer, handleClose }) {
             }
             label={active ? 'Active' : 'Inactive'}
           />
-          <Button onClick={() => toggleCompanyActive(clickedCustomer)} variant="contained" style={{ backgroundColor: '#1e565c', color: 'white' }}>Confirm</Button>
+          <Button onClick={() => toggleCompanyActive(clickedCustomer)} variant="contained" color="primary">Confirm</Button>
         </DialogActions></center>
     </>
   );
