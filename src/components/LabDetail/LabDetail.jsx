@@ -19,6 +19,8 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
   const markDelay = () => {
     // Dispatch toggles currentSample delayed status
+    console.log('🎒 markDelay in lad detail', sample);
+    
     dispatch({
       type: 'EDIT_SAMPLE_DELAY', // goes to reducer
       payload: !sample.delayed,
