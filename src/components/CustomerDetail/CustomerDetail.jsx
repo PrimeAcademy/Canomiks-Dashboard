@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 // custom components
 import SampleProgress from '../SampleProgress/SampleProgress';
+
 // style page
 import './CustomerDetail.css';
 
@@ -16,6 +17,7 @@ import {
   IconButton,
   Typography,
   Divider,
+  Paper,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline, ArrowForwardIos } from '@material-ui/icons';
@@ -42,8 +44,10 @@ function CustomerDetail({ sample }) {
         {/* Render warning if sample is delayed*/}
         {sample.delayed ? (
           <Alert icon={<ErrorOutline />} severity="warning">
-            <AlertTitle>Test Delayed - Lot #{sample.lotNumber}</AlertTitle>
-            More information will be available via email
+            <AlertTitle>
+              <strong>Lot #{sample.lotNumber}</strong> - Test Delayed
+            </AlertTitle>
+            More information will be available via email.
           </Alert>
         ) : (
           <>
@@ -77,29 +81,34 @@ function CustomerDetail({ sample }) {
           </Alert>
         )}
         <Divider style={{ marginTop: 15 }} />
-        <p>
-          Amount: {sample.ingredientAmount} {sample.ingredientUnit}
-        </p>
-        <p>Format: {sample.format}</p>
-        {sample.purity && <p>Purity: {sample.purity}</p>}
-        {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
-
-        <div>
-          <p>
-            Manufacture Date: {moment(sample.dateManufactured).format('M/YYYY')}
-          </p>
-          <p>Extraction Method: {sample.extractionMethod}</p>
-          {(sample.city || sample.state || sample.country) && (
+        <div className="info-container">
+          <Paper>
             <p>
-              Growth Region: {sample.city}, {sample.state}, {sample.country}
+              Amount: {sample.ingredientAmount} {sample.ingredientUnit}
             </p>
-          )}
-          {sample.harvestDate && (
-            <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
-          )}
-          {sample.sustainabilityInfo && (
-            <p>Sustainability: {sample.sustainabilityInfo}</p>
-          )}
+            <p>Format: {sample.format}</p>
+            {sample.purity && <p>Purity: {sample.purity}</p>}
+            {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
+          </Paper>
+
+          <Paper>
+            <p>
+              Manufacture Date:{' '}
+              {moment(sample.dateManufactured).format('M/YYYY')}
+            </p>
+            <p>Extraction Method: {sample.extractionMethod}</p>
+            {(sample.city || sample.state || sample.country) && (
+              <p>
+                Growth Region: {sample.city}, {sample.state}, {sample.country}
+              </p>
+            )}
+            {sample.harvestDate && (
+              <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
+            )}
+            {sample.sustainabilityInfo && (
+              <p>Sustainability: {sample.sustainabilityInfo}</p>
+            )}
+          </Paper>
         </div>
 
         {/* Render Review button if the sample is in pre-shipment */}

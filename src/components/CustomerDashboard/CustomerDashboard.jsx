@@ -50,7 +50,7 @@ function CustomerDashboard() {
     dispatch({ type: 'FETCH_CUSTOMER_ORDERS' });
   }, []);
 
-  // local functions
+  /* Local Functions */
   const handleOpen = (sample) => {
     setClickedSample(sample);
     setOpenDetail(true);
@@ -65,6 +65,7 @@ function CustomerDashboard() {
     dispatch({
       type: 'CLEAR_CURRENT_SAMPLE',
     });
+
     // move to summary page
     history.push('/summary');
   } // end addSampleButton
