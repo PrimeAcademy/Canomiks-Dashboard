@@ -5,7 +5,15 @@ const router = express.Router();
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
+const config = ({
 
+  bucketName: process.env.AWS_BUCKET,
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, 
+  headers: { 'Access-Control-Allow-Origin': '*' },
+    ACL: 'public-read',
+})
 /* GET ROUTES */
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
@@ -143,9 +151,10 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
 
 // Adding results pdf to database
 router.put('/url', rejectUnauthenticated, async (req, res) => {
+  console.log(req.body, 're.body')
   try {
     const order = req.body;
-    const orderArray = [order.pdfUrl, order.companyID, order.orderId];
+    const orderArray = [order.pdfUrl, order.companyID, order.id];
 
     const sqlText = `
       UPDATE "orders"
@@ -157,13 +166,13 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
 
     console.log(dbRes.rows);
 
-    if (dbRes.rows.length === 0) {
-      res.sendStatus(404);
-      return;
-    } else {
-      res.send(dbRes.rows[0]);
+    //if (dbRes.rows.length === 0) {
+      //res.sendStatus(404);
+      //eturn;
+    //} else {
+      res.send(dbRes.rows);
     }
-  } catch (err) {
+   catch (err) {
     console.error('Error in PUT /url', err.message);
     res.sendStatus(500);
   }

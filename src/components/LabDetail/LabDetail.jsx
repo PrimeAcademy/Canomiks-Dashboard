@@ -1,4 +1,8 @@
+
+require('dotenv').config()
+const AWS = require('aws-sdk');
 import React, { useState } from 'react';
+
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -10,21 +14,27 @@ import SampleProgress from '../SampleProgress/SampleProgress';
 import { DialogContent, DialogContentText, Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
+
+
+
+// S3 upload
+
+
 import S3FileUpload from 'react-s3';
-
-import dotenv from "dotenv"
-
-
 import ReactDom from 'react-dom'
 import uploadFile from 'react-s3';
-const config = {
-  bucketName: 'prime-canomiks',
-  region:'us-east-2',
-  accessKeyId:'AKIARKTJQE2NNYW2M6UP',
-  secretAccessKey: '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', 
+const config = ({
+
+  bucketName:process.env.REACT_APP_AWS_BUCKET,
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY, 
   headers: { 'Access-Control-Allow-Origin': '*' },
     ACL: 'public-read',
-}
+})
+
+console.log(process.env)
+
 
   
  
@@ -48,7 +58,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
   function uploading(event){
     console.log(event.target.files, 'file');
     S3FileUpload
-      .uploadFile(event.target.files[0], config)
+      .uploadFile(event.target.files[0],config)
       .then(data => {console.log(data, 'this is the data')
       dispatch({
         type: 'ADD_URL',

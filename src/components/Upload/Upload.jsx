@@ -321,7 +321,7 @@ import React, {Component} from 'react'
 import ReactDom from 'react-dom'
 import { uploadFile } from 'react-s3';
 const config = {
-  bucketName: process.env.AWS_S3_BUCKET,
+  bucketName: process.env.AWS_BUCKET,
   region: process.env.AWS_S3_REGION,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, 
