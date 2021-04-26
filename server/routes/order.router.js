@@ -151,10 +151,9 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
 
 // Adding results pdf to database
 router.put('/url', rejectUnauthenticated, async (req, res) => {
-  console.log(req.body, 're.body')
   try {
     const order = req.body;
-    const orderArray = [order.pdfUrl, order.companyID, order.id];
+    const orderArray = [order.pdfUrl, order.sample.companyID, order.sample.id];
 
     const sqlText = `
       UPDATE "orders"

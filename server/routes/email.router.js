@@ -35,6 +35,7 @@ const transporter = nodemailer.createTransport({
  * }
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
+  console.log('🤷‍♂️ in the email post route:', req.body);
 
   const info = transporter.sendMail({
     from: process.env.EMAIL,
@@ -54,7 +55,8 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     `,
   }, (err, info) => {
     if (err) {
-      res.send('💥 error sending email', err);
+      console.log('💥 error sending email', err)
+      res.sendStatus(500);
       return;
     } ;
     console.log('🎉 it has been sent', info.response)
