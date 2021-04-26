@@ -17,6 +17,7 @@ function* updateUrl(action) {
   try {
     // send the pdf url from amazon to the db
     const response = yield axios.put('/api/orders/url', action.payload);
+
     // send update email
     yield put({
       type: 'EMAIL_STATUS',
@@ -26,8 +27,9 @@ function* updateUrl(action) {
         ingredient: response.data.ingredientName,
         orderId: response.data.id,
         companyID: response.data.companyID,
-        message: 'Good News! We have finished testing your sample. Click the link to the pdf below. For any questions please feel free to reach out to us. Thank You. '
-      }
+        message:
+          'Good News! We have finished testing your sample. Click the link to the pdf below. For any questions please feel free to reach out to us. Thank You. ',
+      },
     }); // end yield put (dispatch)
 
     // // update current sample

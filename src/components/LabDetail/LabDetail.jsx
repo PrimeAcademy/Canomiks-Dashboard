@@ -37,7 +37,6 @@ const config = {
 };
 
 function LabDetail({ setOpenDetail, originalSample }) {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   // get states from redux store
@@ -59,14 +58,14 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
   //function for uploading PDF
   function uploading(event) {
-    console.log(event.target.files, 'file');
     S3FileUpload.uploadFile(event.target.files[0], config)
       .then((data) => {
-        console.log(data, 'this is the data');
-        dispatch({
-          type: 'ADD_URL',
-          payload: { pdfUrl: data.location, sample, user },
-        });
+        console.log(data.location);
+        setSample({ ...sample, pdfUrl: data.location });
+        // dispatch({
+        //   type: 'EDIT_SAMPLE_PDF',
+        //   payload: data.location,
+        // });
       })
       .catch((err) => console.error(err));
   }
@@ -179,21 +178,21 @@ function LabDetail({ setOpenDetail, originalSample }) {
         >
           Cancel Changes
         </Button>
+
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
-
-           <Button
-           variant="contained"
-           component="label"
-           
-           style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
-          size="small"
-         
-         >
-           Upload PDF
-          <input type="file" hidden onChange={(event)=> uploading(event)}></input>
-           
-
+          <Button
+            variant="contained"
+            component="label"
+            style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+            size="small"
+          >
+            Upload PDF
+            <input
+              type="file"
+              hidden
+              onChange={(event) => uploading(event)}
+            ></input>
           </Button>
         )}
 

@@ -23,20 +23,20 @@ const emptySampleObj = {
   ingredientAmount: '',
   ingredientUnit: '',
   purity: '',
-  dateManufactured: moment.utc(new Date()).format("YYYY-MM-DD"),
+  dateManufactured: moment.utc(new Date()).format('YYYY-MM-DD'),
   extractionMethod: '',
   city: '',
   state: '',
   country: '',
-  harvestDate: moment.utc(new Date()).format("YYYY-MM-DD"),
+  harvestDate: moment.utc(new Date()).format('YYYY-MM-DD'),
   sustainabilityInfo: '',
   cropStrain: '',
-  shippedDate: moment.utc(new Date()).format("YYYY-MM-DD"),
+  shippedDate: moment.utc(new Date()).format('YYYY-MM-DD'),
   carrierName: '',
   trackingNumber: '',
   receivedDate: '',
   delayed: false,
-  testingStatus: 1
+  testingStatus: 1,
 };
 
 // start the current sample with empty information
@@ -47,8 +47,8 @@ const currentSample = (state = emptySampleObj, action) => {
     case 'SET_INIT_SAMPLE_ID':
       return {
         ...state,
-        id: action.payload.id
-      }
+        id: action.payload.id,
+      };
     case 'CLEAR_CURRENT_SAMPLE':
       return emptySampleObj;
 
@@ -56,7 +56,7 @@ const currentSample = (state = emptySampleObj, action) => {
       let inputName = action.payload.currentInputName;
       return {
         ...state,
-        [inputName]: action.payload.newValue
+        [inputName]: action.payload.newValue,
       };
 
     // For lab only
