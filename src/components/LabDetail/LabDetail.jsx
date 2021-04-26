@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -11,10 +12,37 @@ import { DialogContent, DialogContentText, Button, DialogActions } from '@materi
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
 
+
+
+// S3 upload
+
+require('dotenv').config()
+const AWS = require('aws-sdk');
+import S3FileUpload from 'react-s3';
+import ReactDom from 'react-dom'
+import uploadFile from 'react-s3';
+
+
+const config = ({
+
+  bucketName:process.env.REACT_APP_AWS_BUCKET,
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY, 
+  headers: { 'Access-Control-Allow-Origin': '*' },
+    ACL: 'public-read',
+})
+
+
+
+  
+ 
+
+
 function LabDetail({ setOpenDetail, originalSample }) {
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const orders = useSelector((store) => store.orders.orderReducer);
   const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
@@ -27,6 +55,24 @@ function LabDetail({ setOpenDetail, originalSample }) {
     setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
 
+
+  //function for uploading PDF
+  function uploading(event){
+    console.log(event.target.files, 'file');
+    S3FileUpload
+      .uploadFile(event.target.files[0],config)
+      .then(data => {console.log(data, 'this is the data')
+      dispatch({
+        type: 'ADD_URL',
+        payload:{ pdfUrl: data.location,
+          companyID: sample.companyID,
+          id: sample.id
+        }
+      })
+    })
+      .catch(err => console.error(err))
+  
+  }
   const changeStep = (step) => {
     if (step === 3 && sample.testState === 'SHIP') {
       console.log('received');
@@ -124,13 +170,13 @@ function LabDetail({ setOpenDetail, originalSample }) {
         </Button>
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
-          <Button
-            size="small"
-            color="primary"
-            variant="contained"
-            onClick={() => history.push(`/upload`)}
-          >
-            Upload Results
+           <Button
+           variant="contained"
+           component="label"
+         >
+           Upload PDF
+          <input type="file" hidden onChange={(event)=> uploading(event)}></input>
+           
           </Button>
         )}
 

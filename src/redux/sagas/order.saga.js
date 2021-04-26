@@ -17,12 +17,13 @@ function* updateUrl(action) {
   try {
     const response = yield axios.put('/api/orders/url', action.payload);
     console.log(response.data, 'response');
+    
     yield put({
       type: 'SET_CURRENT_SAMPLE',
       payload: response.data,
     });
   } catch (err) {
-    console.error('Error in updateUrl', err.message);
+    console.error('Error in updateUrl', err);
   }
 } // end updateShipping
 
