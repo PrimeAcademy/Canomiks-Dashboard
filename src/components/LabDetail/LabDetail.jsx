@@ -161,6 +161,10 @@ function LabDetail({ setOpenDetail, originalSample }) {
            <Button
            variant="contained"
            component="label"
+           
+           style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+          size="small"
+          color="primary"
          >
            Upload PDF
           <input type="file" hidden onChange={(event)=> uploading(event)}></input>
