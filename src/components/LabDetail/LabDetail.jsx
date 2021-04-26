@@ -50,14 +50,13 @@ function LabDetail({ setOpenDetail, originalSample }) {
     setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
 
-  //function for uploading PDF
-  function uploading(event) {
+  const uploadPDF = (event) => {
     S3FileUpload.uploadFile(event.target.files[0], config)
       .then((data) => {
         setSample({ ...sample, pdfUrl: data.location });
       })
       .catch((err) => console.error(err));
-  } // end uploading
+  }; // end uploadPDF
 
   const changeStep = (step) => {
     if (step === 3 && sample.testState === 'SHIP') {
@@ -69,7 +68,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
   const moveToQueue = () => {
     setSample({ ...sample, testState: 'CBDTEST', sequence: 1 });
-  };
+  }; // end moveToQueue
 
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
@@ -150,38 +149,39 @@ function LabDetail({ setOpenDetail, originalSample }) {
       </DialogContentText>
 
       <DialogActions>
+        <Button
+          variant="outlined"
+          size="small"
+          style={{
+            margin: 5,
+            marginRight: 120,
+          }}
+          onClick={() => setOpenDetail(false)}
+        >
+          Cancel Changes
+        </Button>
+
         {/* Render button when sample is received to move it into the queue */}
         {sample.sequence === 3 && sample.testState === 'SHIP' && (
           <Button variant="contained" onClick={moveToQueue}>
             Move to Queue
           </Button>
         )}
-        <Button
-          variant="outline"
-          size="small"
-          style={{
-            margin: 5,
-            marginRight: 120,
-          }}
-          variant="outlined"
-          onClick={() => setOpenDetail(false)}
-        >
-          Cancel Changes
-        </Button>
 
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
           <Button
-            variant="contained"
             component="label"
-            style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+            variant="contained"
+            color="primary"
             size="small"
+            style={{ margin: 5 }}
           >
             Upload PDF
             <input
               type="file"
               hidden
-              onChange={(event) => uploading(event)}
+              onChange={(event) => uploadPDF(event)}
             ></input>
           </Button>
         )}
@@ -192,6 +192,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
             <Button
               size="small"
               variant="contained"
+              color="primary"
               onClick={() => window.open(sample.pdfUrl)}
             >
               View Results

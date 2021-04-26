@@ -51,14 +51,12 @@ const currentSample = (state = emptySampleObj, action) => {
       };
     case 'CLEAR_CURRENT_SAMPLE':
       return emptySampleObj;
-
     case 'UPDATE_CURRENT_SAMPLE':
       let inputName = action.payload.currentInputName;
       return {
         ...state,
         [inputName]: action.payload.newValue,
       };
-
     default:
       return state;
   }

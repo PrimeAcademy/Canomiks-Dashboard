@@ -13,20 +13,6 @@ function* fetchCustomerOrders() {
   }
 } // end fetchCustomerOrders
 
-function* updateUrl(action) {
-  try {
-    // send the pdf url from amazon to the db
-    const response = yield axios.put('/api/orders/url', action.payload);
-
-    // send update email
-    // end yield put (dispatch)
-  } catch (err) {
-    console.error('Error in updateUrl', err);
-  }
-} // end updateShipping
-
-// end fetchCustomerOrders
-
 function* fetchAllOrders() {
   try {
     const response = yield axios.get('/api/orders/all');
@@ -84,6 +70,7 @@ function* updateSampleLab(action) {
 
     // Checks if theres a pdf and if the customer wants to be notified
     if (customerSampleInfo.pdfUrl && customerSampleInfo.alertResultsReady) {
+      // result email triggered
       yield put({
         type: 'EMAIL_STATUS',
         payload: {
@@ -112,8 +99,7 @@ function* updateSampleLab(action) {
           message:
             'Unfortunately, there was an issue with your sample and it has been delayed. We will be in contact with you shortly with more information. ',
         },
-      }); // end yield put (dispatch)
-      // end customer check
+      });
     }
 
     // Checks if test state has been changed and if the customer wants to be notified
@@ -133,8 +119,7 @@ function* updateSampleLab(action) {
           message:
             'Your sample has moved to the next stage of the testing process. ',
         },
-      }); // end dispatch
-      // end customer check
+      });
     }
 
     yield put({
@@ -189,7 +174,6 @@ function* searchDelayedOrders(action) {
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
   yield takeLatest('FETCH_ALL_ORDERS', fetchAllOrders);
-  yield takeLatest('ADD_URL', updateUrl);
   yield takeLatest('ADD_SAMPLE', addSampleOrder);
   yield takeLatest('UPDATE_SAMPLE_INFO', updateSampleInfo);
   yield takeLatest('UPDATE_SHIPPING_INFO', updateShipping);
