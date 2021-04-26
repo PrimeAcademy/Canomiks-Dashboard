@@ -152,6 +152,7 @@ function RegisterPage() {
               />
             </Paper>
             <Button
+              variant="contained"
               color="primary"
               style={{ width: '50%' }}
               value="Register"

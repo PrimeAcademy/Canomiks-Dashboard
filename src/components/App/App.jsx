@@ -18,7 +18,6 @@ import AddSample from '../AddSample/AddSample';
 import Summary from '../Summary/Summary';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import LabDashboard from '../LabDashboard/LabDashboard';
-import LabDashTest from '../LabDashboard/LabDashTest';
 import ManageCustomers from '../ManageCustomers/ManageCustomers';
 import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
@@ -27,28 +26,6 @@ import ResetPassword from '../ResetPassword/ResetPassword';
 import { CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import './App.css';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#1e565c',
-      light: '#26AB6E',
-      dark: '#1e565c',
-    },
-    secondary: {
-      main: '#0044ff',
-      light: '#01689b',
-      contrastText: '#ffcc00',
-    },
-  },
-  overrides: {
-    MuiInputLabel: {
-      root: {
-        color: 'black',
-      },
-    },
-  },
-});
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +54,30 @@ function App() {
         letterSpacing: '.05em',
       },
     },
+    overrides: {
+      MuiSwitch: {
+        switchBase: {
+          // Controls default (unchecked) color for the thumb
+          color: '#efefef',
+        },
+        colorSecondary: {
+          '&$checked': {
+            // Controls checked color for the thumb
+            color: '#1e565c',
+          },
+        },
+        track: {
+          // Controls default (unchecked) color for the track
+          opacity: 0.2,
+          backgroundColor: '#1e565c',
+          '$checked$checked + &': {
+            // Controls checked color for the track
+            opacity: 0.5,
+            backgroundColor: '#1e565c',
+          },
+        },
+      },
+    },
   });
 
   return (
@@ -97,7 +98,7 @@ function App() {
 
           <ProtectedRoute exact path="/samples">
             {user.authLevel === 'lab' || user.authLevel === 'admin' ? (
-              <LabDashTest />
+              <LabDashboard />
             ) : (
               <CustomerDashboard />
             )}
