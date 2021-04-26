@@ -212,6 +212,7 @@ router.put('/lab/update', rejectUnauthenticated, async (req, res) => {
       req.body.testState,
       req.body.sequence,
       req.body.receivedDate,
+      req.body.pdfUrl,
     ];
     const sqlText = `
     UPDATE "orders"
@@ -220,7 +221,8 @@ router.put('/lab/update', rejectUnauthenticated, async (req, res) => {
         (SELECT id FROM "status"
           WHERE "testState" = $3
             AND "sequence" = $4),
-      "receivedDate" = $5
+      "receivedDate" = $5,
+      "pdfUrl" = $6
     WHERE "id" = $1
     RETURNING *;
     `;
