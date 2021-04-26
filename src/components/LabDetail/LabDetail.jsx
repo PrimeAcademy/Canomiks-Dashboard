@@ -14,6 +14,8 @@ import {
   DialogActions,
   Button,
   Divider,
+  Paper,
+  Typography,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
@@ -117,15 +119,17 @@ function LabDetail({ setOpenDetail, originalSample }) {
           </Alert>
         ) : (
           <>
-            <h2>Lot #{sample.lotNumber}</h2>
-            <h3>{sample.companyName}</h3>
+            <Typography align="center" variant="h2">
+              Lot #{sample.lotNumber}
+            </Typography>
+            <Typography align="center" variant="h3">
+              {sample.companyName}
+            </Typography>
           </>
         )}
 
-        <Divider style={{ marginTop: 15 }} />
-
         <div className="info-container">
-          <div>
+          <Paper style={{ marginTop: 15, padding: 5 }}>
             <p>Product: {sample.ingredientName}</p>
             <p>
               Amount: {sample.ingredientAmount} {sample.ingredientUnit}
@@ -133,9 +137,9 @@ function LabDetail({ setOpenDetail, originalSample }) {
             <p>Format: {sample.format}</p>
             {sample.purity && <p>Purity: {sample.purity}</p>}
             {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
-          </div>
+          </Paper>
 
-          <div>
+          <Paper style={{ marginTop: 15, padding: 5 }}>
             <p>
               Manufactured Date:
               {moment(sample.dateManufactured).format('M/YYYY')}
@@ -152,9 +156,10 @@ function LabDetail({ setOpenDetail, originalSample }) {
             {sample.sustainabilityInfo && (
               <p>Sustainability: {sample.sustainabilityInfo}</p>
             )}
-          </div>
+          </Paper>
         </div>
       </DialogContentText>
+
       <DialogActions>
         {/* Render button when sample is received to move it into the queue */}
         {sample.sequence === 3 && sample.testState === 'SHIP' && (

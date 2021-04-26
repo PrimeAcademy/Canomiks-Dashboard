@@ -16,7 +16,7 @@ import {
   Button,
   IconButton,
   Typography,
-  Divider,
+  DialogActions,
   Paper,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -51,10 +51,10 @@ function CustomerDetail({ sample }) {
           </Alert>
         ) : (
           <>
-            <Typography align="center" variant="h4">
+            <Typography align="center" variant="h2">
               Lot # {sample.lotNumber}
             </Typography>
-            <Typography align="center" variant="h5">
+            <Typography align="center" variant="h3">
               {sample.ingredientName}
             </Typography>
           </>
@@ -80,18 +80,18 @@ function CustomerDetail({ sample }) {
             We cannot process this sample until shipping information is added.
           </Alert>
         )}
-        <Divider style={{ marginTop: 15 }} />
+
         <div className="info-container">
-          <div>
+          <Paper style={{ marginTop: 15, padding: 5 }}>
             <p>
               Amount: {sample.ingredientAmount} {sample.ingredientUnit}
             </p>
             <p>Format: {sample.format}</p>
             {sample.purity && <p>Purity: {sample.purity}</p>}
             {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
-          </div>
+          </Paper>
 
-          <Paper>
+          <Paper style={{ marginTop: 15, padding: 5 }}>
             <p>
               Manufacture Date:{' '}
               {moment(sample.dateManufactured).format('M/YYYY')}
@@ -110,7 +110,9 @@ function CustomerDetail({ sample }) {
             )}
           </Paper>
         </div>
+      </DialogContentText>
 
+      <DialogActions>
         {/* Render Review button if the sample is in pre-shipment */}
         {sample.statusName === 'Pre-Shipment' && (
           <Button
@@ -133,7 +135,7 @@ function CustomerDetail({ sample }) {
             Download Results
           </Button>
         )}
-      </DialogContentText>
+      </DialogActions>
     </DialogContent>
   );
 }

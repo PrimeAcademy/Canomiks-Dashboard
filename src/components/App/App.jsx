@@ -53,6 +53,13 @@ function App() {
         fontWeight: 400,
         letterSpacing: '.05em',
       },
+      h2: {
+        fontSize: '2em',
+        fontWeight: 400,
+        letterSpacing: '.05em',
+        color: 'black',
+      },
+      h3: { fontSize: '1.3em', fontWeight: 400, letterSpacing: '.05em' },
     },
     overrides: {
       MuiSwitch: {

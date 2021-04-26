@@ -58,7 +58,7 @@ function Nav() {
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#1e565c',
-          height: '112px',
+          height: '90px',
         }}
       >
         <Link
