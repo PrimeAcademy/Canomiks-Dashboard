@@ -5,16 +5,16 @@ const router = express.Router();
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
-const config = ({
-
+const config = {
   bucketName: process.env.AWS_BUCKET,
   region: process.env.AWS_REGION,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, 
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   headers: { 'Access-Control-Allow-Origin': '*' },
-    ACL: 'public-read',
-})
+  ACL: 'public-read',
+};
 /* GET ROUTES */
+
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
     const queryText = `
@@ -65,7 +65,35 @@ router.get('/all', rejectUnauthenticated, async (req, res) => {
   }
 });
 
+router.get('/delayed/:status', rejectUnauthenticated, async (req, res) => {
+  try {
+    console.log(req.params);
+    const query = `
+    SELECT 
+      "orders".*,
+      "status"."statusName",
+      "status"."testState",
+      "status"."sequence",
+      "companies"."companyName", 
+      "companies"."alertStatusChange",
+      "companies"."alertResultsReady",
+      "companies". "alertDelay"
+    FROM "orders"
+    JOIN "status"
+      ON "status".id = "orders"."testingStatus"
+    JOIN "companies"
+      ON "companies".id = "orders"."companyID"
+    WHERE "shippedDate" IS NOT NULL AND "orders".delayed=$1;`;
+    const dbRes = await pool.query(query, [req.params.status]);
+    res.send(dbRes.rows);
+  } catch (err) {
+    console.error('Error in GET /delayed', err.message);
+    res.sendStates(500);
+  }
+});
+
 /* POST ROUTE */
+
 // Initializes a new sample
 router.post('/start', rejectUnauthenticated, async (req, res) => {
   try {
@@ -151,10 +179,9 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
 
 // Adding results pdf to database
 router.put('/url', rejectUnauthenticated, async (req, res) => {
-  console.log(req.body, 're.body')
   try {
     const order = req.body;
-    const orderArray = [order.pdfUrl, order.companyID, order.id];
+    const orderArray = [order.pdfUrl, order.sample.companyID, order.sample.id];
 
     const sqlText = `
       UPDATE "orders"
@@ -164,28 +191,27 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 
-    console.log(dbRes.rows);
-
-    //if (dbRes.rows.length === 0) {
-      //res.sendStatus(404);
-      //eturn;
-    //} else {
-      res.send(dbRes.rows);
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
     }
-   catch (err) {
+  } catch (err) {
     console.error('Error in PUT /url', err.message);
     res.sendStatus(500);
   }
 });
 
 // Updates lab changes made
-router.put('/lab/update', async (req, res) => {
+router.put('/lab/update', rejectUnauthenticated, async (req, res) => {
   try {
     const orderArray = [
       req.body.id,
       req.body.delayed,
       req.body.testState,
       req.body.sequence,
+      req.body.receivedDate,
     ];
     const sqlText = `
     UPDATE "orders"
@@ -193,7 +219,8 @@ router.put('/lab/update', async (req, res) => {
       "testingStatus" = 
         (SELECT id FROM "status"
           WHERE "testState" = $3
-            AND "sequence" = $4)
+            AND "sequence" = $4),
+      "receivedDate" = $5
     WHERE "id" = $1
     RETURNING *;
     `;
@@ -209,35 +236,29 @@ router.put('/lab/update', async (req, res) => {
 // when ship date has passed
 router.put('/date', rejectUnauthenticated, async (req, res) => {
   try {
-        const order = req.body;
-        const orderArray = [
-          order.testingStatus,
-          order.companyID,
-          order.id,
-        ];
-        console.log(orderArray, "router order")
+    const order = req.body;
+    const orderArray = [order.testingStatus, order.companyID, order.id];
+    console.log(orderArray, 'router order');
 
-        const sqlText = `
+    const sqlText = `
           UPDATE "orders"
           SET "testingStatus" = $1
           WHERE "companyID" = $2 AND "id" = $3
           RETURNING *;
         `;
-        const dbRes = await pool.query(sqlText, orderArray);
-        console.log(dbRes.rows);
-        if (dbRes.rows.length === 0) {
-          res.sendStatus(404);
-          return;
-        } else {
-          res.send(dbRes.rows[0]);
-        }
+    const dbRes = await pool.query(sqlText, orderArray);
+    console.log(dbRes.rows);
+    if (dbRes.rows.length === 0) {
+      res.sendStatus(404);
+      return;
+    } else {
+      res.send(dbRes.rows[0]);
+    }
   } catch (err) {
     console.error('Error in PUT /date', err.message);
     res.sendStatus(500);
   }
 });
-
-
 
 /* DELETE ROUTES */
 router.delete(

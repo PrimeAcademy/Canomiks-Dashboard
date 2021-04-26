@@ -2,7 +2,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import './Summary.css';
 
-import { Button, Typography, Grid, Paper, List, ListItem, makeStyles, Divider, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, ListItemText } from '@material-ui/core';
+import {
+  Button,
+  Typography,
+  Grid,
+  Paper,
+  List,
+  ListItem,
+  makeStyles,
+  Divider,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  ListItemText,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,10 +43,9 @@ function Summary() {
 
   // date set up
   let currentDate = new Date();
-  let cDay = currentDate.getDate()
-  let cMonth = currentDate.getMonth() + 1
-  let cYear = currentDate.getFullYear()
-
+  let cDay = currentDate.getDate();
+  let cMonth = currentDate.getMonth() + 1;
+  let cYear = currentDate.getFullYear();
 
   /*
   // TO DO - on page load get the company info if its not is the store
@@ -62,19 +77,45 @@ function Summary() {
       </Typography>
       <Typography variant="h6" align="center" gutterBottom>
         Current Contract Summary
-        </Typography>
+      </Typography>
       <Paper style={{ width: 'fit-content' }}>
         <List className={classes.root}>
           {/* pull from store/reducers for values below */}
-          <ListItem>Company Name:<ListItemText style={{ marginLeft: 10 }} primary={user.companyName} /></ListItem>
-          <ListItem>MSA ID:<ListItemText style={{ marginLeft: 10 }} primary={user.companyID} /></ListItem>
-          <ListItem>Ingredient:<ListItemText style={{ marginLeft: 10 }} primary='CBD' /></ListItem>
-          <ListItem>SOW:<ListItemText style={{ marginLeft: 10 }} primary='###' /></ListItem>
-          <ListItem>SOW Start Date:<ListItemText style={{ marginLeft: 10 }} primary='01-01-2021' /></ListItem>
-          <ListItem>Today's Date:<ListItemText style={{ marginLeft: 10 }} primary={`${cMonth}-${cDay}-${cYear}`} /></ListItem>
+          <ListItem>
+            Company Name:
+            <ListItemText
+              style={{ marginLeft: 10 }}
+              primary={user.companyName}
+            />
+          </ListItem>
+          <ListItem>
+            MSA ID:
+            <ListItemText style={{ marginLeft: 10 }} primary={user.companyID} />
+          </ListItem>
+          <ListItem>
+            Ingredient:
+            <ListItemText style={{ marginLeft: 10 }} primary="CBD" />
+          </ListItem>
+          <ListItem>
+            SOW:
+            <ListItemText style={{ marginLeft: 10 }} primary="###" />
+          </ListItem>
+          <ListItem>
+            SOW Start Date:
+            <ListItemText style={{ marginLeft: 10 }} primary="01-01-2021" />
+          </ListItem>
+          <ListItem>
+            Today's Date:
+            <ListItemText
+              style={{ marginLeft: 10 }}
+              primary={`${cMonth}-${cDay}-${cYear}`}
+            />
+          </ListItem>
         </List>
 
-        <TableContainer style={{ border: 1, marginBottom: 40, padding: 50, paddingTop: 0 }}>
+        <TableContainer
+          style={{ border: 1, marginBottom: 40, padding: 50, paddingTop: 0 }}
+        >
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
@@ -113,7 +154,7 @@ function Summary() {
       </Paper>
       <Button
         size="large"
-        style={{ backgroundColor: '#1e565c', color: 'white', marginTop: 10, width: '30%' }}
+        style={{ marginTop: 10, width: '30%' }}
         variant="contained"
         color="primary"
         onClick={goToAddSample}

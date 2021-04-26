@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 // custom components
 import SampleProgress from '../SampleProgress/SampleProgress';
+
 // style page
 import './CustomerDetail.css';
 
@@ -15,7 +16,8 @@ import {
   Button,
   IconButton,
   Typography,
-  Divider,
+  DialogActions,
+  Paper,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline, ArrowForwardIos } from '@material-ui/icons';
@@ -26,7 +28,6 @@ function CustomerDetail({ sample }) {
   const dispatch = useDispatch();
 
   const reviewSample = (sample) => {
-    console.log('🦋 sample to set', sample);
     dispatch({
       type: 'SET_CURRENT_SAMPLE',
       payload: sample,
@@ -41,22 +42,23 @@ function CustomerDetail({ sample }) {
         <SampleProgress sample={sample} />
 
         {/* Render warning if sample is delayed*/}
-        {sample.delayed ?
+        {sample.delayed ? (
           <Alert icon={<ErrorOutline />} severity="warning">
-            <AlertTitle>Test Delayed - Lot #{sample.lotNumber}</AlertTitle>
-            More information will be available via email
-          </Alert> :
+            <AlertTitle>
+              <strong>Lot #{sample.lotNumber}</strong> - Test Delayed
+            </AlertTitle>
+            More information will be available via email.
+          </Alert>
+        ) : (
           <>
-            <Typography align="center" variant="h4">
+            <Typography align="center" variant="h2">
               Lot # {sample.lotNumber}
             </Typography>
-            <Typography align="center" variant="h5">
+            <Typography align="center" variant="h3">
               {sample.ingredientName}
             </Typography>
           </>
-        }
-
-
+        )}
 
         {/* Render warning if there is no shipping information */}
         {!sample.shippedDate && (
@@ -78,37 +80,44 @@ function CustomerDetail({ sample }) {
             We cannot process this sample until shipping information is added.
           </Alert>
         )}
-        <Divider style={{ marginTop: 15 }} />
-        <p>
-          Amount: {sample.ingredientAmount} {sample.ingredientUnit}
-        </p>
-        <p>Format: {sample.format}</p>
-        {sample.purity && <p>Purity: {sample.purity}</p>}
-        {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
 
-        <div>
-          <p>
-            Manufacture Date: {moment(sample.dateManufactured).format('M/YYYY')}
-          </p>
-          <p>Extraction Method: {sample.extractionMethod}</p>
-          {(sample.city || sample.state || sample.country) && (
+        <div className="info-container">
+          <Paper style={{ marginTop: 15, padding: 5 }}>
             <p>
-              Growth Region: {sample.city}, {sample.state}, {sample.country}
+              Amount: {sample.ingredientAmount} {sample.ingredientUnit}
             </p>
-          )}
-          {sample.harvestDate && (
-            <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
-          )}
-          {sample.sustainabilityInfo && (
-            <p>Sustainability: {sample.sustainabilityInfo}</p>
-          )}
-        </div>
+            <p>Format: {sample.format}</p>
+            {sample.purity && <p>Purity: {sample.purity}</p>}
+            {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
+          </Paper>
 
+          <Paper style={{ marginTop: 15, padding: 5 }}>
+            <p>
+              Manufacture Date:{' '}
+              {moment(sample.dateManufactured).format('M/YYYY')}
+            </p>
+            <p>Extraction Method: {sample.extractionMethod}</p>
+            {(sample.city || sample.state || sample.country) && (
+              <p>
+                Growth Region: {sample.city}, {sample.state}, {sample.country}
+              </p>
+            )}
+            {sample.harvestDate && (
+              <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
+            )}
+            {sample.sustainabilityInfo && (
+              <p>Sustainability: {sample.sustainabilityInfo}</p>
+            )}
+          </Paper>
+        </div>
+      </DialogContentText>
+
+      <DialogActions>
         {/* Render Review button if the sample is in pre-shipment */}
         {sample.statusName === 'Pre-Shipment' && (
           <Button
             variant="contained"
-            style={{ backgroundColor: '#1e565c', color: 'white' }}
+            color="primary"
             onClick={() => reviewSample(sample)}
           >
             Review Sample
@@ -119,13 +128,14 @@ function CustomerDetail({ sample }) {
         {sample.pdfUrl && (
           <Button
             variant="contained"
-            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+            color="primary"
+            style={{ margin: 10 }}
             onClick={() => window.open(sample.pdfUrl)}
           >
-            Download Results
+            View Results
           </Button>
         )}
-      </DialogContentText>
+      </DialogActions>
     </DialogContent>
   );
 }

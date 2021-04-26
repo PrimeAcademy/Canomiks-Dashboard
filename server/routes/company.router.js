@@ -20,8 +20,9 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
   }
 });
 
+/* PUT ROUTES */
 router.put('/', rejectUnauthenticated, async (req, res) => {
-  console.log('req', req.body)
+  console.log('req', req.body);
   try {
     const query = `
       UPDATE companies SET active=$1 WHERE id=$2;

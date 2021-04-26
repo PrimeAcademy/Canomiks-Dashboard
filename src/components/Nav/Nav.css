@@ -50,8 +50,8 @@
   text-decoration: underline;
 }
 
-img {
-  height: 80px;
+.img img {
+  height: 70px;
   border: 0px;
   padding: 0;
   margin-left: 50px;

@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
@@ -24,8 +23,9 @@ import ShippingInfo from '../ShippingInfo/ShippingInfo';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import ResetPassword from '../ResetPassword/ResetPassword';
 
+import { CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
+
 import './App.css';
-import { CssBaseline } from '@material-ui/core';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,8 +37,58 @@ function App() {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
 
+  const theme = createMuiTheme({
+    palette: {
+      type: 'light',
+      primary: {
+        main: '#1e565c',
+      },
+    },
+    typography: {
+      fontFamily: 'Roboto',
+      fontWeight: 300,
+      h1: {
+        fontFamily: 'Roboto',
+        fontSize: '3.8em',
+        fontWeight: 400,
+        letterSpacing: '.05em',
+      },
+      h2: {
+        fontSize: '2em',
+        fontWeight: 400,
+        letterSpacing: '.05em',
+        color: 'black',
+      },
+      h3: { fontSize: '1.3em', fontWeight: 400, letterSpacing: '.05em' },
+    },
+    overrides: {
+      MuiSwitch: {
+        switchBase: {
+          // Controls default (unchecked) color for the thumb
+          color: '#efefef',
+        },
+        colorSecondary: {
+          '&$checked': {
+            // Controls checked color for the thumb
+            color: '#1e565c',
+          },
+        },
+        track: {
+          // Controls default (unchecked) color for the track
+          opacity: 0.2,
+          backgroundColor: '#1e565c',
+          '$checked$checked + &': {
+            // Controls checked color for the track
+            opacity: 0.5,
+            backgroundColor: '#1e565c',
+          },
+        },
+      },
+    },
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <Nav />
@@ -72,7 +122,6 @@ function App() {
           <ProtectedRoute exact path="/sample/ship">
             <ShippingInfo />
           </ProtectedRoute>
-        
 
           {user.authLevel === 'admin' && (
             <ProtectedRoute exact path="/manage/customers">
@@ -92,19 +141,21 @@ function App() {
             <ForgotPassword />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/resetPassword/:token/:id" authRedirect="/samples">
+          <ProtectedRoute
+            exact
+            path="/resetPassword/:token/:id"
+            authRedirect="/samples"
+          >
             <ResetPassword />
           </ProtectedRoute>
-
 
           {/* <Route exact path="/forgotPassword">
             <ForgotPassword />
           </Route> */}
-
         </Switch>
         <Footer />
       </Router>
-    </>
+    </ThemeProvider>
   );
 }
 

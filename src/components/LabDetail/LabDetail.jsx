@@ -8,41 +8,43 @@ import moment from 'moment';
 import SampleProgress from '../SampleProgress/SampleProgress';
 
 // material ui
-import { DialogContent, DialogContentText, Button } from '@material-ui/core';
+import {
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Divider,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
 
-
-
 // S3 upload
-
-require('dotenv').config()
+require('dotenv').config();
 const AWS = require('aws-sdk');
 import S3FileUpload from 'react-s3';
-import ReactDom from 'react-dom'
+import ReactDom from 'react-dom';
 import uploadFile from 'react-s3';
 
-
-const config = ({
-
-  bucketName:process.env.REACT_APP_AWS_BUCKET,
+const config = {
+  bucketName: process.env.REACT_APP_AWS_BUCKET,
   region: process.env.REACT_APP_AWS_REGION,
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY, 
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
   headers: { 'Access-Control-Allow-Origin': '*' },
-    ACL: 'public-read',
-})
-
-
-
-  
- 
-
+  ACL: 'public-read',
+};
 
 function LabDetail({ setOpenDetail, originalSample }) {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  // get states from redux store
+  const user = useSelector((store) => store.user);
   const orders = useSelector((store) => store.orders.orderReducer);
+
+  // local states
   const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
@@ -55,27 +57,21 @@ function LabDetail({ setOpenDetail, originalSample }) {
     setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
 
-
   //function for uploading PDF
-  function uploading(event){
+  function uploading(event) {
     console.log(event.target.files, 'file');
-    S3FileUpload
-      .uploadFile(event.target.files[0],config)
-      .then(data => {console.log(data, 'this is the data')
-      dispatch({
-        type: 'ADD_URL',
-        payload:{ pdfUrl: data.location,
-          companyID: sample.companyID,
-          id: sample.id
-        }
+    S3FileUpload.uploadFile(event.target.files[0], config)
+      .then((data) => {
+        console.log(data, 'this is the data');
+        dispatch({
+          type: 'ADD_URL',
+          payload: { pdfUrl: data.location, sample, user },
+        });
       })
-    })
-      .catch(err => console.error(err))
-  
+      .catch((err) => console.error(err));
   }
   const changeStep = (step) => {
     if (step === 3 && sample.testState === 'SHIP') {
-      console.log('received');
       setSample({ ...sample, receivedDate: new Date(), sequence: step });
     } else {
       setSample({ ...sample, sequence: step });
@@ -94,7 +90,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
       payload: {
         sample,
         sequence: originalSample.sequence,
-        testState: originalSample.testState
+        testState: originalSample.testState,
       },
     });
     // the email and check is triggered inside the saga
@@ -114,77 +110,63 @@ function LabDetail({ setOpenDetail, originalSample }) {
         />
 
         {/* Render warning if sample is delayed*/}
-        {sample.delayed ?
+        {sample.delayed ? (
           <Alert icon={<ErrorOutline />} severity="warning">
-            <AlertTitle>Testing Currently Delayed for Lot #{sample.lotNumber}</AlertTitle>
-          </Alert> : <h2>Lot # {sample.lotNumber}</h2>
-        }
-        <h3>{sample.companyName}</h3>
-        <div>
-          <p>Product: {sample.ingredientName}</p>
-          <p>
-            Amount: {sample.ingredientAmount} {sample.ingredientUnit}
-          </p>
-          <p>Format: {sample.format}</p>
-          {sample.purity && <p>Purity: {sample.purity}</p>}
-          {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
-        </div>
+            <AlertTitle>
+              <strong>Lot #{sample.lotNumber}</strong> - Test Delayed
+            </AlertTitle>
+            {sample.companyName}
+          </Alert>
+        ) : (
+          <>
+            <Typography align="center" variant="h2">
+              Lot #{sample.lotNumber}
+            </Typography>
+            <Typography align="center" variant="h3">
+              {sample.companyName}
+            </Typography>
+          </>
+        )}
 
-        <div>
-          <p>
-            Manufacture Date:
-            {moment(sample.dateManufactured).format('M/YYYY')}
-          </p>
-          <p>Extraction Method: {sample.extractionMethod}</p>
-          {(sample.city || sample.state || sample.country) && (
+        <div className="info-container">
+          <Paper style={{ marginTop: 15, padding: 5 }}>
+            <p>Product: {sample.ingredientName}</p>
             <p>
-              Growth Region: {sample.city}, {sample.state}, {sample.country}
+              Amount: {sample.ingredientAmount} {sample.ingredientUnit}
             </p>
-          )}
-          {sample.harvestDate && (
-            <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
-          )}
-          {sample.sustainabilityInfo && (
-            <p>Sustainability: {sample.sustainabilityInfo}</p>
-          )}
-        </div>
+            <p>Format: {sample.format}</p>
+            {sample.purity && <p>Purity: {sample.purity}</p>}
+            {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
+          </Paper>
 
+          <Paper style={{ marginTop: 15, padding: 5 }}>
+            <p>
+              Manufactured Date:
+              {moment(sample.dateManufactured).format('M/YYYY')}
+            </p>
+            <p>Extraction Method: {sample.extractionMethod}</p>
+            {(sample.city || sample.state || sample.country) && (
+              <p>
+                Growth Region: {sample.city}, {sample.state}, {sample.country}
+              </p>
+            )}
+            {sample.harvestDate && (
+              <p>Harvest Date: {moment(sample.harvestDate).format('M/YYYY')}</p>
+            )}
+            {sample.sustainabilityInfo && (
+              <p>Sustainability: {sample.sustainabilityInfo}</p>
+            )}
+          </Paper>
+        </div>
+      </DialogContentText>
+
+      <DialogActions>
         {/* Render button when sample is received to move it into the queue */}
         {sample.sequence === 3 && sample.testState === 'SHIP' && (
           <Button variant="contained" onClick={moveToQueue}>
             Move to Queue
           </Button>
         )}
-
-        {/* Render Upload button if the sample is complete with no results */}
-        {sample.sequence === 7 && !sample.pdfUrl && (
-           <Button
-           variant="contained"
-           component="label"
-           
-           style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
-          size="small"
-          color="primary"
-         >
-           Upload PDF
-          <input type="file" hidden onChange={(event)=> uploading(event)}></input>
-           
-          </Button>
-        )}
-
-        {/* Render download button if sample is complete and results are uploaded */}
-        {sample.pdfUrl && (
-          <div>
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => window.open(sample.pdfUrl)}
-            >
-              Download Results
-            </Button>
-          </div>
-        )}
-
         <Button
           variant="outline"
           size="small"
@@ -197,19 +179,47 @@ function LabDetail({ setOpenDetail, originalSample }) {
         >
           Cancel Changes
         </Button>
+        {/* Render Upload button if the sample is complete with no results */}
+        {sample.sequence === 7 && !sample.pdfUrl && (
+
+           <Button
+           variant="contained"
+           component="label"
+           
+           style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
+          size="small"
+         
+         >
+           Upload PDF
+          <input type="file" hidden onChange={(event)=> uploading(event)}></input>
+           
+
+          </Button>
+        )}
+
+        {/* Render download button if sample is complete and results are uploaded */}
+        {sample.pdfUrl && (
+          <div>
+            <Button
+              size="small"
+              variant="contained"
+              onClick={() => window.open(sample.pdfUrl)}
+            >
+              View Results
+            </Button>
+          </div>
+        )}
 
         <Button
-          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
           size="small"
           color="primary"
           variant="contained"
           onClick={markDelay}
         >
-          {sample.delayed ? <>Un-mark Delay</> : <>Mark Delay</>}
+          {sample.delayed ? 'Un-mark Delay' : 'Mark Delay'}
         </Button>
 
         <Button
-          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
           size="small"
           color="primary"
           variant="contained"
@@ -217,7 +227,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         >
           Save Changes
         </Button>
-      </DialogContentText>
+      </DialogActions>
     </DialogContent>
   );
 }

@@ -30,10 +30,7 @@ function LoginPage() {
       <Button
         size="small"
         variant="outlined"
-        style={{
-          color: '#1e565c',
-          marginTop: 10
-        }}
+        color="primary"
         onClick={() => {
           history.push('/registration');
         }}

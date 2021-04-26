@@ -10,7 +10,6 @@ const {
 } = require('../modules/authentication-middleware');
 const encryptLib = require('../modules/encryption');
 
-
 /* Nodemailer */
 const nodemailer = require('nodemailer');
 // make the "transporter"
@@ -35,28 +34,36 @@ const transporter = nodemailer.createTransport({
  * }
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
-
-  const info = transporter.sendMail({
-    from: process.env.EMAIL,
-    to: `${req.body.email}`,
-    subject: "Sample info from Canomiks",
-    text: ` ${req.body.name},
+  const info = transporter.sendMail(
+    {
+      from: process.env.EMAIL,
+      to: `${req.body.email}`,
+      subject: 'Sample info from Canomiks',
+      text: ` ${req.body.name},
     ${req.body.message}
-
-    Lot Number Effected: ${req.body.lotNumber}
-    Sample Status: ${req.body.statusName}`,
     
-  }, (err, info) => {
-    if (err) {
-      res.send('💥 error sending email', err);
-      return;
-    } ;
-    console.log('🎉 it has been sent', info.response)
-  });
-  
-  res.sendStatus(200);
+    Lot Number Effected: ${req.body.lotNumber}
+    Ingredient: ${req.body.ingredient}
+    CropStrain: ${req.body.strain}
+    Sample Status: ${req.body.statusName}
+    ${req.body.pdf ? `Log in to your dashboard to see the results` : ``}
+    
+    For more Information please feel free to contact us:
+    https://www.canomiks.com/contactus
+    `,
+    },
+    (err, info) => {
+      if (err) {
+        console.log('💥 error sending email', err);
+        res.sendStatus(500);
+        return;
+      } else {
+        console.log('🎉 it has been sent', info.response);
+        res.sendStatus(200);
+      }
+    }
+  );
 }); // end basic email
-
 
 // -------- FORGOT PASSWORD ROUTES --------
 
@@ -68,22 +75,20 @@ router.post('/resetPassword', (req, res) => {
   if (theToken === undefined) {
     res.sendStatus(403);
     return;
-  };
+  }
   // id of person changing password, set after verification
   let personId;
-
-  console.log('the token:', theToken);
   // verify that the token is good
   jwt.verify(theToken, process.env.JWT_SECRET, (err, authData) => {
     // check for error and return is so
-    if(err) {
+    if (err) {
       res.status(403);
       return;
-    };
+    }
     // set person changing password
     personId = authData.id;
   }); // end token verification,
-  
+
   // now that we know its the authorized user,
   // update db with new password
   const sqlText = `
@@ -94,16 +99,26 @@ router.post('/resetPassword', (req, res) => {
   // hash the new password
   const password = encryptLib.encryptPassword(req.body.newPassword);
 
-  pool.query(sqlText, [password, personId]).then((dbRes) => {
-    res.sendStatus(200);
-  }).catch(err => {
-    console.log('💥 something happened in the db query', err);
-    res.sendStatus(500);
-  });
+  pool
+    .query(sqlText, [password, personId])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('💥 something happened in the db query', err);
+      res.sendStatus(500);
+    });
 }); // end resetPassword
 
 router.post('/forgotPassword', async (req, res) => {
-  try{
+  try {
+    let hostName = `localhost:3000`;
+    // for deployment on heroku ???
+    if (process.env.DATABASE_URL) {
+      const params = url.parse(process.env.DATABASE_URL);
+      const theHost = req.hostname;
+      hostName = `${theHost}:${params.port}`;
+    }
     // get user info from db that matched the entered email
     const sqlText = `
     SELECT * FROM "users"
@@ -113,9 +128,9 @@ router.post('/forgotPassword', async (req, res) => {
 
     // if no user if found, return no email found
     if (dbRes.rows.length === 0) {
-      res.status(404).send("No email found")
+      res.status(404).send('No email found');
       return;
-    };
+    }
 
     // if the email exists, get the info
     const userInfo = dbRes.rows[0];
@@ -125,33 +140,34 @@ router.post('/forgotPassword', async (req, res) => {
 
     const payload = {
       email: userInfo.email,
-      id: userInfo.id
+      id: userInfo.id,
     };
 
     localToken = jwt.sign(payload, secret);
 
-    const link = `http://localhost:3000/#/resetPassword/${localToken}/${userInfo.id}`
+    const link = `http://${hostName}/#/resetPassword/${localToken}/${userInfo.id}`;
 
     // send the email to the users email
-    const info =  await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: `${req.body.email}`,
-      subject: "Password Change Request",
-      text: `
+    const info = await transporter.sendMail(
+      {
+        from: process.env.EMAIL,
+        to: `${req.body.email}`,
+        subject: 'Password Change Request',
+        text: `
       Regarding your password change request, please click the link provided and follow the instructions there. 
       ${link}
       `,
-    }, (err, info) => {
-      if (err) {
-        console.log(err);
-        res.status(404).send("Email Failed")
-        return;
-      } ;
-      res.send('email sent');
-    });
-    
-  }
-  catch(err) {
+      },
+      (err, info) => {
+        if (err) {
+          console.log(err);
+          res.status(404).send('Email Failed');
+          return;
+        }
+        res.send('email sent');
+      }
+    );
+  } catch (err) {
     console.log('💥 something went wrong with the forgot password', err);
   }
 }); // end forgotPassword

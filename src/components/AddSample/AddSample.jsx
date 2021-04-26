@@ -4,7 +4,27 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 // Material UI imports
-import { TextField, DialogActions, DialogContent, DialogTitle, DialogContentText, Dialog, Button, MenuItem, FormHelperText, FormControl, Select, Typography, Grid, Paper, Divider, Fade, makeStyles, Tooltip } from '@material-ui/core';
+import {
+  TextField,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+  Dialog,
+  Button,
+  MenuItem,
+  FormHelperText,
+  FormControl,
+  Select,
+  Typography,
+  Grid,
+  Paper,
+  Divider,
+  Fade,
+  makeStyles,
+  Tooltip,
+  Container,
+} from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -70,7 +90,7 @@ function AddSample() {
     });
   }; // end focusChange
 
-  const cancelRequest = (event) => {
+  const deleteRequest = (event) => {
     // Clear all inputs
 
     setOpen(false);
@@ -111,16 +131,26 @@ function AddSample() {
   } // end enterInfo
 
   return (
-    <center>
-      <Paper style={{ padding: 17, marginBottom: 20, maxWidth: '70%' }}>
-        <Typography variant="h3" align="center" gutterBottom>Sample Information</Typography>
+    <Container maxWidth="md">
+      <Paper style={{ padding: 17, marginBottom: 15 }}>
+        <Typography variant="h1" align="center" gutterBottom>
+          Sample Information
+        </Typography>
+
         <center>
-          <Divider style={{ maxWidth: "60%" }} />
+          <Divider style={{ maxWidth: '60%' }} />
         </center>
+
         <form className={classes.root}>
-          <Grid container justify="center" alignItems="flex-start">
+          <Grid
+            container
+            justify="center"
+            alignItems="flex-start"
+            spacing={3}
+            style={{ marginTop: 15, marginBottom: 15 }}
+          >
             <Grid item xs>
-              <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
+              <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
                 {/* Ingredient Name */}
                 <div>
                   <FormControl variant="standard">
@@ -130,10 +160,11 @@ function AddSample() {
                       onFocus={() => setCurrentInput('ingredientName')}
                       onBlur={() => focusChange(currentSample.ingredientName)}
                       onChange={(event) => enterInfo(event.target.value)}
-                      displayEmpty>
+                      displayEmpty
+                    >
                       <MenuItem value="" disabled>
                         Ingredient Name
-                  </MenuItem>
+                      </MenuItem>
                       <MenuItem value={'CBD'}>CBD</MenuItem>
                       <MenuItem value={'Other'}>Other</MenuItem>
                     </Select>
@@ -173,7 +204,6 @@ function AddSample() {
                   >
                     <InfoOutlined />
                   </Tooltip>
-
                 </div>
 
                 {/* Ingredient Format */}
@@ -189,7 +219,7 @@ function AddSample() {
                     >
                       <MenuItem value="" disabled>
                         Pick a Format
-                    </MenuItem>
+                      </MenuItem>
                       <MenuItem value={'Powder'}>Powder</MenuItem>
                       <MenuItem value={'Tincture'}>Tincture</MenuItem>
                       <MenuItem value={'Oil'}>Oil</MenuItem>
@@ -233,7 +263,7 @@ function AddSample() {
                     >
                       <MenuItem value="" disabled>
                         Unit
-                    </MenuItem>
+                      </MenuItem>
                       <MenuItem value={'Milligrams'}>Milligrams</MenuItem>
                       <MenuItem value={'Grams'}>Grams</MenuItem>
                       <MenuItem value={'Ounces'}>Ounces</MenuItem>
@@ -273,8 +303,9 @@ function AddSample() {
                 </div>
               </Paper>
             </Grid>
+
             <Grid item xs>
-              <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
+              <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
                 <div>
                   {/* Manufactured Date */}
                   <TextField
@@ -345,12 +376,13 @@ function AddSample() {
                 </div>
               </Paper>
             </Grid>
-            <Grid item xs>
-              <Paper style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}>
 
+            <Grid item xs>
+              <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
                 {/* Growth Region */}
-                <Typography variant="body1">Growth Region:
-                <Tooltip
+                <Typography variant="body1">
+                  Growth Region:
+                  <Tooltip
                     arrow
                     title={regionText}
                     TransitionComponent={Fade}
@@ -384,6 +416,7 @@ function AddSample() {
                     required
                   />
                 </div>
+
                 <div>
                   <TextField
                     label="Country"
@@ -396,6 +429,7 @@ function AddSample() {
                     required
                   />
                 </div>
+
                 <div>
                   {/* Harvest Date */}
                   <TextField
@@ -420,8 +454,9 @@ function AddSample() {
                     <InfoOutlined />
                   </Tooltip>
                 </div>
+
                 <div>
-                  {/* Susatinability Info */}
+                  {/* Sustainability Info */}
                   <TextField
                     label="Sustainability Info"
                     type="text"
@@ -444,45 +479,55 @@ function AddSample() {
               </Paper>
             </Grid>
           </Grid>
-          <Grid container justify="center" alignItems="flex-start">
-            <div style={{ marginBottom: 40 }}>
-              <Button
-                style={{ backgroundColor: '#1e565c', color: 'white' }}
-                variant="contained"
-                color="primary"
-                onClick={handleCancel}>
-                Cancel Request
-          </Button>
-              <Button
-                style={{ marginLeft: 125, backgroundColor: '#1e565c', color: 'white' }}
-                variant="contained"
-                color="primary"
-                onClick={() => history.push('/sample/ship')}>
-                Next : Shipping Info
-          </Button>
-            </div>
-          </Grid>
         </form>
       </Paper>
+
+      <Grid container justify="flex-end" alignItems="center" spacing={2}>
+        <Grid item>
+          <Button variant="outlined" color="primary" onClick={handleCancel}>
+            Delete Request
+          </Button>
+        </Grid>
+
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push('/sample/ship')}
+          >
+            Next : Shipping Info
+          </Button>
+        </Grid>
+      </Grid>
+
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          Are you sure you want to cancel the current sample?
-        </DialogTitle>
+        <DialogTitle>Are you sure you want to delete this sample?</DialogTitle>
+
         <DialogContent>
-          <DialogContentText>
-            Cancelling will erase all current inputs.
-          </DialogContentText>
+          <DialogContentText>This cannot be undone</DialogContentText>
         </DialogContent>
+
         <DialogActions>
-          <Button onClick={cancelRequest} style={{ backgroundColor: '#1e565c', color: 'white' }} >
+          <Button
+            size="small"
+            variant="contained"
+            onClick={deleteRequest}
+            color="primary"
+          >
             Yes
           </Button>
-          <Button variant="contained" onClick={handleClose} style={{ color: '#1e565c' }} autoFocus>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={handleClose}
+            color="primary"
+            autoFocus
+          >
             No
           </Button>
         </DialogActions>
       </Dialog>
-    </center>
+    </Container>
   );
 }
 

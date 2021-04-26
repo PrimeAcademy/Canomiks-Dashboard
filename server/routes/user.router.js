@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/', rejectUnauthenticated, async (req, res) => {
   // Send back user object from the session (previously queried from the database)
   await pool.query(
-    `SELECT users.id, users.name, users.email, users."companyID", users."authLevel", companies."companyName", companies."active" FROM "users" JOIN companies ON users."companyID"=companies.id WHERE users.id = $1;`,
+    `SELECT users.*, companies.* FROM "users" JOIN companies ON users."companyID"=companies.id WHERE users.id = $1;`,
     [req.user.id]
   );
   res.send(req.user);

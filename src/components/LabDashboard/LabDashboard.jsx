@@ -1,12 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
-import LabDetail from '../LabDetail/LabDetail';
 import { makeStyles } from '@material-ui/core/styles';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-
 import {
+  Button,
+  Dialog,
   Table,
   TableBody,
   TableCell,
@@ -14,44 +15,154 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Button,
-  Typography,
+  TableSortLabel,
+  Paper,
   TextField,
-  Dialog,
   Container,
-  IconButton,
+  Typography,
+  Checkbox,
+  FormControlLabel,
 } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
-// material ui style
-const useStyles = makeStyles({
+import LabDetail from '../LabDetail/LabDetail';
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+const headCells = [
+  { id: 'id', numeric: false, disablePadding: true, label: 'Order ID' },
+  { id: 'lotNumber', numeric: true, disablePadding: true, label: 'Lot Number' },
+  {
+    id: 'companyName',
+    numeric: true,
+    disablePadding: true,
+    label: 'Company Name',
+  },
+  {
+    id: 'receivedDate',
+    numeric: true,
+    disablePadding: true,
+    label: 'Date Received',
+  },
+  {
+    id: 'statusName',
+    numeric: true,
+    disablePadding: true,
+    label: 'Test Phase',
+  },
+  { id: 'action', numeric: true, disablePadding: true, label: '' },
+];
+
+function EnhancedTableHead(props) {
+  const { classes, order, orderBy, rowCount, onRequestSort } = props;
+
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {headCells.map((headCell) => (
+          <TableCell
+            style={{ fontWeight: 700 }}
+            key={headCell.id}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'default'}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <span className={classes.visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+EnhancedTableHead.propTypes = {
+  classes: PropTypes.object.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
+
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-  },
-  container: {
-    maxHeight: 600,
-    maxWidth: '80%',
   },
   table: {
     minWidth: 650,
   },
-});
-//////Main function start
-function LabDashboard() {
-  // date set up
-  let ourDate = moment().format(); // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
+  container: {
+    maxHeight: '55vh',
+    maxWidth: '100%',
+  },
+}));
+
+export default function LabDashTest() {
+  const ourDate = moment().format(); // "2014-09-08T08:02:17-05:00" (ISO 8601, no fractional seconds)
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  /* Store Imports */
-  const orders = useSelector((store) => store.orders.orderReducer);
+  const allOrders = useSelector((store) => store.orders.orderReducer);
 
-  /* Local State */
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [order, setOrder] = useState('desc');
+  const [orderBy, setOrderBy] = useState('id');
   const [filter, setFilter] = useState('');
+  const [isDelayed, setIsDelayed] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
   const [clickedSample, setClickedSample] = useState({});
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     dispatch({
@@ -59,14 +170,23 @@ function LabDashboard() {
     });
   }, []);
 
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-  }; // end handleChangePage
+  };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  }; // end handleChangeRowsPerPage
+  };
+
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, allOrders.length - page * rowsPerPage);
 
   const handleOpen = (sample) => {
     setClickedSample(sample);
@@ -90,113 +210,108 @@ function LabDashboard() {
     });
   }; // end shippingUpdate
 
+  const handleSearchByDelayed = (event, value) => {
+    if (value) {
+      dispatch({
+        type: 'SEARCH_DELAYED_ORDERS',
+        payload: { value },
+      });
+    } else if (!value) {
+      dispatch({
+        type: 'FETCH_ALL_ORDERS',
+      });
+    }
+    setIsDelayed(value);
+  };
+
   return (
-    <Container maxWidth="xl">
-      <Typography
-        variant="h3"
-        component="h1"
-        style={{ marginLeft: '10%', fontWeight: 700 }}
-      >
+    <Container maxWidth="md">
+      <Typography variant="h1" style={{ marginBottom: 5 }} gutterBottom>
         Current Orders
       </Typography>
-
-      {/* Search field */}
-      <div>
+      <div style={{ margin: 10 }}>
         <TextField
-          label="Search..."
+          label="Search by Company..."
           variant="standard"
-          style={{ margin: 25, marginLeft: '10%' }}
           onChange={(event) => {
             setFilter(event.target.value);
           }}
+        />
+        <FormControlLabel
+          style={{ marginLeft: 20, marginTop: 10 }}
+          control={
+            <Checkbox
+              checked={isDelayed}
+              onChange={(event, val) => handleSearchByDelayed(event, val)}
+              name="delayed"
+              style={{ color: '#1e565c' }}
+            />
+          }
+          label={<Typography>Delayed Tests</Typography>}
         />
       </div>
 
       <center>
         <TableContainer className={classes.container}>
           <Table
-            aria-label="sticky table"
-            className={classes.table}
             stickyHeader
+            className={classes.table}
+            aria-labelledby="currentOrdersTable"
+            size={rowsPerPage > 10 ? 'small' : 'medium'}
+            aria-label="currentOrders"
           >
-            <TableHead>
-              <TableRow>
-                <TableCell label="Lot Number" style={{ fontWeight: 700 }}>
-                  Lot Number
-                </TableCell>
-
-                <TableCell
-                  label="Company Name"
-                  align="right"
-                  style={{ fontWeight: 700 }}
-                >
-                  Company Name
-                </TableCell>
-
-                <TableCell
-                  label="Date Received"
-                  align="right"
-                  style={{ fontWeight: 700 }}
-                >
-                  Date Received
-                </TableCell>
-
-                <TableCell
-                  label="Test Phase"
-                  align="right"
-                  style={{ fontWeight: 700 }}
-                >
-                  Test Phase
-                </TableCell>
-
-                <TableCell
-                  label="Action Button"
-                  align="right"
-                  style={{ fontWeight: 700 }}
-                >
-                  Action
-                </TableCell>
-              </TableRow>
-            </TableHead>
-
+            <EnhancedTableHead
+              classes={classes}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              rowCount={allOrders.length}
+            />
             <TableBody>
-              {orders
+              {stableSort(allOrders, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((order) => {
-                  // change status if date has passed
+                .map((thisOrder, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
                   if (
-                    order.statusName === 'Pre-Shipment' &&
-                    order.shippedDate < ourDate
+                    thisOrder.statusName === 'Pre-Shipment' &&
+                    thisOrder.shippedDate < ourDate
                   ) {
-                    order.statusName = 'In Transit';
-                    order.testingStatus = 2;
-                    shippingUpdate(order);
+                    thisOrder.statusName = 'In Transit';
+                    thisOrder.testingStatus = 2;
+                    shippingUpdate(thisOrder);
                   }
-
                   if (
-                    order.lotNumber.toLowerCase().includes(filter.toLowerCase())
+                    thisOrder.companyName
+                      .toLowerCase()
+                      .includes(filter.toLowerCase())
                   ) {
                     return (
-                      <TableRow
-                        role="checkbox"
-                        key={order.id}
-                        tabIndex={-1}
-                        hover
-                      >
+                      <TableRow hover tabIndex={-1} key={thisOrder.id}>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {thisOrder.id}
+                        </TableCell>
+
                         {/* Lot Number */}
-                        <TableCell component="th" scope="row">
-                          {order.lotNumber}
+                        <TableCell align="right">
+                          {thisOrder.lotNumber}
                         </TableCell>
 
                         {/* Company Name */}
                         <TableCell align="right">
-                          {order.companyName}
+                          {thisOrder.companyName}
                         </TableCell>
 
                         {/* Date Received */}
-                        {order.receivedDate ? (
+                        {thisOrder.receivedDate ? (
                           <TableCell align="right">
-                            {moment(order.receivedDate).format('MMMM DD YYYY')}
+                            {moment
+                              .utc(thisOrder.receivedDate)
+                              .format('MMMM DD YYYY')}
                           </TableCell>
                         ) : (
                           <TableCell align="right">Not Received</TableCell>
@@ -204,7 +319,21 @@ function LabDashboard() {
 
                         {/* Test Phase */}
                         <TableCell align="right">
-                          {order.delayed && <IconButton onClick={() => handleOpen(order)}><ErrorOutlineIcon style={{ color: '#F3A653' }} /></IconButton>}{order.statusName}
+                          {thisOrder.delayed && (
+                            <IconButton
+                              style={{ padding: 0, margin: 0, marginRight: 5 }}
+                              onClick={() => handleOpen(thisOrder)}
+                            >
+                              <ErrorOutlineIcon
+                                style={{
+                                  color: '#F3A653',
+                                  padding: 0,
+                                  margin: 0,
+                                }}
+                              />
+                            </IconButton>
+                          )}
+                          {thisOrder.statusName}
                         </TableCell>
 
                         {/* Action */}
@@ -212,11 +341,8 @@ function LabDashboard() {
                           <Button
                             variant="contained"
                             size="small"
-                            style={{
-                              backgroundColor: '#1e565c',
-                              color: 'white',
-                            }}
-                            onClick={() => handleOpen(order)}
+                            color="primary"
+                            onClick={() => handleOpen(thisOrder)}
                           >
                             View Details
                           </Button>
@@ -225,30 +351,33 @@ function LabDashboard() {
                     );
                   }
                 })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{ height: (rowsPerPage > 10 ? 33 : 53) * emptyRows }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
-
         <TablePagination
-          className={classes.container}
+          style={{ marginRight: '10%' }}
+          rowsPerPageOptions={[10, 20, 50]}
           component="div"
-          rowsPerPageOptions={[10, 25, 100]}
-          count={orders.length}
+          count={allOrders.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <Dialog open={openDetail} onClose={handleClose} scroll="paper">
+          <LabDetail
+            originalSample={clickedSample}
+            setOpenDetail={setOpenDetail}
+          />
+        </Dialog>
       </center>
-
-      <Dialog open={openDetail} onClose={handleClose} scroll="paper">
-        <LabDetail
-          originalSample={clickedSample}
-          setOpenDetail={setOpenDetail}
-        />
-      </Dialog>
     </Container>
   );
 }
-
-export default LabDashboard;

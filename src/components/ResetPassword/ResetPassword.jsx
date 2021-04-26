@@ -3,9 +3,15 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-
 // material ui components
-import { Button, makeStyles, TextField, Typography, Paper, Grid } from '@material-ui/core';
+import {
+  Button,
+  makeStyles,
+  TextField,
+  Typography,
+  Paper,
+  Grid,
+} from '@material-ui/core';
 
 // material ui styles
 const useStyles = makeStyles((theme) => ({
@@ -19,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 40,
     marginBottom: 40,
     maxWidth: 350,
-    padding: 25
-  }
+    padding: 25,
+  },
 }));
 
 function ResetPassword() {
@@ -51,21 +57,21 @@ function ResetPassword() {
         id: params.id,
         token: params.token,
         newPassword,
-      }
+      },
     }); // end dispatch
     history.push('/login');
   }; // end login
 
   return (
-    <Grid container justify='center'>
+    <Grid container justify="center">
       <Paper className={classes.paper}>
-
         <form className={classes.form}>
-
-          <Typography variant="h4" 
-          align="center" 
-          style={{ fontWeight: 550 }} 
-          gutterBottom>
+          <Typography
+            variant="h4"
+            align="center"
+            style={{ fontWeight: 550 }}
+            gutterBottom
+          >
             Enter New Password
           </Typography>
 
@@ -85,31 +91,33 @@ function ResetPassword() {
                 name="newPassword"
                 required
                 value={newPassword}
-                onChange={(event) => setNewPassword(event.target.value)}/>
+                onChange={(event) => setNewPassword(event.target.value)}
+              />
             </div>
-            
+
             <div>
-            <TextField
-              variant="outlined"
-              size="small"
-              type="password"
-              label="Confirm Password"
-              value={passwordConfirm}
-              required
-              onChange={(event) => setPasswordConfirm(event.target.value)}
-            />
+              <TextField
+                variant="outlined"
+                size="small"
+                type="password"
+                label="Confirm Password"
+                value={passwordConfirm}
+                required
+                onChange={(event) => setPasswordConfirm(event.target.value)}
+              />
             </div>
 
             <div>
               <Button
-                style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+                color="primary"
+                style={{ margin: 10 }}
                 name="login"
                 value="Log In"
-                onClick={changePassword}>
+                onClick={changePassword}
+              >
                 Set Password
               </Button>
             </div>
-
           </center>
         </form>
       </Paper>
