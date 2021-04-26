@@ -39,18 +39,25 @@ router.post('/', rejectUnauthenticated, (req, res) => {
       from: process.env.EMAIL,
       to: `${req.body.email}`,
       subject: 'Sample info from Canomiks',
-      text: ` ${req.body.name},
-    ${req.body.message}
-    
-    Lot Number Effected: ${req.body.lotNumber}
-    Ingredient: ${req.body.ingredient}
-    CropStrain: ${req.body.strain}
-    Sample Status: ${req.body.statusName}
-    ${req.body.pdf ? `Log in to your dashboard to see the results` : ``}
-    
-    For more Information please feel free to contact us:
-    https://www.canomiks.com/contactus
-    `,
+      html: `<center><img src="https://images.squarespace-cdn.com/content/5b5bb399cc8fedfa5b4a6d2d/1532760829771-7PJIEDD3JDIXLZIRZCQD/Canomiks-small.jpg?format=1500w&content-type=image%2Fjpeg" alt="Canomiks Logo" width="250"/></center>
+      <hr style="width:70%;height:1px;border:none;color:#1e565c;background-color:#1e565c;">
+      <br>
+      <div style="color:black;width:60%;margin:auto;font-family:roboto, open sans, sans-serif;font-size:13">
+      <p>${req.body.name},</p>
+      <p style="text-indent: 2em;">${req.body.message}</p>
+      <p><strong>Lot #:</strong> ${req.body.lotNumber}</p>
+      <p><strong>Ingredient:</strong> ${req.body.ingredient}</p>
+      <p><strong>Strain:</strong> ${req.body.strain}</p>
+      <p><strong>Sample Status:</strong> ${req.body.statusName}</p>
+      ${
+        req.body.pdf
+          ? `<p><strong>Log in to your dashboard to see the results</strong></p>`
+          : ``
+      }
+      <p>For more Information please <a href="https://www.canomiks.com/contactus">contact us</a></p
+      <br>
+      <p>Sincerely,</p>
+      <p>The Canomiks Team</p></div>`,
     },
     (err, info) => {
       if (err) {
