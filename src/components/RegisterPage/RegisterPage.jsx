@@ -142,7 +142,6 @@ function RegisterPage() {
       >
         Login
           </Button>
-
     </center>
   );
 }

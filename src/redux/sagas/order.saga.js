@@ -11,7 +11,8 @@ function* fetchCustomerOrders() {
   } catch (err) {
     console.error('Error in fetchCustomerOrders', err.message);
   }
-}
+}; // end fetchCustomerOrders
+
 function* updateUrl(action) {
   try {
     const response = yield axios.put('/api/orders/url', action.payload);
@@ -78,33 +79,46 @@ function* updateSampleLab(action) {
   try {
     const response = yield axios.put('/api/orders/lab/update', action.payload.sample);
 
+    const customerSampleInfo = action.payload.sample
+
     // // Checks if delayed status has been changed
-    if (action.payload.delayed !== response.data.delayed && response.data.delayed === true) {
-      // delayed status email triggered
-       yield put({
-        type: 'EMAIL_STATUS',
-        payload: {
-          orderId: response.data.id,
-          companyID: response.data.companyID,
-          message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
-        }
-      }); // end dispatch
-    }
+    if (response.data.delayed) {
+      // check if customer wants to be alerted
+      if(customerSampleInfo.alertDelay) {
+        console.log('its a hit')
+        // delayed status email triggered
+        yield put({
+          type: 'EMAIL_STATUS',
+          payload: {
+            strain: customerSampleInfo.cropStrain,
+            pdf: customerSampleInfo.pdfUrl,
+            ingredient: customerSampleInfo.ingredientName,
+            orderId: response.data.id,
+            companyID: response.data.companyID,
+            message: 'Unfortunately there was an issue with your sample and it has been delayed. Somebody should be in contact with you shortly with more information. '
+          }
+        }); // end yield put (dispatch)
+      }; // end customer check
+    };
 
     // Checks if test state has been changed
     if (
-      action.payload.sequence !== action.payload.sample.sequence ||
-      action.payload.testState !== action.payload.sample.testState
+      action.payload.sequence !== customerSampleInfo.sequence ||
+      action.payload.testState !== customerSampleInfo.testState
     ) {
-      // status change email triggered
-       yield put({
-        type: 'EMAIL_STATUS',
-        payload: {
-          orderId: action.payload.sample.id,
-          companyID: action.payload.sample.companyID,
-          message: 'Your sample has moved to the next stage of the testing process. '
-        }
-      }); // end dispatch
+      if(action.payload.sample.alertStatusChange) {
+        // status change email triggered
+        yield put({
+          type: 'EMAIL_STATUS',
+          payload: {
+            strain: customerSampleInfo.cropStrain,
+            ingredient: customerSampleInfo.ingredientName,
+            orderId: customerSampleInfo.id,
+            companyID: customerSampleInfo.companyID,
+            message: 'Your sample has moved to the next stage of the testing process. '
+          }
+        }); // end dispatch
+      }; // end customer check
     }
 
     yield put({
@@ -128,21 +142,30 @@ function* deleteCurrentSample(action) {
 } // end deleteCurrentSample
 
 function* updateTestPhase(action) {
-  console.log(action, "action")
-  try{
+  try {
     const response = yield axios.put('/api/orders/date', action.payload)
     console.log(response.data, "response");
     yield put({
       type: 'SET_CURRENT_SAMPLE',
       payload: response.data,
     });
-  }catch (err) {
+  } catch (err) {
     console.error('Error in updateTestPhase', err.message);
   }
 }
 
-
-
+function* searchDelayedOrders(action) {
+  console.log('action', action.payload.value);
+  try {
+    const response = yield axios.get(`/api/orders/delayed/${action.payload.value}`);
+    yield put({
+      type: 'SET_ALL_ORDERS',
+      payload: response.data
+    });
+  } catch (err) {
+    console.error('Error in searchDelayedOrders', err.message);
+  }
+}
 
 function* orderSaga() {
   yield takeLatest('FETCH_CUSTOMER_ORDERS', fetchCustomerOrders);
@@ -154,6 +177,7 @@ function* orderSaga() {
   yield takeLatest('UPDATE_SAMPLE_LAB', updateSampleLab);
   yield takeLatest('DELETE_CURRENT_SAMPLE', deleteCurrentSample);
   yield takeLatest('UPDATE_TEST_PHASE', updateTestPhase);
+  yield takeLatest('SEARCH_DELAYED_ORDERS', searchDelayedOrders);
 }
 
 export default orderSaga;

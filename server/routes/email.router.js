@@ -42,10 +42,16 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     subject: "Sample info from Canomiks",
     text: ` ${req.body.name},
     ${req.body.message}
-
-    Lot Number Effected: ${req.body.lotNumber}
-    Sample Status: ${req.body.statusName}`,
     
+    Lot Number Effected: ${req.body.lotNumber}
+    Ingredient: ${req.body.ingredient}
+    CropStrain: ${req.body.strain}
+    Sample Status: ${req.body.statusName}
+    ${req.body.pdf ? `Download PDF of your Results: ${req.body.pdf}` : ``}
+    
+    For more Information please feel free to contact us:
+    https://www.canomiks.com/contactus
+    `,
   }, (err, info) => {
     if (err) {
       res.send('💥 error sending email', err);

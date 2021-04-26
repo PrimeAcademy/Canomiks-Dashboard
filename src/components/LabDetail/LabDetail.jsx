@@ -8,7 +8,7 @@ import moment from 'moment';
 import SampleProgress from '../SampleProgress/SampleProgress';
 
 // material ui
-import { DialogContent, DialogContentText, Button } from '@material-ui/core';
+import { DialogContent, DialogContentText, Button, DialogActions } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { ErrorOutline } from '@material-ui/icons';
 
@@ -46,7 +46,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
   const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
-    // Dispatch toggles currentSample delayed status
+    // Dispatch toggles currentSample delayed status    
     dispatch({
       type: 'EDIT_SAMPLE_DELAY', // goes to reducer
       payload: !sample.delayed,
@@ -132,7 +132,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
         <div>
           <p>
-            Manufacture Date:
+            Manufactured Date:
             {moment(sample.dateManufactured).format('M/YYYY')}
           </p>
           <p>Extraction Method: {sample.extractionMethod}</p>
@@ -148,14 +148,26 @@ function LabDetail({ setOpenDetail, originalSample }) {
             <p>Sustainability: {sample.sustainabilityInfo}</p>
           )}
         </div>
-
+      </DialogContentText>
+      <DialogActions>
         {/* Render button when sample is received to move it into the queue */}
         {sample.sequence === 3 && sample.testState === 'SHIP' && (
           <Button variant="contained" onClick={moveToQueue}>
             Move to Queue
           </Button>
         )}
-
+        <Button
+          variant="outline"
+          size="small"
+          style={{
+            margin: 5,
+            marginRight: 120,
+          }}
+          variant="outlined"
+          onClick={() => setOpenDetail(false)}
+        >
+          Cancel Changes
+        </Button>
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
            <Button
@@ -181,31 +193,17 @@ function LabDetail({ setOpenDetail, originalSample }) {
           </div>
         )}
 
-        <Button
-          variant="outline"
-          size="small"
-          style={{
-            margin: 5,
-            marginRight: 120,
-          }}
-          variant="outlined"
-          onClick={() => setOpenDetail(false)}
-        >
-          Cancel Changes
-        </Button>
 
         <Button
-          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
           size="small"
           color="primary"
           variant="contained"
           onClick={markDelay}
         >
-          {sample.delayed ? <>Un-mark Delay</> : <>Mark Delay</>}
+          {sample.delayed ? 'Un-mark Delay' : 'Mark Delay'}
         </Button>
 
         <Button
-          style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
           size="small"
           color="primary"
           variant="contained"
@@ -213,7 +211,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
         >
           Save Changes
         </Button>
-      </DialogContentText>
+      </DialogActions>
     </DialogContent>
   );
 }
