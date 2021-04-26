@@ -132,7 +132,7 @@ function CustomerDetail({ sample }) {
             style={{ margin: 10 }}
             onClick={() => window.open(sample.pdfUrl)}
           >
-            Download Results
+            View Results
           </Button>
         )}
       </DialogActions>

@@ -199,7 +199,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
               variant="contained"
               onClick={() => window.open(sample.pdfUrl)}
             >
-              Download Results
+              View Results
             </Button>
           </div>
         )}

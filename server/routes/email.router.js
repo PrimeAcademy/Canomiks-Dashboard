@@ -57,12 +57,12 @@ router.post('/', rejectUnauthenticated, (req, res) => {
         console.log('💥 error sending email', err);
         res.sendStatus(500);
         return;
+      } else {
+        console.log('🎉 it has been sent', info.response);
+        res.sendStatus(200);
       }
-      console.log('🎉 it has been sent', info.response);
     }
   );
-
-  res.sendStatus(200);
 }); // end basic email
 
 // -------- FORGOT PASSWORD ROUTES --------
