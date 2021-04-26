@@ -164,13 +164,13 @@ router.put('/url', rejectUnauthenticated, async (req, res) => {
     `;
     const dbRes = await pool.query(sqlText, orderArray);
 
-
     if (dbRes.rows.length === 0) {
       res.sendStatus(404);
       return;
     } else {
       res.send(dbRes.rows[0]);
     }
+  }
    catch (err) {
     console.error('Error in PUT /url', err.message);
     res.sendStatus(500);
