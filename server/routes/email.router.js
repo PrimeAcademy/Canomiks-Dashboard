@@ -39,8 +39,8 @@ router.post('/', rejectUnauthenticated, (req, res) => {
       from: process.env.EMAIL,
       to: `${req.body.email}`,
       subject: 'Sample info from Canomiks',
-      html: `<center><img src="https://images.squarespace-cdn.com/content/5b5bb399cc8fedfa5b4a6d2d/1532760829771-7PJIEDD3JDIXLZIRZCQD/Canomiks-small.jpg?format=1500w&content-type=image%2Fjpeg" alt="Canomiks Logo" width="250"/></center>
-      <hr style="width:70%;height:1px;border:none;color:#1e565c;background-color:#1e565c;">
+      html: `<center><img src="https://images.squarespace-cdn.com/content/5b5bb399cc8fedfa5b4a6d2d/1532760829771-7PJIEDD3JDIXLZIRZCQD/Canomiks-small.jpg?format=1500w&content-type=image%2Fjpeg" alt="Canomiks Logo" width="200"/></center>
+      <hr style="width:70%;height:1px;border:none;color:#1e565c;background: -webkit-gradient(linear, 0 0, 100% 0, from(transparent), to(transparent), color-stop(40%, #1e565c), color-stop(60%, #1e565c));">
       <br>
       <div style="color:black;width:60%;margin:auto;font-family:roboto, open sans, sans-serif;font-size:13">
       <p>${req.body.name},</p>
