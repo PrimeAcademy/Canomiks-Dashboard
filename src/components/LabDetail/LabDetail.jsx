@@ -47,12 +47,6 @@ function LabDetail({ setOpenDetail, originalSample }) {
   const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
-    // Dispatch toggles currentSample delayed status
-    dispatch({
-      type: 'EDIT_SAMPLE_DELAY', // goes to reducer
-      payload: !sample.delayed,
-    });
-
     setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
 
@@ -60,15 +54,11 @@ function LabDetail({ setOpenDetail, originalSample }) {
   function uploading(event) {
     S3FileUpload.uploadFile(event.target.files[0], config)
       .then((data) => {
-        console.log(data.location);
         setSample({ ...sample, pdfUrl: data.location });
-        // dispatch({
-        //   type: 'EDIT_SAMPLE_PDF',
-        //   payload: data.location,
-        // });
       })
       .catch((err) => console.error(err));
-  }
+  } // end uploading
+
   const changeStep = (step) => {
     if (step === 3 && sample.testState === 'SHIP') {
       setSample({ ...sample, receivedDate: new Date(), sequence: step });

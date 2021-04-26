@@ -19,24 +19,7 @@ function* updateUrl(action) {
     const response = yield axios.put('/api/orders/url', action.payload);
 
     // send update email
-    yield put({
-      type: 'EMAIL_STATUS',
-      payload: {
-        strain: response.data.cropStrain,
-        pdf: response.data.pdfUrl,
-        ingredient: response.data.ingredientName,
-        orderId: response.data.id,
-        companyID: response.data.companyID,
-        message:
-          'Good News! We have finished testing your sample. Click the link to the pdf below. For any questions please feel free to reach out to us. Thank You. ',
-      },
-    }); // end yield put (dispatch)
-
-    // // update current sample
-    // yield put({
-    //   type: 'SET_CURRENT_SAMPLE',
-    //   payload: response.data,
-    // });
+    // end yield put (dispatch)
   } catch (err) {
     console.error('Error in updateUrl', err);
   }
@@ -99,46 +82,59 @@ function* updateSampleLab(action) {
 
     const customerSampleInfo = action.payload.sample;
 
-    // // Checks if delayed status has been changed
-    if (response.data.delayed) {
-      // check if customer wants to be alerted
-      if (customerSampleInfo.alertDelay) {
-        console.log('its a hit');
-        // delayed status email triggered
-        yield put({
-          type: 'EMAIL_STATUS',
-          payload: {
-            strain: customerSampleInfo.cropStrain,
-            pdf: customerSampleInfo.pdfUrl,
-            ingredient: customerSampleInfo.ingredientName,
-            orderId: response.data.id,
-            companyID: response.data.companyID,
-            message:
-              'Unfortunately there was an issue with your sample and it has been delayed. Somebody will be in contact with you shortly with more information. ',
-          },
-        }); // end yield put (dispatch)
-      } // end customer check
+    // Checks if theres a pdf and if the customer wants to be notified
+    if (customerSampleInfo.pdfUrl && customerSampleInfo.alertResultsReady) {
+      yield put({
+        type: 'EMAIL_STATUS',
+        payload: {
+          strain: response.data.cropStrain,
+          pdf: response.data.pdfUrl,
+          ingredient: response.data.ingredientName,
+          orderId: response.data.id,
+          companyID: response.data.companyID,
+          message:
+            'Good News! We have finished testing your sample. Please log in to view your results. For any questions please feel free to reach out to us. Thank You. ',
+        },
+      });
     }
 
-    // Checks if test state has been changed
+    // Checks if delayed status has been changed and if the customer wants to be notified
+    else if (response.data.delayed && customerSampleInfo.alertDelay) {
+      // delayed status email triggered
+      yield put({
+        type: 'EMAIL_STATUS',
+        payload: {
+          strain: customerSampleInfo.cropStrain,
+          pdf: customerSampleInfo.pdfUrl,
+          ingredient: customerSampleInfo.ingredientName,
+          orderId: response.data.id,
+          companyID: response.data.companyID,
+          message:
+            'Unfortunately, there was an issue with your sample and it has been delayed. We will be in contact with you shortly with more information. ',
+        },
+      }); // end yield put (dispatch)
+      // end customer check
+    }
+
+    // Checks if test state has been changed and if the customer wants to be notified
     if (
-      action.payload.sequence !== customerSampleInfo.sequence ||
-      action.payload.testState !== customerSampleInfo.testState
+      (action.payload.sequence !== customerSampleInfo.sequence ||
+        action.payload.testState !== customerSampleInfo.testState) &&
+      customerSampleInfo.alertStatusChange
     ) {
-      if (action.payload.sample.alertStatusChange) {
-        // status change email triggered
-        yield put({
-          type: 'EMAIL_STATUS',
-          payload: {
-            strain: customerSampleInfo.cropStrain,
-            ingredient: customerSampleInfo.ingredientName,
-            orderId: customerSampleInfo.id,
-            companyID: customerSampleInfo.companyID,
-            message:
-              'Your sample has moved to the next stage of the testing process. ',
-          },
-        }); // end dispatch
-      } // end customer check
+      // status change email triggered
+      yield put({
+        type: 'EMAIL_STATUS',
+        payload: {
+          strain: customerSampleInfo.cropStrain,
+          ingredient: customerSampleInfo.ingredientName,
+          orderId: customerSampleInfo.id,
+          companyID: customerSampleInfo.companyID,
+          message:
+            'Your sample has moved to the next stage of the testing process. ',
+        },
+      }); // end dispatch
+      // end customer check
     }
 
     yield put({
