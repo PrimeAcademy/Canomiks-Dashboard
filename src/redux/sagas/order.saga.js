@@ -15,14 +15,28 @@ function* fetchCustomerOrders() {
 
 function* updateUrl(action) {
   try {
+    // send the pdf url from amazon to the db
     const response = yield axios.put('/api/orders/url', action.payload);
-    console.log(response.data, 'response');
+    // send update email
     yield put({
-      type: 'SET_CURRENT_SAMPLE',
-      payload: response.data,
-    });
+      type: 'EMAIL_STATUS',
+      payload: {
+        strain: response.data.cropStrain,
+        pdf: response.data.pdfUrl,
+        ingredient: response.data.ingredientName,
+        orderId: response.data.id,
+        companyID: response.data.companyID,
+        message: 'Good News! We have finished testing your sample. Click the link to the pdf below. For any questions please feel free to reach out to us. Thank You. '
+      }
+    }); // end yield put (dispatch)
+
+    // // update current sample
+    // yield put({
+    //   type: 'SET_CURRENT_SAMPLE',
+    //   payload: response.data,
+    // });
   } catch (err) {
-    console.error('Error in updateUrl', err.message);
+    console.error('Error in updateUrl', err);
   }
 } // end updateShipping
 
@@ -43,7 +57,7 @@ function* fetchAllOrders() {
 function* addSampleOrder(action) {
   try {
     const response = yield axios.post('/api/orders/start', action.payload);
-    console.log(response.data, 'response here');
+
     yield put({
       type: 'SET_INIT_SAMPLE_ID',
       payload: response.data,

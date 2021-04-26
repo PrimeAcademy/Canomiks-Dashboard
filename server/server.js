@@ -35,16 +35,7 @@ app.use(express.static('build'));
 
 // App Set //
 const PORT = process.env.PORT || 5000;
-//AWS
-app.use(
-  '/s3',
-  require('react-dropzone-s3-uploader/s3router')({
-    bucket: process.env.AWS_S3_BUCKET,
-    region: process.env.AWS_S3_REGION,
-    headers: { 'Access-Control-Allow-Origin': '*' },
-    ACL: 'public-read',
-  })
-);
+
 
 /** Listen **/
 app.listen(PORT, () => {

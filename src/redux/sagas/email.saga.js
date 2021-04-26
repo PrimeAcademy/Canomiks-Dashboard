@@ -25,7 +25,6 @@ function* emailStatus (action) {
 }; // end emailStatus
 
 
-
 function* emailSaga() {
   yield takeLatest('SEND_EMAIL', sendEmail);
   yield takeLatest('EMAIL_STATUS', emailStatus);

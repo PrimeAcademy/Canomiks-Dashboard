@@ -46,7 +46,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     Ingredient: ${req.body.ingredient}
     CropStrain: ${req.body.strain}
     Sample Status: ${req.body.statusName}
-    ${req.body.pdf ? `Download PDF of your Results: ${req.body.pdf}` : ``}
+    ${req.body.pdf ? `Log in to your dashboard to see the results` : ``}
     
     For more Information please feel free to contact us:
     https://www.canomiks.com/contactus
@@ -54,7 +54,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     },
     (err, info) => {
       if (err) {
-        console.error(err.message);
+        console.log('💥 error sending email', err);
         res.sendStatus(500);
         return;
       }
@@ -78,8 +78,6 @@ router.post('/resetPassword', (req, res) => {
   }
   // id of person changing password, set after verification
   let personId;
-
-  console.log('the token:', theToken);
   // verify that the token is good
   jwt.verify(theToken, process.env.JWT_SECRET, (err, authData) => {
     // check for error and return is so
@@ -114,6 +112,13 @@ router.post('/resetPassword', (req, res) => {
 
 router.post('/forgotPassword', async (req, res) => {
   try {
+    let hostName = `localhost:3000`;
+    // for deployment on heroku ???
+    if (process.env.DATABASE_URL) {
+      const params = url.parse(process.env.DATABASE_URL);
+      const theHost = req.hostname;
+      hostName = `${theHost}:${params.port}`;
+    }
     // get user info from db that matched the entered email
     const sqlText = `
     SELECT * FROM "users"
@@ -140,7 +145,7 @@ router.post('/forgotPassword', async (req, res) => {
 
     localToken = jwt.sign(payload, secret);
 
-    const link = `http://localhost:3000/#/resetPassword/${localToken}/${userInfo.id}`;
+    const link = `http://${hostName}/#/resetPassword/${localToken}/${userInfo.id}`;
 
     // send the email to the users email
     const info = await transporter.sendMail(
