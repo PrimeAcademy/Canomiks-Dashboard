@@ -1,6 +1,3 @@
-
-require('dotenv').config()
-const AWS = require('aws-sdk');
 import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
@@ -19,10 +16,13 @@ import { ErrorOutline } from '@material-ui/icons';
 
 // S3 upload
 
-
+require('dotenv').config()
+const AWS = require('aws-sdk');
 import S3FileUpload from 'react-s3';
 import ReactDom from 'react-dom'
 import uploadFile from 'react-s3';
+
+
 const config = ({
 
   bucketName:process.env.REACT_APP_AWS_BUCKET,
@@ -33,7 +33,6 @@ const config = ({
     ACL: 'public-read',
 })
 
-console.log(process.env)
 
 
   
@@ -55,6 +54,9 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
     setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
+
+
+  //function for uploading PDF
   function uploading(event){
     console.log(event.target.files, 'file');
     S3FileUpload
