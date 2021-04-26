@@ -21,6 +21,7 @@ function CompanyForm(props) {
   // function to make register faster for presentation
   // one for each section/component
   function presentationFormFill () {
+    // auto fill with info
     props.setCompanyName('Golden Rays');
     props.setCompanyAddress('567 Sunshine Drive');
     props.setCompanyCity('Saint Louis');
@@ -39,7 +40,7 @@ function CompanyForm(props) {
           variant="standard"
           size="small"
           value={props.companyName}
-          onChange = {()=> presentationFormFill}
+          onChange = {()=> presentationFormFill()}
           // onChange={(event) => props.setCompanyName(event.target.value)}
           required
         />
