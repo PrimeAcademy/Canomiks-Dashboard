@@ -7,13 +7,16 @@ import {
   makeStyles,
   TextField,
   Button,
-  Typography,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   DialogContentText,
   Paper,
+  Container,
+  Grid,
+  Typography,
+  Divider,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
@@ -88,16 +91,26 @@ function ShippingInfo() {
   }
 
   return (
-    <center>
-      <Paper style={{ margin: 50, padding: 17, maxWidth: 'fit-content' }}>
+    <Container maxWidth="md">
+      <Paper style={{ padding: 17, marginBottom: 15 }}>
+        <Typography variant="h1" align="center" gutterBottom>
+          Shipping Information
+        </Typography>
+
+        <center>
+          <Divider style={{ maxWidth: '60%', marginBottom: 15 }} />
+        </center>
+
         <form className={classes.root}>
           <Alert
-            style={{ maxWidth: '50%', marginBottom: 20 }}
+            style={{ maxWidth: '100%', marginBottom: 20 }}
             severity="warning"
           >
-            These are the available shipping dates. Samples cannot be processed
-            until shipping info is filled out
+            Orders can only be shipped on Monday, Tuesday, or Wednesday of the
+            week and must be shipped over night or two day. Samples will not be
+            processed until all shipping information is filled out.
           </Alert>
+
           <div>
             <TextField
               label="Date shipped"
@@ -138,98 +151,104 @@ function ShippingInfo() {
         </form>
       </Paper>
 
-      <div>
-        <Button
-          style={{ margin: 25 }}
-          variant="contained"
-          color="primary"
-          onClick={history.goBack}
-        >
-          Back
-        </Button>
-        <Dialog open={openBack} onClose={handleClose}>
-          <DialogTitle>Are you sure?</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Cancelling will erase all current inputs.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
-            </Button>
-            <Button
-              onClick={() => history.push('./add')}
-              color="primary"
-              autoFocus
-            >
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
+      <Grid container justify="flex-end" alignItems="center" spacing={2}>
+        <Grid item>
+          {' '}
+          <Button variant="outlined" color="primary" onClick={history.goBack}>
+            Back
+          </Button>
+        </Grid>
 
-        <Button
-          style={{ margin: 25 }}
-          variant="contained"
-          color="primary"
-          onClick={handleOpenContinue}
-        >
-          Continue Later
-        </Button>
-        <Dialog open={openContinue} onClose={handleClose}>
-          <DialogTitle>Continue Later?</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Your Shipping information will not be saved.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={() => history.push('/samples')}
-              color="primary"
-            >
-              Yes
-            </Button>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={handleClose}
-              color="primary"
-              autoFocus
-            >
-              No
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Button
-          style={{ margin: 25 }}
-          variant="contained"
-          color="primary"
-          onClick={handleOpenFinal}
-        >
-          Next : Finalize
-        </Button>
-        <Dialog open={openFinal} onClose={handleClose}>
-          <DialogTitle>Are you sure you want to finalize?</DialogTitle>
-          <DialogContent></DialogContent>
-          <DialogActions>
-            <Button variant="outlined" onClick={handleClose} color="primary">
-              No
-            </Button>
-            <Button
-              variant="contained"
-              onClick={finalizeButton}
-              color="primary"
-              autoFocus
-            >
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </center>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleOpenContinue}
+          >
+            Continue Later
+          </Button>
+        </Grid>
+
+        <Grid item>
+          <Button variant="contained" color="primary" onClick={handleOpenFinal}>
+            Next : Finalize
+          </Button>
+        </Grid>
+      </Grid>
+
+      {/* Back Button Dialog */}
+      <Dialog open={openBack} onClose={handleClose}>
+        <DialogTitle>Are you sure?</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>
+            Cancelling will erase all current inputs.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            No
+          </Button>
+          <Button
+            onClick={() => history.push('./add')}
+            color="primary"
+            autoFocus
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Continue Later Dialog */}
+      <Dialog open={openContinue} onClose={handleClose}>
+        <DialogTitle>Continue Later?</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>
+            Your Shipping information will not be saved.
+          </DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => history.push('/samples')}
+            color="primary"
+          >
+            Yes
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={handleClose}
+            color="primary"
+            autoFocus
+          >
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Finalize Dialog */}
+      <Dialog open={openFinal} onClose={handleClose}>
+        <DialogTitle>Are you sure you want to finalize?</DialogTitle>
+
+        <DialogActions>
+          <Button variant="outlined" onClick={handleClose} color="primary">
+            No
+          </Button>
+          <Button
+            variant="contained"
+            onClick={finalizeButton}
+            color="primary"
+            autoFocus
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
   );
 }
 

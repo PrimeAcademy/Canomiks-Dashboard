@@ -132,7 +132,7 @@ function AddSample() {
 
   return (
     <Container maxWidth="md">
-      <Paper style={{ padding: 17, marginBottom: 10 }}>
+      <Paper style={{ padding: 17, marginBottom: 15 }}>
         <Typography variant="h1" align="center" gutterBottom>
           Sample Information
         </Typography>
@@ -479,26 +479,26 @@ function AddSample() {
               </Paper>
             </Grid>
           </Grid>
-
-          <Grid container justify="space-evenly" alignItems="center">
-            <Grid item>
-              <Button variant="outlined" color="primary" onClick={handleCancel}>
-                Delete Request
-              </Button>
-            </Grid>
-
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push('/sample/ship')}
-              >
-                Next : Shipping Info
-              </Button>
-            </Grid>
-          </Grid>
         </form>
       </Paper>
+
+      <Grid container justify="flex-end" alignItems="center" spacing={2}>
+        <Grid item>
+          <Button variant="outlined" color="primary" onClick={handleCancel}>
+            Delete Request
+          </Button>
+        </Grid>
+
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push('/sample/ship')}
+          >
+            Next : Shipping Info
+          </Button>
+        </Grid>
+      </Grid>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Are you sure you want to delete this sample?</DialogTitle>
