@@ -15,11 +15,8 @@ function* fetchCustomerOrders() {
 
 function* updateUrl(action) {
   try {
-    console.log('🦋 updateurl payload:', action.payload);
     // send the pdf url from amazon to the db
     const response = yield axios.put('/api/orders/url', action.payload);
-
-    console.log('🦺 response is:', response.data);
     // send update email
     yield put({
       type: 'EMAIL_STATUS',
