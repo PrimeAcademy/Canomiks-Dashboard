@@ -23,6 +23,7 @@ import {
   Fade,
   makeStyles,
   Tooltip,
+  Container,
 } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
@@ -130,20 +131,26 @@ function AddSample() {
   } // end enterInfo
 
   return (
-    <center>
-      <Paper style={{ padding: 17, marginBottom: 20, maxWidth: '70%' }}>
-        <Typography variant="h3" align="center" gutterBottom>
+    <Container maxWidth="md">
+      <Paper style={{ padding: 17, marginBottom: 10 }}>
+        <Typography variant="h1" align="center" gutterBottom>
           Sample Information
         </Typography>
+
         <center>
           <Divider style={{ maxWidth: '60%' }} />
         </center>
+
         <form className={classes.root}>
-          <Grid container justify="center" alignItems="flex-start">
+          <Grid
+            container
+            justify="center"
+            alignItems="flex-start"
+            spacing={3}
+            style={{ marginTop: 15, marginBottom: 15 }}
+          >
             <Grid item xs>
-              <Paper
-                style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}
-              >
+              <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
                 {/* Ingredient Name */}
                 <div>
                   <FormControl variant="standard">
@@ -296,10 +303,9 @@ function AddSample() {
                 </div>
               </Paper>
             </Grid>
+
             <Grid item xs>
-              <Paper
-                style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}
-              >
+              <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
                 <div>
                   {/* Manufactured Date */}
                   <TextField
@@ -370,10 +376,9 @@ function AddSample() {
                 </div>
               </Paper>
             </Grid>
+
             <Grid item xs>
-              <Paper
-                style={{ margin: 30, padding: 17, maxWidth: 'fit-content' }}
-              >
+              <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
                 {/* Growth Region */}
                 <Typography variant="body1">
                   Growth Region:
@@ -411,6 +416,7 @@ function AddSample() {
                     required
                   />
                 </div>
+
                 <div>
                   <TextField
                     label="Country"
@@ -423,6 +429,7 @@ function AddSample() {
                     required
                   />
                 </div>
+
                 <div>
                   {/* Harvest Date */}
                   <TextField
@@ -447,6 +454,7 @@ function AddSample() {
                     <InfoOutlined />
                   </Tooltip>
                 </div>
+
                 <div>
                   {/* Sustainability Info */}
                   <TextField
@@ -472,20 +480,22 @@ function AddSample() {
             </Grid>
           </Grid>
 
-          <Grid container justify="center" alignItems="flex-start">
-            <div style={{ marginBottom: 40 }}>
+          <Grid container justify="space-evenly" alignItems="center">
+            <Grid item>
               <Button variant="outlined" color="primary" onClick={handleCancel}>
                 Delete Request
               </Button>
+            </Grid>
+
+            <Grid item>
               <Button
-                style={{ marginLeft: 125 }}
                 variant="contained"
                 color="primary"
                 onClick={() => history.push('/sample/ship')}
               >
                 Next : Shipping Info
               </Button>
-            </div>
+            </Grid>
           </Grid>
         </form>
       </Paper>
@@ -517,7 +527,7 @@ function AddSample() {
           </Button>
         </DialogActions>
       </Dialog>
-    </center>
+    </Container>
   );
 }
 
