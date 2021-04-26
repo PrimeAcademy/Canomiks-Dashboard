@@ -501,7 +501,7 @@ function AddSample() {
           <Button
             size="small"
             variant="contained"
-            onClick={cancelRequest}
+            onClick={deleteRequest}
             color="primary"
           >
             Yes
