@@ -110,6 +110,7 @@ function ResetPassword() {
             <div>
               <Button
                 color="primary"
+                variant="contained"
                 style={{ margin: 10 }}
                 name="login"
                 value="Log In"

@@ -181,19 +181,19 @@ function LabDetail({ setOpenDetail, originalSample }) {
         </Button>
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
-
-           <Button
-           variant="contained"
-           component="label"
-           
-           style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
-          size="small"
-         
-         >
-           Upload PDF
-          <input type="file" hidden onChange={(event)=> uploading(event)}></input>
-           
-
+          <Button
+            variant="contained"
+            component="label"
+            style={{ margin: 5 }}
+            color="primary"
+            size="small"
+          >
+            Upload PDF
+            <input
+              type="file"
+              hidden
+              onChange={(event) => uploading(event)}
+            ></input>
           </Button>
         )}
 
@@ -203,6 +203,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
             <Button
               size="small"
               variant="contained"
+              color="primary"
               onClick={() => window.open(sample.pdfUrl)}
             >
               View Results
