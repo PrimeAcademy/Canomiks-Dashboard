@@ -82,14 +82,14 @@ function CustomerDetail({ sample }) {
         )}
         <Divider style={{ marginTop: 15 }} />
         <div className="info-container">
-          <Paper>
+          <div>
             <p>
               Amount: {sample.ingredientAmount} {sample.ingredientUnit}
             </p>
             <p>Format: {sample.format}</p>
             {sample.purity && <p>Purity: {sample.purity}</p>}
             {sample.cropStrain && <p>Strain: {sample.cropStrain}</p>}
-          </Paper>
+          </div>
 
           <Paper>
             <p>

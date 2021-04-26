@@ -26,8 +26,8 @@ const useStyles = makeStyles({
     width: '100%',
   },
   container: {
-    maxHeight: 600,
-    maxWidth: '80%',
+    maxHeight: '55vh',
+    maxWidth: '100%',
   },
   table: {
     minWidth: 650,
@@ -61,25 +61,23 @@ function Manage() {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Typography
-        variant="h3"
-        component="h1"
-        style={{ marginLeft: '10%', fontWeight: 700 }}
-      >
+    <Container maxWidth="md">
+      <Typography variant="h1" style={{ marginBottom: 5 }}>
         Manage Customers
       </Typography>
+
       {/* Search field */}
       <div>
         <TextField
-          style={{ margin: 25, marginLeft: '10%' }}
-          label="Search company name..."
+          style={{ margin: 15 }}
+          label="Search by Company..."
           variant="standard"
           onChange={(event) => {
             setFilter(event.target.value);
           }}
         />
       </div>
+
       <center>
         <TableContainer className={classes.container} component={Paper}>
           <Table
