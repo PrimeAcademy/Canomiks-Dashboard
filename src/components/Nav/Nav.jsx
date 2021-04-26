@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    maxWidth: 160
+    maxWidth: 160,
   },
   right: {
     display: 'flex',
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   navBar: {
     letterSpacing: '.11em',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   offset: theme.mixins.toolbar,
 }));
@@ -47,34 +47,49 @@ function Nav() {
   }
 
   return (
-    <AppBar className={classes.navBar} position="static" style={{ marginBottom: 30, }}>
+    <AppBar
+      className={classes.navBar}
+      position="static"
+      style={{ marginBottom: 30 }}
+    >
       <Toolbar
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#1e565c',
-          height: '112px'
+          height: '90px',
         }}
       >
-        <Link style={{ textDecoration: 'none', color: 'white' }} to={user.id ? "/samples" : "/login"}>
+        <Link
+          style={{ textDecoration: 'none', color: 'white' }}
+          to={user.id ? '/samples' : '/login'}
+        >
           <div className="img">
-            <img src="../canomiks-logo.png" alt="logo" />
+            <img src="../logo.png" alt="logo" />
           </div>
         </Link>
 
         <div>
-          <NavLink activeClassName="activeLink" className="navLink" to={loginLinkData.path}>
+          <NavLink
+            activeClassName="activeLink"
+            className="navLink"
+            to={loginLinkData.path}
+          >
             {loginLinkData.text}
           </NavLink>
 
           {user.authLevel === 'admin' && (
-            <NavLink activeClassName="activeLink" className="navLink" to="/manage/customers">
+            <NavLink
+              activeClassName="activeLink"
+              className="navLink"
+              to="/manage/customers"
+            >
               Manage Customers
             </NavLink>
           )}
 
-          {(user.authLevel !== 'admin' && user.authLevel !== 'lab') && (
+          {(user.authLevel === 'team' || !user.id) && (
             <>
               <a className="navLink" href="https://www.canomiks.com/contactus">
                 Help

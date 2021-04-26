@@ -4,7 +4,14 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 // material ui components
-import { Button, makeStyles, TextField, Typography, Paper, Grid } from '@material-ui/core';
+import {
+  Button,
+  makeStyles,
+  TextField,
+  Typography,
+  Paper,
+  Grid,
+} from '@material-ui/core';
 
 // material ui styles
 const useStyles = makeStyles((theme) => ({
@@ -18,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 40,
     marginBottom: 40,
     maxWidth: 350,
-    padding: 25
-  }
+    padding: 25,
+  },
 }));
 
 function ForgotPassword() {
@@ -42,24 +49,26 @@ function ForgotPassword() {
       dispatch({
         type: 'FORGOT_PASSWORD',
         payload: {
-          email
-        }
+          email,
+        },
       });
       alert('Please check your email for instructions');
-      history.push('/login')
+      history.push('/login');
     } else {
       // dispatch({ type: 'LOGIN_INPUT_ERROR' });
     }
   }; // end login
 
   return (
-    <Grid container justify='center'>
+    <Grid container justify="center">
       <Paper className={classes.paper}>
         <form className={classes.form}>
-          <Typography variant="h4" 
-          align="center" 
-          style={{ fontWeight: 550 }} 
-          gutterBottom>
+          <Typography
+            variant="h4"
+            align="center"
+            style={{ fontWeight: 550 }}
+            gutterBottom
+          >
             Enter User Email
           </Typography>
 
@@ -78,19 +87,21 @@ function ForgotPassword() {
                 name="email"
                 required
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}/>
+                onChange={(event) => setEmail(event.target.value)}
+              />
             </div>
 
             <div>
               <Button
-                style={{ backgroundColor: '#1e565c', color: 'white', margin: 10 }}
+                style={{ margin: 10 }}
+                color="primary"
                 name="login"
                 value="Log In"
-                onClick={changePassword}>
+                onClick={changePassword}
+              >
                 Change Password
               </Button>
             </div>
-
           </center>
         </form>
       </Paper>

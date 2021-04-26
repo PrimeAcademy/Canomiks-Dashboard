@@ -43,21 +43,35 @@ function LoginForm() {
 
   return (
     <form className={classes.root} onSubmit={login}>
-      {errors.loginMessage && errors.loginMessage === 'Account Inactive' ?
-        <div style={{ marginTop: 0, marginBottom: 15 }} className="alert" role="alert">
+      {errors.loginMessage && errors.loginMessage === 'Account Inactive' ? (
+        <div
+          style={{ marginTop: 0, marginBottom: 15 }}
+          className="alert"
+          role="alert"
+        >
           <Typography variant="h5">Account Inactive</Typography>
-          <Typography variant="body1">We are still processing your request.</Typography>
-          <Typography variant="body2">For more information about your account, please feel free to reach out.</Typography>
-          <Button style={{ marginTop: 10, fontWeight: 650 }}
-           size="small" 
-           onClick={()=>window.location.href = 'https://www.canomiks.com/contactus'}
-           variant="contained">
-             Contact Us
+          <Typography variant="body1">
+            We are still processing your request.
+          </Typography>
+          <Typography variant="body2">
+            For more information about your account, please feel free to reach
+            out.
+          </Typography>
+          <Button
+            style={{ marginTop: 10, fontWeight: 650 }}
+            size="small"
+            variant="contained"
+          >
+            Contact Us
           </Button>
-        </div> : errors.loginMessage ?
-          <Typography className="alert" role="alert" gutterBottom>{errors.loginMessage}</Typography>
-          : <></>
-      }
+        </div>
+      ) : errors.loginMessage ? (
+        <Typography className="alert" role="alert" gutterBottom>
+          {errors.loginMessage}
+        </Typography>
+      ) : (
+        <></>
+      )}
 
       <center>
         <div>
@@ -88,7 +102,9 @@ function LoginForm() {
         <div>
           <Button
             type="submit"
-            style={{ backgroundColor: '#1e565c', color: 'white', margin: 10, width: '60%' }}
+            variant="contained"
+            color="primary"
+            style={{ margin: 10, width: '60%' }}
             name="login"
             value="Log In"
           >
@@ -96,9 +112,7 @@ function LoginForm() {
           </Button>
         </div>
         <div>
-          <Link to='/forgotPassword'>
-            Forgot Password?
-        </Link>
+          <Link to="/forgotPassword">Forgot Password?</Link>
         </div>
       </center>
     </form>

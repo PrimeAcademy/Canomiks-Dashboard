@@ -33,7 +33,16 @@ function RegisterPage() {
 
     // Check that both password fields match
     if (password === passwordConfirm) {
-      if (email && companyName && companyAddress && companyCity && companyState && companyZip && phoneNumber && teamLeadName) {
+      if (
+        email &&
+        companyName &&
+        companyAddress &&
+        companyCity &&
+        companyState &&
+        companyZip &&
+        phoneNumber &&
+        teamLeadName
+      ) {
         dispatch({
           type: 'REGISTER',
           payload: {
@@ -48,7 +57,7 @@ function RegisterPage() {
             password,
             notifyStatusChange,
             notifyResultsReady,
-            notifyDelay
+            notifyDelay,
           },
         });
         Swal.fire({
@@ -57,20 +66,20 @@ function RegisterPage() {
           title: 'Thank you for your interest',
           text: 'You will receive an email following up with your request.',
           showCloseButton: true,
-          confirmButtonColor: '#1e565c'
-        })
+          confirmButtonColor: '#1e565c',
+        });
         clearForm();
         history.push('/login');
       } else {
         dispatch({
-          type: 'REGISTRATION_INPUT_ERROR'
-        })
+          type: 'REGISTRATION_INPUT_ERROR',
+        });
       }
     } else {
       // TO DO - convert to styled alert
       dispatch({
-        type: 'INVALID_PASSWORD'
-      })
+        type: 'INVALID_PASSWORD',
+      });
     }
   }; // end registerUser
 
@@ -101,47 +110,76 @@ function RegisterPage() {
         <Grid container>
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
-              <CompanyForm companyName={companyName} setCompanyName={setCompanyName} companyAddress={companyAddress} setCompanyAddress={setCompanyAddress} companyCity={companyCity} setCompanyCity={setCompanyCity} companyState={companyState} setCompanyState={setCompanyState} companyZip={companyZip} setCompanyZip={setCompanyZip} />
+              <CompanyForm
+                companyName={companyName}
+                setCompanyName={setCompanyName}
+                companyAddress={companyAddress}
+                setCompanyAddress={setCompanyAddress}
+                companyCity={companyCity}
+                setCompanyCity={setCompanyCity}
+                companyState={companyState}
+                setCompanyState={setCompanyState}
+                companyZip={companyZip}
+                setCompanyZip={setCompanyZip}
+              />
             </Paper>
           </Grid>
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
-              <TeamLeadForm phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} teamLeadName={teamLeadName} setTeamLeadName={setTeamLeadName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} />
+              <TeamLeadForm
+                phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
+                teamLeadName={teamLeadName}
+                setTeamLeadName={setTeamLeadName}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                passwordConfirm={passwordConfirm}
+                setPasswordConfirm={setPasswordConfirm}
+              />
             </Paper>
           </Grid>
           <Grid item xs>
             <Paper style={{ margin: 50, padding: 17, width: 'fit-content' }}>
-              <NotifyForm notifyStatusChange={notifyStatusChange} setNotifyStatusChange={setNotifyStatusChange} notifyResultsReady={notifyResultsReady} setNotifyResultsReady={setNotifyResultsReady} notifyDelay={notifyDelay} setNotifyDelay={setNotifyDelay} />
+              <NotifyForm
+                notifyStatusChange={notifyStatusChange}
+                setNotifyStatusChange={setNotifyStatusChange}
+                notifyResultsReady={notifyResultsReady}
+                setNotifyResultsReady={setNotifyResultsReady}
+                notifyDelay={notifyDelay}
+                setNotifyDelay={setNotifyDelay}
+              />
             </Paper>
             <Button
-              style={{ backgroundColor: '#1e565c', color: 'white', width: '50%' }}
+              variant="contained"
+              color="primary"
+              style={{ width: '50%' }}
               value="Register"
               onClick={registerUser}
             >
               Request Account
-              </Button>
-
+            </Button>
           </Grid>
         </Grid>
       </Paper>
 
-
       <Typography style={{ marginTop: 50 }} variant="subtitle1">
         Already have an account?
-        </Typography>
+      </Typography>
       <Button
         size="small"
         variant="outlined"
+        color="primary"
         style={{
-          color: '#1e565c',
-          marginTop: 10
+          marginTop: 10,
         }}
         onClick={() => {
           history.push('/login');
         }}
       >
         Login
-          </Button>
+      </Button>
     </center>
   );
 }
