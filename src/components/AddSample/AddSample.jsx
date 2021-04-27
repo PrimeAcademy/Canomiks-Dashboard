@@ -9,27 +9,18 @@ import AddSampleThird from './AddSampleThird';
 
 // Material UI imports
 import {
-  TextField,
   DialogActions,
   DialogContent,
   DialogTitle,
   DialogContentText,
   Dialog,
   Button,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
   Typography,
   Grid,
   Paper,
   Divider,
-  Fade,
-  Tooltip,
   Container,
-  InputAdornment,
 } from '@material-ui/core';
-import { InfoOutlined } from '@material-ui/icons';
 
 function AddSample() {
   // functions from library to use
@@ -57,18 +48,6 @@ function AddSample() {
   // Dialogue button states
   const [open, setOpen] = useState(false);
   const [openShip, setOpenShip] = useState(false);
-
-  /* Tool Tip Test */
-  const nameText = `Pick an ingredient from this menu. If your ingredient is not listed, please use the 'other' option. For more detailed instructions, refer to the instruction manual.`;
-  const lotText = `Please use the lot number you have created for this batch. For more detailed instructions, refer to the instruction manual.`;
-  const formatText = `Select the proper ingredient format. For more detailed instructions, please refer to the instruction manual.`;
-  const purityText = `Add percent purity of the active ingredient if known. For more detailed instructions, please refer to the instruction manual.`;
-  const dateText = `Add the date that the ingredient was extracted or manufactured. For more detailed instructions, please refer to the instruction manual.`;
-  const extractionText = `Add the extraction method such as ethanol, water etc. for the extraction of the ingredient. If no extraction method was used, please write the concentrator method for the ingredient. For more detailed instructions, please refer to the instruction manual.`;
-  const regionText = `If known please add the region where the plant was grown. If ingredient was extracted from plants grown in more than one region, please write that in the blank space.`;
-  const strainText = `If known please add the exact strain of the crop.`;
-  const harvestDateText = `When was the plant harvested?`;
-  const sustainabilityText = `Add information about sustainability such as fair trade, water conservation practices for the crop, sustainability certifications here.`;
 
   const focusChange = (val) => {
     // TO DO - Make sure it has a value

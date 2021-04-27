@@ -1,24 +1,4 @@
-import {
-  TextField,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  DialogContentText,
-  Dialog,
-  Button,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
-  Typography,
-  Grid,
-  Paper,
-  Divider,
-  Fade,
-  Tooltip,
-  Container,
-  InputAdornment,
-} from '@material-ui/core';
+import { TextField, Grid, Paper, Fade, Tooltip } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
 function AddSampleThird({
