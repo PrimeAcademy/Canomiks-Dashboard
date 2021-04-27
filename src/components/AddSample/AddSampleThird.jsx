@@ -1,23 +1,10 @@
 import {
   TextField,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  DialogContentText,
-  Dialog,
-  Button,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
   Typography,
   Grid,
   Paper,
-  Divider,
   Fade,
   Tooltip,
-  Container,
-  InputAdornment,
 } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
 
@@ -35,109 +22,122 @@ function AddSampleThird({
 
   return (
     <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
-      {/* Growth Region */}
-      <Typography variant="body1">
-        Growth Region:
-        <Tooltip
-          arrow
-          title={regionText}
-          TransitionComponent={Fade}
-          TransitionProps={{ timeout: 600 }}
-          placement="top-center"
-        >
-          <InfoOutlined />
-        </Tooltip>
-      </Typography>
-      <div>
-        <TextField
-          label="City"
-          type="text"
-          variant="standard"
-          value={currentSample.city}
-          onFocus={() => setCurrentInput('city')}
-          onBlur={() => focusChange(currentSample.city)}
-          onChange={(event) => enterInfo(event.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <TextField
-          label="State"
-          type="text"
-          variant="standard"
-          value={currentSample.state}
-          onFocus={() => setCurrentInput('state')}
-          onBlur={() => focusChange(currentSample.state)}
-          onChange={(event) => enterInfo(event.target.value)}
-          required
-        />
-      </div>
+      <Grid container justify="flex-start" alignItems="center" spacing={1}>
+        {/* Growth Region */}
+        <Grid item>
+          <Typography variant="body1">Growth Region:</Typography>
+        </Grid>
 
-      <div>
-        <TextField
-          label="Country"
-          type="text"
-          variant="standard"
-          value={currentSample.country}
-          onFocus={() => setCurrentInput('country')}
-          onBlur={() => focusChange(currentSample.country)}
-          onChange={(event) => enterInfo(event.target.value)}
-          required
-        />
-      </div>
+        <Grid item>
+          <Tooltip
+            arrow
+            title={regionText}
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            placement="right-center"
+            style={{ marginBottom: -5 }}
+          >
+            <InfoOutlined />
+          </Tooltip>
+        </Grid>
 
-      {/* Harvest Date */}
-      <div>
-        <TextField
-          label="Harvest Date"
-          type="date"
-          id="date"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={newHarvestDate}
-          onFocus={() => setCurrentInput('harvestDate')}
-          onBlur={() => focusChange(currentSample.harvestDate)}
-          onChange={(e) => enterInfo(e.target.value)}
-        />
-        <Tooltip
-          arrow
-          title={harvestDateText}
-          TransitionComponent={Fade}
-          TransitionProps={{ timeout: 600 }}
-          placement="top-center"
-        >
-          <InfoOutlined />
-        </Tooltip>
-      </div>
+        <Grid item>
+          <TextField
+            label="City"
+            type="text"
+            variant="standard"
+            style={{ width: 200 }}
+            value={currentSample.city}
+            onFocus={() => setCurrentInput('city')}
+            onBlur={() => focusChange(currentSample.city)}
+            onChange={(event) => enterInfo(event.target.value)}
+            required
+          />
+        </Grid>
 
-      {/* Sustainability Info */}
-      <div>
-        <TextField
-          label="Sustainability Info"
-          type="text"
-          variant="standard"
-          value={currentSample.sustainabilityInfo}
-          onFocus={() => setCurrentInput('sustainabilityInfo')}
-          onBlur={() => focusChange(currentSample.sustainabilityInfo)}
-          onChange={(event) => enterInfo(event.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <Tooltip
-                  arrow
-                  title={sustainabilityText}
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  placement="top-center"
-                >
-                  <InfoOutlined />
-                </Tooltip>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </div>
+        <Grid item>
+          <TextField
+            label="State"
+            type="text"
+            variant="standard"
+            style={{ width: 200 }}
+            value={currentSample.state}
+            onFocus={() => setCurrentInput('state')}
+            onBlur={() => focusChange(currentSample.state)}
+            onChange={(event) => enterInfo(event.target.value)}
+            required
+          />
+        </Grid>
+
+        <Grid item>
+          <TextField
+            label="Country"
+            type="text"
+            variant="standard"
+            style={{ width: 200 }}
+            value={currentSample.country}
+            onFocus={() => setCurrentInput('country')}
+            onBlur={() => focusChange(currentSample.country)}
+            onChange={(event) => enterInfo(event.target.value)}
+            required
+          />
+        </Grid>
+
+        {/* Harvest Date */}
+        <Grid item>
+          <TextField
+            label="Harvest Date"
+            type="date"
+            id="date"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            value={newHarvestDate}
+            onFocus={() => setCurrentInput('harvestDate')}
+            onBlur={() => focusChange(currentSample.harvestDate)}
+            onChange={(e) => enterInfo(e.target.value)}
+          />
+        </Grid>
+
+        <Grid item>
+          <Tooltip
+            arrow
+            title={harvestDateText}
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            placement="right-center"
+            style={{ marginBottom: -15 }}
+          >
+            <InfoOutlined />
+          </Tooltip>
+        </Grid>
+
+        {/* Sustainability Info */}
+        <Grid item>
+          <TextField
+            label="Sustainability Info"
+            type="text"
+            variant="standard"
+            value={currentSample.sustainabilityInfo}
+            onFocus={() => setCurrentInput('sustainabilityInfo')}
+            onBlur={() => focusChange(currentSample.sustainabilityInfo)}
+            onChange={(event) => enterInfo(event.target.value)}
+          />
+        </Grid>
+
+        <Grid item>
+          <Tooltip
+            arrow
+            title={sustainabilityText}
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            placement="right-center"
+            style={{ marginBottom: -15 }}
+          >
+            <InfoOutlined />
+          </Tooltip>
+        </Grid>
+      </Grid>
     </Paper>
   );
 }
