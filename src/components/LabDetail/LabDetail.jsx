@@ -37,7 +37,6 @@ const config = {
 };
 
 function LabDetail({ setOpenDetail, originalSample }) {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   // get states from redux store
@@ -48,28 +47,17 @@ function LabDetail({ setOpenDetail, originalSample }) {
   const [sample, setSample] = useState(originalSample);
 
   const markDelay = () => {
-    // Dispatch toggles currentSample delayed status
-    dispatch({
-      type: 'EDIT_SAMPLE_DELAY', // goes to reducer
-      payload: !sample.delayed,
-    });
-
     setSample({ ...sample, delayed: !sample.delayed });
   }; // end markDelay
 
-  //function for uploading PDF
-  function uploading(event) {
-    console.log(event.target.files, 'file');
+  const uploadPDF = (event) => {
     S3FileUpload.uploadFile(event.target.files[0], config)
       .then((data) => {
-        console.log(data, 'this is the data');
-        dispatch({
-          type: 'ADD_URL',
-          payload: { pdfUrl: data.location, sample, user },
-        });
+        setSample({ ...sample, pdfUrl: data.location });
       })
       .catch((err) => console.error(err));
-  }
+  }; // end uploadPDF
+
   const changeStep = (step) => {
     if (step === 3 && sample.testState === 'SHIP') {
       setSample({ ...sample, receivedDate: new Date(), sequence: step });
@@ -80,7 +68,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
 
   const moveToQueue = () => {
     setSample({ ...sample, testState: 'CBDTEST', sequence: 1 });
-  };
+  }; // end moveToQueue
 
   const handleSave = () => {
     // TO DO - Add confirmation reminding them the customer will be alerted
@@ -161,39 +149,40 @@ function LabDetail({ setOpenDetail, originalSample }) {
       </DialogContentText>
 
       <DialogActions>
+        <Button
+          variant="outlined"
+          size="small"
+          style={{
+            margin: 5,
+            marginRight: 120,
+          }}
+          onClick={() => setOpenDetail(false)}
+        >
+          Cancel Changes
+        </Button>
+
         {/* Render button when sample is received to move it into the queue */}
         {sample.sequence === 3 && sample.testState === 'SHIP' && (
           <Button variant="contained" onClick={moveToQueue}>
             Move to Queue
           </Button>
         )}
-        <Button
-          variant="outline"
-          size="small"
-          style={{
-            margin: 5,
-            marginRight: 120,
-          }}
-          variant="outlined"
-          onClick={() => setOpenDetail(false)}
-        >
-          Cancel Changes
-        </Button>
+
         {/* Render Upload button if the sample is complete with no results */}
         {sample.sequence === 7 && !sample.pdfUrl && (
-
-           <Button
-           variant="contained"
-           component="label"
-           
-           style={{ margin: 5, backgroundColor: '#1e565c', color: 'white' }}
-          size="small"
-         
-         >
-           Upload PDF
-          <input type="file" hidden onChange={(event)=> uploading(event)}></input>
-           
-
+          <Button
+            component="label"
+            variant="contained"
+            color="primary"
+            size="small"
+            style={{ margin: 5 }}
+          >
+            Upload PDF
+            <input
+              type="file"
+              hidden
+              onChange={(event) => uploadPDF(event)}
+            ></input>
           </Button>
         )}
 
@@ -203,6 +192,7 @@ function LabDetail({ setOpenDetail, originalSample }) {
             <Button
               size="small"
               variant="contained"
+              color="primary"
               onClick={() => window.open(sample.pdfUrl)}
             >
               View Results

@@ -177,32 +177,6 @@ router.put('/shipping', rejectUnauthenticated, async (req, res) => {
   }
 });
 
-// Adding results pdf to database
-router.put('/url', rejectUnauthenticated, async (req, res) => {
-  try {
-    const order = req.body;
-    const orderArray = [order.pdfUrl, order.sample.companyID, order.sample.id];
-
-    const sqlText = `
-      UPDATE "orders"
-      SET "pdfUrl" = $1 
-      WHERE "companyID" = $2 AND "id" = $3
-      RETURNING *;
-    `;
-    const dbRes = await pool.query(sqlText, orderArray);
-
-    if (dbRes.rows.length === 0) {
-      res.sendStatus(404);
-      return;
-    } else {
-      res.send(dbRes.rows[0]);
-    }
-  } catch (err) {
-    console.error('Error in PUT /url', err.message);
-    res.sendStatus(500);
-  }
-});
-
 // Updates lab changes made
 router.put('/lab/update', rejectUnauthenticated, async (req, res) => {
   try {
@@ -212,6 +186,7 @@ router.put('/lab/update', rejectUnauthenticated, async (req, res) => {
       req.body.testState,
       req.body.sequence,
       req.body.receivedDate,
+      req.body.pdfUrl,
     ];
     const sqlText = `
     UPDATE "orders"
@@ -220,7 +195,8 @@ router.put('/lab/update', rejectUnauthenticated, async (req, res) => {
         (SELECT id FROM "status"
           WHERE "testState" = $3
             AND "sequence" = $4),
-      "receivedDate" = $5
+      "receivedDate" = $5,
+      "pdfUrl" = $6
     WHERE "id" = $1
     RETURNING *;
     `;
