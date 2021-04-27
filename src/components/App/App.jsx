@@ -84,6 +84,11 @@ function App() {
           },
         },
       },
+      MuiTooltip: {
+        tooltip: {
+          fontSize: 14,
+        },
+      },
     },
   });
 

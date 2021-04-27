@@ -61,6 +61,7 @@ function LoginForm() {
             style={{ marginTop: 10, fontWeight: 650 }}
             size="small"
             variant="contained"
+            color="primary"
           >
             Contact Us
           </Button>

@@ -153,7 +153,6 @@ function ShippingInfo() {
 
       <Grid container justify="flex-end" alignItems="center" spacing={2}>
         <Grid item>
-          {' '}
           <Button variant="outlined" color="primary" onClick={history.goBack}>
             Back
           </Button>
@@ -186,11 +185,12 @@ function ShippingInfo() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} variant="outlined" color="primary">
             No
           </Button>
           <Button
             onClick={() => history.push('./add')}
+            variant="contained"
             color="primary"
             autoFocus
           >
@@ -211,14 +211,6 @@ function ShippingInfo() {
 
         <DialogActions>
           <Button
-            variant="contained"
-            size="small"
-            onClick={() => history.push('/samples')}
-            color="primary"
-          >
-            Yes
-          </Button>
-          <Button
             variant="outlined"
             size="small"
             onClick={handleClose}
@@ -226,6 +218,14 @@ function ShippingInfo() {
             autoFocus
           >
             No
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={() => history.push('/samples')}
+          >
+            Yes
           </Button>
         </DialogActions>
       </Dialog>
@@ -238,10 +238,11 @@ function ShippingInfo() {
           <Button variant="outlined" onClick={handleClose} color="primary">
             No
           </Button>
+
           <Button
             variant="contained"
-            onClick={finalizeButton}
             color="primary"
+            onClick={finalizeButton}
             autoFocus
           >
             Yes

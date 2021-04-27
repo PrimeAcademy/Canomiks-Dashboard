@@ -94,6 +94,7 @@ function ForgotPassword() {
             <div>
               <Button
                 style={{ margin: 10 }}
+                variant="contained"
                 color="primary"
                 name="login"
                 value="Log In"

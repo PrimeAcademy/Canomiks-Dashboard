@@ -13,7 +13,6 @@ import {
   DialogContentText,
   DialogActions,
   Button,
-  Divider,
   Paper,
   Typography,
 } from '@material-ui/core';
