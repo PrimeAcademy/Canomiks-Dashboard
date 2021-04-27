@@ -71,6 +71,7 @@ function AddSampleFirst({
               onFocus={() => setCurrentInput('lotNumber')}
               onBlur={() => focusChange(currentSample.lotNumber)}
               onChange={(event) => enterInfo(event.target.value)}
+              style={{ width: 200 }}
               required
             />
           </FormControl>
