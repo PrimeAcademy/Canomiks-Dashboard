@@ -43,11 +43,14 @@ Form for customer to input shipping information
 4. Run `npm run server` in your terminal
 5. Run `npm run client` in your terminal
 6. The `npm run client` command will open up a new browser tab for you!
-7. In the `.env` file you will have to add a few enviorment vairables, these will include:
+7. In the `.env` file you will have to add a few environment variables, these will include:
    - SERVER_SESSION_SECRET : This can be any long randomized string of characters.
    - EMAIL : This should be the outgoing email for when the customer is alerted.
    - PASSWORD : Put the password for the outgoing email here
+   - SERVER_PROVIDER : the email provider that you are using
+
    - JWT_SECRET : This will be a random long secret string that is secure. One can be generated using an online generator.
+   - HOST_NAME : the deployed site url
    - REACT_APP_AWS_ACCESS_KEY_ID : Add the id from your AWS account
    - REACT_APP_AWS_SECRET_ACCESS_KEY : Add the key from your AWS account
    - REACT_APP_AWS_BUCKET : The name of your AWS S3 bucket
