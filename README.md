@@ -47,7 +47,10 @@ Form for customer to input shipping information
    - SERVER_SESSION_SECRET : This can be any long randomized string of characters.
    - EMAIL : This should be the outgoing email for when the customer is alerted.
    - PASSWORD : Put the password for the outgoing email here
+   - SERVER_PROVIDER : the email provider that you are using
+
    - JWT_SECRET : This will be a random long secret string that is secure. One can be generated using an online generator.
+   - HOST_NAME : the deployed site url
    - REACT_APP_AWS_ACCESS_KEY_ID : Add the id from your AWS account
    - REACT_APP_AWS_SECRET_ACCESS_KEY : Add the key from your AWS account
    - REACT_APP_AWS_BUCKET : The name of your AWS S3 bucket
