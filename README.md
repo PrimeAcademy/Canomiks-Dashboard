@@ -23,6 +23,12 @@ Example of the lab dashboard, with sample data
 ![Lab Dashboard Details Example](/documentation/screenshots/labdash-details.mov)
 Example of the lab dashboard's detail view along with how the stepper updates the test phase. Additionally, an example of how the pdf upload works.
 
+![Sample detail form](/documentation/screenshots/sampleinfo-form)
+Form for customer to input information about the sample
+
+![Shipping detail form](/documentation/screenshots/shippinginfo-form)
+Form for customer to input shipping information
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/)
