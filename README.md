@@ -20,6 +20,8 @@ Example of an email triggered by a lab tech moving a sampel through the testing 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [PostrgeSQL](https://www.postgresql.org/)
 
 ## Installation
 
@@ -30,20 +32,20 @@ Example of an email triggered by a lab tech moving a sampel through the testing 
 5. Run `npm run client` in your terminal
 6. The `npm run client` command will open up a new browser tab for you!
 7. In the `.env` file you will have to add a few enviorment vairables, these will include:
-   - SERVER_SESSION_SECRET :
-   - EMAIL : put the ougtoing email address here
-   - PASSWORD : put the password for the outgoing email here
-   - JWT_SECRET : this should bea random long secret string that is secure. It can be
-   - REACT_APP_AWS_ACCESS_KEY_ID : add the id to your AWS account
-   - REACT_APP_AWS_SECRET_ACCESS_KEY : add the key to your AWS account
-   - REACT_APP_AWS_BUCKET
-   - REACT_APP_AWS_REGION
+   - SERVER_SESSION_SECRET : This can be any long randomized string of characters.
+   - EMAIL : This should be the outgoing email for when the customer is alerted.
+   - PASSWORD : Put the password for the outgoing email here
+   - JWT_SECRET : This will be a random long secret string that is secure. One can be generated using an online generator.
+   - REACT_APP_AWS_ACCESS_KEY_ID : Add the id from your AWS account
+   - REACT_APP_AWS_SECRET_ACCESS_KEY : Add the key from your AWS account
+   - REACT_APP_AWS_BUCKET : The name of your AWS S3 bucket
+   - REACT_APP_AWS_REGION : the region of your AWS S3 bucket
 
 # Usage
 
 ## Customer
 
-A customer of Canomiks could be a supplier, manufacturer or anybody who wants to send in ingredients to be analyzed by Canomiks. The customer will be able request an account and pending contract approval, submit sample and shipping information for ingredients they are sending into the lab. The customer will also be able to access the details and test status of any given ingredient, and they will be automatically notified by email (based on their notification settings) whenever there is an update or delay in testing. Once a sample has completed its testing, the customer will be able to access the results via their dashboard - these results will certify the efficacy of the ingredient. The customer will also receive an automatic email with this information.
+A customer of Canomiks could be a supplier, manufacturer or any company who wants to send in ingredients to be analyzed by Canomiks. The customer will be able request an account and, pending contract approval, submit sample and shipping information for ingredients they are sending into the lab. The customer will also be able to access the details and test status of any given ingredient, and they will be automatically notified via email (based on their notification settings) whenever there is an update or delay in testing. Once a sample has completed its testing, the customer will be able to access the results via their dashboard - these results will certify the efficacy of the ingredient. The customer will also receive an automatic email with this information.
 
 ### Request Account
 

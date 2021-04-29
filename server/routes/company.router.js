@@ -15,14 +15,13 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
 
     res.send(dbRes.rows);
   } catch (err) {
-    console.log('Error in GET /api/company/', err);
+    console.error('Error in GET /api/company/', err.message);
     res.sendStatus(500);
   }
 });
 
 /* PUT ROUTES */
 router.put('/', rejectUnauthenticated, async (req, res) => {
-  console.log('req', req.body);
   try {
     const query = `
       UPDATE companies SET active=$1 WHERE id=$2;
@@ -30,7 +29,7 @@ router.put('/', rejectUnauthenticated, async (req, res) => {
     await pool.query(query, [req.body.active, req.body.company.companyID]);
     res.sendStatus(200);
   } catch (err) {
-    console.log('Error in PUT /api/company', err.message);
+    console.error('Error in PUT /api/company', err.message);
     res.sendStatus(500);
   }
 });

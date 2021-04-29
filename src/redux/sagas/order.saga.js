@@ -146,7 +146,6 @@ function* deleteCurrentSample(action) {
 function* updateTestPhase(action) {
   try {
     const response = yield axios.put('/api/orders/date', action.payload);
-    console.log(response.data, 'response');
     yield put({
       type: 'SET_CURRENT_SAMPLE',
       payload: response.data,
@@ -157,7 +156,6 @@ function* updateTestPhase(action) {
 }
 
 function* searchDelayedOrders(action) {
-  console.log('action', action.payload.value);
   try {
     const response = yield axios.get(
       `/api/orders/delayed/${action.payload.value}`

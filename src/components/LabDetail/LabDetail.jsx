@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 
 // custom components
@@ -20,7 +20,6 @@ import { ErrorOutline } from '@material-ui/icons';
 
 // S3 upload
 require('dotenv').config();
-const AWS = require('aws-sdk');
 import S3FileUpload from 'react-s3';
 
 const config = {
@@ -35,10 +34,6 @@ const config = {
 
 function LabDetail({ setOpenDetail, originalSample }) {
   const dispatch = useDispatch();
-
-  // get states from redux store
-  const user = useSelector((store) => store.user);
-  const orders = useSelector((store) => store.orders.orderReducer);
 
   // local states
   const [sample, setSample] = useState(originalSample);

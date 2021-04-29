@@ -92,7 +92,7 @@ function AddSampleThird({
         <Grid item>
           <Tooltip
             arrow
-            title={extractionText}
+            title={strainText}
             TransitionComponent={Fade}
             TransitionProps={{ timeout: 600 }}
             placement="right-center"
