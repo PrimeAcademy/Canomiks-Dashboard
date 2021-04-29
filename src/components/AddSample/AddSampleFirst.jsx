@@ -21,7 +21,7 @@ function AddSampleFirst({
   const nameText = `Pick an ingredient from this menu. If your ingredient is not listed, please use the 'other' option. For more detailed instructions, refer to the instruction manual.`;
   const lotText = `Please use the lot number you have created for this batch. For more detailed instructions, refer to the instruction manual.`;
   const formatText = `Select the proper ingredient format. For more detailed instructions, please refer to the instruction manual.`;
-  const purityText = `Add percent purity of the active ingredient if known. For more detailed instructions, please refer to the instruction manual.`;
+  const purityText = `Add percent purity of the active ingredient, if known, as an integer. For more detailed instructions, please refer to the instruction manual.`;
 
   return (
     <Paper style={{ padding: 17, maxWidth: 'fit-content' }}>
@@ -160,19 +160,6 @@ function AddSampleFirst({
               <MenuItem value={'Ounces'}>Ounces</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
-
-        <Grid item xs={1}>
-          <Tooltip
-            arrow
-            title={formatText}
-            TransitionComponent={Fade}
-            TransitionProps={{ timeout: 600 }}
-            placement="right-center"
-            style={{ marginBottom: -10 }}
-          >
-            <InfoOutlined />
-          </Tooltip>
         </Grid>
 
         {/* Purity */}

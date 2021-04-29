@@ -35,7 +35,7 @@ router.post('/register', async (req, res, next) => {
       email,
       notifyStatusChange,
       notifyResultsReady,
-      notifyDelay
+      notifyDelay,
     } = req.body;
     const password = encryptLib.encryptPassword(req.body.password);
 
@@ -51,23 +51,17 @@ router.post('/register', async (req, res, next) => {
       phoneNumber,
       notifyStatusChange,
       notifyResultsReady,
-      notifyDelay
+      notifyDelay,
     ]);
 
     // the second insert, for the individual user
     const companyID = dbRes.rows[0].id;
     const queryTextTwo = `INSERT INTO "users" ("email", "password", "name", "companyID") VALUES ($1, $2, $3, $4)`;
-    await pool.query(queryTextTwo, [
-      email,
-      password,
-      teamLeadName,
-      companyID,
-    ]);
+    await pool.query(queryTextTwo, [email, password, teamLeadName, companyID]);
 
     res.sendStatus(201);
   } catch (err) {
-    console.log('💥 something went wrong in the register route');
-    console.log(err);
+    console.error('💥 something went wrong in the register route', err.message);
     res.sendStatus(500);
   }
 });
@@ -82,7 +76,10 @@ router.post('/sampleOwner', rejectUnauthenticated, async (req, res) => {
   WHERE "orders"."id" = $1 AND "orders"."companyID" = $2;
   `;
 
-  const dbRes = await pool.query(sqlText, [req.body.orderId, req.body.companyID]);
+  const dbRes = await pool.query(sqlText, [
+    req.body.orderId,
+    req.body.companyID,
+  ]);
 
   res.send(dbRes.rows[0]);
 }); // end route to get user info for email
