@@ -30,11 +30,12 @@ Example of an email triggered by a lab tech moving a sampel through the testing 
 5. Run `npm run client` in your terminal
 6. The `npm run client` command will open up a new browser tab for you!
 7. In the `.env` file you will have to add a few enviorment vairables, these will include:
+   - SERVER_SESSION_SECRET :
    - EMAIL : put the ougtoing email address here
    - PASSWORD : put the password for the outgoing email here
    - JWT_SECRET : this should bea random long secret string that is secure. It can be
-   - REACT_APP_AWS_ACCESS_KEY_ID
-   - REACT_APP_AWS_SECRET_ACCESS_KEY
+   - REACT_APP_AWS_ACCESS_KEY_ID : add the id to your AWS account
+   - REACT_APP_AWS_SECRET_ACCESS_KEY : add the key to your AWS account
    - REACT_APP_AWS_BUCKET
    - REACT_APP_AWS_REGION
 

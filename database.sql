@@ -64,9 +64,8 @@ VALUES (true, 'Canomiks', '123 Main St', 'Minneapolis', 'MN', '55105', '61255556
 
 INSERT INTO "users" ("email", "password", "name", "companyID", "authLevel")
 VALUES ('admin@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Admin', '1', 'admin'),
-		('lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab'),
-    ('sage.naturalremedies@gmail.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Sage Robinson', '3', 'lead');
-
+		('lab@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Lab', '1', 'lab');
+    
 INSERT INTO "status" ("statusName", "testState", "sequence")
 VALUES ('Pre-Shipment', 'SHIP', 1),
 		('In Transit', 'SHIP', 2),
