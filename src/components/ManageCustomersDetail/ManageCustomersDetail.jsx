@@ -27,7 +27,7 @@ function ManageCustomersDetail({ clickedCustomer, handleClose }) {
       });
       handleClose();
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
     }
   };
 

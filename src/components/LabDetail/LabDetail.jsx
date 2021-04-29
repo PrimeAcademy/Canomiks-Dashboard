@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 
 // custom components
@@ -21,12 +20,10 @@ import { ErrorOutline } from '@material-ui/icons';
 
 // S3 upload
 require('dotenv').config();
-const AWS = require('aws-sdk');
 import S3FileUpload from 'react-s3';
-import ReactDom from 'react-dom';
-import uploadFile from 'react-s3';
 
 const config = {
+  dirName: Math.random() * 1e16,
   bucketName: process.env.REACT_APP_AWS_BUCKET,
   region: process.env.REACT_APP_AWS_REGION,
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
@@ -37,10 +34,6 @@ const config = {
 
 function LabDetail({ setOpenDetail, originalSample }) {
   const dispatch = useDispatch();
-
-  // get states from redux store
-  const user = useSelector((store) => store.user);
-  const orders = useSelector((store) => store.orders.orderReducer);
 
   // local states
   const [sample, setSample] = useState(originalSample);
