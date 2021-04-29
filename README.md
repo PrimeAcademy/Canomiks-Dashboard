@@ -15,7 +15,13 @@ To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](www.he
 ## Screen Shot
 
 ![Email sent from the dashboard](/documentation/screenshots/email.png)
-Example of an email triggered by a lab tech moving a sampel through the testing process.
+Example of an email triggered by a lab tech moving a sample through the testing process.
+
+![Lab Dashboard View](/documentation/screenshots/labdash-view.png)
+Example of the lab dashboard, with sample data
+
+![Lab Dashboard Details Example](/documentation/screenshots/labdash-details.mov)
+Example of the lab dashboard's detail view along with how the stepper updates the test phase. Additionally, an example of how the pdf upload works.
 
 ## Prerequisites
 
