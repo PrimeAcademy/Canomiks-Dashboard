@@ -28,7 +28,7 @@ Bucket"
 
 #### 9. Click on your new bucket and navigate to the Permissions tab 
 
-#### 10. The first option is Block public access (bucket setting) - click Edit  and choose to turn OFF blocking all public access (so it looks like below). There will be a model that requires you to type confirm - go ahead and do that.
+#### 10. The first option is Block public access (bucket setting) - click Edit  and choose to turn *OFF* blocking all public access (so it looks like below). There will be a model that requires you to type confirm - go ahead and do that.
 ![](/public/bucketSettings.png)
 
 
