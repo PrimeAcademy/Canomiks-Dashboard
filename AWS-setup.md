@@ -43,24 +43,25 @@ Bucket"
 
 
 #### 11a. In the CORS text box, paste this code:
+```
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "PUT",
+            "POST",
+            "GET"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+```
 
-### `[
-###       {
-###        "AllowedHeaders": [
-###           "*"
-###                ],
- ###            "AllowedMethods": [
- ###           "PUT",
-###            "POST",
- ###           "GET"
- ###            ],
-###             "AllowedOrigins": [
-###            "*"
-###                ],
-###             "ExposeHeaders": []
-###    }
-### ]
-### `
 
 
 
