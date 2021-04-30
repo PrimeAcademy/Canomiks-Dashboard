@@ -17,7 +17,9 @@ $ npm install react-s3
 
 5. Click the organge button that says "Create 
 Bucket" 
-<img src="public/createBucket">
+
+![Create Bucket](/public/createBucket.png)
+
 6. Name your bucket
 7. Select a region (whatever would be closest to your location) and remember what you selected
 8. Scroll to the bottom of the page and click Create Bucket
@@ -27,32 +29,18 @@ Bucket"
 9. Click on your new bucket and navigate to the Permissions tab 
 
 10. The first option is Block public access (bucket setting) - click Edit  and choose to turn OFF blocking all public access (so it looks like below). There will be a model that requires you to type confirm - go ahead and do that.
+![](/public/bucketSettings.png)
 
-<img src="public/bucketSettings">
 
 
 11. In permissions, scroll down to find Cross-Origin Resource Sharing (CORS) and click Edit
 
-<img src="public/CORS">
+![](/public/CORS.png)
+
 
 11a. In the CORS text box, paste this code:
 
-[
-    {
-        "AllowedHeaders": [
-            "*"
-        ],
-        "AllowedMethods": [
-            "PUT",
-            "POST",
-            "GET"
-        ],
-        "AllowedOrigins": [
-            "*"
-        ],
-        "ExposeHeaders": []
-    }
-]
+![](/public/corsConfig.png)
 
 
 12. Back in the browser, go to console.aws.amazon.com/iam
@@ -84,20 +72,23 @@ Bucket"
 
 25. The next page will have your security credentials
 
-<img src="public/success">
+![](/public/success.png)
 
 26. Copy and paste the security keys into a .env file
 
-<img src="public/env">
+![](/public/env.png)
+
 
 27. Go to the LabDetail component and open LabDetail.jsx. Below is the config.
 
-<img src="public/config">
+![](/public/config.png)
+
 
 
 28. This is the upload code. You can update it as needed.
 
-<img src="public/upload">
+![](/public/upload.png)
+
 
 
 29. Setup is complete. Click the upload button and it should make a POST request to your bucket, and a GET request to get the preview. Check your bucket on AWS as well to see that the image has been uploaded.
