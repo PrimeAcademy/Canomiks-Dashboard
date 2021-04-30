@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -30,9 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResetPassword() {
-  // material ui
   const classes = useStyles();
-  // set up functions so we can use them
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useParams();

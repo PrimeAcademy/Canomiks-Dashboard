@@ -1,9 +1,5 @@
 import { Divider, makeStyles, TextField, Typography } from '@material-ui/core';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -16,24 +12,12 @@ const useStyles = makeStyles((theme) => ({
 function TeamLeadForm(props) {
   const classes = useStyles();
 
-  /* Store Imports */
-  const errors = useSelector((store) => store.errors);
-
-  // function to make register faster for presentation
-  // one for each section/component
-  function presentationFormFill () {
-    // auto fill with info
-    props.setPhoneNumber('333651555');
-    props.setTeamLeadName('Michael');
-    props.setEmail('goldenRays@email.com');
-    props.setPassword('password');
-    props.setPasswordConfirm('password');
-  }; // end presentationFormFill
-
   return (
     <>
       <form autoComplete="off" className={classes.root}>
-        <Typography variant="h5" style={{ fontWeight: 600 }} gutterBottom>Team Lead Information</Typography>
+        <Typography variant="h5" style={{ fontWeight: 600 }} gutterBottom>
+          Team Lead Information
+        </Typography>
         <Divider />
         <div>
           <TextField
@@ -41,8 +25,7 @@ function TeamLeadForm(props) {
             variant="standard"
             size="small"
             value={props.phoneNumber}
-            onChange={() => presentationFormFill()}
-            // onChange={(event) => props.setPhoneNumber(event.target.value)}
+            onChange={(event) => props.setPhoneNumber(event.target.value)}
             required
           />
         </div>
@@ -52,7 +35,7 @@ function TeamLeadForm(props) {
             variant="standard"
             size="small"
             value={props.teamLeadName}
-            // onChange={(event) => props.setTeamLeadName(event.target.value)}
+            onChange={(event) => props.setTeamLeadName(event.target.value)}
             required
           />
         </div>
@@ -63,7 +46,7 @@ function TeamLeadForm(props) {
             variant="standard"
             size="small"
             value={props.email}
-            // onChange={(event) => props.setEmail(event.target.value)}
+            onChange={(event) => props.setEmail(event.target.value)}
             required
           />
         </div>
@@ -75,7 +58,7 @@ function TeamLeadForm(props) {
             variant="standard"
             size="small"
             value={props.password}
-            // onChange={(event) => props.setPassword(event.target.value)}
+            onChange={(event) => props.setPassword(event.target.value)}
             required
           />
         </div>
@@ -87,7 +70,7 @@ function TeamLeadForm(props) {
             variant="standard"
             size="small"
             value={props.passwordConfirm}
-            // onChange={(event) => props.setPasswordConfirm(event.target.value)}
+            onChange={(event) => props.setPasswordConfirm(event.target.value)}
             required
           />
         </div>

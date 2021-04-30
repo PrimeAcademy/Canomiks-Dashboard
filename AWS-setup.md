@@ -11,7 +11,8 @@ $ npm install react-s3
 3. Navigate to the "Services" on the top right. 
 4. Click on S3
 
-<img src="public/s3">
+![](/public/s3.png)
+
 
 
 5. Click the organge button that says "Create 

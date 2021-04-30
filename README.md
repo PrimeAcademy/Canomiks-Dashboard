@@ -4,23 +4,30 @@
 
 _Duration: 2 Week Sprint_
 
-This project is a dashboard used by Canomik's Clients and Canomik's Admin. Users can login and an request account if they're a new client. Once logged in a User may add samples in required fields and shipping information relative to the sample order. This way the Clients and Admins may view up to date order shipping information. Admins may update the profile status of Client's Companies to active/inactive.
-
-Previously clients would be unaware of accurate shipping and order information. Clients would mail their order and simply wait to hear back from Canomiks.
-
-We replaced this outdated method by created a centralized location where Clients and Admins from Canomiks can search status updates, order information, profile details, and even download and view a PDF result of the product testing.
+Canomiks is developing testing methods to monitor and influence the impact of dietary ingredients on the human body, down to our DNA. The current analog process of collecting data and communicating with customers is inhibiting efficiency. The Canomiks Dashboard will be a full-stack web application that streamlines communication between customers and lab technicians while providing an exceptional customer experience. It seamlessly guides the customer through signing up, entering a sample, and then shipping it to Canomiks. From there, a lab tech can keep the customer updated on the status of their sample throughout the testing process and easily send back results as soon as they are available. A customer can access their results on a downloadable pdf.
 
 To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](www.heroku.com)
 
 ## Screen Shot
 
 ![Email sent from the dashboard](/documentation/screenshots/email.png)
-Example of an email triggered by a lab tech moving a sampel through the testing process.
+Example of an email triggered by a lab tech moving a sample through the testing process.
+
+![Lab Dashboard View](/documentation/screenshots/labdash-view.png)
+Example of the lab dashboard, with sample data
+
+![Lab Dashboard Details Example](/documentation/screenshots/labdash-details.gif)
+Example of the lab dashboard's detail view along with how the stepper updates the test phase. Additionally, an example of how the pdf upload works.
+
+![Sample detail form](/documentation/screenshots/sampleinfo-form.png)
+Form for customer to input information about the sample
+
+![Shipping detail form](/documentation/screenshots/shippinginfo-form.png)
+Form for customer to input shipping information
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/)
-- [Express](https://expressjs.com/)
 - [PostrgeSQL](https://www.postgresql.org/)
 
 ## Installation
@@ -31,17 +38,24 @@ Example of an email triggered by a lab tech moving a sampel through the testing 
 4. Run `npm run server` in your terminal
 5. Run `npm run client` in your terminal
 6. The `npm run client` command will open up a new browser tab for you!
-7. In the `.env` file you will have to add a few enviorment vairables, these will include:
+7. In the `.env` file you will have to add a few environment variables, these will include:
    - SERVER_SESSION_SECRET : This can be any long randomized string of characters.
    - EMAIL : This should be the outgoing email for when the customer is alerted.
    - PASSWORD : Put the password for the outgoing email here
+   - SERVER_PROVIDER : the email provider that you are using
+
    - JWT_SECRET : This will be a random long secret string that is secure. One can be generated using an online generator.
+   - HOST_NAME : the deployed site url
    - REACT_APP_AWS_ACCESS_KEY_ID : Add the id from your AWS account
    - REACT_APP_AWS_SECRET_ACCESS_KEY : Add the key from your AWS account
    - REACT_APP_AWS_BUCKET : The name of your AWS S3 bucket
    - REACT_APP_AWS_REGION : the region of your AWS S3 bucket
 
 # Usage
+
+**Lead**: Customer administrator or manager. Can send in samples but also controls other members on their team and is able to invite new team members via email.
+**Lab**: Canomiks lab techs. Update sample results and testing status. Can alert customers of delays in testing.
+**Admin**: Canomiks admin. Can update test results/ alert customers of delay. Has additional view to manage website users and approve new accounts once they are through the contract phase.
 
 ## Customer
 
@@ -116,10 +130,12 @@ As a lab technician, the dashboard will display every current order, along with 
 - Node JS
 - JavaScript
 - React-Redux
+- Express
 - AWS S3
 - PostgreSQL
 - Nodemailer
 - JSON Web Tokens
+- Passport
 
 ## License
 

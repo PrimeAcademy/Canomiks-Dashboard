@@ -59,8 +59,7 @@ CREATE TABLE "orders" (
 
 --Create base accounts
 INSERT INTO "companies" ("active", "companyName", "address", "city", "state", "zip", "phoneNumber")
-VALUES (true, 'Canomiks', '123 Main St', 'Minneapolis', 'MN', '55105', '6125555678'),
-    (true, 'Sage Natural Remedies', '12 3rd St', 'Minneapolis', 'MN', '55105', '6515555908');
+VALUES (true, 'Canomiks', '123 Main St', 'Minneapolis', 'MN', '55105', '6125555678');
 
 INSERT INTO "users" ("email", "password", "name", "companyID", "authLevel")
 VALUES ('admin@canomiks.com', '$2a$10$BlrnXuMWF5tge3hwQYS.Oe02lTAZc6khtkJFYKOIhvP6Yi34qkvEW', 'Admin', '1', 'admin'),
