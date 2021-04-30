@@ -35,30 +35,33 @@ Bucket"
 
 #### 11. In permissions, scroll down to find Cross-Origin Resource Sharing (CORS) and click Edit
 
-`[
-        {
-        "AllowedHeaders": [
-            "*"
-                ],
-             "AllowedMethods": [
-            "PUT",
-            "POST",
-            "GET"
-             ],
-             "AllowedOrigins": [
-            "*"
-                ],
-             "ExposeHeaders": []
-    }
-]
-`
+![](/public/corsConfig.png)
+
+
 
 
 
 
 #### 11a. In the CORS text box, paste this code:
 
-![](/public/corsConfig.png)
+### `[
+###       {
+###        "AllowedHeaders": [
+###           "*"
+###                ],
+ ###            "AllowedMethods": [
+ ###           "PUT",
+###            "POST",
+ ###           "GET"
+ ###            ],
+###             "AllowedOrigins": [
+###            "*"
+###                ],
+###             "ExposeHeaders": []
+###    }
+### ]
+### `
+
 
 
 #### 12. Back in the browser, go to console.aws.amazon.com/iam
