@@ -36,19 +36,19 @@ Bucket"
 #### 11. In permissions, scroll down to find Cross-Origin Resource Sharing (CORS) and click Edit
 
 `[
-    {
+        {
         "AllowedHeaders": [
             "*"
-        ],
-        "AllowedMethods": [
+                ],
+             "AllowedMethods": [
             "PUT",
             "POST",
             "GET"
-        ],
-        "AllowedOrigins": [
+             ],
+             "AllowedOrigins": [
             "*"
-        ],
-        "ExposeHeaders": []
+                ],
+             "ExposeHeaders": []
     }
 ]
 `
