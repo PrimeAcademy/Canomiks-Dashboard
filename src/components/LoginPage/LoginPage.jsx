@@ -1,26 +1,43 @@
 import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
 import LoginForm from '../LoginForm/LoginForm';
-import { useHistory } from 'react-router-dom';
+
+import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: 40,
+    marginBottom: 40,
+    maxWidth: 350,
+    paddingTop: 25,
+    paddingBottom: 25,
+  },
+}));
 
 function LoginPage() {
+  const classes = useStyles();
   const history = useHistory();
 
   return (
-    <div>
-      <LoginForm />
-
-      <center>
-        <button
-          type="button"
-          className="btn btn_asLink"
-          onClick={() => {
-            history.push('/registration');
-          }}
-        >
-          Register
-        </button>
-      </center>
-    </div>
+    <center>
+      <Paper className={classes.root}>
+        <LoginForm />
+      </Paper>
+      <Typography style={{ marginTop: 50 }} variant="subtitle1">
+        Want to test your ingredients?
+      </Typography>
+      <Button
+        size="small"
+        variant="outlined"
+        color="primary"
+        onClick={() => {
+          history.push('/registration');
+        }}
+      >
+        Request Account
+      </Button>
+    </center>
   );
 }
 

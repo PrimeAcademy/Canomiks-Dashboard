@@ -1,10 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import LogOutButton from '../LogOutButton/LogOutButton';
+
+import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
+
 import './Nav.css';
-import {useSelector} from 'react-redux';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
+    maxWidth: 160,
+  },
+  right: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  navBar: {
+    letterSpacing: '.11em',
+    textTransform: 'uppercase',
+  },
+  offset: theme.mixins.toolbar,
+}));
 
 function Nav() {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  /* Store Import */
   const user = useSelector((store) => store.user);
 
   let loginLinkData = {
@@ -13,34 +42,68 @@ function Nav() {
   };
 
   if (user.id != null) {
-    loginLinkData.path = '/user';
-    loginLinkData.text = 'Home';
+    loginLinkData.path = '/samples';
+    loginLinkData.text = 'Samples';
   }
 
   return (
-    <div className="nav">
-      <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
-      </Link>
-      <div>
-        <Link className="navLink" to={loginLinkData.path}>
-          {loginLinkData.text}
+    <AppBar
+      className={classes.navBar}
+      position="static"
+      style={{ marginBottom: 30 }}
+    >
+      <Toolbar
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: '#1e565c',
+          height: '90px',
+        }}
+      >
+        <Link
+          style={{ textDecoration: 'none', color: 'white' }}
+          to={user.id ? '/samples' : '/login'}
+        >
+          <div className="img">
+            <img src="../logo.png" alt="logo" />
+          </div>
         </Link>
 
-        {user.id && (
-          <>
-            <Link className="navLink" to="/info">
-              Info Page
-            </Link>
-            <LogOutButton className="navLink" />
-          </>
-        )}
+        <div>
+          <NavLink
+            activeClassName="activeLink"
+            className="navLink"
+            to={loginLinkData.path}
+          >
+            {loginLinkData.text}
+          </NavLink>
 
-        <Link className="navLink" to="/about">
-          About
-        </Link>
-      </div>
-    </div>
+          {user.authLevel === 'admin' && (
+            <NavLink
+              activeClassName="activeLink"
+              className="navLink"
+              to="/manage/customers"
+            >
+              Manage Customers
+            </NavLink>
+          )}
+
+          {(user.authLevel === 'team' || !user.id) && (
+            <>
+              <a className="navLink" href="https://www.canomiks.com/contactus">
+                Help
+              </a>
+
+              <a className="navLink" href="https://www.canomiks.com/about-us">
+                About Us
+              </a>
+            </>
+          )}
+          {user.id && <LogOutButton className="navLink" />}
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }
 

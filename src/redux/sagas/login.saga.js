@@ -15,13 +15,20 @@ function* loginUser(action) {
     // send the action.payload as the body
     // the config includes credentials which
     // allow the server session to recognize the user
-    yield axios.post('/api/user/login', action.payload, config);
-
+    const response = yield axios.post(
+      '/api/user/login',
+      action.payload,
+      config
+    );
+    if (response.data) {
+      yield put({ type: 'FETCH_USER' });
+    } else {
+      yield put({ type: 'LOGIN_FAILED_INACTIVE' });
+      yield put({ type: 'LOGOUT' });
+    }
     // after the user has logged in
     // get the user information from the server
-    yield put({ type: 'FETCH_USER' });
   } catch (error) {
-    console.log('Error with user login:', error);
     if (error.response.status === 401) {
       // The 401 is the error status sent from passport
       // if user isn't in the database or
@@ -53,14 +60,32 @@ function* logoutUser(action) {
     // remove the client-side user object to let
     // the client-side code know the user is logged out
     yield put({ type: 'UNSET_USER' });
-  } catch (error) {
-    console.log('Error with user logout:', error);
+  } catch (err) {
+    console.error('Error with user logout:', err.message);
+  }
+}
+
+function* forgotPassword(action) {
+  try {
+    yield axios.post('/api/email/forgotPassword', action.payload);
+  } catch (err) {
+    console.error('Something went wrong in the forgot password', err.message);
+  }
+}
+
+function* checkPasswordToken(action) {
+  try {
+    yield axios.post('/api/email/resetPassword', action.payload);
+  } catch (err) {
+    console.error('Error in the checkPasswordToken', err.message);
   }
 }
 
 function* loginSaga() {
   yield takeLatest('LOGIN', loginUser);
   yield takeLatest('LOGOUT', logoutUser);
+  yield takeLatest('FORGOT_PASSWORD', forgotPassword);
+  yield takeLatest('CHECK_FORGOT_PASSWORD_TOKEN', checkPasswordToken);
 }
 
 export default loginSaga;

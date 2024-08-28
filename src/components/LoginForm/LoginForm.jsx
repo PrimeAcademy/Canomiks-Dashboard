@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+  },
+}));
 
 function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const errors = useSelector(store => store.errors);
+  const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  /* Store Imports */
+  const errors = useSelector((store) => store.errors);
+
+  /* Local State */
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const login = (event) => {
     event.preventDefault();
 
-    if (username && password) {
+    if (email && password) {
       dispatch({
         type: 'LOGIN',
         payload: {
-          username: username,
-          password: password,
+          email,
+          password,
         },
       });
     } else {
@@ -25,40 +42,80 @@ function LoginForm() {
   }; // end login
 
   return (
-    <form className="formPanel" onSubmit={login}>
-      <h2>Login</h2>
-      {errors.loginMessage && (
-        <h3 className="alert" role="alert">
+    <form className={classes.root} onSubmit={login}>
+      {errors.loginMessage && errors.loginMessage === 'Account Inactive' ? (
+        <div
+          style={{ marginTop: 0, marginBottom: 15 }}
+          className="alert"
+          role="alert"
+        >
+          <Typography variant="h5">Account Inactive</Typography>
+          <Typography variant="body1">
+            We are still processing your request.
+          </Typography>
+          <Typography variant="body2">
+            For more information about your account, please feel free to reach
+            out.
+          </Typography>
+          <Button
+            style={{ marginTop: 10, fontWeight: 650 }}
+            size="small"
+            variant="contained"
+            color="primary"
+          >
+            Contact Us
+          </Button>
+        </div>
+      ) : errors.loginMessage ? (
+        <Typography className="alert" role="alert" gutterBottom>
           {errors.loginMessage}
-        </h3>
+        </Typography>
+      ) : (
+        <></>
       )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
+
+      <center>
+        <div>
+          <TextField
+            variant="outlined"
+            label="Email"
+            size="small"
+            name="email"
             required
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
+        </div>
+
+        <div>
+          <TextField
+            variant="outlined"
+            label="Password"
+            size="small"
             type="password"
             name="password"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
-      </div>
+        </div>
+
+        <div>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{ margin: 10, width: '60%' }}
+            name="login"
+            value="Log In"
+          >
+            Log In
+          </Button>
+        </div>
+        <div>
+          <Link to="/forgotPassword">Forgot Password?</Link>
+        </div>
+      </center>
     </form>
   );
 }
